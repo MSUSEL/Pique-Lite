@@ -2,12 +2,16 @@ import React from 'react';
 import {FaBars} from 'react-icons/fa';
 import {toggleSidebar} from '../../redux/headerToggle/headerToggle.actions';
 import {connect} from 'react-redux'
+import * as s from './Header.styles'
 
 const Header = ({toggleSidebar}) => {
     return (
-        <div>
-            <FaBars onClick={toggleSidebar} />
-        </div>
+        <s.HeaderContainer>
+            <s.Toggle>
+                <FaBars onClick={toggleSidebar}/> 
+            </s.Toggle>
+            <s.SearchInput>Search...</s.SearchInput>
+        </s.HeaderContainer>
     )
 }
 
