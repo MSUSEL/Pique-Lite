@@ -25,7 +25,7 @@ export const OptionLink = styled(Link)`
     margin-bottom: 10px;
     margin-right: 20px;
     font-weight: 600;
-    
+    text-decoration: none;   
 `
 
 export const HeaderSearch = styled.div`

@@ -3,9 +3,11 @@ import {BsBarChart} from 'react-icons/bs'
 import {AiOutlineSetting} from 'react-icons/ai'
 import {RiProjectorLine} from 'react-icons/ri'
 import {CgListTree} from 'react-icons/cg'
+import {IoMdArrowDropdown} from 'react-icons/io';
+import {IoMdArrowDropup} from 'react-icons/io'
 import React from 'react';
 
-export const MenuItemList = [
+export const menuItemList = [
     {
         title: 'Dashboard',
         path:'/dashboard',
@@ -15,25 +17,27 @@ export const MenuItemList = [
         title: 'Visualize',
         path:'/visualize',
         icon: <BsBarChart/>,
+        dropdownOpened: <IoMdArrowDropup/>,
+        dropdownClosed: <IoMdArrowDropdown/>,
         subItems: [
             {
                 title: 'Define',
-                path: '/piquetree',
+                path: '/define',
                 icon: <CgListTree/>
             },
             {
                 title: 'Calibrate',
-                path: '/piquetree',
+                path: '/calibrate',
                 icon: <CgListTree/>
             },
             {
                 title: 'Evaluate',
-                path: '/piquetree',
+                path: '/evaluate',
                 icon: <CgListTree/>
             },
             {
                 title: 'Assess',
-                path: '/piquetree',
+                path: '/assess',
                 icon: <CgListTree/>
             },
         ]    
