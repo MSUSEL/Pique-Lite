@@ -1,12 +1,4 @@
-export const width = '600px';
-
-export const height= '300px'
-
-
-export const chartType = 'LineChart'
-
-export const showButton = true;
-
+export const title = 'Busybox Versions vs.Pique Bin Security Score'
 export const data = [
   ['Version', 'Score'],
   ['1.21.1', 0.4926172],
@@ -20,11 +12,3 @@ export const data = [
   
 ]
 
-export const options = {
-  title: 'Busybox Versions vs.Pique Bin Security Score',
-  hAxis: { title: 'BusyBox Version', minValue: 0, maxValue: 1 },
-  vAxis: { title: 'Pique Bin Security Score', minValue: 0, maxValue: 1 },
-  legend: 'none',
-  colors:['#226192','#004411'],
-  backgroundColor: 'white'
-}

@@ -32,4 +32,5 @@ export const data=[
     [new Date(2021, 10, 16), 0.7794],
     [new Date(2021, 10, 17), 0.9704],
   ]
+  
 

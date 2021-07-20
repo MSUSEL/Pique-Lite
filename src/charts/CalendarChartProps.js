@@ -1,4 +1,5 @@
-import { title, data } from '../../dashboard-data-files/CalenderData';
+import { title, data } from '../dashboard-data-files/CalenderData';
+
 export const width = '1000px';
 export const height = '180px';
 export const chartType = 'Calendar';
