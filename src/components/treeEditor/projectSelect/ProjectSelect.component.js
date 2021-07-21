@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStructuredSelector } from 'reselect';
-import EditorButton from '../editorButtion/EditorButton.component';
-import {selectProjects} from '../../redux/piqueTree/PiqueTree.selector';
+import EditorButton from '../../editorButtion/EditorButton.component';
+import {selectProjects} from '../../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
-import { setPiqueTree, setProjectName } from '../../redux/piqueTree/PiqueTree.actions';
+import { setPiqueTree, setProjectName } from '../../../redux/piqueTree/PiqueTree.actions';
 
 const ProjectSelect= ({projects, setProjectName, setPiqueTree}) => {
     return (

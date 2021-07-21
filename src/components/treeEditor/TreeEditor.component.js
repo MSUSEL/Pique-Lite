@@ -1,5 +1,6 @@
 import React from 'react';
-import ProjectSelectComponent from './ProjectSelect.component';
+import ProjectSelectComponent from './projectSelect/ProjectSelect.component';
+import RiskLevelSelectComponent from './riskLevelSelect/RiskLevelSelect.component';
 import { Container, Select, ButtonGroupContainer, Span } from './TreeEditor.styles';
 
 const TreeEditor = () => {
@@ -41,6 +42,8 @@ const TreeEditor = () => {
         <Container>
             <Span>Pick An Exisiting Project to Visualize</Span>
             <ProjectSelectComponent/>
+            <Span>Pick a Risk Level</Span>
+            <RiskLevelSelectComponent riskLevelOptions={riskLevelOptions}/>
         </Container>
     )
 }
