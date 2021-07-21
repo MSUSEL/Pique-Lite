@@ -2,7 +2,7 @@ import styled, {css} from "styled-components";
 import { Blue } from '../../../utils/color'
 
 const columnsLayoutOpen = css`
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 300px 1fr;
 `
 
 const columnsLayoutClose = css`

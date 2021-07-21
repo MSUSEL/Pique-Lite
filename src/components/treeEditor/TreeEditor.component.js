@@ -1,7 +1,9 @@
 import React from 'react';
+import NeighborNodesComponent from './neighbornodes/NeighborNodes.component';
+import OrientationComponent from './orientation/Orientation.component';
 import ProjectSelectComponent from './projectSelect/ProjectSelect.component';
 import RiskLevelSelectComponent from './riskLevelSelect/RiskLevelSelect.component';
-import { Container, Select, ButtonGroupContainer, Span } from './TreeEditor.styles';
+import { Container, Span } from './TreeEditor.styles';
 
 const TreeEditor = () => {
     const riskLevelOptions = [
@@ -44,6 +46,11 @@ const TreeEditor = () => {
             <ProjectSelectComponent/>
             <Span>Pick a Risk Level</Span>
             <RiskLevelSelectComponent riskLevelOptions={riskLevelOptions}/>
+            <Span>Select Orientation</Span>
+            <OrientationComponent orientations={orientations}/>
+            <Span>Collapse Same Level Nodes</Span>
+            <NeighborNodesComponent/>
+
         </Container>
     )
 }
