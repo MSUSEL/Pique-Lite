@@ -9,7 +9,6 @@ export const Button = styled.button`
   font-size: 14px;
   border: 1px solid black;
   margin-left: 10px;
-  margin-top: 20px;
   &:hover {
     background-color: black;
     color: white;
