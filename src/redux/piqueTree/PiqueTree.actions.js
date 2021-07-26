@@ -28,3 +28,8 @@ export const setOrientation = (data) => ({
 export const setNeighbornodes = () => ({
     type: PiqueTreeActionTypes.SET_NEIGHBOR_NODES
 })
+
+export const removeFile = (file) => ({
+    type: PiqueTreeActionTypes.REMOVE_FILE,
+    payload: file
+})

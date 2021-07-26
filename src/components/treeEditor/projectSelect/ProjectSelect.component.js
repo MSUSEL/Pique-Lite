@@ -6,9 +6,17 @@ import { connect } from 'react-redux';
 import { setPiqueTree, setProjectName } from '../../../redux/piqueTree/PiqueTree.actions';
 
 const ProjectSelect= ({projects, setProjectName, setPiqueTree}) => {
+    console.log(projects)
     return (
         <div>
-            {projects.map((p, i) => <EditorButton key={i} onClick={() => {setProjectName(p.projectName); setPiqueTree(p.json)}}>{p.projectName}</EditorButton>)}
+            {projects.map((p, i) => <EditorButton key={i} onClick={
+                () => {
+                    setProjectName(p.fileName); 
+                    setPiqueTree(p.fileContent)
+                }}>
+                    {p.fileName}
+                 </EditorButton>)
+        }
         </div>
     )
 }

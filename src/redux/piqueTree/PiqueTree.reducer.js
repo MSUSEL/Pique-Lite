@@ -41,6 +41,11 @@ const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 tree: action.payload
             }
+        case PiqueTreeActionTypes.REMOVE_FILE:
+            return {
+                ...state,
+                projects: state.projects.filter(item => action.payload !== item),
+            }
         default:
             return state;
     }    
