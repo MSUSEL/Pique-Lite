@@ -1,9 +1,11 @@
 import React from 'react';
+import EditorButton from '../editorButtion/EditorButton.component';
 import NeighborNodesComponent from './neighbornodes/NeighborNodes.component';
 import OrientationComponent from './orientation/Orientation.component';
 import ProjectSelectComponent from './projectSelect/ProjectSelect.component';
 import RiskLevelSelectComponent from './riskLevelSelect/RiskLevelSelect.component';
 import { Container, Span } from './TreeEditor.styles';
+import Popup from '../pop-up/Popup.component';
 
 const TreeEditor = () => {
     const riskLevelOptions = [
@@ -40,8 +42,15 @@ const TreeEditor = () => {
         }
     ]
 
+    const [show, setShow] = React.useState(false);
+
+    const togglePopup = () => {setShow(!show)};
+
     return (
         <Container>
+            <Span>Upload Files</Span>
+            <EditorButton onClick={togglePopup}>Upload</EditorButton>
+            {show ? <Popup toggle={togglePopup}/> : null}
             <Span>Pick An Exisiting Project to Visualize</Span>
             <ProjectSelectComponent/>
             <Span>Pick a Risk Level</Span>
