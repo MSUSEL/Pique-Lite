@@ -11,6 +11,8 @@ import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
+import ProjectSelectComponent from '../../components/treeEditor/projectSelect/ProjectSelect.component';
+import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
 const Dashboard = ({projects}) => {
 
@@ -35,6 +37,7 @@ const Dashboard = ({projects}) => {
                 options={CalendarChartProps.options}
                 showButton={CalendarChartProps.showButton}
             />
+            <ArrowButton>Show File</ArrowButton>
             <CardGroupWrapper>
                 {card}
             </CardGroupWrapper>
@@ -43,7 +46,7 @@ const Dashboard = ({projects}) => {
                     <PiqueChart 
                         width={LineChartProps.width}
                         height={LineChartProps.height}
-                        data={LineChartProps.inputData}
+                        data={getBinData}
                         options={LineChartProps.options}
                         chartType={LineChartProps.chartType}
                         showButton={LineChartProps.showButton}
