@@ -36,7 +36,6 @@ const Dashboard = ({projects}) => {
                 showButton={CalendarChartProps.showButton}
             />
             <CardGroupWrapper>
-                <button>Choose version</button>
                 {card}
             </CardGroupWrapper>
             <GroupWrapper>

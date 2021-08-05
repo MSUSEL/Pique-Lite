@@ -1,3 +1,4 @@
+
 export const title = 'Busybox Versions vs.Pique Bin Security Score'
 export const data = [
   ['Version', 'Score'],
@@ -9,6 +10,4 @@ export const data = [
   ['1.29.3', 0.5411151],
   ['1.30.0', 0.5446692],
   ['1.30.1', 0.5631526],
-  
 ]
-
