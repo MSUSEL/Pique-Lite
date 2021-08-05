@@ -4,12 +4,27 @@ import EditorButton from '../../editorButtion/EditorButton.component';
 import {selectProjects} from '../../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import { setPiqueTree, setProjectName } from '../../../redux/piqueTree/PiqueTree.actions';
+import {IoMdArrowDropdown} from 'react-icons/io';
+import {IoMdArrowDropup} from 'react-icons/io'
+import { Arrow, Container } from './ProjectsSelect.styles';
 
 const ProjectSelect= ({projects, setProjectName, setPiqueTree}) => {
-    console.log(projects)
+    const [isListOpen, setList] = React.useState(false);
+    console.log(isListOpen)
     return (
         <div>
-            {projects.map((p, i) => <EditorButton key={i} onClick={
+            <div>
+                <EditorButton onClick={() => setList(!isListOpen)}>
+                    <Container>
+                    Show Projects 
+                    {isListOpen 
+                        ? <Arrow> <IoMdArrowDropup/> </Arrow>
+                        : <Arrow> <IoMdArrowDropdown/> </Arrow>
+                    }
+                    </Container>
+                </EditorButton>
+            </div>
+            { isListOpen && projects.map((p, i) => <EditorButton key={i} onClick={
                 () => {
                     setProjectName(p.fileName); 
                     setPiqueTree(p.fileContent)

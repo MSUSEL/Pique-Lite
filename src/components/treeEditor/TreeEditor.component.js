@@ -1,4 +1,5 @@
 import React from 'react';
+import EditorButton from '../editorButtion/EditorButton.component';
 import NeighborNodesComponent from './neighbornodes/NeighborNodes.component';
 import OrientationComponent from './orientation/Orientation.component';
 import ProjectSelectComponent from './projectSelect/ProjectSelect.component';
