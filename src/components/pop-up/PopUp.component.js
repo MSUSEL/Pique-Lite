@@ -8,10 +8,9 @@ import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 
 
 const Popup = ({toggle, projects, setProjects, removeFile}) => {
-    const [count, setCount] = React.useState(1);
-    const [orderedFiles, setOrderedFiles] = React.useState(null);
-    const [selectedFile, setSelectedFile] = React.useState([]);
-
+   const [version, setVersion] = React.useState('');
+   const [selectedFile, setSelectedFile] = React.useState(null);
+   const [content, setContent] = React.useState(null);
     // read the contents of each file
     const readFileContents = async (file) => {
         return new Promise((resolve, reject) => {
@@ -48,23 +47,35 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
     }
 
     const handleSingleUpload = async (e) => {
+        setSelectedFile(e.target.files[0]);
         const fileContent = await readFileContents(e.target.files[0]); 
+        setContent(fileContent);
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        projects.push({
+            fileName: selectedFile.name,
+            fileContent: content,
+            versionNumber: version
+        })
+        setProjects(projects)
+    }
+
     return(
         <Content>
             <Close> 
                 <FaRegWindowClose onClick={toggle}/>
             </Close>
             <LoaderWrapper>
-            <form>
+            <form onSubmit={handleSubmit}> 
                 <Label>
-                    <Input type='file' multiple={true} accept=".json" style={{display: "none"}} onChange={handleSingleUpload}/>
+                    <Input name="file" type='file' multiple={false} accept=".json" style={{display: "none"}} onChange={handleSingleUpload}/>
                     <i>Upload Single File</i>      
                 </Label>
-                <Input type='text' placeholder="Version Number" name="title"/>
+                <Input type='text' placeholder="Version Number: v1" name="version" value={version} onChange={e => setVersion(e.target.value)}/>
                 <button type='submit'>Submit</button>
             </form>
-            
             </LoaderWrapper>
             <div>
                 <h2>Upload files</h2>
@@ -72,7 +83,7 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
                 {projects 
                     ? <div>{projects.map((f, i) => 
                     <ButtonGroupContainer key={i}>
-                        <p>Version {f.version}</p>
+                        <p>[Version Number: {f.versionNumber}]</p>
                         <p>{f.fileName}</p>
                         <button onClick={() => removeFile(f)}>Remove</button>
                     </ButtonGroupContainer>

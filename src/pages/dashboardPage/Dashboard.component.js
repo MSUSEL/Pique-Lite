@@ -8,8 +8,19 @@ import * as TableChartProps from '../../charts/TableChartProps';
 import { riskCardList } from './riskCardList';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
+import { createStructuredSelector } from 'reselect';
+import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
+import { connect } from 'react-redux';
 
-const Dashboard = () => {
+const Dashboard = ({projects}) => {
+
+    const getBinData = () => {
+        let binData = [[]];
+        binData.push(["version", "score"]);
+        projects.map((file, index) => binData.push([file.versionNumber, file.fileContent]));
+        return binData;
+    }
+
     const card = riskCardList.map((item, index)=>{
         return(
         <RiskCard color={item.bcolor} title={item.title} score={item.score} icon={item.icon} key={index}/>
@@ -25,6 +36,7 @@ const Dashboard = () => {
                 showButton={CalendarChartProps.showButton}
             />
             <CardGroupWrapper>
+                <button>Choose version</button>
                 {card}
             </CardGroupWrapper>
             <GroupWrapper>
@@ -53,4 +65,8 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+const mapStateToProps = createStructuredSelector({
+    projects: selectProjects
+})
+
+export default connect(mapStateToProps)(Dashboard)
