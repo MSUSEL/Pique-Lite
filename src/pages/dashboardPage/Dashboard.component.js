@@ -8,8 +8,21 @@ import * as TableChartProps from '../../charts/TableChartProps';
 import { riskCardList } from './riskCardList';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
+import { createStructuredSelector } from 'reselect';
+import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
+import { connect } from 'react-redux';
+import ProjectSelectComponent from '../../components/treeEditor/projectSelect/ProjectSelect.component';
+import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
-const Dashboard = () => {
+const Dashboard = ({projects}) => {
+
+    const getBinData = () => {
+        let binData = [[]];
+        binData.push(["version", "score"]);
+        projects.map((file, index) => binData.push([file.versionNumber, file.fileContent]));
+        return binData;
+    }
+
     const card = riskCardList.map((item, index)=>{
         return(
         <RiskCard color={item.bcolor} title={item.title} score={item.score} icon={item.icon} key={index}/>
@@ -24,6 +37,7 @@ const Dashboard = () => {
                 options={CalendarChartProps.options}
                 showButton={CalendarChartProps.showButton}
             />
+            <ArrowButton>Show File</ArrowButton>
             <CardGroupWrapper>
                 {card}
             </CardGroupWrapper>
@@ -32,7 +46,7 @@ const Dashboard = () => {
                     <PiqueChart 
                         width={LineChartProps.width}
                         height={LineChartProps.height}
-                        data={LineChartProps.inputData}
+                        data={getBinData}
                         options={LineChartProps.options}
                         chartType={LineChartProps.chartType}
                         showButton={LineChartProps.showButton}
@@ -53,4 +67,8 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+const mapStateToProps = createStructuredSelector({
+    projects: selectProjects
+})
+
+export default connect(mapStateToProps)(Dashboard)

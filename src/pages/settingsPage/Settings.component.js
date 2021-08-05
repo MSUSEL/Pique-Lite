@@ -1,9 +1,10 @@
 import React from 'react';
+import MyDropzone from "../../components/fileUploader/drop.component";
 
 const Settings = () => {
     return (
         <div>
-            Settings Page
+            <MyDropzone/>
         </div>
     )
 }
