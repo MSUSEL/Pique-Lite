@@ -16,6 +16,8 @@ export const Green = {
     name: 'green',
     value: '#38b24d' 
 };
+
+export const SkyBlue = '#226192';
 export const Buttercup = '#F4A40C';
 export const DeepKoamaru = '#142C74';
 export const Blue = '#226192';

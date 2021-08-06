@@ -10,7 +10,6 @@ import { Arrow, Container } from './ProjectsSelect.styles';
 
 const ProjectSelect= ({projects, setProjectName, setPiqueTree}) => {
     const [isListOpen, setList] = React.useState(false);
-    console.log(isListOpen)
     return (
         <div>
             <div>

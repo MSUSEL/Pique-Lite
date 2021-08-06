@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Grey, DeepKoamaru} from "../../utils/color";
+import { Grey, DeepKoamaru, SkyBlue} from "../../utils/color";
 export const Content = styled.div`
     position: absolute;
     margin-top: 20px;
@@ -30,18 +30,25 @@ export const UploadContent = styled.div`
 `
 
 export const Input = styled.input`
+    padding: 8px;
+    margin-right: 10px;
 
 `
 
 export const Label = styled.label`
     display: inline-block;
-    padding: 6px 12px;
+    padding: 8px;
     cursor: pointer;
-    background-color: ${DeepKoamaru};
+    background-color: ${SkyBlue};
     color: white;
-    padding: 0.5rem;
-    border: 1px solid ${DeepKoamaru};
-    border-radius: 15px;
+    margin-right: 10px;
+    border: 1px solid black;
+
+    &:hover {
+        background-color: ${DeepKoamaru};
+        cursor: pointer;
+        color: white;
+    }
 `
 
 export const FilePreview = styled.div`
@@ -59,4 +66,17 @@ export const ButtonGroupContainer = styled.div`
     margin-top: 10px;
     display: flex;
     flex-direction: row;
+`
+
+export const SubmitButton = styled.button`
+    padding: 8px;
+    color: white;
+    margin-right: 10px;
+    background-color: ${SkyBlue};
+
+    &:hover {
+        background-color: ${DeepKoamaru};
+        cursor: pointer;
+        color: white;
+    }
 `

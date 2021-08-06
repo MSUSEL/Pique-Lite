@@ -46,7 +46,11 @@ const nodeAllColor = (score) => {
   // as an SVG `rect` instead of the default `circle`.
   const renderForeignObjectNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel}) => (
     <g>
-      <circle r={15}></circle>
+      <text fill="black" strokeWidth="1" x="20" y="-20">edge</text>
+      <circle
+        r="5"
+      />
+
       <foreignObject {...foreignObjectProps}>
       <div style={
         riskLevel ? nodeRiskColor(nodeDatum.value, riskLevel) :

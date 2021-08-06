@@ -5,7 +5,7 @@ import OrientationComponent from './orientation/Orientation.component';
 import ProjectSelectComponent from './projectSelect/ProjectSelect.component';
 import RiskLevelSelectComponent from './riskLevelSelect/RiskLevelSelect.component';
 import { Container, Span } from './TreeEditor.styles';
-import Popup from '../pop-up/Popup.component';
+import Popup from '../pop-up/PopUp.component';
 
 const TreeEditor = () => {
     const riskLevelOptions = [

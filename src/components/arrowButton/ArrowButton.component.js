@@ -1,21 +1,21 @@
 import React from 'react';
 import { Container, Arrow} from './ArrowButton.styles'
-import EditorButton from '../editorButtion/EditorButton.component';
 import {IoMdArrowDropdown} from "react-icons/io";
-import {IoMdArrowDropup} from "react-icons/io";
+import {IoMdArrowDropup} from "react-icons/io"
+import EditorButtion from '../editorButtion/EditorButton.component';
 
-const ArrowButton = ({open, setOpen}) => {
+const ArrowButton = ({children}) => {
+    const [show, setShow] = React.useState(false);
     return (
-        <EditorButton onClick={() => setOpen(!open)}>
-        <Container>
-            Show Projects
-            {open
+        <EditorButtion  onClick={() => setShow(!show)}>
+            <Container>
+            {children}
+            {show
                 ? <Arrow><IoMdArrowDropup/></Arrow>
                 : <Arrow><IoMdArrowDropdown/></Arrow>
             }
-        </Container>
-        </EditorButton>
+            </Container>
+        </EditorButtion>
     )
 }
-
 export default ArrowButton;

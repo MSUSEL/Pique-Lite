@@ -11,7 +11,6 @@ import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
-import ProjectSelectComponent from '../../components/treeEditor/projectSelect/ProjectSelect.component';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
 const Dashboard = ({projects}) => {
@@ -27,6 +26,7 @@ const Dashboard = ({projects}) => {
         return(
         <RiskCard color={item.bcolor} title={item.title} score={item.score} icon={item.icon} key={index}/>
     )})
+
     return (
         <DashboardGrid>
             <MainHeader
