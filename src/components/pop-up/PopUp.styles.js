@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 import { Grey, DeepKoamaru, SkyBlue} from "../../utils/color";
 export const Content = styled.div`
     position: absolute;
@@ -67,16 +67,21 @@ export const ButtonGroupContainer = styled.div`
     display: flex;
     flex-direction: row;
 `
-
-export const SubmitButton = styled.button`
+const ButtonStyle = css`
     padding: 8px;
     color: white;
     margin-right: 10px;
-    background-color: ${SkyBlue};
-
     &:hover {
         background-color: ${DeepKoamaru};
         cursor: pointer;
         color: white;
     }
+`
+export const SubmitButton = styled.button`
+    background-color: ${props => props.submit ? Grey : SkyBlue} ;
+    ${ButtonStyle}
+`
+export const ResetButton = styled.button`
+    background-color: ${SkyBlue};
+    ${ButtonStyle}
 `

@@ -7,6 +7,11 @@ export const selectProjects = createSelector(
     piqueTree => piqueTree.projects
 )
 
+export const selectVersions= createSelector(
+    [piqueTree],
+    piqueTree => piqueTree.versions
+)
+
 export const selectProjectName= createSelector(
     [piqueTree],
     piqueTree => piqueTree.projectName

@@ -5,6 +5,11 @@ export const setProjects = (data) => ({
     payload: data
 });
 
+export const setVersions = (data) => ({
+    type: PiqueTreeActionTypes.SET_VERSIONS,
+    payload: data
+});
+
 export const setProjectName = (projectName) => ({
     type: PiqueTreeActionTypes.SET_PROJECT_NAME,
     payload: projectName

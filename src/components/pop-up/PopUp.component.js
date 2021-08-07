@@ -1,14 +1,14 @@
 import React from 'react';
-import {Content, Close, Input, ButtonGroupContainer, LoaderWrapper, Label, SubmitButton} from './PopUp.styles';
+import {Content, Close, Input, ButtonGroupContainer, LoaderWrapper, Label, SubmitButton, ResetButton} from './PopUp.styles';
 import {FaRegWindowClose} from 'react-icons/fa'
-import { removeFile, setProjects } from '../../redux/piqueTree/PiqueTree.actions';
+import { removeFile, setProjects, setVersions } from '../../redux/piqueTree/PiqueTree.actions';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
+import { selectProjects, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import {Line} from 'rc-progress'
 
 
-const Popup = ({toggle, projects, setProjects, removeFile}) => {
+const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions}) => {
     // file and file content
    const [version, setVersion] = React.useState('');
    const [selectedFile, setSelectedFile] = React.useState(null);
@@ -17,14 +17,14 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
    // progress bar
    const [progress, setProgress] = React.useState(0);
    const [submitting, setSubmitting] = React.useState(false);
-   const [message, setMessage] = React.useState("");
-
+   const handleSubmit = () => {setSubmitting(!submitting)};
+    
     // read the contents of each file
     const readFileContents = async (file) => {
         return new Promise((resolve, reject) => {
             let fileReader = new FileReader();
             // start reading the file, once done, the result contains the content of the file as text string
-            fileReader.readAsText(file);
+           
             fileReader.onload = (e) => {
                 // result is a domstring, parse
                 resolve(JSON.parse(fileReader.result));
@@ -37,6 +37,7 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
                 }
             }
             fileReader.onerror = reject;
+            fileReader.readAsText(file);
         })
     }
 
@@ -68,8 +69,8 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
 
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSingleClick= () => {
+     
         if (!String(version)) {
             alert("you must select a file and put in a version number, such as v1")
         }
@@ -82,7 +83,18 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
             })
             setProjects(projects)
         } 
+        console.log("did it")
 
+    }
+
+    const handleVersions = () => {
+        if (version !== ""){
+            while(!versions.includes(version))
+            versions.push({
+                version: version
+            })
+        }
+        setVersions(versions)
     }
 
     return(
@@ -91,7 +103,6 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
                 <FaRegWindowClose onClick={toggle}/>
             </Close>
             <LoaderWrapper>
-            <form onSubmit={handleSubmit}>
                 <span>
                     <Label>
                         <Input 
@@ -106,12 +117,17 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
                     </Label>
                 </span> 
                 <Input type='text' placeholder="Version Number: v1" name="version" value={version} onChange={e => setVersion(e.target.value)}/>
-                <SubmitButton type='submit' onClick={() => setSubmitting(!submitting)}>Submit</SubmitButton>
-                               
-            </form>
+                <SubmitButton 
+                    disabled={submitting} 
+                    onClick={() => {handleSingleClick(); handleSubmit(); handleVersions()}}
+                    submit ={submitting}
+                >
+                    Submit
+                </SubmitButton>
+                <ResetButton onClick={handleSubmit}>Reset</ResetButton>
             </LoaderWrapper>
 
-            {progress? <Line percent={progress} strokeWidth="4" strokeColor="green"/> : null}
+            {progress && submitting? <Line percent={progress} strokeWidth="4" strokeColor="green"/> : null}
                
             {projects 
                 ? <div>{
@@ -150,10 +166,12 @@ const Popup = ({toggle, projects, setProjects, removeFile}) => {
     )
 }
 const mapStateToProps = createStructuredSelector({
-    projects: selectProjects
+    projects: selectProjects,
+    versions: selectVersions
 })
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data)),
-    removeFile: data => dispatch(removeFile(data))
+    removeFile: data => dispatch(removeFile(data)),
+    setVersions: data => dispatch(setVersions(data))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Popup);

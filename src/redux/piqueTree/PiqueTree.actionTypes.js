@@ -5,7 +5,8 @@ const PiqueTreeActionTypes = {
     SET_PIQUE_TREE: 'SET_PIQUE_TREE',
     SET_ORIENTATION: 'SET_ORIENTATION',
     SET_NEIGHBOR_NODES: 'SET_NEIGHBOR_NODES',
-    REMOVE_FILE: 'REMOVE_FILE'
+    REMOVE_FILE: 'REMOVE_FILE',
+    SET_VERSIONS: 'SET_VERSIONS'
 }
 
 export default PiqueTreeActionTypes;

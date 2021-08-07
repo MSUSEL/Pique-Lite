@@ -2,19 +2,25 @@ import PiqueTreeActionTypes from "./PiqueTree.actionTypes";
 
 const INITIAL_STATE = {
     projects: [],
+    versions: [],
     projectName: '',
     riskLevel: '',
     orientation: '',
     tree: null,
-    neighborNodes: false
+    neighborNodes: false, 
+    
 }
-
 const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case PiqueTreeActionTypes.SET_PROJECTS:
-            return {
+            return{
                 ...state,
                 projects: action.payload
+            }
+        case PiqueTreeActionTypes.SET_VERSIONS:
+            return{
+                ...state,
+                versions: action.payload
             }
         case PiqueTreeActionTypes.SET_PROJECT_NAME:
             return {
