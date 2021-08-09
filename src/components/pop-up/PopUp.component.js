@@ -5,7 +5,8 @@ import { removeFile, setProjects, setVersions } from '../../redux/piqueTree/Piqu
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
-import {Line} from 'rc-progress'
+import {Line} from 'rc-progress';
+import { Green } from '../../utils/color';
 
 
 const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions}) => {
@@ -17,7 +18,11 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
    // progress bar
    const [progress, setProgress] = React.useState(0);
    const [submitting, setSubmitting] = React.useState(false);
+   
    const handleSubmit = () => {setSubmitting(!submitting)};
+
+   // set error message
+   const [errorMessage, setErrorMessage] = React.useState("");
     
     // read the contents of each file
     const readFileContents = async (file) => {
@@ -25,7 +30,7 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
             let fileReader = new FileReader();
             // start reading the file, once done, the result contains the content of the file as text string
            
-            fileReader.onload = (e) => {
+            fileReader.onload = () => {
                 // result is a domstring, parse
                 resolve(JSON.parse(fileReader.result));
             };
@@ -33,7 +38,6 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
                 if (data.lengthComputable) {                                            
                     let result = parseInt( ((data.loaded / data.total) * 100), 10 );
                     setProgress(result)
-                    console.log(result)
                 }
             }
             fileReader.onerror = reject;
@@ -81,13 +85,14 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
                 fileContent: content,
                 versionNumber: version
             })
-            setProjects(projects)
         } 
-        console.log("did it")
+        setProjects(projects)
+
 
     }
 
-    const handleVersions = () => {
+    const handleVersions = (e) => {
+     
         if (version !== ""){
             while(!versions.includes(version))
             versions.push({
@@ -95,6 +100,9 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
             })
         }
         setVersions(versions)
+        if (versions.includes(version)) {
+            setErrorMessage("This version name already exits!, please enter another one")
+        }
     }
 
     return(
@@ -112,22 +120,37 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
                             accept=".json" 
                             style={{display: "none"}} 
                             onChange={handleSingleUpload}
+                            required
                             />
                         <i>Upload Single File</i>      
                     </Label>
                 </span> 
-                <Input type='text' placeholder="Version Number: v1" name="version" value={version} onChange={e => setVersion(e.target.value)}/>
+                <Input 
+                    type='text' 
+                    placeholder="Version Number: v1" 
+                    name="version" 
+                    value={version} 
+                    onChange={e => setVersion(e.target.value)}
+                />
+               
                 <SubmitButton 
-                    disabled={submitting} 
+                    type="submit"
                     onClick={() => {handleSingleClick(); handleSubmit(); handleVersions()}}
-                    submit ={submitting}
+                    disabled={submitting}
+                    submit={submitting}
                 >
                     Submit
                 </SubmitButton>
-                <ResetButton onClick={handleSubmit}>Reset</ResetButton>
+                {submitting 
+                    ? <ResetButton 
+                        onClick={handleSubmit}
+                        >Reset</ResetButton>
+                    : null
+            }
+                
             </LoaderWrapper>
-
-            {progress && submitting? <Line percent={progress} strokeWidth="4" strokeColor="green"/> : null}
+            {errorMessage ? <p>{errorMessage}</p> : null}
+            {progress && submitting ? <Line percent={progress} strokeWidth="4" strokeColor={Green.value}/> : null}
                
             {projects 
                 ? <div>{
