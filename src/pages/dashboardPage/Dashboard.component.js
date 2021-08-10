@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
 const Dashboard = ({projects}) => {
-
+    
     const getBinData = () => {
         let binData = [[]];
         binData.push(["version", "score"]);
@@ -26,7 +26,6 @@ const Dashboard = ({projects}) => {
         return(
         <RiskCard color={item.bcolor} title={item.title} score={item.score} icon={item.icon} key={index}/>
     )})
-
     return (
         <DashboardGrid>
             <MainHeader

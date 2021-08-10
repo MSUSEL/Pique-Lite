@@ -7,7 +7,8 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import {Line} from 'rc-progress';
 import { Green } from '../../utils/color';
-
+import ArrayForm from '../arrayFrom/ArrayFrom.compoent';
+import MultipleFilesUpload from './MultipleFileUpload.component';
 
 const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions}) => {
     // file and file content
@@ -170,19 +171,7 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
             }
             
             <div>
-                <h2>Upload files</h2>
-                <Input type='file' multiple={true} accept=".json" onChange={handleUpload}/>
-                {projects 
-                    ? <div>{projects.map((f, i) => 
-                    <ButtonGroupContainer key={i}>
-                        <p>[Version Number: {f.versionNumber}]</p>
-                        <p>{f.fileName}</p>
-                        <button onClick={() => removeFile(f)}>Remove</button>
-                    </ButtonGroupContainer>
-                    )}
-                    </div> 
-                    : null
-                }
+              <MultipleFilesUpload/>
             </div>
            
         </Content>
