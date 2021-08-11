@@ -8,7 +8,6 @@ import FileBlock from '../fileBlock/FileBlock.component';
 
 const MultipleFilesUpload = ({projects, setProjects}) => {
 
-
     const handleUpload = async (e) => {
         let allFiles = [];
         [...e.target.files].map(file => allFiles.push(file));

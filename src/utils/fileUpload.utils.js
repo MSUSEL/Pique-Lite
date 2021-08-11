@@ -1,5 +1,5 @@
         // read the contents of each file
-        export const readFileContents = async (file) => {
+        export const readFileContents = async (file, setProcess) => {
             return new Promise((resolve, reject) => {
                 let fileReader = new FileReader();
                 // start reading the file, once done, the result contains the content of the file as text string
@@ -9,7 +9,18 @@
                     resolve(JSON.parse(fileReader.result));
                 };
                 fileReader.onerror = reject;
-                fileReader.readAsText(file);
+                fileReader.onprogress= function(data) {
+                    if(data.lengthComputable) {
+                        let result = parseInt(((data.loaded / data.total) * 100), 10 );
+                        setProcess(result)
+                    }
+                }
+                if (file && file.type.match('.json')){
+                    fileReader.readAsText(file);
+                }else{
+                    alert("need to be the right file format")
+                }
+               
             })
         }
 
