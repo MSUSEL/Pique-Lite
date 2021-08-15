@@ -18,7 +18,7 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
                 <SingleFileUploadComponent/>
             </div>
             <div>
-                <ProjectsSorting/>
+                {projects ? <ProjectsSorting/> : null}
             </div>
            
         </Content>

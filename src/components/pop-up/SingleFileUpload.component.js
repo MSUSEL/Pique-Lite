@@ -30,7 +30,6 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
     // onChange to handle version input
     const handleV = e => {
         setV(e.target.value)
-        file["versionNumber"] = e.target.value;
     }
     
     // onClick to handle submitting
