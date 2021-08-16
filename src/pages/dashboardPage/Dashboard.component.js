@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
 const Dashboard = ({projects}) => {
-    console.log(projects)
+    console.log("real order" , projects)
     const getBinData = () => {
         let binData = [];
         binData.push(["version", "score"]);
@@ -22,7 +22,7 @@ const Dashboard = ({projects}) => {
         return binData;
     }
 
-    console.log(getBinData())
+    console.log("real order bin list", getBinData())
 
     const card = riskCardList.map((item, index)=>{
         return(

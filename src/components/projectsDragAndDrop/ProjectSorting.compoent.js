@@ -3,7 +3,7 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { removeFile } from "../../redux/piqueTree/PiqueTree.actions";
+import { removeFile, setProjects } from "../../redux/piqueTree/PiqueTree.actions";
 import { selectProjects } from "../../redux/piqueTree/PiqueTree.selector";
 import { Buttercup, DeepKoamaru, Blue } from "../../utils/color";
 
@@ -48,12 +48,26 @@ const getListStyle = isDraggingOver => ({
 const queryAttr = "data-rbd-drag-handle-draggable-id";
 
 
-const ProjectsSorting = ({projects, removeFile}) => {
+const ProjectsSorting = ({projects, setProjects}) => {
     // fake data generator
-
+        console.log(projects)
+      // perpare projects to show on the dnd list
+      const getData = () => {
+        const result = projects.map(file => {
+           return ({
+               id: `${file.versionNumber}`,
+               content: `v${file.versionNumber} ${file.fileName}`,
+               fileContent: file.fileContent
+           })         
+        })
+        return result
+    }
+    const result = getData()
+    console.log("altered data", getData())
   
 	const [placeholderProps, setPlaceholderProps] = React.useState({});
-    const [items, setItems] = React.useState(getItems(5))
+    const [items, setItems] = React.useState(result)
+    console.log("new sorting state", items)
     const onDragEnd = result => {
         // dropped outside of the destination 
         if (!result.destination) {
@@ -61,6 +75,7 @@ const ProjectsSorting = ({projects, removeFile}) => {
         }
         setPlaceholderProps({});
         setItems(items => reorder(items, result.source.index, result.destination.index))
+        setProjects(items)
     }
     const onDragUpdate = update => {
         if(!update.destination){
@@ -149,7 +164,8 @@ const mapStateToProps = createStructuredSelector({
     projects: selectProjects
 })
 const mapDispatchToProps = dispatch => ({
-    removeFile: data => dispatch(removeFile(data))
+    removeFile: data => dispatch(removeFile(data)),
+    setProjects: data => dispatch(setProjects(data))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectsSorting)

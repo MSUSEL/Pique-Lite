@@ -25,7 +25,7 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
             </div>
             <div>
                 <h3>Resorting your list</h3>
-                <FilesDNDListComponent/>
+                <ProjectsSorting/>
             </div>
            
         </Content>
