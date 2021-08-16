@@ -56,7 +56,8 @@ const ProjectsSorting = ({projects, setProjects}) => {
            return ({
                id: `${file.versionNumber}`,
                content: `v${file.versionNumber} ${file.fileName}`,
-               fileContent: file.fileContent
+               fileContent: file.fileContent,
+               versionNumber: file.versionNumber
            })         
         })
         return result
