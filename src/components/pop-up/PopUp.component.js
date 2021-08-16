@@ -7,8 +7,11 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import SingleFileUploadComponent from './SingleFileUpload.component';
 import ProjectsSorting from '../projectsDragAndDrop/ProjectSorting.compoent';
+import MultipleFileUpload from './MultipleFileUpload.component';
+import FilesDNDListComponent from '../projectsDragAndDrop/FilesDNDList.component';
 
 const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions}) => {
+    console.log(projects)
     return(
         <Content>
             <Close> 
@@ -18,7 +21,11 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
                 <SingleFileUploadComponent/>
             </div>
             <div>
-                {projects ? <ProjectsSorting/> : null}
+                <MultipleFileUpload/>
+            </div>
+            <div>
+                <h3>Resorting your list</h3>
+                <FilesDNDListComponent/>
             </div>
            
         </Content>

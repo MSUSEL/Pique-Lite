@@ -1,3 +1,4 @@
+
         // read the contents of each file
         export const readFileContents = async (file, setProcess) => {
             return new Promise((resolve, reject) => {
@@ -6,7 +7,35 @@
                
                 fileReader.onload = () => {
                     // result is a domstring, parse
-                    resolve(JSON.parse(fileReader.result));
+                    if(isJsonFile(fileReader.result)) {
+                        resolve(JSON.parse(fileReader.result));
+                    }
+                };
+                fileReader.onerror = reject;
+                fileReader.readAsText(file);
+            })
+        }
+
+        const isJsonFile = (jsonString) => {
+            try {
+                return (JSON.parse(jsonString) && !!jsonString)
+            } catch (e) {
+                return false
+            }
+        }
+
+        export  const readSignleFileContent = async (file, setProcess) => {
+            return new Promise((resolve, reject) => {
+                let fileReader = new FileReader();
+                // start reading the file, once done, the result contains the content of the file as text string
+               
+                fileReader.onload = () => {
+                    // result is a domstring, parse
+                    if (fileReader.result === null) {
+                        alert("File has not content!")
+                    }else{
+                        resolve(JSON.parse(fileReader.result));
+                    }
                 };
                 fileReader.onerror = reject;
                 fileReader.onprogress= function(data) {
@@ -15,20 +44,19 @@
                         setProcess(result)
                     }
                 }
-                if (file && file.type.match('.json')){
-                    fileReader.readAsText(file);
-                }else{
-                    alert("need to be the right file format")
-                }
+              
+                fileReader.readAsText(file);
+               
                
             })
         }
 
+
         export const readAllFiles = async (allFiles) => {
             const results = await Promise.all(
                 allFiles.map(async (file, index) => {
-                    const fileContent = await readFileContents(file);
-                    return {
+                const fileContent= await readFileContents(file);
+                return {
                         "fileName": file.name,
                         "fileContent": fileContent,
                         "versionNumber": index + 1

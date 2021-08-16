@@ -1,28 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { setProjects } from '../../redux/piqueTree/PiqueTree.actions';
+import { removeFile, setProjects } from '../../redux/piqueTree/PiqueTree.actions';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { readAllFiles } from '../../utils/fileUpload.utils';
 import FileBlock from '../fileBlock/FileBlock.component';
+import { LoaderWrapper, Label, Input} from './MultipleFileUpload.styles'
 
 const MultipleFilesUpload = ({projects, setProjects}) => {
 
     const handleUpload = async (e) => {
         let allFiles = [];
-        [...e.target.files].map(file => allFiles.push(file));
+        [...e.target.files].filter(file => file.size !== 0).map(file=> allFiles.push(file))
+        console.log(allFiles)
         const results = await readAllFiles(allFiles);
+        console.log(results)
         setProjects(results)
     }
 
     return (
         <div>
-            <label>Upload all files</label>
-            <input type="file" placeholder="upload all file" accept=".json" multiple={true} onChange={handleUpload}/>
-            { projects ? projects.map((file, index) => {
-                return <FileBlock key={index} fileName={file.fileName} versionNumber={file.versionNumber}/>
-            }) : null}
+        <LoaderWrapper>
+        <Label>
+            <i>Upload Multiple Files</i>
+            <Input 
+                type="file" 
+                accept=".json" 
+                multiple={true} 
+                onChange={handleUpload}
+            />
+        </Label>
+
+    </LoaderWrapper>
+    { projects ? projects.map((file, index) => {
+        return <FileBlock 
+                    key={index} 
+                    fileName={file.fileName} 
+                    versionNumber={file.versionNumber}
+                    file={file}
+                    />
+    }) : null}
         </div>
+
      )
 }
 
@@ -31,7 +50,8 @@ const mapStateToProps = createStructuredSelector({
 })
 
 const mapDispatchToProps = dispatch => ({
-    setProjects: data => dispatch(setProjects(data))
+    setProjects: data => dispatch(setProjects(data)),
+    removeFile: data => dispatch(removeFile(data))
 })
 
 

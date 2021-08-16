@@ -32,6 +32,7 @@ export const LoaderWrapper = styled.div`
     height: 50px;
     background-color: #134e6f;
     padding: 20px 5px 5px 5px;
+    margin-bottom: 20px;
 `
 const ButtonStyle = css`
     padding: 8px;

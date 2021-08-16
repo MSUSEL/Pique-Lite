@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 import { removeFile, setProjects, setVersions } from "../../redux/piqueTree/PiqueTree.actions";
 import { selectProjects, selectVersions } from "../../redux/piqueTree/PiqueTree.selector";
 import { LoaderWrapper, Input, Label, SubmitButton, ResetButton} from './SingleFileUpload.styles'
-import { readFileContents } from "../../utils/fileUpload.utils";
+import { readSignleFileContent } from "../../utils/fileUpload.utils";
 import FormInput from "../formInput/FormInput.component";
 import {Line} from 'rc-progress';
 import { Green } from "../../utils/color";
@@ -17,10 +17,12 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
     const [file, setFile] = React.useState(null);
     const [progress, setProgress] = React.useState(0);
     const [submitting, setSubmitting] = React.useState(false);
+    console.log(file)
 
     // onChange for upload a single file
     const handleSingleUpload = async (e) => {
-        const content = await readFileContents(e.target.files[0], setProgress);
+        const content = await readSignleFileContent(e.target.files[0], setProgress);
+        console.log(content)
         setFile({
             fileName: e.target.files[0].name,
             fileContent: content,
@@ -30,6 +32,12 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
     // onChange to handle version input
     const handleV = e => {
         setV(e.target.value)
+        if (file !== null) {
+            file["versionNumber"]=e.target.value
+        } else{
+            alert.show("file content is null")
+        }
+        
     }
     
     // onClick to handle submitting
@@ -70,7 +78,6 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
                      <Input
                         name="file" 
                         type='file' 
-                        multiple={false} 
                         accept=".json" 
                         style={{display: "none"}} 
                         required

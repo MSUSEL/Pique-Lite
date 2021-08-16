@@ -3,8 +3,17 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
+import { removeFile } from "../../redux/piqueTree/PiqueTree.actions";
 import { selectProjects } from "../../redux/piqueTree/PiqueTree.selector";
 import { Buttercup, DeepKoamaru, Blue } from "../../utils/color";
+
+// fake data generator
+const getItems = count =>
+  Array.from({ length: count }, (v, k) => k).map(k => ({
+    id: `event-${k}`,
+    content: `event ${k}`
+  }));
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
 	const result = Array.from(list);
@@ -39,16 +48,12 @@ const getListStyle = isDraggingOver => ({
 const queryAttr = "data-rbd-drag-handle-draggable-id";
 
 
-const ProjectsSorting = ({projects}) => {
+const ProjectsSorting = ({projects, removeFile}) => {
     // fake data generator
-    const getItems = () =>
-        projects.map( (file, index) => ({
-            id: `item-${index}`,
-            content: `[${file.version}] ${file.fileName} ` 
-    }));
+
   
 	const [placeholderProps, setPlaceholderProps] = React.useState({});
-    const [items, setItems] = React.useState(getItems(10))
+    const [items, setItems] = React.useState(getItems(5))
     const onDragEnd = result => {
         // dropped outside of the destination 
         if (!result.destination) {
@@ -88,6 +93,11 @@ const ProjectsSorting = ({projects}) => {
             });
         };
     
+        const deleteId = (index)=> {
+            let elements = items
+            elements.splice(index, 1);
+            setItems(elements)
+          };
         // Normally you would want to split things out into separate components.
         // But in this example everything is just done in one place for simplicity
         return (
@@ -99,7 +109,7 @@ const ProjectsSorting = ({projects}) => {
                             ref={provided.innerRef}
                             style={getListStyle(snapshot.isDraggingOver)}
                         >
-                            {items.map((item, index) => (
+                                                    {items.map((item, index) => (
                                 <Draggable key={item.id} draggableId={item.id} index={index}>
                                     {(provided, snapshot) => (
                                         <div
@@ -111,7 +121,8 @@ const ProjectsSorting = ({projects}) => {
                                                 provided.draggableProps.style
                                             )}
                                         >
-                                            {item.content}
+                                            {item.content}  
+                                            <button onClick={()=> deleteId(index)}>remove</button>
                                         </div>
                                     )}
                                 </Draggable>
@@ -137,6 +148,9 @@ const ProjectsSorting = ({projects}) => {
 const mapStateToProps = createStructuredSelector({
     projects: selectProjects
 })
+const mapDispatchToProps = dispatch => ({
+    removeFile: data => dispatch(removeFile(data))
+})
 
-export default connect(mapStateToProps)(ProjectsSorting)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectsSorting)
 
