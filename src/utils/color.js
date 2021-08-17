@@ -22,3 +22,4 @@ export const Buttercup = '#F4A40C';
 export const DeepKoamaru = '#142C74';
 export const Blue = '#226192';
 export const Grey = '#B9B7BD';
+export const GreyBlue = '#134e6f';

@@ -8,26 +8,26 @@ export const riskCardList = [
     {
         title: 'Tqi',
         bcolor: DarkRed.value,
-        score: 0.3,
+        score: 0,
         icon: <IoSkullOutline/>
         
     },
     {
         title: 'Security',
         bcolor: Red.value,
-        score: 0.4,
+        score: 0,
         icon: <RiAlarmWarningLine/>
     },
     {
         title: 'Compatibility',
         bcolor: Yellow.value,
-        score: 0.6,
+        score: 0,
         icon:  <ImWarning/>
     },
     {
         title: 'Performace',
         bcolor: Green.value,
-        score: 0.8,
+        score: 0,
         icon: <RiSecurePaymentLine/>
     }
 ]

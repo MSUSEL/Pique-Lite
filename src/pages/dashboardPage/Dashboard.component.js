@@ -5,7 +5,7 @@ import * as CalendarChartProps from '../../charts/CalendarChartProps';
 import * as LineChartProps from '../../charts/LineChartProps';
 import * as TableChartProps from '../../charts/TableChartProps';
 
-import { riskCardList } from './riskCardList';
+import { riskCardList } from '../../components/riskCard/riskCardList';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
@@ -14,13 +14,15 @@ import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
 const Dashboard = ({projects}) => {
-
+    console.log("real order" , projects)
     const getBinData = () => {
-        let binData = [[]];
+        let binData = [];
         binData.push(["version", "score"]);
-        projects.map((file, index) => binData.push([file.versionNumber, file.fileContent]));
+        projects.map((file, index) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
         return binData;
     }
+
+    console.log("real order bin list", getBinData())
 
     const card = riskCardList.map((item, index)=>{
         return(
@@ -46,7 +48,7 @@ const Dashboard = ({projects}) => {
                     <PiqueChart 
                         width={LineChartProps.width}
                         height={LineChartProps.height}
-                        data={getBinData}
+                        data={getBinData()}
                         options={LineChartProps.options}
                         chartType={LineChartProps.chartType}
                         showButton={LineChartProps.showButton}
