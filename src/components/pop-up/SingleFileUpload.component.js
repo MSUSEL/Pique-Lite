@@ -22,7 +22,6 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
     // onChange for upload a single file
     const handleSingleUpload = async (e) => {
         const content = await readSignleFileContent(e.target.files[0], setProgress);
-        console.log(content)
         setFile({
             fileName: e.target.files[0].name,
             fileContent: content,

@@ -6,12 +6,12 @@ import { LoaderWrapper, Label, Input} from './MultipleFileUpload.styles'
 
 const MultipleFilesUpload = ({setProjects}) => {
 
+    const [progress, setProcess] = React.useState(0)
+
     const handleUpload = async (e) => {
         let allFiles = [];
         [...e.target.files].filter(file => file.size !== 0).map(file=> allFiles.push(file))
-        console.log(allFiles)
         const results = await readAllFiles(allFiles);
-        console.log(results)
         setProjects(results)
     }
 

@@ -11,9 +11,6 @@ import { setProjects } from '../../redux/piqueTree/PiqueTree.actions';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 
 import {Buttercup, Blue, DeepKoamaru} from '../../utils/color';
-
-
-  
     // each item's styles 
     const getItemStyles = (isDragging, draggableStyle) => ({
         // styles we need to apply on draggables

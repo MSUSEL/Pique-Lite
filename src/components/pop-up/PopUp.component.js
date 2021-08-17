@@ -1,17 +1,17 @@
 import React from 'react';
 import {Content, Close} from './PopUp.styles';
 import {FaRegWindowClose} from 'react-icons/fa'
-import { removeFile, setProjects, setVersions } from '../../redux/piqueTree/PiqueTree.actions';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { selectProjects, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
+import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import SingleFileUploadComponent from './SingleFileUpload.component';
-import ProjectsSorting from '../projectsDragAndDrop/ProjectSorting.compoent';
 import MultipleFileUpload from './MultipleFileUpload.component';
 import FileDnDComponent from '../projectsDragAndDrop/FileDnD.component';
+import EditorButton from '../editorButtion/EditorButton.component'
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions}) => {
-    console.log(projects)
+const Popup = ({toggle, projects}) => {
+    const [show, setShow] = React.useState(false);
     return(
         <Content>
             <Close> 
@@ -23,22 +23,14 @@ const Popup = ({toggle, projects, setProjects, removeFile, versions, setVersions
             <div>
                 <MultipleFileUpload/>
             </div>
-            <div>
-                <h3>Resorting your list</h3>
-                {projects ? <FileDnDComponent/> : null}
-                
-            </div>
+            <EditorButton onClick={() => setShow(!show)}>Sort Uploaded Files</EditorButton>
+            {show ? <FileDnDComponent/> : null}
            
         </Content>
     )
 }
 const mapStateToProps = createStructuredSelector({
     projects: selectProjects,
-    versions: selectVersions
 })
-const mapDispatchToProps = dispatch => ({
-    setProjects: data => dispatch(setProjects(data)),
-    removeFile: data => dispatch(removeFile(data)),
-    setVersions: data => dispatch(setVersions(data))
-})
-export default connect(mapStateToProps, mapDispatchToProps)(Popup);
+
+export default connect(mapStateToProps)(Popup);

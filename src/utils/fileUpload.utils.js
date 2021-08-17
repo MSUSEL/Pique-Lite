@@ -13,6 +13,13 @@
                 };
                 fileReader.onerror = reject;
                 fileReader.readAsText(file);
+
+                fileReader.onprogress= function(data) {
+                    if(data.lengthComputable) {
+                        let result = parseInt(((data.loaded / data.total) * 100), 10 );
+                        setProcess(result)
+                    }
+                }
             })
         }
 
