@@ -59,10 +59,10 @@
         }
 
 
-        export const readAllFiles = async (allFiles) => {
+        export const readAllFiles = async (allFiles, setProcess) => {
             const results = await Promise.all(
                 allFiles.map(async (file, index) => {
-                const fileContent= await readFileContents(file);
+                const fileContent= await readFileContents(file, setProcess);
                 return {
                         "fileName": file.name,
                         "fileContent": fileContent,
