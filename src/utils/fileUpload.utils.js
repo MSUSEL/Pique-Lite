@@ -1,6 +1,6 @@
 
         // read the contents of each file
-        export const readFileContents = async (file, setProcess) => {
+        export const readFileContents = async (file) => {
             return new Promise((resolve, reject) => {
                 let fileReader = new FileReader();
                 // start reading the file, once done, the result contains the content of the file as text string
@@ -13,13 +13,6 @@
                 };
                 fileReader.onerror = reject;
                 fileReader.readAsText(file);
-
-                fileReader.onprogress= function(data) {
-                    if(data.lengthComputable) {
-                        let result = parseInt(((data.loaded / data.total) * 100), 10 );
-                        setProcess(result)
-                    }
-                }
             })
         }
 
@@ -59,10 +52,10 @@
         }
 
 
-        export const readAllFiles = async (allFiles) => {
+        export const readAllFiles = async (allFiles, setProcess) => {
             const results = await Promise.all(
                 allFiles.map(async (file, index) => {
-                const fileContent= await readFileContents(file);
+                const fileContent= await readSignleFileContent(file, setProcess);
                 return {
                         "fileName": file.name,
                         "fileContent": fileContent,
