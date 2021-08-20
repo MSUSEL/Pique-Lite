@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {  setProjects } from '../../redux/piqueTree/PiqueTree.actions';
 import { readAllFiles } from '../../utils/fileUpload.utils';
-import { LoaderWrapper, Label, Input} from './MultipleFileUpload.styles'
-import {Line} from 'rc-progress';
-import { Green } from '../../utils/color';
-import { createStructuredSelector } from 'reselect';
+
+import { LoaderWrapper, Label, Input, ProgressResult} from './MultipleFileUpload.styles';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
+import { Line } from 'rc-progress';
+import { Green } from '../../utils/color';
 
 
 const MultipleFilesUpload = ({projects, setProjects}) => {
@@ -33,24 +34,24 @@ const MultipleFilesUpload = ({projects, setProjects}) => {
                     />
                 </Label>
             </LoaderWrapper>
-            {projects && progress
-                ? projects.map(file => 
-                    {return (
-                        <div> 
-                            <p>{file.fileName}</p> 
-                            <Line percent={progress} strokeWidth="1" strokeColor={Green.value}/>
-                        </div>
+                {projects && progress ? (
+                    projects.map((file, index) => {
+                        return (
+                            <div key={index}>
+                                <p>v{file.versionNumber} {file.fileName}</p>
+                                <Line percent={progress} strokeWidth="1" strokeColor={Green.value}/>
+                            </div>
                         )
-                    }) 
-                : null
-            }
+                    })
+                ) : null}
+
         </div>
 
      )
 }
 
 const mapStateToProps = createStructuredSelector({
-    projects: selectProjects
+  projects: selectProjects
 })
 
 const mapDispatchToProps = dispatch => ({

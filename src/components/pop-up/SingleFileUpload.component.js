@@ -102,7 +102,7 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
                 </SubmitButton>
                 {submitting ? <ResetButton onClick={handleSubmitting}>Reset</ResetButton> : null}
             </LoaderWrapper>
-            {progress && submitting ? <Line percent={progress} strokeWidth="4" strokeColor={Green.value}/> : null}
+            {progress && submitting ? <Line percent={progress} strokeWidth="1" strokeColor={Green.value}/> : null}
         </div>
     )
 }

@@ -5,6 +5,9 @@ import * as s from '../../utils/color'
 import { createStructuredSelector } from 'reselect';
 import { selectNeighborNodes, selectOrientation, selectRiskLevel, selectTree } from '../../redux/piqueTree/PiqueTree.selector'
 import { connect } from 'react-redux';
+import { TreeNode, ArrowButton } from './TreeVisualizer.styles';
+import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
+import Card from "@material-ui/core/Card";
 
 const containerStyles = {
     width: "100vw",
@@ -42,35 +45,35 @@ const nodeAllColor = (score) => {
     }
   }
   
-  // Here we're using `renderCustomNodeElement` to represent each node
-  // as an SVG `rect` instead of the default `circle`.
-  const renderForeignObjectNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel}) => (
-    <g>
-      <text fill="black" strokeWidth="1" x="20" y="-20">edge</text>
-      <circle
-        r="5"
-      />
-
-      <foreignObject {...foreignObjectProps}>
-      <div style={
-        riskLevel ? nodeRiskColor(nodeDatum.value, riskLevel) :
-        nodeAllColor(nodeDatum.value)}>
-      <h3 style={{ textAlign: "center" }}>{"name: " + nodeDatum.name}</h3>
-      <h3 style={{ textAlign: "center" }}>{"value: " + nodeDatum.value}</h3>
-      {nodeDatum.children && (
-        <button style={{ width: "100%", backgroundColor: "#B9B7BD"}} onClick={toggleNode}>
-          {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
-        </button>
-      )}
-    </div>
-      </foreignObject>
-    </g>
-  );
-
+  
 const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) => {
     const [translate, containerRef] = useCenteredTree();
-    const nodeSize = { x: 200, y: 200 };
+    const nodeSize = { x: 400, y: 300 };
     const foreignObjectProps = { width: nodeSize.x, height: nodeSize.y, x: 20 };
+    const [open, setExpanded] = React.useState(false);
+    const handleExpandClick = () => {
+      setExpanded(!open);
+    };
+  
+
+    const renderForeignObjectNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel}) => (
+      <g>
+        <text fill="black" strokeWidth="1" x="20" y="-20">edge</text>
+        <circle
+          r="5"
+        />
+  
+        <foreignObject {...foreignObjectProps}>
+          <TreeNode style={
+            riskLevel ? nodeRiskColor(nodeDatum.value, riskLevel) :
+            nodeAllColor(nodeDatum.value)}
+          >
+            <Card></Card>
+        </TreeNode>
+        </foreignObject>
+      </g>
+    );
+
     return (
     <div style={containerStyles} ref={containerRef}>
       <Tree
@@ -82,6 +85,7 @@ const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) =
         renderCustomNodeElement={(rd3tProps) =>
           renderForeignObjectNode({ ...rd3tProps, foreignObjectProps, riskLevel})
         }
+        
       />
     </div>
     )
