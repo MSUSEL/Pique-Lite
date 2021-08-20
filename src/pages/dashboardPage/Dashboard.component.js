@@ -10,8 +10,43 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
+import EditorButton from '../../components/editorButtion/EditorButton.component';
+import {IoSkullOutline} from 'react-icons/io5'
+import {ImWarning} from 'react-icons/im';
+import {RiAlarmWarningLine} from 'react-icons/ri'
+import {RiSecurePaymentLine} from 'react-icons/ri'
+import {CgDanger} from 'react-icons/cg';
+import {SiWarnerbrosDot} from 'react-icons/si'
+
 
 const Dashboard = ({projects, riskList}) => {
+    const riskLevelOptions = [   
+        {
+            label: 'Severe',
+            value: '#cb0032',
+            icon: <IoSkullOutline/>
+        },
+        {
+            label: 'High',
+            value: '#ff6500',
+            icon: <RiAlarmWarningLine/>
+        },
+        {
+            label: 'Evlevated',
+            value: '#fde101',
+            icon: <CgDanger/>
+        },
+        {
+            label: 'Guarded',
+            value: '#3566cd',
+            icon: <ImWarning/>
+        },
+        {
+            label: 'Low',
+            value: '#009a66',
+            icon: <RiSecurePaymentLine/>
+        }  
+]
 
     // get the bin data from uploajded files
     const getBinData = () => {
@@ -26,6 +61,10 @@ const Dashboard = ({projects, riskList}) => {
         return (<RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index}/>)
     })
 
+    const riskCard = riskLevelOptions.map((item, index) => {
+        return (<RiskCard title={item.label} color={item.value} icon={item.icon}/>)
+    })
+
     return (
         <DashboardGrid>
             <MainHeader
@@ -36,7 +75,9 @@ const Dashboard = ({projects, riskList}) => {
                 options={CalendarChartProps.options}
                 showButton={CalendarChartProps.showButton}
             />
-
+            <div>
+                <CardGroupWrapper>{riskCard}</CardGroupWrapper>
+            </div>
             <div>
                 <ArrowButton>show projects</ArrowButton>
                 <CardGroupWrapper>

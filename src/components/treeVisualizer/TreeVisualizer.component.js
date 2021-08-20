@@ -52,7 +52,7 @@ const nodeAllColor = (score) => {
   // as an SVG `rect` instead of the default `circle`.
   const renderForeignObjectNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel}) => (
     <g>
-      <text fill="black" strokeWidth="1" x="20" y="-20">edge</text>
+      <text fill="black" strokeWidth="1" x="20" y="-20">edge: 0.45</text>
       <circle
         r="5"
       />
