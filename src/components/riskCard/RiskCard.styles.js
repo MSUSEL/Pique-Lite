@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-
 export const CardWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
     background-color: ${p => p.color};
-    color: white;  
+    color: black
 `
 
 export const ScoreWrapper = styled.span`
@@ -15,7 +14,7 @@ export const ScoreWrapper = styled.span`
 `
 
 export const Icon = styled.span`
-    color: white;
+    color: black;
     font-size: 40px;
     margin-left: 20px;
 `

@@ -36,3 +36,8 @@ export const selectNeighborNodes = createSelector(
     [piqueTree],
     piqueTree => piqueTree.neighborNodes
 )
+
+export const selectRiskList = createSelector(
+    [piqueTree],
+    piqueTree => piqueTree.riskList
+)

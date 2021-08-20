@@ -23,3 +23,24 @@ export const DeepKoamaru = '#142C74';
 export const Blue = '#226192';
 export const Grey = '#B9B7BD';
 export const GreyBlue = '#134e6f';
+
+export const Severe = {
+    name: 'Severe',
+    color: '#cb0032'
+}
+export const High = {
+    name: 'High',
+    color: '#ff6500'
+};
+export const Evlevated = {
+    name: 'Evlevated',
+    color: '#fde101'
+};
+export const Guarded = {
+    name: 'Guarded',
+    color: '#3566cd'
+};
+export const Low = {
+    name: 'Low',
+    color: '#009a66'
+}

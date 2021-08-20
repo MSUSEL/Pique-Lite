@@ -38,3 +38,8 @@ export const removeFile = (file) => ({
     type: PiqueTreeActionTypes.REMOVE_FILE,
     payload: file
 })
+
+export const setRiskList = (file) => ({
+    type: PiqueTreeActionTypes.SET_RISK_LIST,
+    payload: file
+})

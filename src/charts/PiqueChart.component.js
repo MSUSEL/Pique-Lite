@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import EditorButton from '../components/editorButtion/EditorButton.component';
 
 const PiqueChart = ({data, width, height, options, chartType, rootProps, showButton}) => {
     const [chartEditor, setChartEditorState] = React.useState(null);
@@ -9,7 +10,7 @@ const PiqueChart = ({data, width, height, options, chartType, rootProps, showBut
     return (
         <div>
             {showButton ? 
-                <button onClick={() => {
+                <EditorButton onClick={() => {
                     if (
                     chartWrapper === null ||
                     google === null ||
@@ -28,7 +29,7 @@ const PiqueChart = ({data, width, height, options, chartType, rootProps, showBut
                     })
                 }}>
                 Edit Data
-                </button> 
+                </EditorButton> 
                 : null
             }
             <Chart

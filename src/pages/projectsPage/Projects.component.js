@@ -1,12 +1,12 @@
-import React from 'react';
-import FileUploaderComponent from '../../components/fileUploader/FileUploader.component';
-const ProjectPage= () => {
+import React from "react";
+import PopUpComponent from "../../components/pop-up/PopUp.component";
+
+const Project = () => {
     return (
-        <div>
-            ProjectPagePage
-            <FileUploaderComponent/>
+        <div>      
+            <PopUpComponent/>
         </div>
-    )
+        ) 
 }
 
-export default ProjectPage;
+export default Project;

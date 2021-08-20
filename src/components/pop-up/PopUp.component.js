@@ -8,15 +8,15 @@ import SingleFileUploadComponent from './SingleFileUpload.component';
 import MultipleFileUpload from './MultipleFileUpload.component';
 import FileDnDComponent from '../projectsDragAndDrop/FileDnD.component';
 import EditorButton from '../editorButtion/EditorButton.component'
-import LinearProgress from '@material-ui/core/LinearProgress';
-
-const Popup = ({toggle, projects}) => {
+import FormInput from '../formInput/FormInput.component';
+import { selectProjectName, selectProjectOwner } from '../../redux/projectInfo/ProjectInfo.selector';
+const Popup = ({toggle, projectName, projectOwner, setProjectName, setProjectOwner}) => {
     const [show, setShow] = React.useState(false);
     return(
         <Content>
             <Close> 
                 <FaRegWindowClose onClick={toggle}/>
-            </Close>
+            </Close>    
             <div>
                 <SingleFileUploadComponent/>
             </div>
@@ -31,6 +31,11 @@ const Popup = ({toggle, projects}) => {
 }
 const mapStateToProps = createStructuredSelector({
     projects: selectProjects,
+    projectName: selectProjectName,
+    projectOwner: selectProjectOwner
 })
-
-export default connect(mapStateToProps)(Popup);
+const mapDispatchToProps = dispatch => ({
+    setProjectName: data => dispatch(selectProjectName(data)),
+    setProjectOwner:  data => dispatch(selectProjectOwner(data)),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Popup);
