@@ -1,10 +1,12 @@
 import React from 'react';
-
-const Settings = () => {
+import { Group } from './Setting.styles';
+const Setting= () => {
     return (
-        <div>
-        </div>
+        <Group>
+            <h1>Welcome to Pique</h1>
+
+        </Group>
     )
 }
 
-export default Settings;
+export default Setting;

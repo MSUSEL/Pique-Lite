@@ -4,17 +4,16 @@ import MainHeader from '../../components/mainHeader/MainHeader.component';
 import * as CalendarChartProps from '../../charts/CalendarChartProps';
 import * as LineChartProps from '../../charts/LineChartProps';
 import * as TableChartProps from '../../charts/TableChartProps';
-
-import { riskCardList } from '../../components/riskCard/riskCardList';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
-import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
+import { selectProjects, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 
-const Dashboard = ({projects}) => {
-    console.log("real order" , projects)
+const Dashboard = ({projects, riskList}) => {
+
+    // get the bin data from uploajded files
     const getBinData = () => {
         let binData = [];
         binData.push(["version", "score"]);
@@ -22,12 +21,10 @@ const Dashboard = ({projects}) => {
         return binData;
     }
 
-    console.log("real order bin list", getBinData())
-
-    const card = riskCardList.map((item, index)=>{
-        return(
-        <RiskCard color={item.bcolor} title={item.title} score={item.score} icon={item.icon} key={index}/>
-    )})
+    
+    const card = riskList.map((file, index) => {
+        return (<RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index}/>)
+    })
 
     return (
         <DashboardGrid>
@@ -39,10 +36,14 @@ const Dashboard = ({projects}) => {
                 options={CalendarChartProps.options}
                 showButton={CalendarChartProps.showButton}
             />
-            <ArrowButton>Show File</ArrowButton>
-            <CardGroupWrapper>
-                {card}
-            </CardGroupWrapper>
+
+            <div>
+                <ArrowButton>show projects</ArrowButton>
+                <CardGroupWrapper>
+                    {card}
+                </CardGroupWrapper>
+            </div>
+
             <GroupWrapper>
                 <Group>
                     <PiqueChart 
@@ -70,7 +71,8 @@ const Dashboard = ({projects}) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    projects: selectProjects
+    projects: selectProjects,
+    riskList: selectRiskList
 })
 
 export default connect(mapStateToProps)(Dashboard)

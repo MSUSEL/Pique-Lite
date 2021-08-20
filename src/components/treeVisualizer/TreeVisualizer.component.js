@@ -13,15 +13,18 @@ const containerStyles = {
 
 const nodeAllColor = (score) => {
     const num = Number(score)
-     if (num <= 0.3 ){
-       return {border: "1px solid black", backgroundColor: s.Red.value}
-     } else if ( num > 0.3 && num <= 0.5 ){
-       return {border: "1px solid black", backgroundColor: s.DarkRed.value}
-     }else if ( num > 0.5 && num <= 0.7) {
-      return {border: "1px solid black", backgroundColor: s.Yellow.value}
-    }else if ( num > 0.7 && num <= 1.0 ) {
-      return {border: "1px solid black", backgroundColor: s.Green.value}
-    }else{
+     if (num <= 0.2 ){
+       return {border: "1px solid black", backgroundColor: s.Severe.color}
+     } else if ( num > 0.2 && num <= 0.4 ){
+       return {border: "1px solid black", backgroundColor: s.High.color}
+     }else if ( num > 0.4 && num <= 0.6) {
+      return {border: "1px solid black", backgroundColor: s.Evlevated.color}
+    }else if ( num > 0.6 && num <= 0.8) {
+      return {border: "1px solid black", backgroundColor: s.Guarded.color}
+    }else if ( num > 0.8 && num <= 1.0 ) {
+      return {border: "1px solid black", backgroundColor: s.Low.color}
+    }
+    else{
       return {border: "1px solid black", backgroundColor: "grey"}
     }
   }
@@ -29,17 +32,20 @@ const nodeAllColor = (score) => {
   // change the coloe of the tree
   const nodeRiskColor = (score, riskLevel) => {
     const num = Number(score);
-    if (num <= 0.3 && riskLevel === s.Red.name) {
-      return {border: "1px solid black", backgroundColor: s.Red.value}
-    } else if ( num > 0.3 && num <= 0.5 && riskLevel === s.DarkRed.name) {
-      return {border: "1px solid black", backgroundColor: s.DarkRed.value}
-    } else if ( num > 0.5 && num <= 0.7 && riskLevel === s.Yellow.name) {
-      return {border: "1px solid black", backgroundColor: s.Yellow.value}
-    } else if ( num > 0.7 && num <= 1.0 && riskLevel === s.Green.name) {
-      return {border: "1px solid black", backgroundColor: s.Green.value}
-    } else {
-      return {border: "1px solid black", backgroundColor: "grey"}
-    }
+    if (num <= 0.2 && riskLevel===s.Severe.color){
+      return {border: "1px solid black", backgroundColor: s.Severe.color}
+    } else if ( num > 0.2 && num <= 0.4  && riskLevel===s.High.color){
+      return {border: "1px solid black", backgroundColor: s.High.color}
+    }else if ( num > 0.4 && num <= 0.6 && riskLevel===s.Evlevated.color) {
+     return {border: "1px solid black", backgroundColor: s.Evlevated.color}
+   }else if ( num > 0.6 && num <= 0.8 && riskLevel===s.Guarded.color) {
+     return {border: "1px solid black", backgroundColor: s.Guarded.color}
+   }else if ( num > 0.8 && num <= 1.0 && riskLevel===s.Low.color) {
+     return {border: "1px solid black", backgroundColor: s.Low.color}
+   }
+   else{
+     return {border: "1px solid black", backgroundColor: "grey"}
+   }
   }
   
   // Here we're using `renderCustomNodeElement` to represent each node

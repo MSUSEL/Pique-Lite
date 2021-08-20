@@ -2,6 +2,7 @@ import {IoSkullOutline} from 'react-icons/io5'
 import {ImWarning} from 'react-icons/im';
 import {RiAlarmWarningLine} from 'react-icons/ri'
 import {RiSecurePaymentLine} from 'react-icons/ri'
+import {CgDanger} from 'react-icons/cg';
 import { DarkRed, Red, Yellow, Green } from '../../utils/color';
 
 export const riskCardList = [

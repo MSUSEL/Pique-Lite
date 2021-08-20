@@ -6,9 +6,26 @@ import EditorButtion from '../editorButtion/EditorButton.component';
 import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
+import RiskCard from '../riskCard/RiskCard.component';
+import { getRiskColor, getRiskIcon } from '../../utils/piqueTree.ultils';
+import { setRiskList } from '../../redux/piqueTree/PiqueTree.actions';
 
-const ArrowButton = ({children, projects}) => {
+const ArrowButton = ({children, projects, setRiskList}) => {
     const [show, setShow] = React.useState(false);
+    
+    console.log(getRiskColor(0.5))
+    const handleCard = (file) => {
+        let results = []
+        file.fileContent.children.map(item => 
+            results.push({
+                qaName: item.name,
+                qaValue: item.value,
+                qaColor: getRiskColor(item.value),
+                qaIcon: getRiskIcon(item.value)
+            })
+       )
+       setRiskList(results)
+    }
     return (
         <div>
             <EditorButtion  onClick={() => setShow(!show)}>
@@ -20,14 +37,12 @@ const ArrowButton = ({children, projects}) => {
                     }
                 </Container>
             </EditorButtion>
-            {show && projects.map((p, i) => 
+            {show && projects.map((file, i) => 
                 <EditorButtion key={i} 
                     onClick={
-                    () => {
-                        
-                    }}
+                    () => handleCard(file)}
                 >
-                    {`v${p.versionNumber}`}
+                    {`v${file.versionNumber}`}
                 </EditorButtion>)
             }
         </div>
@@ -36,4 +51,8 @@ const ArrowButton = ({children, projects}) => {
 const mapStateToProps = createStructuredSelector({
     projects: selectProjects
 })
-export default connect(mapStateToProps)(ArrowButton)
+
+const mapDispatchToProps = dispatch => ({
+    setRiskList: file => dispatch(setRiskList(file))
+})
+export default connect(mapStateToProps, mapDispatchToProps)(ArrowButton)

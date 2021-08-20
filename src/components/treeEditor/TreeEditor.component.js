@@ -9,26 +9,27 @@ import Popup from '../pop-up/PopUp.component';
 
 const TreeEditor = () => {
     const riskLevelOptions = [
-        {
-            label: "Dark Red",
-            value: "dark red"
-        },
-        {
-            label: "Red",
-            value: "red"
-        },
-        {
-            label: "Yellow",
-            value: "yellow",
-        },
-        {
-            label: "Green",
-            value: "green"
-        },
-        {
-            label: "All Color",
-            value: ''
-        }    
+     
+                {
+                    label: 'Severe',
+                    value: '#cb0032'
+                },
+                {
+                    label: 'High',
+                    value: '#ff6500'
+                },
+                {
+                    label: 'Evlevated',
+                    value: '#fde101'
+                },
+                {
+                    label: 'Guarded',
+                    value: '#3566cd'
+                },
+                {
+                    label: 'Low',
+                    value: '#009a66'
+                }  
     ]
 
     const orientations = [

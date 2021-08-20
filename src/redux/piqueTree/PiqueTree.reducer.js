@@ -7,8 +7,8 @@ const INITIAL_STATE = {
     riskLevel: '',
     orientation: '',
     tree: null,
-    neighborNodes: false, 
-    
+    neighborNodes: false,
+    riskList: [] 
 }
 const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
@@ -52,6 +52,11 @@ const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 projects: state.projects.filter(item => action.payload !== item),
             }
+        case PiqueTreeActionTypes.SET_RISK_LIST:
+                return {
+                    ...state,
+                   riskList: action.payload
+                }
         default:
             return state;
     }    
