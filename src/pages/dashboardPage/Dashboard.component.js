@@ -65,6 +65,8 @@ const Dashboard = ({projects, riskList}) => {
         return (<RiskCard title={item.label} color={item.value} icon={item.icon}/>)
     })
 
+    console.log("dashboard", projects)
+
     return (
         <DashboardGrid>
             <MainHeader
@@ -79,10 +81,13 @@ const Dashboard = ({projects, riskList}) => {
                 <CardGroupWrapper>{riskCard}</CardGroupWrapper>
             </div>
             <div>
-                <ArrowButton>show projects</ArrowButton>
-                <CardGroupWrapper>
-                    {card}
-                </CardGroupWrapper>
+                {projects? (<div>
+                    <ArrowButton>show projects</ArrowButton>
+                    <CardGroupWrapper>
+                        {card}
+                    </CardGroupWrapper>
+                    </div>) : null}
+            
             </div>
 
             <GroupWrapper>
