@@ -13,7 +13,6 @@ export const Content = styled.div`
 export const InputContainer = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: lightblue;
     color: black;
     align-items: flex-start;
     padding-left: 10px;
@@ -44,7 +43,7 @@ export const ButtonGroupContainer = styled.div`
 /////////////////////////////////////////////////
 export const BranchContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: lightgreen;
     color: black;
     align-items: flex-start;
@@ -56,11 +55,35 @@ export const BranchContainer = styled.div`
 /////////////////////////////////////////////
 export const CommitContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: lightgoldenrodyellow;
     color: black;
     align-items: flex-start;
     padding-left: 10px;
     padding-bottom: 10px;
     padding-right: 10px;
+`
+
+export const List = styled.ul`
+  list-style: none;
+  padding: 0px 20px;
+  background-color: #fff;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top: 3px solid black;
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+`;
+
+export const ListItem = styled.li`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0px;
+  border-top: 1px solid green;
+`
+
+export const WithButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+    align-items: center;
 `
