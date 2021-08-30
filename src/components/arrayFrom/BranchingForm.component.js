@@ -1,51 +1,47 @@
 import React from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
 import EditorButton from '../editorButtion/EditorButton.component';
-import {Content, ButtonGroupContainer, InputContainer, Title, Input, BranchContainer, CommitContainer, List, ListItem, WithButtonContainer} from './BranchingForm.styles'
-import MultipleFileUploadComponent from '../pop-up/MultipleFileUpload.component';
-import FormInput from '../formInput/FormInput.component'
+import {Content, Input, InputName, ButtonGroupContainer, List, ListItem, BranchContainer, CommitContainer, WithButtonContainer} from './BranchingForm.styles';
 
 const renderField = ({input, label, type, meta: {touched, error}}) => (
     <div>
-        <FormInput {...input} type={type} label={label}/>
+        <InputName>{label}</InputName>
+        <Input {...input} type={type} placeholder={label}/>
         {touched && error&& <span>{error}</span>}
     </div>
-       
-
 )
 
 const renderCommits = ({ fields, meta: { error } }) => (
-    <CommitContainer>
+
         <List>
             <ListItem>
                 <EditorButton type="button" onClick={() => fields.push()}>Add commits file</EditorButton>
             </ListItem>
                 {fields.map((commit, index) => (
-                <ListItem key={index} alignItems="flex-start">
-                    <EditorButton
-                    type="button"
-                    title="Remove Hobby"
-                    onClick={() => fields.remove(index)}
-                    >
-                    Remove Commit
-                </EditorButton>
-                    <Field
-                    name={commit}
-                    type="text"
-                    component={renderField}
-                    label={`Commit #${index + 1}`}
-                    />
-                    <MultipleFileUploadComponent/>
+                <ListItem key={index}>
+                    <WithButtonContainer>
+                        <Field
+                            name={commit}
+                            type="text"
+                            component={renderField}
+                            label={`Commit #${index + 1}`}
+                        />
+                        <EditorButton
+                            type="button"
+                            title="Remove Hobby"
+                            onClick={() => fields.remove(index)}
+                        >
+                            Remove Commit #{index + 1}
+                        </EditorButton>
+                    </WithButtonContainer>            
             </ListItem>
         ))}
         {error && <ListItem className="error">{error}</ListItem>}
     </List>
-    </CommitContainer>
    
   );
 
 const renderBranches = ({fields, meta: {touched, error, submitFailed}}) => (
-    <BranchContainer>
     <List>
         <ListItem>
             <EditorButton type="button" onClick={() => fields.push({})}>Add Branch</EditorButton>
@@ -74,24 +70,24 @@ const renderBranches = ({fields, meta: {touched, error, submitFailed}}) => (
             </ListItem>
         ))}
     </List>
-    </BranchContainer>
-   
 )
+
 const BranchingForm = props => {
-    const {handleSubmit, pristine, reset, submitting} = props
+    const {handleSubmit, pristine, reset, submitting} = props;
     return (
         <Content>
-            <Title>Upload you files to visualize</Title>
-            <form onSubmit={handleSubmit}>
-                <Field name="projectName" type="text" label="Project Name" component={renderField}/>
-                <FieldArray name="branches" component={renderBranches}/>
-                <ButtonGroupContainer>
-                    <EditorButton type="submit" disabled={submitting}>Submit</EditorButton>
-                    <EditorButton type="button" disabled={pristine || submitting} onClick={reset}>Reset</EditorButton>
-                </ButtonGroupContainer>
-            </form>
+            <h3>Upload files to your projects!</h3>
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <Field name="projectName" type="text" label="Project Name" component={renderField} />
+                    <FieldArray name="branches" component={renderBranches}/>
+                    <ButtonGroupContainer>
+                        <EditorButton type="submit" disabled={submitting}>Sumbit</EditorButton>
+                        <EditorButton type="button" disabled={pristine || submitting} onClick={reset}>Reset</EditorButton>
+                    </ButtonGroupContainer>
+                </form>
+            </div>
         </Content>
-       
     )
 }
 

@@ -7,7 +7,7 @@ export const Content = styled.div`
     border: 2px solid white;
     background-color: ${Grey};
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 `
 
 export const InputContainer = styled.div`
@@ -18,6 +18,11 @@ export const InputContainer = styled.div`
     padding-left: 10px;
     padding-bottom: 10px;
     padding-right: 10px;
+    border: 1px solid black;
+`
+export const InputName = styled.p`
+    padding: 0;
+    margin: 0;
 `
 export const Input = styled.input`
     width: 250px;
@@ -70,20 +75,18 @@ export const List = styled.ul`
   background-color: #fff;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
-  border-top: 3px solid black;
-  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.32);
 `;
 
 export const ListItem = styled.li`
   display: flex;
   flex-direction: column;
   padding: 10px 0px;
-  border-top: 1px solid green;
 `
 
 export const WithButtonContainer = styled.div`
     display: flex;
     flex-direction: row;
-    background-color: red;
     align-items: center;
+    padding-bottom: 10px;
 `

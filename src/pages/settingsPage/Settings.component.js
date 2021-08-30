@@ -1,7 +1,6 @@
 import React from 'react';
-import BranchingForm from '../../components/arrayFrom/ArrayFrom.compoent';
 import { Group } from './Setting.styles';
-import ShowResultsComponent from '../../components/arrayFrom/ShowResults.component';
+import BranchingForm from '../../components/arrayFrom/BranchingForm.component';
 
 const Setting= () => {
     return (
