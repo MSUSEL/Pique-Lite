@@ -58,7 +58,8 @@ class FileDnD extends React.Component {
                 id: `${file.versionNumber}`,
                 content: `v${file.versionNumber} ${file.fileName}`,
                 fileContent: file.fileContent,
-                versionNumber: file.versionNumber
+                versionNumber: file.versionNumber,
+                fileName: file.fileName
             })         
          })
          return result;

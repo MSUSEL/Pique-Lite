@@ -32,7 +32,7 @@ const Dashboard = ({projects, riskList}) => {
             icon: <RiAlarmWarningLine/>
         },
         {
-            label: 'Evlevated',
+            label: 'Elevated',
             value: '#fde101',
             icon: <CgDanger/>
         },

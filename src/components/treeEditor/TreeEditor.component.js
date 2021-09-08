@@ -8,8 +8,7 @@ import { Container, Span } from './TreeEditor.styles';
 import Popup from '../pop-up/PopUp.component';
 
 const TreeEditor = () => {
-    const riskLevelOptions = [
-     
+    const riskLevelOptions = [   
                 {
                     label: 'Severe',
                     value: '#cb0032'
@@ -19,7 +18,7 @@ const TreeEditor = () => {
                     value: '#ff6500'
                 },
                 {
-                    label: 'Evlevated',
+                    label: 'Elevated',
                     value: '#fde101'
                 },
                 {
