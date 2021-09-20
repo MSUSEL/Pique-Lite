@@ -5,6 +5,10 @@ import * as s from '../../utils/color'
 import { createStructuredSelector } from 'reselect';
 import { selectNeighborNodes, selectOrientation, selectRiskLevel, selectTree } from '../../redux/piqueTree/PiqueTree.selector'
 import { connect } from 'react-redux';
+import { NodeLabel, InfoIcon} from './TreeVisualizer.styles';
+import {RiFolderInfoLine} from 'react-icons/ri'
+import TreeNode from './TreeNode.component';
+import renderField from '../projectsInputs/RenderField.component';
 
 const containerStyles = {
     width: "100vw",
@@ -53,29 +57,30 @@ const nodeAllColor = (score) => {
   const renderForeignObjectNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel}) => (
     <g>
       <text fill="black" strokeWidth="1" x="20" y="-20">edge: 0.45</text>
-      <circle
-        r="5"
-      />
-
+      <circle r="5"/>
       <foreignObject {...foreignObjectProps}>
-      <div style={
-        riskLevel ? nodeRiskColor(nodeDatum.value, riskLevel) :
-        nodeAllColor(nodeDatum.value)}>
-      <h3 style={{ textAlign: "center" }}>{"name: " + nodeDatum.name}</h3>
-      <h3 style={{ textAlign: "center" }}>{"value: " + nodeDatum.value}</h3>
-      {nodeDatum.children && (
-        <button style={{ width: "100%", backgroundColor: "#B9B7BD"}} onClick={toggleNode}>
-          {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
-        </button>
-      )}
-    </div>
+        <NodeLabel style={
+            riskLevel ? nodeRiskColor(nodeDatum.value, riskLevel) :
+                nodeAllColor(nodeDatum.value)}>
+
+                <InfoIcon><RiFolderInfoLine/></InfoIcon>
+              
+              <h3 style={{ textAlign: "center" }}>{"name: " + nodeDatum.name}</h3>
+              <h3 style={{ textAlign: "center" }}>{"value: " + nodeDatum.value}</h3>
+              {nodeDatum.children && (
+                <button style={{ width: "100%", backgroundColor: "#B9B7BD"}} onClick={toggleNode}>
+                  {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
+                </button>
+              )}
+        </NodeLabel>
+             
       </foreignObject>
     </g>
   );
 
 const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) => {
     const [translate, containerRef] = useCenteredTree();
-    const nodeSize = { x: 200, y: 200 };
+    const nodeSize = { x: 300, y: 300 };
     const foreignObjectProps = { width: nodeSize.x, height: nodeSize.y, x: 20 };
   
     return (
@@ -87,9 +92,8 @@ const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) =
         nodeSize={nodeSize}
         shouldCollapseNeighborNodes={collapseNeighbornodes}
         renderCustomNodeElement={(rd3tProps) =>
-          renderForeignObjectNode({ ...rd3tProps, foreignObjectProps, riskLevel})
+          renderForeignObjectNode({...rd3tProps, foreignObjectProps, riskLevel})
         }
-        
       />
     </div>
     )
