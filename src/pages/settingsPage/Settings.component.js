@@ -1,11 +1,11 @@
 import React from 'react';
-import { Group } from './Setting.styles';
+import GitBranchingComponent from '../../redux-form/GitBranching.component';
+import ShowResult from '../../redux-form/ShowResult';
 const Setting= () => {
-    return (
-        <Group>
-            <h1>Welcome to Pique</h1>
-
-        </Group>
+    return(
+        <div>I am a setting page
+            <GitBranchingComponent onSubmit={ShowResult}/>
+        </div>
     )
 }
 

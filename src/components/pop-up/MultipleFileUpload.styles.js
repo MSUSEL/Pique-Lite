@@ -34,3 +34,8 @@ export const Label = styled.label`
         color: white;
     }
 `
+
+export const ProgressResult = styled.div`
+    height: 20px;
+    font-size: x-small;
+`

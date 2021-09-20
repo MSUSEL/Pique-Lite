@@ -8,7 +8,6 @@ import SingleFileUploadComponent from './SingleFileUpload.component';
 import MultipleFileUpload from './MultipleFileUpload.component';
 import FileDnDComponent from '../projectsDragAndDrop/FileDnD.component';
 import EditorButton from '../editorButtion/EditorButton.component'
-import FormInput from '../formInput/FormInput.component';
 import { selectProjectName, selectProjectOwner } from '../../redux/projectInfo/ProjectInfo.selector';
 const Popup = ({toggle, projectName, projectOwner, setProjectName, setProjectOwner}) => {
     const [show, setShow] = React.useState(false);

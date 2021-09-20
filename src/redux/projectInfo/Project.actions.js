@@ -9,3 +9,9 @@ export const setProjectOwner = (data) => ({
     type: ProjectInfoActionTypes.SET_PROJECT_OWNER,
     payload: data
 })
+
+export const setBranchName = (data) => ({
+    type: ProjectInfoActionTypes.SET_BRANCH_NAME,
+    payload: data
+})
+

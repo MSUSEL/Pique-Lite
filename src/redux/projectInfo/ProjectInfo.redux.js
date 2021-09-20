@@ -1,7 +1,9 @@
 import ProjectInfoActionTypes from './ProjectInfo.actionTypes'
 const INITIAL_STATE = {
     projectName: "",
-    projectOwner: ""
+    projectOwner: "",
+    branchName: [],
+    commitName:[]
 }
 
 const ProjectInfo = (state = INITIAL_STATE, action) => {
@@ -16,6 +18,11 @@ const ProjectInfo = (state = INITIAL_STATE, action) => {
                 ...state,
                 projectOwner: action.payload
             }
+        case ProjectInfoActionTypes.SET_BRANCH_NAME:
+                return{
+                    ...state,
+                    branchName: action.payload
+                }
         default:
             return state;
     }

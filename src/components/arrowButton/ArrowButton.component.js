@@ -20,7 +20,7 @@ const ArrowButton = ({children, projects, setRiskList}) => {
             results.push({
                 qaName: item.name,
                 qaValue: item.value,
-                qaColor: getRiskColor(item.value.toFixed(4)),
+                qaColor: getRiskColor(item.value),
                 qaIcon: getRiskIcon(item.value)
             })
        )

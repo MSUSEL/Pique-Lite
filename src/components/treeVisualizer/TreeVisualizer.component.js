@@ -77,6 +77,7 @@ const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) =
     const [translate, containerRef] = useCenteredTree();
     const nodeSize = { x: 200, y: 200 };
     const foreignObjectProps = { width: nodeSize.x, height: nodeSize.y, x: 20 };
+  
     return (
     <div style={containerStyles} ref={containerRef}>
       <Tree
@@ -88,6 +89,7 @@ const TreeVisualizer = ({riskLevel, tree, orientation, collapseNeighbornodes}) =
         renderCustomNodeElement={(rd3tProps) =>
           renderForeignObjectNode({ ...rd3tProps, foreignObjectProps, riskLevel})
         }
+        
       />
     </div>
     )
