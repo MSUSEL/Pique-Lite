@@ -68,3 +68,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Pique PPT
+These are some introduction infomation about Pique Lite: [https://docs.google.com/presentation/d/1jsgSoTKIgh4uSTQQ1SGxgsAuOLdlt6ukI9jMfVZDXiw/edit#slide=id.p]
