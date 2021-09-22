@@ -16,7 +16,7 @@ const TreeNode = ({ nodeDatum, toggleNode, foreignObjectProps, riskLevel, nodeAl
                     <InfoIcon><RiFolderInfoLine/></InfoIcon> 
                     <h3 style={{ textAlign: "center" }}>{"name: " + nodeDatum.name}</h3>
                     <h3 style={{ textAlign: "center" }}>{"value: " + nodeDatum.value}</h3>
-                    {nodeDatum.children && (
+                {nodeDatum.children && (
                     <button style={{ width: "100%", backgroundColor: "#B9B7BD"}} onClick={toggleNode}>
                     {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
                     </button>

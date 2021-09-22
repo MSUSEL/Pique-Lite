@@ -10,13 +10,11 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
-import EditorButton from '../../components/editorButtion/EditorButton.component';
 import {IoSkullOutline} from 'react-icons/io5'
 import {ImWarning} from 'react-icons/im';
 import {RiAlarmWarningLine} from 'react-icons/ri'
 import {RiSecurePaymentLine} from 'react-icons/ri'
 import {CgDanger} from 'react-icons/cg';
-import {SiWarnerbrosDot} from 'react-icons/si'
 
 
 const Dashboard = ({projects, riskList}) => {

@@ -42,7 +42,7 @@ import {Buttercup, Blue, DeepKoamaru} from '../../utils/color';
         return result;
     };
 
-class FileDnD extends React.Component {
+class ProjectList extends React.Component {
     constructor(props){
         super(props);
         this.state ={
@@ -147,4 +147,4 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data))
 })
-export default connect(mapStateToProps, mapDispatchToProps)(FileDnD)
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectList)

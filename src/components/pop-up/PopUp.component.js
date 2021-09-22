@@ -6,10 +6,12 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import SingleFileUploadComponent from './SingleFileUpload.component';
 import MultipleFileUpload from './MultipleFileUpload.component';
-import FileDnDComponent from '../projectsDragAndDrop/FileDnD.component';
 import EditorButton from '../editorButtion/EditorButton.component'
 import { selectProjectName, selectProjectOwner } from '../../redux/projectInfo/ProjectInfo.selector';
-const Popup = ({toggle, projectName, projectOwner, setProjectName, setProjectOwner}) => {
+import ProjectList from './ProjectList.component';
+
+
+const Popup = ({toggle}) => {
     const [show, setShow] = React.useState(false);
     return(
         <Content>
@@ -23,7 +25,7 @@ const Popup = ({toggle, projectName, projectOwner, setProjectName, setProjectOwn
                 <MultipleFileUpload/>
             </div>
             <EditorButton onClick={() => setShow(!show)}>Sort Uploaded Files</EditorButton>
-            {show ? <FileDnDComponent/> : null}
+            {show ? <ProjectList/> : null}
            
         </Content>
     )
