@@ -6,8 +6,15 @@ An application used to visualize PIQUE result/output result, built with React, R
 * About PIQUE-LITE
 * Screenshots
 * Technologies
-* Setup
 * Demo-Link
+* Setup
+
+
+# About PIQUE-LITE
+I still need to anwser this
+* What was the context for this project?
+* What did you set out to build?
+* Why tools did you use to implement this project?
 
 # PIQUE-LITE Screen Shots
 Still need to do this
@@ -17,22 +24,11 @@ PIQUE-LITE EVALUATE
 
 PIQUE-LITE PIQUE TREE
 
-# Relection
-
-I still need to anwser this
-* What was the context for this project?
-* What did you set out to build?
-* Why tools did you use to implement this project?
+# Technologies
 
 # Demo Link
 
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+# Setup
 
 ### `npm start`
 
