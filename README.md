@@ -2,13 +2,29 @@
 
 An application used to visualize PIQUE result/output result, built with React, Redux, JavaScript, HTML, and CSS.
 
-# PIQUE-LITE Screen Shots
+# Table of Content
+* About PIQUE-LITE
+* Screenshots
+* Technologies
+* Setup
+* Demo-Link
 
+# PIQUE-LITE Screen Shots
+Still need to do this
 PIQUE-LITE Dashboard
 
 PIQUE-LITE EVALUATE
 
 PIQUE-LITE PIQUE TREE
+
+# Relection
+
+I still need to anwser this
+* What was the context for this project?
+* What did you set out to build?
+* Why tools did you use to implement this project?
+
+# Demo Link
 
 # Getting Started with Create React App
 
@@ -51,6 +67,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+# License: 
 
 ### Pique PPT
 These are some introduction infomation about Pique Lite: [https://docs.google.com/presentation/d/1jsgSoTKIgh4uSTQQ1SGxgsAuOLdlt6ukI9jMfVZDXiw/edit#slide=id.p]
