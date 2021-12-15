@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
 import RiskCard from '../riskCard/RiskCard.component';
-import { getRiskColor, getRiskIcon } from '../../utils/piqueTree.ultils';
+import { getRiskColor, getRiskIcon } from '../../utils/piqueTree.utils';
 import { setRiskList } from '../../redux/piqueTree/PiqueTree.actions';
 
 const ArrowButton = ({children, projects, setRiskList}) => {
