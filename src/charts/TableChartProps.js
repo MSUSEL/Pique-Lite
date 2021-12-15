@@ -1,4 +1,4 @@
-import { title, data } from '../dashboard-data-files/CerlData';
+import { title, data } from '../dashboard-data-files/SampleData';
 
 export const width = '600px';
 export const height = '400px';

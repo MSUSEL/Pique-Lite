@@ -24,7 +24,7 @@
             }
         }
 
-        export  const readSignleFileContent = async (file, setProcess) => {
+        export  const readSingleFileContent = async (file, setProcess) => {
             return new Promise((resolve, reject) => {
                 let fileReader = new FileReader();
                 // start reading the file, once done, the result contains the content of the file as text string
@@ -55,7 +55,7 @@
         export const readAllFiles = async (allFiles, setProcess) => {
             const results = await Promise.all(
                 allFiles.map(async (file, index) => {
-                const fileContent= await readSignleFileContent(file, setProcess);
+                const fileContent= await readSingleFileContent(file, setProcess);
                 return {
                         "fileName": file.name,
                         "fileContent": fileContent,

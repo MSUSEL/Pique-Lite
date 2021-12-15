@@ -7,7 +7,7 @@ import { DarkRed, Red, Yellow, Green } from '../../utils/color';
 
 export const riskCardList = [
     {
-        title: 'Tqi',
+        title: 'TQI',
         bcolor: DarkRed.value,
         score: 0,
         icon: <IoSkullOutline/>
@@ -26,7 +26,7 @@ export const riskCardList = [
         icon:  <ImWarning/>
     },
     {
-        title: 'Performace',
+        title: 'Performance',
         bcolor: Green.value,
         score: 0,
         icon: <RiSecurePaymentLine/>

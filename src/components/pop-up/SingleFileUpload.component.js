@@ -4,7 +4,7 @@ import { createStructuredSelector } from "reselect";
 import { removeFile, setProjects, setVersions } from "../../redux/piqueTree/PiqueTree.actions";
 import { selectProjects, selectVersions } from "../../redux/piqueTree/PiqueTree.selector";
 import { LoaderWrapper, Input, Label, SubmitButton, ResetButton} from './SingleFileUpload.styles'
-import { readSignleFileContent } from "../../utils/fileUpload.utils";
+import { readSingleFileContent } from "../../utils/fileUpload.utils";
 import FormInput from "../formInput/FormInput.component";
 import {Line} from 'rc-progress';
 import { Green } from "../../utils/color";
@@ -21,7 +21,7 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
 
     // onChange for upload a single file
     const handleSingleUpload = async (e) => {
-        const content = await readSignleFileContent(e.target.files[0], setProgress);
+        const content = await readSingleFileContent(e.target.files[0], setProgress);
         setFile({
             fileName: e.target.files[0].name,
             fileContent: content,
@@ -54,7 +54,7 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
             alert.show("This file already exists, please select a different one")
         }
         if (versions.includes(v)) {
-            alert.show("this version number already exists, please give it different version number")
+            alert.show("this version number already exists, please give it a different version number")
         }
     }
 
