@@ -1,4 +1,4 @@
-export const title = 'Pique Bin Model Overall Score';
+export const title = 'PIQUE overall score';
 export const data=[
     [{ type: 'date', id: 'Date' }, { type: 'number', id: 'high risk and low socre' }],
     [new Date(2021, 1, 13), 0.6784],
