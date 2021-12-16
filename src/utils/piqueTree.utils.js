@@ -1,4 +1,4 @@
-import { Severe, High, Evlevated, Guarded, Low , Grey} from "./color"
+import { Severe, High, Elevated, Guarded, Low , Grey} from "./color"
 import {IoSkullOutline} from 'react-icons/io5'
 import {ImWarning} from 'react-icons/im';
 import {RiAlarmWarningLine} from 'react-icons/ri'
@@ -14,7 +14,7 @@ export const getRiskColor = (score) => {
      } else if ( num > 0.2 && num <= 0.4 ){
        return  High.color
      }else if ( num > 0.4 && num <= 0.6) {
-      return Evlevated.color
+      return Elevated.color
     }else if ( num > 0.6 && num <= 0.8 ) {
       return Guarded.color
     }else if ( num > 0.8 && num <= 1.0 ) {
