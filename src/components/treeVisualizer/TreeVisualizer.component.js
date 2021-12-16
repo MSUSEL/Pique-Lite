@@ -19,7 +19,7 @@ const nodeAllColor = (score) => {
      } else if ( num > 0.2 && num <= 0.4 ){
        return {border: "1px solid black", backgroundColor: s.High.color}
      }else if ( num > 0.4 && num <= 0.6) {
-      return {border: "1px solid black", backgroundColor: s.Evlevated.color}
+      return {border: "1px solid black", backgroundColor: s.Elevated.color}
     }else if ( num > 0.6 && num <= 0.8) {
       return {border: "1px solid black", backgroundColor: s.Guarded.color}
     }else if ( num > 0.8 && num <= 1.0 ) {
@@ -37,8 +37,8 @@ const nodeAllColor = (score) => {
       return {border: "1px solid black", backgroundColor: s.Severe.color}
     } else if ( num > 0.2 && num <= 0.4  && riskLevel===s.High.color){
       return {border: "1px solid black", backgroundColor: s.High.color}
-    }else if ( num > 0.4 && num <= 0.6 && riskLevel===s.Evlevated.color) {
-     return {border: "1px solid black", backgroundColor: s.Evlevated.color}
+    }else if ( num > 0.4 && num <= 0.6 && riskLevel===s.Elevated.color) {
+     return {border: "1px solid black", backgroundColor: s.Elevated.color}
    }else if ( num > 0.6 && num <= 0.8 && riskLevel===s.Guarded.color) {
      return {border: "1px solid black", backgroundColor: s.Guarded.color}
    }else if ( num > 0.8 && num <= 1.0 && riskLevel===s.Low.color) {

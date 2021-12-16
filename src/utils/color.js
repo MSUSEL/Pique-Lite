@@ -32,8 +32,8 @@ export const High = {
     name: 'High',
     color: '#ff6500'
 };
-export const Evlevated = {
-    name: 'Evlevated',
+export const Elevated = {
+    name: 'Elevated',
     color: '#fde101'
 };
 export const Guarded = {
