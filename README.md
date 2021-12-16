@@ -4,6 +4,7 @@ An application used to visualize PIQUE result/output result, built with React, R
 
 # Table of Content
 * About PIQUE-LITE
+* Components
 * Screenshots
 * Technologies
 * Demo-Link
@@ -11,10 +12,18 @@ An application used to visualize PIQUE result/output result, built with React, R
 
 
 # About PIQUE-LITE
-I still need to anwser this
-* What was the context for this project?
-* What did you set out to build?
-* Why tools did you use to implement this project?
+
+Before talking about PIQUE-LITE, we need to give a short introduction about PIQUE。
+
+PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic prespective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms nesscessary for quality assessment, but leaves but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
+
+Pique-Lite is an application used to visualize PIQUE results in tree structures. PIQUE-LITE is a react application that lets users upload PIQUE results, and display the result as a hierarchy tree structure. PIQUE-LITE also allows users to upload many PIQUE result files at once. These results data will be automatically integrated into different data visualization graphs on its Dashboard. 
+
+
+# Components
+
+
+
 
 # PIQUE-LITE Screen Shots
 Still need to do this
