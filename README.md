@@ -29,7 +29,16 @@ Pique-Lite is an application used to visualize PIQUE results in tree structures.
 ![Dashboard](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard2.png)
 PIQUE-LITE Dashboard
 
+![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
+
+![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard4.png)
+
+![Sidebar](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Sidebar.png)
+
 PIQUE-LITE EVALUATE
+![Evaluation Page](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/evaluate.png)
+
+
 
 PIQUE-LITE PIQUE TREE
 
