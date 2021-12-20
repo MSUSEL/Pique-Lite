@@ -17,16 +17,34 @@ Before talking about PIQUE-LITE, we need to give a short introduction about PIQU
 
 PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic prespective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms nesscessary for quality assessment, but leaves but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
 
-Pique-Lite is an application used to visualize PIQUE results in tree structures. PIQUE-LITE is a react application that lets users upload PIQUE results, and display the result as a hierarchy tree structure. PIQUE-LITE also allows users to upload many PIQUE result files at once. These results data will be automatically integrated into different data visualization graphs on its Dashboard. 
+Pique results are in json format. They are difficult to read, navigate and analyze. Pique-Lite is created to help users to simplify the PIQUE process, to visualize PIQUE results, and to analyze PIQUE results. 
 
+Pique-Lite is an application used to visualize PIQUE results in tree structures. PIQUE-LITE is a react application that lets users upload PIQUE results, and display the result as a hierarchy tree structure. PIQUE-LITE also allows users to upload many PIQUE result files at once. These results data will be automatically integrated into different data visualization graphs on its Dashboard. 
 
 # Components
 
+Pique-Lite contains two main components:
 
+Dashboard page is a visual display of all of PIQUE results data. Its primary intention is to provide information at-a-glance, such as TQIs. The benefits of Pique-Lite Dashboard includes:
+
+* A visual representation of performance over time with charts and graphs
+* Quick identification of data outliers and correlations
+
+Visualize button on the sidebar contains four main visualization features:
+
+Define page will be built to have functionalies sush as to build PIQUE Models. (still need to be developed)
+
+Calibarte page will be built to have functionlies sush as to calibrate PIQUE Models. (still need to be developed)
+
+Evaluate page is built to evaltue PIQUE result in tree structure. 
+
+Assess Page will be built to have functionlies such as to analyze PIQUE results data.
 
 
 # PIQUE-LITE Screen Shots
+
 ![Dashboard](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard2.png)
+
 PIQUE-LITE Dashboard
 
 ![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
@@ -53,9 +71,17 @@ PIQUE-LITE PIQUE TREE
 
 # Technologies
 
+The technologies implemented in this project are React, React-Router-dom, React-Redux,Redux-Form, Styled-Components, React-D3-Tree, and a significant amount of VanillaJS, JSX, and CSS.
+
 # Demo Link
 
 # Setup
+
+Clone down this repository. You will need node and npm installed globally on your machine.
+
+### `npm install`
+
+project installation
 
 ### `npm start`
 
@@ -90,7 +116,9 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### `To Visit App`
+
+localhost:3000/dashboard
+
 # License: 
 
-### Pique PPT
-These are some introduction infomation about Pique Lite: [https://docs.google.com/presentation/d/1jsgSoTKIgh4uSTQQ1SGxgsAuOLdlt6ukI9jMfVZDXiw/edit#slide=id.p]
