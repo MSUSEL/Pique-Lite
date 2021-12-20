@@ -31,16 +31,25 @@ PIQUE-LITE Dashboard
 
 ![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
 
+PIQUE-LITE Dashboard Data Change
+
 ![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard4.png)
+
+PIQUE_LITE Sidebar
 
 ![Sidebar](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Sidebar.png)
 
 PIQUE-LITE EVALUATE
+
 ![Evaluation Page](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/evaluate.png)
 
+PIQUE-LITE EVALUATE EDITOR
 
+![EVALUATE EDITOR](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/EditorBarFullView.png)
 
 PIQUE-LITE PIQUE TREE
+
+![PIQUE-TREE](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/PiqueTree.png)
 
 # Technologies
 
