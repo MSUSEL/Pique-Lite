@@ -33,7 +33,7 @@ PIQUE-LITE contains two main components:
 
 * **Define page** will be built to have functionalities such as building PIQUE Models and returning PIQUE Models in .json format. (still needs to be developed)
 
-* **Calibarte page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a dervied quality model in .json format. (still needs to be developed)
+* **Calibrate page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a dervied quality model in .json format. (still needs to be developed)
 
 * **Evaluate page** is built to visualize PIQUE results in a hierarchical tree structure. This structure has six levels: TQI, Quality Aspects, Product Factors, Measures, Diagnostics, and Findings. Each node contains a name and a decimal value.
 
