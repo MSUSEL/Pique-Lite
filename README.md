@@ -25,20 +25,20 @@ Pique-Lite is an application used to visualize PIQUE results in tree structures.
 
 Pique-Lite contains two main components:
 
-Dashboard page is a visual display of all of PIQUE results data. Its primary intention is to provide information at-a-glance, such as TQIs. The benefits of Pique-Lite Dashboard includes:
+**Dashboard page** is a visual display of all of PIQUE results data. Its primary intention is to provide information at-a-glance, such as TQIs. The benefits of Pique-Lite Dashboard includes:
 
 * A visual representation of performance over time with charts and graphs
 * Quick identification of data outliers and correlations
 
-Visualize button on the sidebar contains four main visualization features:
+**Visualize button** on the sidebar contains four main visualization features:
 
-Define page will be built to have functionalies sush as to build PIQUE Models. (still need to be developed)
+**Define** page will be built to have functionalies sush as to build PIQUE Models and return PIQUE Models in .json format.(still need to be developed)
 
-Calibarte page will be built to have functionlies sush as to calibrate PIQUE Models. (still need to be developed)
+**Calibarte page** will be built to have functionlies sush as to calibrate PIQUE Models, run PIQUE model and returns a dervied quality model in .json format.(still need to be developed)
 
-Evaluate page is built to evaltue PIQUE result in tree structure. 
+**Evaluate page** is built to visualize PIQUE result in hierarchial tree structure. This structure has six levels, TQI, Quality Aspects, Product Factors, Measures, Diagnostics and Findings. Each node contains a name and a decimal value.
 
-Assess Page will be built to have functionlies such as to analyze PIQUE results data.
+**Assess Page** will be built to have functionlies such as to analyze PIQUE results data.
 
 
 # PIQUE-LITE Screen Shots
@@ -64,6 +64,10 @@ PIQUE-LITE EVALUATE
 PIQUE-LITE EVALUATE EDITOR
 
 ![EVALUATE EDITOR](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/EditorBarFullView.png)
+
+PIQUE-LITE EVALUATE EDITOR UPLOAD
+
+![EVALUATE EDITOR UPLOAD](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Screen%20Shot%202021-12-17%20at%202.18.10%20PM.png)
 
 PIQUE-LITE PIQUE TREE
 
