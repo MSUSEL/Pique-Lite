@@ -13,7 +13,7 @@ An application built with React, Redux, JavaScript, HTML, and CSS used to visual
 
 # About PIQUE-LITE
 
-PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms nesscessary for quality assessment, but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
+PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms necessary for quality assessment, but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
 
 PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. 
 
@@ -34,7 +34,7 @@ PIQUE-LITE contains two main components:
 
 * **Define page** will be built to have functionalities such as building PIQUE Models and returning PIQUE Models in .json format. (still needs to be developed)
 
-* **Calibrate page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a dervied quality model in .json format. (still needs to be developed)
+* **Calibrate page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a derived quality model in .json format. (still needs to be developed)
 
 * **Evaluate page** is built to visualize PIQUE results in a hierarchical tree structure. This structure has six levels: TQI, Quality Aspects, Product Factors, Measures, Diagnostics, and Findings. Each node contains a name and a decimal value.
 
