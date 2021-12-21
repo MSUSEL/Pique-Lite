@@ -41,15 +41,13 @@ PIQUE-LITE contains two main components:
 
 # PIQUE-LITE Screen Shots
 
-![Dashboard](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard2.png)
-
 PIQUE-LITE Dashboard
 
-![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
+![Dashboard](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard2.png)
 
 PIQUE-LITE Dashboard Data Change
 
-![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard4.png)
+![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
 
 PIQUE_LITE Sidebar
 
