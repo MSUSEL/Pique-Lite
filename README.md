@@ -53,19 +53,19 @@ PIQUE_LITE Sidebar
 
 ![Sidebar](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Sidebar.png)
 
-PIQUE-LITE EVALUATE
+PIQUE-LITE Evaluate
 
 ![Evaluation Page](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/evaluate.png)
 
-PIQUE-LITE EVALUATE EDITOR
+PIQUE-LITE Evaluate Editor
 
 ![EVALUATE EDITOR](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/EditorBarFullView.png)
 
-PIQUE-LITE EVALUATE EDITOR UPLOAD
+PIQUE-LITE Evaluate Editor Upload
 
 ![EVALUATE EDITOR UPLOAD](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Screen%20Shot%202021-12-17%20at%202.18.10%20PM.png)
 
-PIQUE-LITE PIQUE TREE
+PIQUE-LITE PIQUE Tree
 
 ![PIQUE-TREE](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/PiqueTree.png)
 
