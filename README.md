@@ -1,8 +1,8 @@
 # PIQUE-LITE
 
-An application used to visualize PIQUE result/output result, built with React, Redux, JavaScript, HTML, and CSS.
+An application built with React, Redux, JavaScript, HTML, and CSS used to visualize PIQUE results.
 
-# Table of Content
+# Table of Contents
 * About PIQUE-LITE
 * Components
 * Screenshots
@@ -13,32 +13,31 @@ An application used to visualize PIQUE result/output result, built with React, R
 
 # About PIQUE-LITE
 
-Before talking about PIQUE-LITE, we need to give a short introduction about PIQUE。
+PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms nesscessary for quality assessment, but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
+PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. 
 
-PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic prespective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms nesscessary for quality assessment, but leaves but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
+PIQUE results are in json format. They are difficult to read, navigate, and analyze. PIQUE-LITE is created to help users simplify the PIQUE process as well as visualize and analyze PIQUE results. 
 
-Pique results are in json format. They are difficult to read, navigate and analyze. Pique-Lite is created to help users to simplify the PIQUE process, to visualize PIQUE results, and to analyze PIQUE results. 
-
-Pique-Lite is an application used to visualize PIQUE results in tree structures. PIQUE-LITE is a react application that lets users upload PIQUE results, and display the result as a hierarchy tree structure. PIQUE-LITE also allows users to upload many PIQUE result files at once. These results data will be automatically integrated into different data visualization graphs on its Dashboard. 
+PIQUE-LITE is a React application that lets users upload PIQUE results and display the result as a hierarchical tree structure. PIQUE-LITE also allows users to upload multiple PIQUE result files at once. The resulting data will be automatically integrated into different data visualization graphs on the Dashboard. 
 
 # Components
 
-Pique-Lite contains two main components:
+PIQUE-LITE contains two main components:
 
-**Dashboard page** is a visual display of all of PIQUE results data. Its primary intention is to provide information at-a-glance, such as TQIs. The benefits of Pique-Lite Dashboard includes:
+**Dashboard page** is a visual display of all of PIQUE results data. Its primary purpose is to provide information at a glance, such as TQIs. The benefits of Pique-Lite Dashboard include:
 
 * A visual representation of performance over time with charts and graphs
 * Quick identification of data outliers and correlations
 
 **Visualize button** on the sidebar contains four main visualization features:
 
-**Define** page will be built to have functionalies sush as to build PIQUE Models and return PIQUE Models in .json format.(still need to be developed)
+* **Define page** will be built to have functionalities such as building PIQUE Models and returning PIQUE Models in .json format. (still needs to be developed)
 
-**Calibarte page** will be built to have functionlies sush as to calibrate PIQUE Models, run PIQUE model and returns a dervied quality model in .json format.(still need to be developed)
+* **Calibarte page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a dervied quality model in .json format. (still needs to be developed)
 
-**Evaluate page** is built to visualize PIQUE result in hierarchial tree structure. This structure has six levels, TQI, Quality Aspects, Product Factors, Measures, Diagnostics and Findings. Each node contains a name and a decimal value.
+* **Evaluate page** is built to visualize PIQUE results in a hierarchical tree structure. This structure has six levels: TQI, Quality Aspects, Product Factors, Measures, Diagnostics, and Findings. Each node contains a name and a decimal value.
 
-**Assess Page** will be built to have functionlies such as to analyze PIQUE results data.
+* **Assess Page** will be built to have functionalities such as analyzing PIQUE results data.
 
 
 # PIQUE-LITE Screen Shots
