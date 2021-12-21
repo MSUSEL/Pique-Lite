@@ -36,7 +36,7 @@ PIQUE-LITE contains two main components:
 
 * **Evaluate page** is built to visualize PIQUE results in a hierarchical tree structure. This structure has six levels: TQI, Quality Aspects, Product Factors, Measures, Diagnostics, and Findings. Each node contains a name and a decimal value.
 
-* **Assess Page** will be built to have functionalities such as analyzing PIQUE results data.
+* **Assess Page** will be built to have functionalities such as analyzing PIQUE results data. (still needs to be developed)
 
 
 # PIQUE-LITE Screen Shots
