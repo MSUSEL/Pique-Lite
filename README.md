@@ -13,8 +13,6 @@ An application built with React, Redux, JavaScript, HTML, and CSS used to visual
 
 # About PIQUE-LITE
 
-PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. To remain language-agnostic, this project provides the abstractions, interfaces, and algorithms necessary for quality assessment, but leaves the task of defining language-specific static analysis operations to dependent language-specific projects that will use MSUSEL-PIQUE as a dependency. 
-
 PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. 
 
 PIQUE results are in json format. They are difficult to read, navigate, and analyze. PIQUE-LITE is created to help users simplify the PIQUE process as well as visualize and analyze PIQUE results. 
