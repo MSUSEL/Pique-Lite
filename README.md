@@ -24,7 +24,7 @@ PIQUE-LITE is a React application that lets users upload PIQUE results and displ
 
 PIQUE-LITE contains two main components:
 
-**Dashboard page** is a visual display of all of PIQUE results data. Its primary purpose is to provide information at a glance, such as TQIs. The benefits of Pique-Lite Dashboard include:
+**Dashboard page** is a visual display of all of PIQUE results data. Its primary purpose is to provide information at a glance, such as TQIs. The benefits of PIQUE-LITE Dashboard include:
 
 * A visual representation of performance over time with charts and graphs
 * Quick identification of data outliers and correlations
@@ -74,7 +74,7 @@ PIQUE-LITE PIQUE TREE
 
 # Technologies
 
-The technologies implemented in this project are React, React-Router-dom, React-Redux,Redux-Form, Styled-Components, React-D3-Tree, and a significant amount of VanillaJS, JSX, and CSS.
+The technologies implemented in this project are React, React-Router-dom, React-Redux, Redux-Form, Styled-Components, React-D3-Tree, and a significant amount of VanillaJS, JSX, and CSS.
 
 # Demo Link
 
