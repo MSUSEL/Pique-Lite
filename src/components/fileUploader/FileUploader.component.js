@@ -5,6 +5,8 @@ import { FileUploaderContainer, Input, ButtonGroupContainer} from './FIleUploade
 import EditorButton from '../editorButtion/EditorButton.component'
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import { removeFile, setProjects } from '../../redux/piqueTree/PiqueTree.actions';
+
+
 const FileUploader = ({projects, setProjects, removeFile}) => {
     // read the contents of each file
     const readFileContents = async (file) => {
@@ -37,6 +39,8 @@ const FileUploader = ({projects, setProjects, removeFile}) => {
         let allFiles = [];
         [...e.target.files].map(file => allFiles.push(file));
         const results = await readAllFiles(allFiles);
+
+        console.log("File Name", results);
         setProjects(results)
     }
    return (
@@ -59,11 +63,12 @@ const FileUploader = ({projects, setProjects, removeFile}) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    projects: selectProjects
+    projects: selectProjects,
+    fileContentList: selectFileContent
 })
 
 const mapDispatchToProps = dispatch => ({
     setProjects: list => dispatch(setProjects(list)),
-    removeFile: file => dispatch(removeFile(file))
+    removeFile: file => dispatch(removeFile(file)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(FileUploader);

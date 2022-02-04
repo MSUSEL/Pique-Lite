@@ -8,9 +8,10 @@ import { readSingleFileContent } from "../../utils/fileUpload.utils";
 import FormInput from "../formInput/FormInput.component";
 import {Line} from 'rc-progress';
 import { Green } from "../../utils/color";
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
+import {setSingleFileContent} from '../../redux/fileInfo/FileInfo.actions'
 
-const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
+const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSingleFileContent}) => {
     const alert = useAlert();
     // states for file, version, progress, submitting;
     const [v, setV] = React.useState('');
@@ -26,6 +27,7 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions}) => {
             fileName: e.target.files[0].name,
             fileContent: content,
         })
+        setSingleFileContent(content)
     }
 
     // onChange to handle version input
@@ -113,6 +115,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data)),
     removeFile: data => dispatch(removeFile(data)),
-    setVersions: data => dispatch(setVersions(data))
+    setVersions: data => dispatch(setVersions(data)),
+    setSingleFileContent: file => dispatch(setSingleFileContent(file))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SingleFileUpload);

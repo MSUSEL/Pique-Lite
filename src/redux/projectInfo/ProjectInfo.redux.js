@@ -1,4 +1,4 @@
-import ProjectInfoActionTypes from './ProjectInfo.actionTypes'
+ import ProjectInfoActionTypes from './ProjectInfo.actionTypes'
 const INITIAL_STATE = {
     projectName: "",
     projectOwner: "",

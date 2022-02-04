@@ -2,7 +2,6 @@ import React from 'react';
 import { DashboardGrid, CardGroupWrapper, GroupWrapper, Group } from './Dashboard.styles';
 import MainHeader from '../../components/mainHeader/MainHeader.component';
 import * as CalendarChartProps from '../../charts/CalendarChartProps';
-import * as LineChartProps from '../../charts/LineChartProps';
 import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
@@ -15,6 +14,7 @@ import {ImWarning} from 'react-icons/im';
 import {RiAlarmWarningLine} from 'react-icons/ri'
 import {RiSecurePaymentLine} from 'react-icons/ri'
 import {CgDanger} from 'react-icons/cg';
+
 
 
 const Dashboard = ({projects, riskList}) => {
@@ -44,8 +44,24 @@ const Dashboard = ({projects, riskList}) => {
             value: '#009a66',
             icon: <RiSecurePaymentLine/>
         }  
-]
+    ]
 
+    // vairables for line chart
+    const lineChartWidth = '600px';
+    const lineChartHeight = '400px';
+    const lineChartType = 'LineChart';
+    const showButton = true;
+    const lineChartTitle = projects[0].fileContent.name;
+    const lineChartOptions = {
+        title: lineChartTitle,
+        hAxis: { title: lineChartTitle + ' ' + 'Version', minValue: 0, maxValue: 1 },
+        vAxis: { title: lineChartTitle + ' ' + 'Score', minValue: 0, maxValue: 1 },
+        legend: 'none',
+        colors:['#226192','#004411'],
+        backgroundColor: 'white'
+    }
+
+    
     // get the bin data from uploajded files
     const getBinData = () => {
         let binData = [];
@@ -53,8 +69,7 @@ const Dashboard = ({projects, riskList}) => {
         projects.map((file, index) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
         return binData;
     }
-
-    
+  
     const card = riskList.map((file, index) => {
         return (<RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index}/>)
     })
@@ -62,8 +77,6 @@ const Dashboard = ({projects, riskList}) => {
     const riskCard = riskLevelOptions.map((item, index) => {
         return (<RiskCard title={item.label} color={item.value} icon={item.icon}/>)
     })
-
-    console.log("dashboard", projects)
 
     return (
         <DashboardGrid>
@@ -88,15 +101,16 @@ const Dashboard = ({projects, riskList}) => {
             
             </div>
 
+            
             <GroupWrapper>
                 <Group>
                     <PiqueChart 
-                        width={LineChartProps.width}
-                        height={LineChartProps.height}
+                        width={lineChartWidth}
+                        height={lineChartHeight}
                         data={getBinData()}
-                        options={LineChartProps.options}
-                        chartType={LineChartProps.chartType}
-                        showButton={LineChartProps.showButton}
+                        options={lineChartOptions}
+                        chartType={lineChartType}
+                        showButton={showButton}
                     />
                 </Group>
                 <Group>
