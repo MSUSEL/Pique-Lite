@@ -51,17 +51,22 @@ const Dashboard = ({projects, riskList}) => {
     const lineChartHeight = '400px';
     const lineChartType = 'LineChart';
     const showButton = true;
-    const lineChartTitle = projects[0].fileContent.name;
-    const lineChartOptions = {
-        title: lineChartTitle,
-        hAxis: { title: lineChartTitle + ' ' + 'Version', minValue: 0, maxValue: 1 },
-        vAxis: { title: lineChartTitle + ' ' + 'Score', minValue: 0, maxValue: 1 },
-        legend: 'none',
-        colors:['#226192','#004411'],
-        backgroundColor: 'white'
+
+    const getlineChartOptions = () => {
+        let lineChartTitle = '';
+        lineChartTitle = projects[0].fileContent.name;
+        let options = {
+            title: lineChartTitle,
+            hAxis: { title: lineChartTitle + ' ' + 'Version', minValue: 0, maxValue: 1 },
+            vAxis: { title: lineChartTitle + ' ' + 'Score', minValue: 0, maxValue: 1 },
+            legend: 'none',
+            colors:['#226192','#004411'],
+            backgroundColor: 'white'
+        }
+        return options;
     }
 
-    
+  
     // get the bin data from uploajded files
     const getBinData = () => {
         let binData = [];
@@ -100,18 +105,17 @@ const Dashboard = ({projects, riskList}) => {
                     </div>) : null}
             
             </div>
-
-            
             <GroupWrapper>
                 <Group>
-                    <PiqueChart 
-                        width={lineChartWidth}
-                        height={lineChartHeight}
-                        data={getBinData()}
-                        options={lineChartOptions}
-                        chartType={lineChartType}
-                        showButton={showButton}
-                    />
+                    {projects ? (  
+                        <PiqueChart 
+                            width={lineChartWidth}
+                            height={lineChartHeight}
+                            data={getBinData()}
+                            options={getlineChartOptions()}
+                            chartType={lineChartType}
+                            showButton={showButton}
+                    />) : null}
                 </Group>
                 <Group>
                     <PiqueChart
