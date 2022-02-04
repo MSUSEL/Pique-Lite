@@ -1,7 +1,6 @@
 import React from 'react';
 import { DashboardGrid, CardGroupWrapper, GroupWrapper, Group } from './Dashboard.styles';
 import MainHeader from '../../components/mainHeader/MainHeader.component';
-import * as CalendarChartProps from '../../charts/CalendarChartProps';
 import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
@@ -14,6 +13,8 @@ import {ImWarning} from 'react-icons/im';
 import {RiAlarmWarningLine} from 'react-icons/ri'
 import {RiSecurePaymentLine} from 'react-icons/ri'
 import {CgDanger} from 'react-icons/cg';
+
+import { data } from '../../dashboard-data-files/CalenderData';
 
 
 
@@ -52,13 +53,17 @@ const Dashboard = ({projects, riskList}) => {
     const lineChartType = 'LineChart';
     const showButton = true;
 
-    const getlineChartOptions = () => {
+    const getTitle = () => {
         let lineChartTitle = '';
-        lineChartTitle = projects[0].fileContent.name;
+        projects.map((file, index) => lineChartTitle = file.fileContent.name)
+        return lineChartTitle;
+    }
+
+    const getlineChartOptions = () => {
         let options = {
-            title: lineChartTitle,
-            hAxis: { title: lineChartTitle + ' ' + 'Version', minValue: 0, maxValue: 1 },
-            vAxis: { title: lineChartTitle + ' ' + 'Score', minValue: 0, maxValue: 1 },
+            title: getTitle(),
+            hAxis: { title: getTitle() + ' ' + 'Version', minValue: 0, maxValue: 1 },
+            vAxis: { title: getTitle() + ' ' + 'Score', minValue: 0, maxValue: 1 },
             legend: 'none',
             colors:['#226192','#004411'],
             backgroundColor: 'white'
@@ -66,7 +71,6 @@ const Dashboard = ({projects, riskList}) => {
         return options;
     }
 
-  
     // get the bin data from uploajded files
     const getBinData = () => {
         let binData = [];
@@ -74,6 +78,52 @@ const Dashboard = ({projects, riskList}) => {
         projects.map((file, index) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
         return binData;
     }
+
+    // get variable for calendar chart
+    const calWidth = '1000px';
+    const calHeight = '180px';
+    const calChartType = 'Calendar';
+    const showCalButton = false;
+    const inputData = data;
+    
+    const calOptions = {
+        title: getTitle() + ' Score',
+        calendar: {
+            cellColor: {
+            stroke: 'grey',      // Color the border of the squares.
+            strokeOpacity: 0.5, // Make the borders half transparent.
+            strokeWidth: 2      // ...and two pixels thick.
+
+            },
+            cellSize: '15',
+            dayOfWeekLabel: {
+                fontName: 'Times-Roman',
+                fontSize: 12,
+                color: 'black',
+                bold: false,
+                italic: true
+            },
+            focusedCellColor: {
+                stroke: 'red',
+                strokeOpacity: 0.8,
+                strokeWidth: 3
+            },
+            monthOutlineColor: {
+                stroke: '#226192',
+                strokeOpacity: 0.8,
+                strokeWidth: 2
+            },
+            underYearSpace: 10, // Bottom padding for the year labels.
+            yearLabel: {
+                fontName: 'Times-Roman',
+                fontSize: 32,
+                color: '#132D72',
+                bold: true,
+                italic: true
+            }
+        },
+        colorAxis: {colors:['#ff6150','#38b24d']}
+}
   
     const card = riskList.map((file, index) => {
         return (<RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index}/>)
@@ -86,12 +136,12 @@ const Dashboard = ({projects, riskList}) => {
     return (
         <DashboardGrid>
             <MainHeader
-                width={CalendarChartProps.width}
-                height={CalendarChartProps.height}
-                data={CalendarChartProps.inputData}
-                chartType={CalendarChartProps.chartType}
-                options={CalendarChartProps.options}
-                showButton={CalendarChartProps.showButton}
+                width={calWidth}
+                height={calHeight}
+                data={inputData}
+                chartType={calChartType}
+                options={calOptions}
+                showButton={showCalButton}
             />
             <div>
                 <CardGroupWrapper>{riskCard}</CardGroupWrapper>
