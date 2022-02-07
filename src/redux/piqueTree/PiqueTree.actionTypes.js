@@ -7,7 +7,8 @@ const PiqueTreeActionTypes = {
     SET_NEIGHBOR_NODES: 'SET_NEIGHBOR_NODES',
     REMOVE_FILE: 'REMOVE_FILE',
     SET_VERSIONS: 'SET_VERSIONS',
-    SET_RISK_LIST: 'SET_RISK_LIST'
+    SET_RISK_LIST: 'SET_RISK_LIST',
+    SET_QUARTERS: 'SET_QUARTERS'
 }
 
 export default PiqueTreeActionTypes;
