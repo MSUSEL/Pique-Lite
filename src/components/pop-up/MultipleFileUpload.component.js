@@ -9,31 +9,36 @@ import { selectProjects, selectQuarters } from '../../redux/piqueTree/PiqueTree.
 import { Line } from 'rc-progress';
 import { Green } from '../../utils/color';
 
-import FromInput from '../formInput/FormInput.component';
+import FormInput from '../formInput/FormInput.component';
 
 import { useAlert } from 'react-alert';
 
 
 const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, versions, setVersions}) => {
     const alert = useAlert();
-
-    const [progress, setProcess] = React.useState(0);
-    const [quarterFiles, setQuarterFiles] = React.useState([]);
+    const [progress, setProcess] = React.useState(0)
     const [quarterNumber, setQuarterNumber] = React.useState('');
+    const [quarterFiles, setQuarterFiles] = React.useState([]);
     const [submitting, setSubmitting] = React.useState(false);
+    const [file, setFile] = React.useState(null);
 
     const handleUpload = async (e) => {
         let allFiles = [];
         [...e.target.files].filter(file => file.size !== 0).map(file=> allFiles.push(file));
         const results = await readAllFiles(allFiles, setProcess);
+        console.log("shahhahahh", results);
         setQuarterFiles(results)
-
+        setFile(results[results.length -1]);
     }
-   console.log("quarter files", quarterFiles)
-
-   // onChange to handle version input
-   const handleQuarterNumber = e => {
+    console.log("filesss", quarterFiles);
+       // onChange to handle version input
+    const handleQuarterNumber = e => {
         setQuarterNumber(e.target.value)
+        if (file !== null) {
+            file["QuarterNumber"]=e.target.value
+        } else{
+            alert.show("file content is null")
+        }
     }
 
     console.log("quarter number", quarterNumber)
@@ -42,14 +47,12 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
     const handleSubmitting = () => {setSubmitting(!submitting)}
 
     const checker = (arr, target) => target.every(v => arr.includes(v));
-    
+
     const checkFileInProjects =(arr, target) => {
         const checker = target.every(f => arr.includes(f));
         return checker;
     }
 
-    console.log("repeated file", checkFileInProjects(projects, quarterFiles));
-    
     //validates inputs
     const handleValidation = () => {
         if (quarterFiles === null ) {
@@ -66,8 +69,6 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
         }
     }
 
- 
-  
 
      // onClick to setprojects setVersions
      const handleSubmit = () => {
@@ -81,8 +82,8 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
         }
     }
 
+   
     console.log("quarters ", quarters)
-
     console.log("submmitting", submitting)
 
     return (
@@ -97,7 +98,8 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
                         onChange={handleUpload}
                     />
                 </Label>
-                <FromInput
+                
+                <FormInput
                     type='text'
                     label={"Quarter Number: Q1"}
                     name="quarter"
