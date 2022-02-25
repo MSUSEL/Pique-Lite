@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {DeepKoamaru, SkyBlue, GreyBlue} from "../../utils/color";
+import styled, {css} from "styled-components";
+import {DeepKoamaru, SkyBlue, GreyBlue, Grey} from "../../utils/color";
 
 export const LoaderWrapper = styled.div`
     display: flex;
@@ -38,4 +38,23 @@ export const Label = styled.label`
 export const ProgressResult = styled.div`
     height: 20px;
     font-size: x-small;
+`
+const ButtonStyle = css`
+    padding: 8px;
+    color: white;
+    margin-right: 5px;
+    &:hover {
+        background-color: ${DeepKoamaru};
+        cursor: pointer;
+        color: white;
+    }
+`
+
+export const SubmitButton = styled.button`
+    background-color: ${props => props.submit ? Grey : SkyBlue} ;
+    ${ButtonStyle}
+`
+export const ResetButton = styled.button`
+    background-color: ${SkyBlue};
+    ${ButtonStyle}
 `

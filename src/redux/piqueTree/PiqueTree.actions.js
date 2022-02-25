@@ -47,4 +47,8 @@ export const setRiskList = (file) => ({
 export const setQuarters = (data) => ({
     type: PiqueTreeActionTypes.SET_QUARTERS,
     payload: data
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> 0ff95b75412f417ec32cf5ad4a1bdcbfd06fcbf3
