@@ -59,11 +59,7 @@ const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
                 riskList: action.payload
             }
         case PiqueTreeActionTypes.SET_QUARTERS:
-<<<<<<< HEAD
-            return{
-=======
             return {
->>>>>>> 0ff95b75412f417ec32cf5ad4a1bdcbfd06fcbf3
                 ...state,
                 quarters: action.payload
             }

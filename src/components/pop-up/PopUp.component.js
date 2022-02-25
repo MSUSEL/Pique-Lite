@@ -24,7 +24,6 @@ const Popup = ({toggle}) => {
             <div>
                 <MultipleFileUpload/>
             </div>
-            <EditorButton onClick={() => setShow(!show)}>Sort Uploaded Files</EditorButton>
             {show ? <ProjectList/> : null}
            
         </Content>

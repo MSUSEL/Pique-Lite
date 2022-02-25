@@ -75,6 +75,7 @@ const Dashboard = ({projects, riskList, quarters}) => {
     const getBinData = () => {
         let binData = [];
         binData.push(["version", "score"]);
+        projects.map((file, index) => file["versionNumber"] = index + 1);
         projects.map((file, index) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
         return binData;
     }
@@ -145,46 +146,34 @@ const Dashboard = ({projects, riskList, quarters}) => {
         return options;
     }
     const getTableChartData = () => {
-        let data = [];
-        let score = [];
-        score.push("Score");
-        score = [...score, ...quarters];
-
-        let qFiles = [];
-        qFiles = projects.filter(file => file.QuarterNumber != null);
-        let TQIS = [];
-        TQIS.push("TQI")
-        qFiles.map(file => TQIS.push({v:file.fileContent.value}));
-
-        let arr1 = [];
-        arr1.push(qFiles[0].fileContent.children[0].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[0].value}));
-
-        let arr2 = [];
-        arr2.push(qFiles[0].fileContent.children[1].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[1].value}));
-
-        let arr3 = [];
-        arr3.push(qFiles[0].fileContent.children[2].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[2].value}));
-
-        let arr4 = [];
-        arr4.push(qFiles[0].fileContent.children[3].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[3].value}));
-
-        let arr5 = [];
-        arr5.push(qFiles[0].fileContent.children[4].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[4].value}));
-
-        let arr6 = [];
-        arr6.push(qFiles[0].fileContent.children[5].name);
-        qFiles.map(file => arr1.push({v:file.fileContent.children[5].value}));
-
-        data.push(score, TQIS, arr1, arr2, arr3, arr4, arr5, arr6);
-
-        return data;
-
-    }
+        let data = []
+        if (projects != null) {
+            let files = projects.filter(file => file["QuarterNumber"] != null);
+            let scores =[]
+            scores.push("Score");
+            quarters.map(q => scores.push(q));
+            let tqi = []
+            tqi.push("TQI");
+            files.map(f => tqi.push({v:f.fileContent["value"]}));
+            let size = 0;
+            files.map(f => size = f.fileContent.children.length);
+            data.push(scores);
+            data.push(tqi)
+            let names = []
+            let kids =[]
+            files.map(file => kids.push(file.fileContent.children) )
+            for (let i =0; i<size; i++) {
+                names.push(kids[0][i].name);
+            }
+            for (let i= 0; i<size; i++ ) {
+                let arr = [];
+                arr.push(names[i]);
+                files.map(f => arr.push({v: parseFloat(f.fileContent.children[i].value).toFixed(3)}))
+                data.push(arr)
+            }
+        }
+          return data;
+      }
 
     return (
         <DashboardGrid>
@@ -224,8 +213,8 @@ const Dashboard = ({projects, riskList, quarters}) => {
                     <PiqueChart
                         width={TableChartProps.width}
                         height={TableChartProps.height}
-                        data={TableChartProps.inputData}
-                        options={TableChartProps.options}
+                        data={projects ? getTableChartData() : null}
+                        options={getTableChartOptions()}
                         chartType={TableChartProps.chartType}
                         showButton={TableChartProps.showButton}
                     />

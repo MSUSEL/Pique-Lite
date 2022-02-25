@@ -46,8 +46,3 @@ export const selectRiskList = createSelector(
     [piqueTree],
     piqueTree => piqueTree.riskList
 )
-
-export const selectQuarters = createSelector(
-    [piqueTree],
-    piqueTree => piqueTree.quarters
-)

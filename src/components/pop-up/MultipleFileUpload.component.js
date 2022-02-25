@@ -1,20 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import {  setProjects, setQuarters } from '../../redux/piqueTree/PiqueTree.actions';
+import {  setProjects, setQFiles, setQuarters, setVersions } from '../../redux/piqueTree/PiqueTree.actions';
 import { readAllFiles } from '../../utils/fileUpload.utils';
 
 import { LoaderWrapper, Label, Input, SubmitButton, ResetButton} from './MultipleFileUpload.styles';
-import { selectProjects, selectQuarters } from '../../redux/piqueTree/PiqueTree.selector';
+import { selectProjects, selectQuarters, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import { Line } from 'rc-progress';
 import { Green } from '../../utils/color';
 
 import FormInput from '../formInput/FormInput.component';
+import { useAlert } from 'react-alert'
 
-import { useAlert } from 'react-alert';
 
 
-const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => {
+const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, versions, setVersions}) => {
     const alert = useAlert();
     const [progress, setProcess] = React.useState(0)
     const [quarterNumber, setQuarterNumber] = React.useState('');
@@ -26,7 +26,6 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
         let allFiles = [];
         [...e.target.files].filter(file => file.size !== 0).map(file=> allFiles.push(file));
         const results = await readAllFiles(allFiles, setProcess);
-        console.log("shahhahahh", results);
         setQuarterFiles(results)
         setFile(results[results.length -1]);
     }
@@ -85,6 +84,7 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
    
     console.log("quarters ", quarters)
     console.log("submmitting", submitting)
+    console.log("versions", versions)
 
     return (
         <div>
@@ -120,7 +120,7 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
                     projects.map((file, index) => {
                         return (
                             <div key={index}>
-                                <p>v{file.versionNumber} {file.fileName}</p>
+                                <p>v{index + 1} {file.fileName}</p>
                                 <Line percent={progress} strokeWidth="1" strokeColor={Green.value}/>
                             </div>
                         )
@@ -134,12 +134,14 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => 
 
 const mapStateToProps = createStructuredSelector({
   projects: selectProjects,
-  quarters: selectQuarters
+  quarters: selectQuarters,
+  versions: selectVersions
 })
 
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data)),
-    setQuarters: data => dispatch(setQuarters(data))
+    setQuarters: data => dispatch(setQuarters(data)),
+    setVersions: data => dispatch(setVersions(data))
 })
 
 
