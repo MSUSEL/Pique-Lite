@@ -14,7 +14,7 @@ import FormInput from '../formInput/FormInput.component';
 import { useAlert } from 'react-alert';
 
 
-const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, versions, setVersions}) => {
+const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters}) => {
     const alert = useAlert();
     const [progress, setProcess] = React.useState(0)
     const [quarterNumber, setQuarterNumber] = React.useState('');
