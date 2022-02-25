@@ -3,6 +3,7 @@ import PiqueTreeActionTypes from "./PiqueTree.actionTypes";
 const INITIAL_STATE = {
     projects: [],
     versions: [],
+    quarters: [],
     projectName: '',
     riskLevel: '',
     orientation: '',
@@ -53,10 +54,15 @@ const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
                 projects: state.projects.filter(item => action.payload !== item),
             }
         case PiqueTreeActionTypes.SET_RISK_LIST:
-                return {
-                    ...state,
-                   riskList: action.payload
-                }
+            return {
+                ...state,
+                riskList: action.payload
+            }
+        case PiqueTreeActionTypes.SET_QUARTERS:
+            return{
+                ...state,
+                quarters: action.payload
+            }
         default:
             return state;
     }    
