@@ -141,6 +141,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
     setProjects: data => dispatch(setProjects(data)),
     setQuarters: data => dispatch(setQuarters(data)),
+    setQFiles: data => dispatch(setQFiles(data)),
     setVersions: data => dispatch(setVersions(data))
 })
 
