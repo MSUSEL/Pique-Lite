@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     projects: [],
     versions: [],
     quarters: [],
+    QFiles: [],
     projectName: '',
     riskLevel: '',
     orientation: '',
@@ -59,10 +60,16 @@ const PiqueTreeReducer = (state = INITIAL_STATE, action) => {
                 riskList: action.payload
             }
         case PiqueTreeActionTypes.SET_QUARTERS:
-            return {
+            return{
                 ...state,
                 quarters: action.payload
             }
+
+        case PiqueTreeActionTypes.SET_QFILES:
+            return{
+                ...state,
+                QFiles: action.payload
+        }
         default:
             return state;
     }    

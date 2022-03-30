@@ -48,3 +48,8 @@ export const setQuarters = (data) => ({
     type: PiqueTreeActionTypes.SET_QUARTERS,
     payload: data
 })
+
+export const setQFiles = (data) => ({
+    type: PiqueTreeActionTypes.SET_QFILES,
+    payload: data
+})
