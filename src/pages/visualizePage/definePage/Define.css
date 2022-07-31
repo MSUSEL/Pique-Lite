@@ -1,0 +1,19 @@
+#define_canvas_title {
+    padding: 10px;
+    font-size: 25px;
+    text-align: center;
+    border-bottom: black solid 2px;
+}
+
+#start_button_container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#export_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
