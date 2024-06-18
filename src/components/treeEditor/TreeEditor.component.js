@@ -18,15 +18,15 @@ const TreeEditor = () => {
                     value: '#ff6500'
                 },
                 {
-                    label: 'Elevated',
+                    label: 'Medium',
                     value: '#fde101'
                 },
                 {
-                    label: 'Guarded',
+                    label: 'Low',
                     value: '#3566cd'
                 },
                 {
-                    label: 'Low',
+                    label: 'Insignificant',
                     value: '#009a66'
                 }  
     ]

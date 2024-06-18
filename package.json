@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "ansi-regex": "^5.0.1",
+    "cal-heatmap": "^4.2.4",
     "enzyme": "^3.11.0",
     "immer": "^9.0.6",
     "list-react-files": "^0.2.0",

@@ -30,17 +30,17 @@ export const Severe = {
 }
 export const High = {
     name: 'High',
-    color: '#ff6500'
+    color: '#FFEFD6'
 };
-export const Elevated = {
-    name: 'Elevated',
+export const Medium = {
+    name: 'Medium',
     color: '#fde101'
-};
-export const Guarded = {
-    name: 'Guarded',
-    color: '#3566cd'
 };
 export const Low = {
     name: 'Low',
+    color: '#3566cd'
+};
+export const Insignificant = {
+    name: 'Insignificant',
     color: '#009a66'
 }
