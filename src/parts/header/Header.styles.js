@@ -39,6 +39,7 @@ export const SearchInput = styled.div`
   background: transparent;
   padding: 12px;
   font-size: 20px;
+  font: Arial;
   color: white;
 
   &:focus {

@@ -6,7 +6,6 @@ import { createStructuredSelector } from 'reselect';
 import { selectProjects } from '../../redux/piqueTree/PiqueTree.selector';
 import SingleFileUploadComponent from './SingleFileUpload.component';
 import MultipleFileUpload from './MultipleFileUpload.component';
-import EditorButton from '../editorButtion/EditorButton.component'
 import { selectProjectName, selectProjectOwner } from '../../redux/projectInfo/ProjectInfo.selector';
 import ProjectList from './ProjectList.component';
 

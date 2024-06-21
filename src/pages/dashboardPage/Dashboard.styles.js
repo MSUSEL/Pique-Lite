@@ -9,6 +9,7 @@ export const DashboardGrid = styled.div`
 
 export const Header = styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 10px 20px;
@@ -16,7 +17,14 @@ export const Header = styled.div`
     width: 100%;
     margin-bottom: 10px;
     overflow: hidden;
-    box-sizing: border-box; 
+    box-sizing: border-box;
+`;
+
+export const HeaderTopRow = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 `;
 
 export const NavTabs = styled.div`
@@ -179,20 +187,28 @@ export const CardGroupWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(265px, 1fr));
     grid-auto-rows: 94px;
-    grid-gap: 20px;
+    grid-gap: 10px; /* reduced the gap here */
     margin: 20px;
 `;
 
+export const RiskCardGroupWrapper = styled.div`
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    margin-top: -2vh;
+    margin-bottom: 2vh;
+`;
+
 export const LogoIcon = styled.img`
-    width: auto; 
-    max-width: 150px; 
+    width: auto;
+    max-width: 150px;
     max-height: 75px;
     padding-right: 1vw;
 `;
 
 export const PiqueIcon = styled.img`
-    width: auto; 
-    max-width: 130px; 
+    width: auto;
+    max-width: 130px;
     max-height: 130px;
     padding-left: 1vw;
 `;
