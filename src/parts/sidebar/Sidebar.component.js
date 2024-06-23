@@ -1,35 +1,33 @@
 import React from 'react';
 import { menuItemList } from './MenuItemData';
-import pique from '../../assets/PIQUE_png.png'
-import SubItem from './subItem/SubItem.component'
+import pique from '../../assets/PIQUE_png.png';
+import SubItem from './subItem/SubItem.component';
 
 import { 
     SidenavContainer, 
     HeaderWrapper, 
     LogoIcon, 
     SidebarHeader, 
-    MenuItemList
+    MenuItemList 
 } from './Sidebar.styles';
 
 const Sidebar = () => {
-    const MeunItemJSX = menuItemList.map(
-        (item, index) => {
-            return (
-               <SubItem item={item} key={index}/>
-            )
-        }
-    )
+    const MenuItemJSX = menuItemList.map((item, index) => {
+        return (
+            <SubItem item={item} key={index} />
+        );
+    });
     return (
         <SidenavContainer>
             <HeaderWrapper>
-                <LogoIcon src={pique}/>
-                <SidebarHeader>PIQUE</SidebarHeader>               
-            </HeaderWrapper>          
+                <LogoIcon src={pique} />
+                <SidebarHeader>PIQUE</SidebarHeader>
+            </HeaderWrapper>
             <MenuItemList>
-               {MeunItemJSX}
+                {MenuItemJSX}
             </MenuItemList>
         </SidenavContainer>
-    )
-    } 
+    );
+}
 
 export default Sidebar;
