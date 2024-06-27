@@ -27,7 +27,7 @@ export const HeaderWrapper = styled.div`
 export const SidebarHeader = styled.h3`
     margin: 0;
     margin-left: 10px;
-    color: #134e6f;
+    color: #000; /* Changed to black */
     font-size: 24px;
     letter-spacing: 2px;
     font-family: 'Titillium Web', sans-serif;
@@ -55,7 +55,7 @@ export const MenuItemLink = styled.a`
     display: table;
     width: 100%;
     text-decoration: none;
-    color: #8a8a8a;
+    color: #000; /* Changed to black */
     font-size: 13px;
     font-family: 'Arial', sans-serif;
     border-top: 1px solid #f2f2f2;
@@ -63,7 +63,7 @@ export const MenuItemLink = styled.a`
 
     &:hover {
         color: #fff;
-        background-color: #00bbbb;
+        background-color: #000000;
     }
 `;
 

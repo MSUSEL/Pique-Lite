@@ -1,31 +1,26 @@
 import React from 'react';
-import {FaBars} from 'react-icons/fa';
-import {toggleSidebar} from '../../redux/headerToggle/headerToggle.actions';
-import {connect} from 'react-redux'
+import { FaBars } from 'react-icons/fa';
+
 import {
     HeaderContainer,
     Toggle,
+    SearchInput,
     OptionsContainer,
-    OptionLink,
-    SearchInput
-} from './Header.styles'
+    OptionLink
+} from './Header.styles';
 
-const Header = ({toggleSidebar}) => {
+const Header = () => {
     return (
         <HeaderContainer>
             <Toggle>
-                <FaBars onClick={toggleSidebar}/> 
+                <FaBars />
             </Toggle>
-            <SearchInput>Search...</SearchInput>
+            <SearchInput placeholder="Search..." />
             <OptionsContainer>
                 <OptionLink>Account</OptionLink>
             </OptionsContainer>
         </HeaderContainer>
-    )
+    );
 }
 
-const mapDispatchToProps = dispatch => ({
-    toggleSidebar: () => dispatch(toggleSidebar())
-})
-
-export default connect(null, mapDispatchToProps)(Header);
+export default Header;

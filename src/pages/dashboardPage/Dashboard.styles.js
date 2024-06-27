@@ -46,7 +46,7 @@ export const MainContent = styled.div`
 `;
 
 export const OverviewSection = styled.div`
-    flex: 2;
+    flex: 1;
     padding-right: 20px;
 `;
 
