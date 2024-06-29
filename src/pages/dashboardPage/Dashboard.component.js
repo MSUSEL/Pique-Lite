@@ -4,7 +4,6 @@ import MainHeader from '../../components/mainHeader/MainHeader.component';
 import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
-import Sidebar from '../../parts/sidebar/Sidebar.component';
 import { createStructuredSelector } from 'reselect';
 import { selectProjects, selectQuarters, selectRiskList } from '../../redux/piqueTree/PiqueTree.selector';
 import { connect } from 'react-redux';
@@ -182,7 +181,6 @@ const Dashboard = ({ projects, riskList, quarters }) => {
 
     return (
         <DashboardGrid>
-            <Sidebar />
             <Header>
                 <HeaderTopRow>
                     <LogoIcon src={cisa} />

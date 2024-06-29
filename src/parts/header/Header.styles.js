@@ -34,19 +34,6 @@ export const HeaderSearch = styled.div`
  
 `
 
-export const SearchInput = styled.div`
-  border: none;
-  background: transparent;
-  padding: 12px;
-  font-size: 20px;
-  font: Arial;
-  color: white;
-
-  &:focus {
-      outline: none;
-      border: none;
-  }`
-
 export const Toggle = styled.div`
   font-size: 30px;
   color: white;

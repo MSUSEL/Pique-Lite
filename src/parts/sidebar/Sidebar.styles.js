@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const SidenavContainer = styled.div`
     position: absolute;
@@ -6,14 +7,14 @@ export const SidenavContainer = styled.div`
     flex-direction: column;
     grid-area: sidenav;
     height: 100%;
-    width: 55px;
-    background-color: #F7F7F7;
+    width: 70px;
+    background-color: #D3D6DE;
     box-shadow: 1px 0 15px rgba(0, 0, 0, 0.07);
     transition: width 0.2s linear;
     overflow: hidden;
 
     &:hover {
-        width: 250px;
+        width: 180px;
     }
 `;
 
@@ -36,12 +37,14 @@ export const SidebarHeader = styled.h3`
 export const LogoIcon = styled.img`
     height: 65px;
     width: auto;
+    color: black;
 `;
 
 export const MenuItemList = styled.ul`
     list-style: none;
     padding: 0;
     margin: 7px 0;
+    color: black;
 `;
 
 export const MenuItem = styled.li`
@@ -50,84 +53,53 @@ export const MenuItem = styled.li`
     width: 250px;
 `;
 
-export const MenuItemLink = styled.a`
-    position: relative;
-    display: table;
-    width: 100%;
-    text-decoration: none;
-    color: #000; /* Changed to black */
-    font-size: 13px;
-    font-family: 'Arial', sans-serif;
-    border-top: 1px solid #f2f2f2;
-    transition: all 0.14s linear;
-
-    &:hover {
-        color: #fff;
-        background-color: #000000;
-    }
-`;
-
-export const Icon = styled.i`
-    position: relative;
-    display: table-cell;
-    width: 55px;
-    height: 36px;
-    text-align: center;
-    vertical-align: middle;
+export const MenuItemLink = styled(Link)`
+    padding: 20px 20px 20px 20px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    height: 30px;
     font-size: 18px;
-`;
-
-export const NavText = styled.span`
-    position: relative;
-    display: table-cell;
-    vertical-align: middle;
-    width: 190px;
-    font-family: 'Titillium Web', sans-serif;
-`;
-
-export const Close = styled.div`
-    left: 0;
-    transition: 350ms;
-`;
-
-export const Scrollbar = styled.div`
-    height: 90%;
-    width: 100%;
-    overflow-y: hidden;
+    margin-bottom: 5px;
+    text-decoration: none;
 
     &:hover {
-        overflow-y: scroll;
-    }
-
-    &::-webkit-scrollbar-track {
-        border-radius: 2px;
-    }
-
-    &::-webkit-scrollbar {
-        width: 5px;
-        background-color: #f7f7f7;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #bfbfbf;
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
     }
 `;
 
-export const Darkerli = styled(MenuItem)`
-    background-color: #ededed;
-    text-transform: capitalize;
+export const Icon = styled.div`
+    font-size: 20px;
 `;
 
-export const Darkerlishadow = styled(MenuItem)`
-    background-color: #ededed;
-    text-transform: capitalize;
-    box-shadow: inset 0px 5px 5px -4px rgba(50, 50, 50, 0.55);
+export const SidebarLabel = styled.span`
+    margin-left: 15px;
 `;
 
-export const Darkerlishadowdown = styled(MenuItem)`
-    background-color: #ededed;
-    text-transform: capitalize;
-    box-shadow: inset 0px -4px 5px -4px rgba(50, 50, 50, 0.55);
+export const Arrow = styled.div`
+    margin-left: 15px;
+    font-size: 20px;
+`;
+
+export const DropdownLink = styled(Link)`
+    padding: 10px 10px 10px 20px;
+    margin-left: 40px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #132D72;
+    border-bottom: 1px solid white;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+    }
+`;
+
+export const SubItemsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
