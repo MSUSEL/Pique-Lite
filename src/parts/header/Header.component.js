@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import { styled, alpha } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Link } from 'react-router-dom';
+import pique from '../../assets/PIQUE_png.png';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -41,9 +43,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Header = () => {
     return (
-        <AppBar position="static" sx={{ backgroundColor: '#D3D6DE' }}>
-
+        <AppBar position="fixed" sx={{ backgroundColor: '#D3D6DE', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <Toolbar>
+                <IconButton component={Link} to="/" sx={{ height: '65px', width: 'auto', mr: 2 }}>
+                    <img src={pique} alt="Logo" style={{ height: '60px', width: 'auto' }} />
+                </IconButton>
                 <div style={{ flexGrow: 1 }} />
                 <IconButton
                     edge="end"

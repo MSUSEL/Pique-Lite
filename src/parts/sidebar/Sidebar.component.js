@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { menuItemList } from './MenuItemData';
-import pique from '../../assets/PIQUE_png.png';
 import {
   Box,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Collapse,
-  IconButton,
 } from '@mui/material';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -45,10 +42,11 @@ const Sidebar = () => {
 
   return (
     <Box sx={{
-      position: 'absolute',
+      position: 'fixed',
+      top: '64px', // Assuming header height is 64px
       display: 'flex',
       flexDirection: 'column',
-      height: '100%',
+      height: 'calc(100% - 64px)', // Full height minus header height
       width: '65px',
       backgroundColor: '#D3D6DE',
       boxShadow: '1px 0 15px rgba(0, 0, 0, 0.07)',
@@ -58,12 +56,6 @@ const Sidebar = () => {
         width: '180px',
       },
     }}>
-      <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mb: 2 }}>
-        <IconButton component={Link} to="/" sx={{ height: '65px', width: 'auto' }}>
-          <img src={pique} alt="Logo" style={{ height: '60px', width: 'auto'}} />
-        </IconButton>
-        <Typography variant="h5" sx={{ ml: 1, color: '#000', fontFamily: 'Titillium Web, sans-serif' }}>PIQUE</Typography>
-      </Box>
       <List>
         {MenuItemJSX}
       </List>
