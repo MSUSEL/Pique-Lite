@@ -47,18 +47,22 @@ export const menuItemList = [
   },
   */
   {
-    title: 'Evaluate',
+    // rename this page
+    // title: 'Evaluate',
+    title: 'Upload Projects',
     path: '/evaluate',
     icon: <BsGraphUp />
-  },
-  {
-    title: 'Projects',
-    path:'/projects',
-    icon: <RiProjectorLine/>
-},
-{
-    title: 'Settings',
-    path:'/settings',
-    icon: <AiOutlineSetting/>
-}
+
+   },
+// hide the not used pages
+//   {
+//     title: 'Projects',
+//     path:'/projects',
+//     icon: <RiProjectorLine/>
+// },
+// {
+//     title: 'Settings',
+//     path:'/settings',
+//     icon: <AiOutlineSetting/>
+// }
 ]

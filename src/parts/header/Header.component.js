@@ -49,6 +49,7 @@ const Header = () => {
                     <img src={pique} alt="Logo" style={{ height: '60px', width: 'auto' }} />
                 </IconButton>
                 <div style={{ flexGrow: 1 }} />
+                {/* comment out for rn, this feature is not implemented yet
                 <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -56,7 +57,7 @@ const Header = () => {
                     color="inherit"
                 >
                     <AccountCircle />
-                </IconButton>
+                </IconButton> */}
             </Toolbar>
         </AppBar>
     );
