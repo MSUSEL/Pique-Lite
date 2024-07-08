@@ -19,30 +19,30 @@ const nodeAllColor = (score) => {
      } else if ( num > 0.2 && num <= 0.4 ){
        return {border: "1px solid black", backgroundColor: s.High.color}
      }else if ( num > 0.4 && num <= 0.6) {
-      return {border: "1px solid black", backgroundColor: s.Elevated.color}
+      return {border: "1px solid black", backgroundColor: s.Medium.color}
     }else if ( num > 0.6 && num <= 0.8) {
-      return {border: "1px solid black", backgroundColor: s.Guarded.color}
-    }else if ( num > 0.8 && num <= 1.0 ) {
       return {border: "1px solid black", backgroundColor: s.Low.color}
+    }else if ( num > 0.8 && num <= 1.0 ) {
+      return {border: "1px solid black", backgroundColor: s.Insignificant.color}
     }
     else{
       return {border: "1px solid black", backgroundColor: "grey"}
     }
   }
 
-  // change the coloe of the tree
+  // change the color of the tree
   const nodeRiskColor = (score, riskLevel) => {
     const num = Number(score);
     if (num <= 0.2 && riskLevel===s.Severe.color){
       return {border: "1px solid black", backgroundColor: s.Severe.color}
     } else if ( num > 0.2 && num <= 0.4  && riskLevel===s.High.color){
       return {border: "1px solid black", backgroundColor: s.High.color}
-    }else if ( num > 0.4 && num <= 0.6 && riskLevel===s.Elevated.color) {
-     return {border: "1px solid black", backgroundColor: s.Elevated.color}
-   }else if ( num > 0.6 && num <= 0.8 && riskLevel===s.Guarded.color) {
-     return {border: "1px solid black", backgroundColor: s.Guarded.color}
-   }else if ( num > 0.8 && num <= 1.0 && riskLevel===s.Low.color) {
+    }else if ( num > 0.4 && num <= 0.6 && riskLevel===s.Medium.color) {
+     return {border: "1px solid black", backgroundColor: s.Medium.color}
+   }else if ( num > 0.6 && num <= 0.8 && riskLevel===s.Low.color) {
      return {border: "1px solid black", backgroundColor: s.Low.color}
+   }else if ( num > 0.8 && num <= 1.0 && riskLevel===s.Insignificant.color) {
+     return {border: "1px solid black", backgroundColor: s.Insignificant.color}
    }
    else{
      return {border: "1px solid black", backgroundColor: "grey"}

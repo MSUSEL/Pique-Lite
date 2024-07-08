@@ -10,14 +10,12 @@ import MainView from './parts/mainview/Mainview.component';
 
 const App = ({toggle}) => {
   return (
-    <ViewportProvider>
       <s.AppGrid hidden={toggle}>
         <s.Headernav><Header/></s.Headernav>
-          {toggle ? null : <s.Sidenav><Sidebar/></s.Sidenav>}
+         <s.Sidenav><Sidebar/></s.Sidenav>
         <s.Mainview><MainView/></s.Mainview>
         <s.FooterContainer></s.FooterContainer>
       </s.AppGrid>
-    </ViewportProvider>
   )
 }
 

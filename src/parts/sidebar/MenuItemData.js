@@ -5,6 +5,7 @@ import {RiProjectorLine} from 'react-icons/ri'
 import {CgListTree} from 'react-icons/cg'
 import {IoMdArrowDropdown} from 'react-icons/io';
 import {IoMdArrowDropup} from 'react-icons/io'
+import { BsGraphUp } from "react-icons/bs";
 import React from 'react';
 
 export const menuItemList = [
@@ -13,43 +14,51 @@ export const menuItemList = [
         path:'/',
         icon: <AiOutlineDashboard/>
     },
-    {
-        title: 'Visualize',
-        path:'/visualize',
-        icon: <BsBarChart/>,
-        dropdownOpened: <IoMdArrowDropup/>,
-        dropdownClosed: <IoMdArrowDropdown/>,
-        subItems: [
-            {
-                title: 'Define',
-                path: '/define',
-                icon: <CgListTree/>
-            },
-            {
-                title: 'Calibrate',
-                path: '/calibrate',
-                icon: <CgListTree/>
-            },
-            {
-                title: 'Evaluate',
-                path: '/evaluate',
-                icon: <CgListTree/>
-            },
-            {
-                title: 'Assess',
-                path: '/assess',
-                icon: <CgListTree/>
-            },
-        ]    
-    },
-    {
-        title: 'Projects',
-        path:'/projects',
-        icon: <RiProjectorLine/>
-    },
-    {
-        title: 'Settings',
-        path:'/settings',
-        icon: <AiOutlineSetting/>
-    }
+  // Commenting out Visualize and its sub-items
+  /*
+  {
+    title: 'Visualize',
+    path:'/visualize',
+    icon: <BsBarChart />,
+    dropdownOpened: <IoMdArrowDropup />,
+    dropdownClosed: <IoMdArrowDropdown />,
+    subItems: [
+      {
+        title: 'Define',
+        path: '/define',
+        icon: <CgListTree/>
+      },
+      {
+        title: 'Calibrate',
+        path: '/calibrate',
+        icon: <CgListTree/>
+      },
+      {
+        title: 'Evaluate',
+        path: '/evaluate',
+        icon: <CgListTree/>
+      },
+      {
+        title: 'Assess',
+        path: '/assess',
+        icon: <CgListTree/>
+      },
+    ]
+  },
+  */
+  {
+    title: 'Evaluate',
+    path: '/evaluate',
+    icon: <BsGraphUp />
+  },
+  {
+    title: 'Projects',
+    path:'/projects',
+    icon: <RiProjectorLine/>
+},
+{
+    title: 'Settings',
+    path:'/settings',
+    icon: <AiOutlineSetting/>
+}
 ]

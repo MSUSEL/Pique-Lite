@@ -1,13 +1,12 @@
 import React from 'react';
-import {CardWrapper, ScoreWrapper, Icon } from './RiskCard.styles';
+import { CardWrapper, ScoreWrapper, Icon } from './RiskCard.styles';
 
-const RiskCard = ({title, score, color, icon}) => {
-    console.log("this is my color", color)
+const RiskCard = ({ title, score, color, icon, fontColor }) => {
     return (
         <CardWrapper color={color}>
             <Icon>{icon}</Icon>
-            <h3>{title}</h3>
-            <ScoreWrapper >{score}</ScoreWrapper>
+            <h3 style={{ color: fontColor }}>{title}</h3>
+            <ScoreWrapper>{score}</ScoreWrapper>
         </CardWrapper>
     )
 }
