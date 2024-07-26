@@ -195,7 +195,7 @@ export const RiskCardGroupWrapper = styled.div`
     display: flex; 
     flex-wrap: wrap; 
     gap: 20px; 
-    margin-top: -2vh;
+    margin-top: 6vh;
     margin-bottom: 2vh;
 `;
 

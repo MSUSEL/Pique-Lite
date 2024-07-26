@@ -1,26 +1,18 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import * as s from './App.styles'
-import Header from './parts/header/Header.component'
-import { selectHeaderToggle } from './redux/headerToggle/headerToggle.selector'
-import ViewportProvider from './ViewportContext'
-import Sidebar from './parts/sidebar/Sidebar.component'
+import React from 'react';
+import * as s from './App.styles';
+import Header from './parts/header/Header.component';
+import Sidebar from './parts/sidebar/Sidebar.component';
 import MainView from './parts/mainview/Mainview.component';
 
-const App = ({toggle}) => {
+const App = () => {
   return (
-      <s.AppGrid hidden={toggle}>
-        <s.Headernav><Header/></s.Headernav>
-         <s.Sidenav><Sidebar/></s.Sidenav>
-        <s.Mainview><MainView/></s.Mainview>
-        <s.FooterContainer></s.FooterContainer>
-      </s.AppGrid>
-  )
-}
+    <s.AppContainer>
+      <s.Headernav><Header /></s.Headernav>
+      <s.Sidenav><Sidebar /></s.Sidenav>
+      <s.MainView><MainView /></s.MainView>
+      <s.FooterContainer />
+    </s.AppContainer>
+  );
+};
 
-const mapStateToProps = createStructuredSelector({
-  toggle: selectHeaderToggle
-})
-
-export default connect(mapStateToProps)(App);
+export default App;

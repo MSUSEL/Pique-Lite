@@ -183,9 +183,9 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         <DashboardGrid>
             <Header>
                 <HeaderTopRow>
-                    <LogoIcon src={cisa} />
+                    {/* <LogoIcon src={cisa} />
                     <h1>PIQUE LITE</h1>
-                    <PiqueIcon src={pique} />
+                    <PiqueIcon src={pique} /> */}
                 </HeaderTopRow>
                 <RiskCardGroupWrapper>{riskCard}</RiskCardGroupWrapper>
             </Header>

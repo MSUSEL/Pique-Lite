@@ -1,45 +1,46 @@
-import styled, {css} from 'styled-components';
-const withbar = css`
-grid-template-columns: 240px 1fr;
-`
+import styled from 'styled-components';
 
-const withoutbar = css`
-grid-template-columns: 0 1fr;
-`
+export const AppContainer = styled.div`
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+`;
 
-const getShowBar = props => {
-    if (props.hidden) {
-    return withoutbar
-    }
-
-    return withbar
-};
-
-export const AppGrid= styled.div`
-    display: grid;
-    ${getShowBar}
-    grid-template-rows: 50px 1fr 50px;
-    grid-template-areas:
-    "sidenav headernav"
-    "sidenav mainview"
-    "sidenav footer";
-    height: 100vh;
-`
 export const Headernav = styled.div`
-    grid-area: headernav;
-    background-color: #B9B7BD;
-`
-export const Sidenav = styled.div`
-    grid-area: sidenav;
-    background-color: #134e6f;
-`
+  position: absolute;
+  top: 0;
+  left:
+  width: 100%;
+  height: 50px;
+  background-color: #B9B7BD;
+  z-index: 3;
+`;
 
-export const Mainview = styled.div`
-    grid-area: mainview;
-    background-color: #dee0e6 ;
-`
+export const Sidenav = styled.div`
+  position: absolute;
+  top: 50px;
+  left: -0.5vw;
+  width: 240px;
+  height: calc(100vh - 100px); /* Full height minus header and footer */
+  background-color: transparent;
+  z-index: 2;
+`;
+
+export const MainView = styled.div`
+  position: absolute;
+  top: 5vh;
+  left: 5.5vh;
+  width: 100%;
+  height: 100%;
+  background-color: #dee0e6;
+  z-index: 1;
+`;
 
 export const FooterContainer = styled.div`
-    grid-area: footer;
-    background-color: #B9B7BD ;
-`
+  position: absolute;
+  bottom: -2vh;
+  width: 110%;
+  height: 50px;
+  background-color: #B9B7BD;
+  z-index: 1.5;
+`;
