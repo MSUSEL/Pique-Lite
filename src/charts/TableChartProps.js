@@ -1,6 +1,6 @@
 import { title, data } from '../dashboard-data-files/SampleData';
 
-export const width = '600px';
+export const width = '10px';
 export const height = '400px';
 export const chartType = "Table";
 export const showButton = true;
@@ -11,6 +11,6 @@ export const options = {
   curveType: "function",
   legend: { position: "bottom" },
   allowHtml: true,
-  width: '100%', 
+  width: '200%', 
   height: '90%',
 };

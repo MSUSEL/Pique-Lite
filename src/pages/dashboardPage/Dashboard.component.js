@@ -1,5 +1,5 @@
-import React from 'react';
-import { DashboardGrid, RiskCardGroupWrapper, CardGroupWrapper, GroupWrapper, Group, Header, HeaderTopRow, PiqueIcon, LogoIcon } from './Dashboard.styles';
+import React, { useState } from 'react';
+import { DashboardGrid, RiskCardGroupWrapper, CardGroupWrapper, GroupWrapper, Group, Header, HeaderTopRow } from './Dashboard.styles';
 import MainHeader from '../../components/mainHeader/MainHeader.component';
 import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
@@ -15,39 +15,48 @@ import { RiSecurePaymentLine } from 'react-icons/ri';
 import { CgDanger } from 'react-icons/cg';
 import pique from '../../assets/PIQUE_png.png';
 import cisa from '../../assets/CISA.png';
-import { data } from '../../dashboard-data-files/CalenderData';
+import HeatMap from '@uiw/react-heat-map';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import { styled } from '@mui/material/styles';
 
 const Dashboard = ({ projects, riskList, quarters }) => {
+    const [selectedDate, setSelectedDate] = useState('');
+
     const riskLevelOptions = [
         {
             label: 'Severe',
             value: '#FEEBEC',
             icon: <IoSkullOutline />,
-            fontColor: '#cb0032'
+            fontColor: '#cb0032',
+            range: '0 - 0.2'
         },
         {
             label: 'High',
             value: '#FFEFD6',
             icon: <RiAlarmWarningLine />,
-            fontColor: '#CC4E00'
+            fontColor: '#CC4E00',
+            range: '0.2 - 0.4'
         },
         {
             label: 'Medium',
             value: '#FFFAB8',
             icon: <CgDanger />,
-            fontColor: '#9E6C00'
+            fontColor: '#9E6C00',
+            range: '0.4 - 0.6'
         },
         {
             label: 'Low',
             value: '#E6F4FE',
             icon: <ImWarning />,
-            fontColor: '#0C73CE'
+            fontColor: '#0C73CE',
+            range: '0.6 - 0.8'
         },
         {
             label: 'Insignificant',
             value: '#E6F6EB',
             icon: <RiSecurePaymentLine />,
-            fontColor: '#1E8255'
+            fontColor: '#1E8255',
+            range: '0.8 - 1'
         }
     ];
 
@@ -84,58 +93,50 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         return binData;
     };
 
-    // get variable for calendar chart
-    const calWidth = '1000px';
-    const calHeight = '180px';
-    const calChartType = 'Calendar';
-    const showCalButton = false;
-    const inputData = data;
+    // Hard-coded data for HeatMap
+    const heatMapData = [
+        { date: '2024-01-01', count: 10 },
+        { date: '2024-01-02', count: 20 },
+        { date: '2024-01-03', count: 105 },
+        { date: '2024-01-10', count: 5 },
+        { date: '2024-01-15', count: 25 },
+        { date: '2024-01-20', count: 30 },
+        { date: '2024-02-01', count: 8 },
+        { date: '2024-02-10', count: 12 },
+        { date: '2024-02-15', count: 18 },
+        { date: '2024-03-01', count: 22 },
+        { date: '2024-03-10', count: 14 },
+        { date: '2025-07-10', count: 14 }
+    ].map(({ date, count }) => ({
+        date: new Date(date),
+        value: count
+    }));
 
-    const calOptions = {
-        title: getTitle() + ' Score',
-        calendar: {
-            cellColor: {
-                stroke: 'grey',      // Color the border of the squares.
-                strokeOpacity: 0.5, // Make the borders half transparent.
-                strokeWidth: 2      // ...and two pixels thick.
-            },
-            cellSize: '15',
-            dayOfWeekLabel: {
-                fontName: 'Times-Roman',
-                fontSize: 12,
-                color: 'black',
-                bold: false,
-                italic: true
-            },
-            focusedCellColor: {
-                stroke: 'red',
-                strokeOpacity: 0.8,
-                strokeWidth: 3
-            },
-            monthOutlineColor: {
-                stroke: '#226192',
-                strokeOpacity: 0.8,
-                strokeWidth: 2
-            },
-            underYearSpace: 10, // Bottom padding for the year labels.
-            yearLabel: {
-                fontName: 'Times-Roman',
-                fontSize: 32,
-                color: '#132D72',
-                bold: true,
-                italic: true
-            }
+    const CustomTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} placement="top" arrow />
+    ))(({ theme, bgcolor, fontcolor }) => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+            backgroundColor: bgcolor,
+            color: fontcolor,
+            boxShadow: theme.shadows[1],
+            fontSize: 14,
         },
-        colorAxis: { colors: ['#ff6150', '#38b24d'] }
-    };
+        [`& .${tooltipClasses.arrow}`]: {
+            color: bgcolor,
+        }
+    }));
 
-    const card = riskList.map((file, index) => {
-        return (<RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index} />);
-    });
+    const riskCard = riskLevelOptions.map((item, index) => (
+        <CustomTooltip title={item.range} bgcolor={item.value} fontcolor={item.fontColor} key={index}>
+            <div>
+                <RiskCard title={item.label} color={item.value} icon={item.icon} fontColor={item.fontColor} />
+            </div>
+        </CustomTooltip>
+    ));
 
-    const riskCard = riskLevelOptions.map((item, index) => {
-        return (<RiskCard title={item.label} color={item.value} icon={item.icon} fontColor={item.fontColor} key={index} />);
-    });
+    const card = riskList.map((file, index) => (
+        <RiskCard title={file.qaName} score={file.qaValue} color={file.qaColor} icon={file.qaIcon} key={index} />
+    ));
 
     const getTableChartOptions = () => {
         let options = {
@@ -189,15 +190,27 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                 </HeaderTopRow>
                 <RiskCardGroupWrapper>{riskCard}</RiskCardGroupWrapper>
             </Header>
-            
-            <MainHeader
-                width={calWidth}
-                height={calHeight}
-                data={inputData}
-                chartType={calChartType}
-                options={calOptions}
-                showButton={showCalButton}
-            />
+
+            <GroupWrapper style={{ justifyContent: 'flex-end' }}>
+                <div style={{ width: '1000px', height: '300px', backgroundColor: 'white', padding: '20px' }}>
+                    <HeatMap
+                        width={800}
+                        value={heatMapData}
+                        startDate={new Date('2024-01-01')}
+                        rectRender={(props, data) => {
+                            if (selectedDate !== '') {
+                                props.opacity = data.date === selectedDate ? 1 : 0.45
+                            }
+                            return (
+                                <rect {...props} onClick={() => {
+                                    setSelectedDate(data.date === selectedDate ? '' : data.date);
+                                }} />
+                            );
+                        }}
+                    />
+                </div>
+            </GroupWrapper>
+
             <div>
                 {projects ? (
                     <div>
