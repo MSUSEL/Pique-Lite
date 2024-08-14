@@ -13,14 +13,13 @@ import { ImWarning } from 'react-icons/im';
 import { RiAlarmWarningLine } from 'react-icons/ri';
 import { RiSecurePaymentLine } from 'react-icons/ri';
 import { CgDanger } from 'react-icons/cg';
-import pique from '../../assets/PIQUE_png.png';
-import cisa from '../../assets/CISA.png';
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 
 const Dashboard = ({ projects, riskList, quarters }) => {
     const [selectedDate, setSelectedDate] = useState('');
+    const [legendSize, setLegendSize] = useState(0);
 
     const riskLevelOptions = [
         {
@@ -97,7 +96,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
     const heatMapData = [
         { date: '2024-01-01', count: 10 },
         { date: '2024-01-02', count: 20 },
-        { date: '2024-01-03', count: 105 },
+        { date: '2024-01-03', count: 15 },
         { date: '2024-01-10', count: 5 },
         { date: '2024-01-15', count: 25 },
         { date: '2024-01-20', count: 30 },
@@ -183,11 +182,6 @@ const Dashboard = ({ projects, riskList, quarters }) => {
     return (
         <DashboardGrid>
             <Header>
-                <HeaderTopRow>
-                    {/* <LogoIcon src={cisa} />
-                    <h1>PIQUE LITE</h1>
-                    <PiqueIcon src={pique} /> */}
-                </HeaderTopRow>
                 <RiskCardGroupWrapper>{riskCard}</RiskCardGroupWrapper>
             </Header>
 
@@ -197,6 +191,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                         width={800}
                         value={heatMapData}
                         startDate={new Date('2024-01-01')}
+                        legendCellSize={legendSize}
                         rectRender={(props, data) => {
                             if (selectedDate !== '') {
                                 props.opacity = data.date === selectedDate ? 1 : 0.45
