@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { DashboardGrid, RiskCardGroupWrapper, CardGroupWrapper, GroupWrapper, Group, Header } from './Dashboard.styles';
-import MainHeader from '../../components/mainHeader/MainHeader.component';
-import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
 import PiqueChart from '../../charts/PiqueChart.component';
 import { createStructuredSelector } from 'reselect';
@@ -59,11 +57,8 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         }
     ];
 
-    // variables for line chart
-    const lineChartWidth = '600px';
-    const lineChartHeight = '400px';
-    const lineChartType = 'LineChart';
-    const showButton = true;
+    const lineChartWidth = '100%';
+    const lineChartHeight = '100%';
 
     const getTitle = () => {
         let lineChartTitle = '';
@@ -73,20 +68,17 @@ const Dashboard = ({ projects, riskList, quarters }) => {
 
     const getlineChartOptions = () => {
         return {
-            title: getTitle(),
-            hAxis: { title: `${getTitle()} Version`, minValue: 0, maxValue: 1 },
-            vAxis: { title: `${getTitle()} Score`, minValue: 0, maxValue: 1 },
-            legend: 'none',
-            colors: ['#226192', '#004411'],
-            backgroundColor: 'white',
+            xAxisKey: 'version',
+            yAxisKey: 'score',
         };
     };
 
     const getBinData = () => {
         let binData = [];
-        binData.push(["version", "score"]);
-        projects.map((file, index) => file["versionNumber"] = index + 1);
-        projects.map((file) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
+        projects.map((file, index) => {
+            file["versionNumber"] = index + 1;
+            binData.push({ version: `v${file.versionNumber}`, score: file.fileContent.value });
+        });
         return binData;
     };
 
@@ -118,12 +110,8 @@ const Dashboard = ({ projects, riskList, quarters }) => {
 
     const getTableChartOptions = () => {
         return {
-            title: getTitle(),
-            curveType: "function",
-            legend: { position: "bottom" },
-            allowHtml: true,
-            width: '100%',
-            height: '90%',
+            xAxisKey: 'name',
+            yAxisKey: 'score',
         };
     };
 
@@ -131,32 +119,16 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         let data = [];
         if (projects != null) {
             let files = projects.filter(file => file["QuarterNumber"] != null);
-            let scores = ["Score"];
-            quarters.map(q => scores.push(q));
-            let tqi = ["TQI"];
-            files.map(f => tqi.push({ v: f.fileContent["value"] }));
-            let size = 0;
-            files.map(f => size = f.fileContent.children.length);
-            data.push(scores);
-            data.push(tqi);
-            let names = [];
-            let kids = [];
-            files.map(file => kids.push(file.fileContent.children));
-            for (let i = 0; i < size; i++) {
-                names.push(kids[0][i].name);
-            }
-            for (let i = 0; i < size; i++) {
-                let arr = [];
-                arr.push(names[i]);
-                files.map(f => arr.push({ v: parseFloat(f.fileContent.children[i].value).toFixed(3) }));
-                data.push(arr);
-            }
+            files.map(f => f.fileContent.children.forEach(child => data.push({
+                name: child.name,
+                score: parseFloat(child.value).toFixed(3),
+            })));
         }
         return data;
     };
 
     return (
-        <DashboardGrid>
+        <DashboardGrid style={{ minHeight: '250vh', paddingBottom: '50px' }}>
             <Header>
                 <RiskCardGroupWrapper>{riskCard}</RiskCardGroupWrapper>
             </Header>
@@ -200,19 +172,17 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                             height={lineChartHeight}
                             data={getBinData()}
                             options={getlineChartOptions()}
-                            chartType={lineChartType}
-                            showButton={showButton}
+                            showButton={true}
                         />
                     ) : null}
                 </Group>
                 <Group>
                     <PiqueChart
-                        width={TableChartProps.width}
-                        height={TableChartProps.height}
+                        width="100%"
+                        height={400}
                         data={projects ? getTableChartData() : null}
                         options={getTableChartOptions()}
-                        chartType={TableChartProps.chartType}
-                        showButton={TableChartProps.showButton}
+                        showButton={false}
                     />
                 </Group>
             </GroupWrapper>
