@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DashboardGrid, RiskCardGroupWrapper, CardGroupWrapper, GroupWrapper, Group, Header, HeaderTopRow } from './Dashboard.styles';
+import { DashboardGrid, RiskCardGroupWrapper, CardGroupWrapper, GroupWrapper, Group, Header } from './Dashboard.styles';
 import MainHeader from '../../components/mainHeader/MainHeader.component';
 import * as TableChartProps from '../../charts/TableChartProps';
 import RiskCard from '../../components/riskCard/RiskCard.component';
@@ -10,12 +10,12 @@ import { connect } from 'react-redux';
 import ArrowButton from '../../components/arrowButton/ArrowButton.component';
 import { IoSkullOutline } from 'react-icons/io5';
 import { ImWarning } from 'react-icons/im';
-import { RiAlarmWarningLine } from 'react-icons/ri';
-import { RiSecurePaymentLine } from 'react-icons/ri';
+import { RiAlarmWarningLine, RiSecurePaymentLine } from 'react-icons/ri';
 import { CgDanger } from 'react-icons/cg';
 import HeatMap from '@uiw/react-heat-map';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
+import { heatMapData } from '../../dashboard-data-files/CalenderData';
 
 const Dashboard = ({ projects, riskList, quarters }) => {
     const [selectedDate, setSelectedDate] = useState('');
@@ -67,49 +67,28 @@ const Dashboard = ({ projects, riskList, quarters }) => {
 
     const getTitle = () => {
         let lineChartTitle = '';
-        projects.map((file, index) => lineChartTitle = file.fileContent.name);
+        projects.map((file) => lineChartTitle = file.fileContent.name);
         return lineChartTitle;
     };
 
     const getlineChartOptions = () => {
-        let options = {
+        return {
             title: getTitle(),
-            hAxis: { title: getTitle() + ' ' + 'Version', minValue: 0, maxValue: 1 },
-            vAxis: { title: getTitle() + ' ' + 'Score', minValue: 0, maxValue: 1 },
+            hAxis: { title: `${getTitle()} Version`, minValue: 0, maxValue: 1 },
+            vAxis: { title: `${getTitle()} Score`, minValue: 0, maxValue: 1 },
             legend: 'none',
             colors: ['#226192', '#004411'],
-            backgroundColor: 'white'
+            backgroundColor: 'white',
         };
-        return options;
     };
 
-    // get the bin data from uploaded files
     const getBinData = () => {
         let binData = [];
         binData.push(["version", "score"]);
         projects.map((file, index) => file["versionNumber"] = index + 1);
-        projects.map((file, index) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
+        projects.map((file) => binData.push([`v${file.versionNumber}`, file.fileContent.value]));
         return binData;
     };
-
-    // Hard-coded data for HeatMap
-    const heatMapData = [
-        { date: '2024-01-01', count: 10 },
-        { date: '2024-01-02', count: 20 },
-        { date: '2024-01-03', count: 15 },
-        { date: '2024-01-10', count: 5 },
-        { date: '2024-01-15', count: 25 },
-        { date: '2024-01-20', count: 30 },
-        { date: '2024-02-01', count: 8 },
-        { date: '2024-02-10', count: 12 },
-        { date: '2024-02-15', count: 18 },
-        { date: '2024-03-01', count: 22 },
-        { date: '2024-03-10', count: 14 },
-        { date: '2025-07-10', count: 14 }
-    ].map(({ date, count }) => ({
-        date: new Date(date),
-        value: count
-    }));
 
     const CustomTooltip = styled(({ className, ...props }) => (
         <Tooltip {...props} classes={{ popper: className }} placement="top" arrow />
@@ -122,7 +101,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         },
         [`& .${tooltipClasses.arrow}`]: {
             color: bgcolor,
-        }
+        },
     }));
 
     const riskCard = riskLevelOptions.map((item, index) => (
@@ -138,7 +117,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
     ));
 
     const getTableChartOptions = () => {
-        let options = {
+        return {
             title: getTitle(),
             curveType: "function",
             legend: { position: "bottom" },
@@ -146,18 +125,15 @@ const Dashboard = ({ projects, riskList, quarters }) => {
             width: '100%',
             height: '90%',
         };
-        return options;
     };
 
     const getTableChartData = () => {
         let data = [];
         if (projects != null) {
             let files = projects.filter(file => file["QuarterNumber"] != null);
-            let scores = [];
-            scores.push("Score");
+            let scores = ["Score"];
             quarters.map(q => scores.push(q));
-            let tqi = [];
-            tqi.push("TQI");
+            let tqi = ["TQI"];
             files.map(f => tqi.push({ v: f.fileContent["value"] }));
             let size = 0;
             files.map(f => size = f.fileContent.children.length);
@@ -189,12 +165,12 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                 <div style={{ width: '1000px', height: '300px', backgroundColor: 'white', padding: '20px' }}>
                     <HeatMap
                         width={800}
-                        value={heatMapData}
-                        startDate={new Date('2024-01-01')}
+                        value={heatMapData} 
+                        startDate={new Date('2021-01-01')}
                         legendCellSize={legendSize}
                         rectRender={(props, data) => {
                             if (selectedDate !== '') {
-                                props.opacity = data.date === selectedDate ? 1 : 0.45
+                                props.opacity = data.date === selectedDate ? 1 : 0.45;
                             }
                             return (
                                 <rect {...props} onClick={() => {
