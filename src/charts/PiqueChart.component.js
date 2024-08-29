@@ -1,34 +1,40 @@
-import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import EditorButton from '../components/editorButtion/EditorButton.component';
+import React, { useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 
-const PiqueChart = ({ data, width, height, options, showButton }) => {
-    const [chartData, setChartData] = React.useState(data);
+const PiqueChart = ({ data, width, height, options }) => {
+    const [chartType, setChartType] = useState('line'); // State to toggle between 'line' and 'radar'
 
-    const handleEditData = () => {
-        // Logic for editing chart data can be implemented here
-        console.log('Edit Data button clicked');
+    const toggleChartType = () => {
+        setChartType(chartType === 'line' ? 'radar' : 'line');
     };
 
     return (
         <div>
-            {showButton && (
-                <EditorButton onClick={handleEditData}>
-                    Edit Data
-                </EditorButton>
-            )}
-            <ResponsiveContainer width={width} height={height}>
-                <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey={options.xAxisKey || 'name'} />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey={options.yAxisKey || 'value'} stroke="#8884d8" />
-                </LineChart>
+            <button onClick={toggleChartType}>
+                Toggle to {chartType === 'line' ? 'RadarChart' : 'LineChart'}
+            </button>
+            <ResponsiveContainer width={600} height={600}>
+                {chartType === 'line' ? (
+                    <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey={options.xAxisKey || 'name'} />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey={options.yAxisKey || 'value'} stroke="#8884d8" />
+                    </LineChart>
+                ) : (
+                    <RadarChart data={data}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey={options.xAxisKey || 'name'} />
+                        <PolarRadiusAxis />
+                        <Radar name="Score" dataKey={options.yAxisKey || 'value'} stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                        <Tooltip />
+                    </RadarChart>
+                )}
             </ResponsiveContainer>
         </div>
     );
-}
+};
 
 export default PiqueChart;

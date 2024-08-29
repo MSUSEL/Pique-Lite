@@ -19,6 +19,26 @@ const Dashboard = ({ projects, riskList, quarters }) => {
     const [selectedDate, setSelectedDate] = useState('');
     const [legendSize, setLegendSize] = useState(0);
 
+    const parseData = (data) => {
+        let result = [];
+        
+        const traverse = (node, depth = 0) => {
+            if (node.value !== undefined && node.name !== undefined) {
+                result.push({
+                    name: node.name,
+                    value: node.value,
+                    depth: depth,
+                });
+            }
+            if (node.children) {
+                node.children.forEach(child => traverse(child, depth + 1));
+            }
+        };
+        
+        traverse(data);
+        return result;
+    };
+    
     const riskLevelOptions = [
         {
             label: 'Severe',
@@ -57,29 +77,18 @@ const Dashboard = ({ projects, riskList, quarters }) => {
         }
     ];
 
-    const lineChartWidth = '100%';
-    const lineChartHeight = '100%';
-
-    const getTitle = () => {
-        let lineChartTitle = '';
-        projects.map((file) => lineChartTitle = file.fileContent.name);
-        return lineChartTitle;
-    };
-
     const getlineChartOptions = () => {
         return {
-            xAxisKey: 'version',
-            yAxisKey: 'score',
+            xAxisKey: 'name',
+            yAxisKey: 'value',
         };
     };
 
     const getBinData = () => {
-        let binData = [];
-        projects.map((file, index) => {
-            file["versionNumber"] = index + 1;
-            binData.push({ version: `v${file.versionNumber}`, score: file.fileContent.value });
-        });
-        return binData;
+        return projects.map((file, index) => ({
+            name: `v${index + 1}`,
+            value: file.fileContent.value
+        }));
     };
 
     const CustomTooltip = styled(({ className, ...props }) => (
@@ -111,30 +120,31 @@ const Dashboard = ({ projects, riskList, quarters }) => {
     const getTableChartOptions = () => {
         return {
             xAxisKey: 'name',
-            yAxisKey: 'score',
+            yAxisKey: 'value',
         };
     };
 
     const getTableChartData = () => {
         let data = [];
         if (projects != null) {
-            let files = projects.filter(file => file["QuarterNumber"] != null);
-            files.map(f => f.fileContent.children.forEach(child => data.push({
-                name: child.name,
-                score: parseFloat(child.value).toFixed(3),
-            })));
+            projects.forEach(file => file.fileContent.children.forEach(child => {
+                data.push({
+                    name: child.name,
+                    value: parseFloat(child.value).toFixed(3),
+                });
+            }));
         }
         return data;
     };
 
     return (
-        <DashboardGrid style={{ minHeight: '250vh', paddingBottom: '50px' }}>
+        <DashboardGrid style={{ minHeight: '100vh' }}>
             <Header>
                 <RiskCardGroupWrapper>{riskCard}</RiskCardGroupWrapper>
             </Header>
 
             <GroupWrapper style={{ justifyContent: 'flex-end' }}>
-                <div style={{ width: '1000px', height: '300px', backgroundColor: 'white', padding: '20px' }}>
+                <div>
                     <HeatMap
                         width={800}
                         value={heatMapData} 
@@ -164,15 +174,14 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                     </div>
                 ) : null}
             </div>
-            <GroupWrapper>
+            <GroupWrapper style={{paddingBottom: "500px"}}>
                 <Group>
                     {projects ? (
                         <PiqueChart
-                            width={lineChartWidth}
-                            height={lineChartHeight}
-                            data={getBinData()}
+                            width={600}
+                            height={400}
+                            data={parseData({ name: 'Projects', children: projects })}
                             options={getlineChartOptions()}
-                            showButton={true}
                         />
                     ) : null}
                 </Group>
@@ -182,7 +191,6 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                         height={400}
                         data={projects ? getTableChartData() : null}
                         options={getTableChartOptions()}
-                        showButton={false}
                     />
                 </Group>
             </GroupWrapper>

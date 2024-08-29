@@ -5,7 +5,7 @@ import EditorButton from '../../../components/editorButtion/EditorButton.compone
 const NeighborNodes = ({setNeighbornodes}) => {
     return (
         <div>
-            <EditorButton onClick={() => {setNeighbornodes()}}>Collase Nodes</EditorButton>
+            <EditorButton onClick={() => {setNeighbornodes()}}>Collapse Nodes</EditorButton>
         </div>
     )
 }

@@ -1,31 +1,24 @@
 import React from 'react';
 import { Grid, TreeEditor, TreeView } from './Evalute.styles';
 import TreeEditorComponent from '../../../components/treeEditor/TreeEditor.component';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectTree } from '../../../redux/piqueTree/PiqueTree.selector';
-import TreeVisualizer from '../../../components/treeVisualizer/TreeVisualizer.component'
+import TreeVisualizer from '../../../components/treeVisualizer/TreeVisualizer.component';
 
-const Evaluate = ({tree}) => {
-    const [showEditor, setShowEditor] = React.useState(false);
-    const showButton = () => setShowEditor(!showEditor);
+const Evaluate = ({ tree }) => {
     return (
-        <Grid isOpen={showEditor}>
+        <Grid isOpen={true}> {/* 'isOpen' prop can be set to true, or simply remove if not needed */}
             <TreeEditor>
-                <TreeEditorComponent/>
+                <TreeEditorComponent />
             </TreeEditor>
-            <TreeView>
-                <button onClick={showButton}>
-                    {showEditor ? "Close Editor" : "Open Editor"}
-                </button>
-                {tree ? <TreeVisualizer/> : null}
-            </TreeView>
+                {tree ? <TreeVisualizer /> : null}
         </Grid>
-    )
-}
+    );
+};
 
 const mapStateToProps = createStructuredSelector({
     tree: selectTree
-})
+});
 
 export default connect(mapStateToProps)(Evaluate);
