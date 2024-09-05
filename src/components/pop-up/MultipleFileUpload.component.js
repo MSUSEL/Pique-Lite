@@ -8,7 +8,7 @@ import { LoaderWrapper, Label, Input, SubmitButton, ResetButton} from './Multipl
 import { selectProjects, selectQuarters, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import { Line } from 'rc-progress';
 import { Green } from '../../utils/color';
-
+import { Snackbar, Slide, Button } from '@mui/material';
 import FormInput from '../formInput/FormInput.component';
 import { useAlert } from 'react-alert'
 
@@ -21,6 +21,8 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
     const [quarterFiles, setQuarterFiles] = React.useState([]);
     const [submitting, setSubmitting] = React.useState(false);
     const [file, setFile] = React.useState(null);
+    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
     const handleUpload = async (e) => {
         let allFiles = [];
@@ -52,21 +54,34 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
         return checker;
     }
 
+    const showSnackbar = (message) => {
+        setSnackbarMessage(message);
+        setOpenSnackbar(true);
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const SlideTransition = (props) => {
+        return <Slide {...props} direction="up" />;
+    };
+
     //validates inputs
     const handleValidation = () => {
-        if (quarterFiles === null ) {
-            alert.show("You must select a file to upload!");
+        if (quarterFiles === null) {
+            showSnackbar("You must select a file to upload!");
         } 
         if (quarterNumber === '') {
-            alert.show(" you mush enter a quarter number")
+            showSnackbar("You must enter a quarter number");
         }
         if (checkFileInProjects(projects, quarterFiles)) {
-            alert.show("These files already exist, please select a different one")
+            showSnackbar("These files already exist, please select a different one");
         }
         if (quarters.includes(quarterNumber)) {
-            alert.show("this quarter number already exists, please give it a different quarter number")
+            showSnackbar("This quarter number already exists, please give it a different quarter number");
         }
-    }
+    };
 
 
      // onClick to setprojects setVersions
@@ -127,6 +142,22 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
                     })
                 ) : null}
 
+            <Snackbar
+                open={openSnackbar}
+                onClose={handleCloseSnackbar}
+                TransitionComponent={SlideTransition}
+                message={snackbarMessage}
+                autoHideDuration={3000}
+                action={
+                    <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+                        CLOSE
+                    </Button>
+                }
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+            />
         </div>
 
      )

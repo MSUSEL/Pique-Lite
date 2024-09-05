@@ -10,6 +10,7 @@ import {Line} from 'rc-progress';
 import { Green } from "../../utils/color";
 import { useAlert } from 'react-alert';
 import {setSingleFileContent} from '../../redux/fileInfo/FileInfo.actions'
+import { Snackbar, Slide, Button } from '@mui/material';
 
 const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSingleFileContent}) => {
     const alert = useAlert();
@@ -18,6 +19,8 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSing
     const [file, setFile] = React.useState(null);
     const [progress, setProgress] = React.useState(0);
     const [submitting, setSubmitting] = React.useState(false);
+    const [snackbarMessage, setSnackbarMessage] = React.useState('');
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
     console.log(file)
 
     // onChange for upload a single file
@@ -44,19 +47,33 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSing
     // onClick to handle submitting
     const handleSubmitting = () => {setSubmitting(!submitting)}
 
+    const showSnackbar = (message) => {
+        setSnackbarMessage(message);
+        setOpenSnackbar(true);
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    };
+
+    const SlideTransition = (props) => {
+        return <Slide {...props} direction="up" />;
+    };
+
+
     //validates inputs
     const handleValidation = () => {
         if (file === null ) {
-            alert.show("You must select a file to upload!");
+            showSnackbar("You must select a file to upload!");
         } 
         if (v === '') {
-            alert.show(" you mush enter a version number")
+            showSnackbar("You must enter a version number");
         }
         if (projects.includes(file)) {
-            alert.show("This file already exists, please select a different one")
+            showSnackbar("This file already exists, please select a different one");
         }
         if (versions.includes(v)) {
-            alert.show("this version number already exists, please give it a different version number")
+            showSnackbar("This version number already exists, please give it a different version number");
         }
     }
 
@@ -105,6 +122,22 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSing
                 {submitting ? <ResetButton onClick={handleSubmitting}>Reset</ResetButton> : null}
             </LoaderWrapper>
             {progress && submitting ? <Line percent={progress} strokeWidth="1" strokeColor={Green.value}/> : null}
+            <Snackbar
+                open={openSnackbar}
+                onClose={handleCloseSnackbar}
+                TransitionComponent={SlideTransition}
+                message={snackbarMessage}
+                autoHideDuration={3000}
+                action={
+                    <Button color="secondary" size="small" onClick={handleCloseSnackbar}>
+                        CLOSE
+                    </Button>
+                }
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+            />
         </div>
     )
 }
