@@ -20,7 +20,7 @@ export const Sidenav = styled.div`
   position: absolute;
   top: 50px;
   left: -0.5vw;
-  width: 240px;
+  width: 0px;
   height: calc(100vh - 100px); /* Full height minus header and footer */
   background-color: transparent;
   z-index: 2;

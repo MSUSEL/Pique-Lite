@@ -20,7 +20,7 @@ export const Grid = styled.div`
 
 export const TreeEditor = styled.div`
     grid-area: treeEditor;
-    background-color: ${Blue};
+    background-color: white;
 `;
 
 export const ToggleButton = styled.button`

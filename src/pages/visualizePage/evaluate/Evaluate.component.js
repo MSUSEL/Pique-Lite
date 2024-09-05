@@ -8,7 +8,7 @@ import TreeVisualizer from '../../../components/treeVisualizer/TreeVisualizer.co
 
 const Evaluate = ({ tree }) => {
     return (
-        <Grid isOpen={true}> {/* 'isOpen' prop can be set to true, or simply remove if not needed */}
+        <Grid>
             <TreeEditor>
                 <TreeEditorComponent />
             </TreeEditor>
