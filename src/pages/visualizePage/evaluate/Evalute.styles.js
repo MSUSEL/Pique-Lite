@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { Blue } from '../../../utils/color';
 
 const columnsLayoutOpen = css`
     grid-template-columns: 300px 1fr;
@@ -16,6 +15,8 @@ export const Grid = styled.div`
     "treeEditor treeView";
     height: 100vh;
     width: 200vw;
+    margin-left: -20vh;
+    margin-top: -5vh;
 `;
 
 export const TreeEditor = styled.div`

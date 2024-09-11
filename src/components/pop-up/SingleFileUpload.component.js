@@ -39,7 +39,7 @@ const SingleFileUpload = ({projects, versions, setProjects, setVersions, setSing
         if (file !== null) {
             file["versionNumber"]=e.target.value
         } else{
-            alert.show("file content is null")
+            showSnackbar("You must upload a file first!");
         }
         
     }

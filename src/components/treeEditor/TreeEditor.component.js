@@ -12,23 +12,23 @@ const TreeEditor = () => {
     const riskLevelOptions = [   
                 {
                     label: 'Severe',
-                    value: '#cb0032'
+                    value: '#FEEBEC'
                 },
                 {
                     label: 'High',
-                    value: '#ff6500'
+                    value: '#FFEFD6'
                 },
                 {
                     label: 'Medium',
-                    value: '#fde101'
+                    value: '#FFFAB8'
                 },
                 {
                     label: 'Low',
-                    value: '#3566cd'
+                    value: '#E6F4FE'
                 },
                 {
                     label: 'Insignificant',
-                    value: '#009a66'
+                    value: '#E6F6EB'
                 }  
     ]
 

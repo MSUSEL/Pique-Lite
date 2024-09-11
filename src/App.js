@@ -10,7 +10,6 @@ const App = () => {
       <s.Headernav><Header /></s.Headernav>
       <s.Sidenav><Sidebar /></s.Sidenav>
       <s.MainView><MainView /></s.MainView>
-      <s.FooterContainer />
     </s.AppContainer>
   );
 };

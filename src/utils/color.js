@@ -26,7 +26,7 @@ export const GreyBlue = '#134e6f';
 
 export const Severe = {
     name: 'Severe',
-    color: '#cb0032'
+    color: '#FEEBEC'
 }
 export const High = {
     name: 'High',
@@ -34,13 +34,13 @@ export const High = {
 };
 export const Medium = {
     name: 'Medium',
-    color: '#fde101'
+    color: '#FFFAB8'
 };
 export const Low = {
     name: 'Low',
-    color: '#3566cd'
+    color: '#E6F4FE'
 };
 export const Insignificant = {
     name: 'Insignificant',
-    color: '#009a66'
+    color: '#E6F6EB'
 }

@@ -2,7 +2,8 @@ import styled, {css} from "styled-components";
 import { Grey, DeepKoamaru, SkyBlue} from "../../utils/color";
 export const Content = styled.div`
     position: absolute;
-    margin-top: 20px;
+    margin-top: 40px;   
+    margin-left: 20vw;
     padding: 10px;
     border: 2px solid white;
     background-color: ${Grey};

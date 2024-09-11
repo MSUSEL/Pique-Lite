@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import {  setProjects, setQFiles, setQuarters, setVersions } from '../../redux/piqueTree/PiqueTree.actions';
 import { readAllFiles } from '../../utils/fileUpload.utils';
-
 import { LoaderWrapper, Label, Input, SubmitButton, ResetButton} from './MultipleFileUpload.styles';
 import { selectProjects, selectQuarters, selectVersions } from '../../redux/piqueTree/PiqueTree.selector';
 import { Line } from 'rc-progress';
@@ -11,8 +10,6 @@ import { Green } from '../../utils/color';
 import { Snackbar, Slide, Button } from '@mui/material';
 import FormInput from '../formInput/FormInput.component';
 import { useAlert } from 'react-alert'
-
-
 
 const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, versions, setVersions}) => {
     const alert = useAlert();
@@ -38,7 +35,7 @@ const MultipleFilesUpload = ({projects, setProjects, quarters, setQuarters, vers
         if (file !== null) {
             file["QuarterNumber"]=e.target.value
         } else{
-            alert.show("file content is null")
+            showSnackbar("You must upload a file first!");
         }
     }
 

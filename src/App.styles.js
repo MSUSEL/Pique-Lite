@@ -2,14 +2,11 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   position: relative;
-  height: 100vh;
   overflow: hidden;
 `;
 
 export const Headernav = styled.div`
-  position: absolute;
-  top: 0;
-  left:
+  position: relative;
   width: 100%;
   height: 50px;
   background-color: #B9B7BD;
@@ -17,30 +14,19 @@ export const Headernav = styled.div`
 `;
 
 export const Sidenav = styled.div`
-  position: absolute;
+  position: relative;
   top: 50px;
-  left: -0.5vw;
-  width: 0px;
-  height: calc(100vh - 100px); /* Full height minus header and footer */
+  margin-left: -10px;
+  width: 250px; 
   background-color: transparent;
   z-index: 2;
 `;
 
 export const MainView = styled.div`
-  position: absolute;
-  top: 5vh;
-  left: 5.5vh;
-  width: 100%;
-  height: 100%;
-  background-color: #dee0e6;
+  margin-left: 20vh;
+  padding: 1rem;
+  width: calc(100% - 250px); 
+  min-height: 100vh; 
+  background-color: white;
   z-index: 1;
-`;
-
-export const FooterContainer = styled.div`
-  position: absolute;
-  bottom: -2vh;
-  width: 110%;
-  height: 50px;
-  background-color: #B9B7BD;
-  z-index: 1.5;
 `;

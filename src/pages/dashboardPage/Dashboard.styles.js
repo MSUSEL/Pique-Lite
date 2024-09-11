@@ -199,6 +199,15 @@ export const RiskCardGroupWrapper = styled.div`
     margin-bottom: 2vh;
 `;
 
+export const RiskListGroupWrapper = styled.div`
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
+    margin-top: 6vh;
+    margin-left: 20vw;
+    margin-bottom: 2vh;
+`;
+
 export const LogoIcon = styled.img`
     width: auto;
     max-width: 150px;
