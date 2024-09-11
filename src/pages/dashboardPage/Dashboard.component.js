@@ -95,7 +95,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
             </Header>
 
             <GroupWrapper style={{ marginLeft: '15vw'}}>
-                <div>
+                {/* <div>
                     <HeatMap
                         width={800}
                         value={heatMapData}
@@ -112,7 +112,7 @@ const Dashboard = ({ projects, riskList, quarters }) => {
                             );
                         }}
                     />
-                </div>
+                </div> */}
             </GroupWrapper>
 
             <div>

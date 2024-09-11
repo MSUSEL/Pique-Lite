@@ -11,18 +11,16 @@ const PiqueChart = ({ projects, options }) => {
 
   // Function to merge and synchronize data
   const mergeData = () => {
-    const mergedData = xAxisValues.map((name) => {
-      const mergedItem = { [options.xAxisKey || 'name']: name };
+    return projects.map((project, index) => {
+      const mergedItem = { Project: `Project ${index + 1}` };
 
-      projects.forEach((project, index) => {
-        const projectData = project.data.find((item) => item[options.xAxisKey || 'name'] === name);
-        mergedItem[`Project${index + 1}`] = projectData ? projectData[options.yAxisKey || 'value'] : 0;
+      xAxisValues.forEach((name) => {
+        const characteristicData = project.data.find(item => item[options.xAxisKey || 'name'] === name);
+        mergedItem[name] = characteristicData ? characteristicData[options.yAxisKey || 'value'] : 0;
       });
 
       return mergedItem;
     });
-
-    return mergedData;
   };
 
   const mergedData = mergeData(); // Synchronize the data
@@ -33,25 +31,25 @@ const PiqueChart = ({ projects, options }) => {
 
   return (
     <div>
-      <button onClick={toggleChartType}>
+      {/* <button onClick={toggleChartType}>
         Toggle to {chartType === 'line' ? 'RadarChart' : 'LineChart'}
-      </button>
+      </button> */}
       <ResponsiveContainer width={1200} height={500}>
         {chartType === 'line' ? (
           <LineChart data={mergedData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey={options.xAxisKey || 'name'} />
+            <XAxis dataKey="Project" />
             <YAxis />
             <Tooltip />
             <Legend />
             {/* Render one Line per project with synchronized data */}
-            {projects.map((project, index) => (
+            {xAxisValues.map((char, index) => (
               <Line
                 key={index}
                 type="monotone"
-                dataKey={`Project${index + 1}`}  // Use the dynamically created project key
-                name={`Project ${index + 1}`}
-                stroke={project.color || `#${Math.floor(Math.random() * 16777215).toString(16)}`}
+                dataKey={char}
+                name={char}
+                stroke={`#${Math.floor(Math.random() * 16777215).toString(16)}`}
               />
             ))}
           </LineChart>
