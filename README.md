@@ -1,124 +1,50 @@
-# PIQUE-LITE
+# React + TypeScript + Vite
 
-An application built with React, Redux, JavaScript, HTML, and CSS used to visualize PIQUE results.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-# Table of Contents
-* About PIQUE-LITE
-* Components
-* Screenshots
-* Technologies
-* Demo-Link
-* Setup
+Currently, two official plugins are available:
 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# About PIQUE-LITE
+## Expanding the ESLint configuration
 
-PIQUE: a Platform for Investigative software Quality Understanding and Evaluation. PIQUE is a collection of library functions and runner entry points designed to support experimental software quality analysis from a language-agnostic perspective. 
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-PIQUE results are in json format. They are difficult to read, navigate, and analyze. PIQUE-LITE is created to help users simplify the PIQUE process as well as visualize and analyze PIQUE results. 
+- Configure the top-level `parserOptions` property like this:
 
-PIQUE-LITE is a React application that lets users upload PIQUE results and display the result as a hierarchical tree structure. PIQUE-LITE also allows users to upload multiple PIQUE result files at once. The resulting data will be automatically integrated into different data visualization graphs on the Dashboard. 
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-# Components
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-PIQUE-LITE contains two main components:
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
 
-**Dashboard page** is a visual display of all of PIQUE results data. Its primary purpose is to provide information at a glance, such as TQIs. The benefits of PIQUE-LITE Dashboard include:
-
-* A visual representation of performance over time with charts and graphs
-* Quick identification of data outliers and correlations
-
-**Visualize button** on the sidebar contains four main visualization features:
-
-* **Define page** will be built to have functionalities such as building PIQUE Models and returning PIQUE Models in .json format. (still needs to be developed)
-
-* **Calibrate page** will be built to have functionalities such as calibrating PIQUE Models, running PIQUE Models, and returning a derived quality model in .json format. (still needs to be developed)
-
-* **Evaluate page** is built to visualize PIQUE results in a hierarchical tree structure. This structure has six levels: TQI, Quality Aspects, Product Factors, Measures, Diagnostics, and Findings. Each node contains a name and a decimal value.
-
-* **Assess Page** will be built to have functionalities such as analyzing PIQUE results data. (still needs to be developed)
-
-
-# PIQUE-LITE Screen Shots
-
-PIQUE-LITE Dashboard
-
-![Dashboard](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard2.png)
-
-PIQUE-LITE Dashboard Data Change
-
-![Dashboard Chart Change](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Dashboard3.png)
-
-PIQUE_LITE Sidebar
-
-![Sidebar](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Sidebar.png)
-
-PIQUE-LITE Evaluate
-
-![Evaluation Page](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/evaluate.png)
-
-PIQUE-LITE Evaluate Editor
-
-![EVALUATE EDITOR](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/EditorBarFullView.png)
-
-PIQUE-LITE Evaluate Editor Upload
-
-![EVALUATE EDITOR UPLOAD](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/Screen%20Shot%202021-12-17%20at%202.18.10%20PM.png)
-
-PIQUE-LITE PIQUE Tree
-
-![PIQUE-TREE](https://github.com/MSUSEL/Pique-Lite/blob/xuying_dev/public/images/PiqueTree.png)
-
-# Technologies
-
-The technologies implemented in this project are React, React-Router-dom, React-Redux, Redux-Form, Styled-Components, React-D3-Tree, and a significant amount of VanillaJS, JSX, and CSS.
-
-# Demo Link
-
-# Setup
-
-Clone down this repository. You will need node and npm installed globally on your machine.
-
-### `npm install`
-
-project installation
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-### `To Visit App`
-
-localhost:3000/dashboard
-
-# License: 
-
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
