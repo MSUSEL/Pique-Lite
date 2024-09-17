@@ -1,4 +1,5 @@
-import { Box, Button, Grid, Text } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
+import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
 import { RiskCards } from "../composites/RiskCards";
@@ -45,6 +46,7 @@ const ProjectCharacteristicsRisks = () => {
 
 function Overview() {
   const [collapsed, setCollapsed] = useState(true);
+
   return (
     <Box>
       <PageHeader />
@@ -55,12 +57,29 @@ function Overview() {
               <SideBar.MenuItem>
                 <Text>Overview</Text>
               </SideBar.MenuItem>
+              <SideBar.MenuItem>
+                <Text>Evaluate</Text>
+              </SideBar.MenuItem>
             </SideBar.Menu>
           </SideBar.Sidebar>
         </Box>
 
         <Box>
-          <Button onClick={() => setCollapsed((s) => !s)}> SideBar</Button>
+          <IconButton
+            size="3"
+            variant="soft"
+            style={{
+              position: "absolute",
+              top: "10vh",
+              left: collapsed ? "10px" : "260px", 
+              zIndex: 2,
+              transition: "left 0.3s ease-in-out",
+            }}
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
+          </IconButton>
+
           <ProjectVersionSelector />
           <ProjectCharacteristicsRisks />
           <RiskLevelLegend />
