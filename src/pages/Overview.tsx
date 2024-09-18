@@ -1,8 +1,8 @@
-import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text  } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
-import { RiskCards } from "../composites/RiskCards";
+import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";
 import * as OverviewPanel from "../composites/OverviewPanel";
@@ -11,11 +11,11 @@ import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
 import { ProjectVersionSelector } from "../views/ProjectVersionSelector";
 
-const RiskLevelLegend = () => {
+export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
 
   return (
-    <RiskCards
+    <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
         score: risk.diagnosticRange[1] - 0.001,
@@ -79,10 +79,8 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
-
           <ProjectVersionSelector />
           <ProjectCharacteristicsRisks />
-          <RiskLevelLegend />
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
             <LinePlot />
