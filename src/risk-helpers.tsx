@@ -10,6 +10,7 @@ interface RiskLevel {
   color: string;
   icon: React.ReactNode;
   fontColor: string;
+  badgeColor: string;
   normalRange: [number, number];
   diagnosticRange: [number, number];
 }
@@ -18,7 +19,8 @@ const RISK_LEVELS: RiskLevel[] = [
   {
     name: "Severe",
     color: "#f3000d80",
-    fontColor: "#ffffff",
+    fontColor: "red",
+    badgeColor: "#CD161C",
     icon: <IoSkullOutline />,
     normalRange: [0, 0.2],
     diagnosticRange: [1.5, Infinity],
@@ -26,23 +28,26 @@ const RISK_LEVELS: RiskLevel[] = [
   {
     name: "High",
     color: "#ff8c0080",
-    fontColor: "#000000",
-    icon: <RiAlarmWarningLine color="#000000" />,
+    fontColor: "orange",
+    badgeColor: "#CC4E00",
+    icon: <RiAlarmWarningLine />,
     normalRange: [0.2, 0.4],
     diagnosticRange: [0.8, 1.5],
   },
   {
     name: "Elevated",
     color: "#ffee0080",
-    fontColor: "#000000",
-    icon: <CgDanger color="#000000" />,
+    fontColor: "yellow",
+    badgeColor: "#9E6C00",
+    icon: <CgDanger />,
     normalRange: [0.4, 0.6],
     diagnosticRange: [0.5, 0.8],
   },
   {
     name: "Guarded",
     color: "#008ff580",
-    fontColor: "#ffffff",
+    fontColor: "#0671CE",
+    badgeColor: "#1D4EC6",
     icon: <ImWarning />,
     normalRange: [0.6, 0.8],
     diagnosticRange: [0.2, 0.5],
@@ -50,7 +55,8 @@ const RISK_LEVELS: RiskLevel[] = [
   {
     name: "Low",
     color: "#00a43380",
-    fontColor: "#ffffff",
+    fontColor: "green",
+    badgeColor: "green",
     icon: <RiSecurePaymentLine />,
     normalRange: [0.8, 1],
     diagnosticRange: [0, 0.2],

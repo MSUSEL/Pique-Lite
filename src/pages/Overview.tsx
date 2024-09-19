@@ -1,7 +1,8 @@
-import { Box, Button, Grid, Text } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text  } from "@radix-ui/themes";
+import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
-import { RiskCards } from "../composites/RiskCards";
+import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";
 import * as OverviewPanel from "../composites/OverviewPanel";
@@ -10,11 +11,11 @@ import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
 import { ProjectVersionSelector } from "../views/ProjectVersionSelector";
 
-const RiskLevelLegend = () => {
+export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
 
   return (
-    <RiskCards
+    <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
         score: risk.diagnosticRange[1] - 0.001,
@@ -45,6 +46,7 @@ const ProjectCharacteristicsRisks = () => {
 
 function Overview() {
   const [collapsed, setCollapsed] = useState(true);
+
   return (
     <Box>
       <PageHeader />
@@ -55,15 +57,30 @@ function Overview() {
               <SideBar.MenuItem>
                 <Text>Overview</Text>
               </SideBar.MenuItem>
+              <SideBar.MenuItem>
+                <Text>Evaluate</Text>
+              </SideBar.MenuItem>
             </SideBar.Menu>
           </SideBar.Sidebar>
         </Box>
 
         <Box>
-          <Button onClick={() => setCollapsed((s) => !s)}> SideBar</Button>
+          <IconButton
+            size="3"
+            variant="soft"
+            style={{
+              position: "absolute",
+              top: "10vh",
+              left: collapsed ? "10px" : "260px", 
+              zIndex: 2,
+              transition: "left 0.3s ease-in-out",
+            }}
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
+          </IconButton>
           <ProjectVersionSelector />
           <ProjectCharacteristicsRisks />
-          <RiskLevelLegend />
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
             <LinePlot />
