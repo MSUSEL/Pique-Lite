@@ -45,6 +45,13 @@ const loadFiles = async (
   }
 };
 
+const extractVersionName = (name: string) => {
+  const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
+  const match = name.match(nameMask);
+  const version = match ? match[1] : name;
+  return version;
+};
+
 interface FileUploaderProps {}
 
 export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
@@ -62,7 +69,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
         .then((files) => {
           setProject({
             versions: files.map((f) => ({
-              name: f.name,
+              name: extractVersionName(f.name),
+              fileName: f.name,
               data: f.content,
               date: new Date(f.lastModified),
             })),

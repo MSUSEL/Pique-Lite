@@ -6,6 +6,7 @@ import { atom } from "jotai";
 interface Version {
   date: Date;
   name: string;
+  fileName: string;
   // TODO: Add schema for data here.
   // NOTE: This `any` is a placeholder, we don't want to do things like this
   // generally.

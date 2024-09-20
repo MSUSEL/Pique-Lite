@@ -7,6 +7,7 @@ import { atom } from "jotai";
 
 interface CharacteristicRecord extends Record<string, unknown> {
   name: string;
+  fileName: string;
   date: Date;
   tqi: number;
 }
@@ -34,6 +35,7 @@ export const flatCharacteristicDataAtom = atom((get) => {
   const records: CharacteristicRecord[] = project.versions.map((version) => {
     const baseRecord = {
       name: version.name,
+      fileName: version.fileName,
       date: version.date,
       tqi: version.data.value,
     };
