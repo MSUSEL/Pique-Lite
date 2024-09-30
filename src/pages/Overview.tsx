@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid, Text  } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
@@ -26,7 +26,13 @@ export const RiskLevelLegend = () => {
 };
 
 const ProjectCharacteristicsRisks = () => {
-  const project = useAtomValue(State.project);
+  const projects = useAtomValue(State.projects);
+  const selectedProject = useAtomValue(State.selectedProject);
+
+  //check to make sure there is a selected project
+  if (!selectedProject) return null;
+  const project = projects ? projects[selectedProject] : undefined;
+
   const selectedVersion = useAtomValue(State.selectedVersion);
 
   if (!project) return null;
@@ -71,7 +77,7 @@ function Overview() {
             style={{
               position: "absolute",
               top: "10vh",
-              left: collapsed ? "10px" : "260px", 
+              left: collapsed ? "10px" : "260px",
               zIndex: 2,
               transition: "left 0.3s ease-in-out",
             }}

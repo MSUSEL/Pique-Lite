@@ -1,9 +1,10 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
-import { useSetAtom } from "jotai";
+import { useSetAtom, useAtom } from "jotai";
 import React from "react";
-import { State } from "../../state/core";
+import { State, Project } from "../../state/core";
 import { useFileUpload } from "./use-file-uploader";
+import { v4 as uuidv4 } from "uuid";
 
 const loadFiles = async (
   files: File[]
@@ -59,28 +60,42 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
   // const [fileName, setFileName] = useState("");
   // const [errors, setErrors] = useState<any>(null);
   const setProject = useSetAtom(State.project);
+  const setProjects = useSetAtom(State.projects);
+  const setSelectedProject = useSetAtom(State.selectedProject);
+  const projects = useAtom(State.projects);
 
   const handleFileSelect = () => {
     selectFile({ accept: ".json", multiple: true }, (d: { file: File }[]) => {
-      // { file }: { file: File }
       const filesToLoad = d.map((f) => f.file);
       console.log("Files to load:", filesToLoad);
+
+      const projectName = "Project " + (Object.keys(projects).length + 1);
+      const projectUuid = uuidv4();
+
+      setSelectedProject(projectUuid);
+
       loadFiles(filesToLoad)
         .then((files) => {
-          setProject({
+          const newProject: Project = {
+            name: projectName,
             versions: files.map((f) => ({
               name: extractVersionName(f.name),
               fileName: f.name,
               data: f.content,
               date: new Date(f.lastModified),
             })),
-          });
-          // setFileName(files[0].name);
-          // setErrors(null);
+          };
+
+          setProject(newProject);
+
+          //update the projects dictionary using uuid as the key
+          setProjects((prevProjects) => ({
+            ...prevProjects,
+            [projectUuid]: newProject,
+          }));
         })
         .catch((errors) => {
           console.error("Error loading files:", errors);
-          // setErrors(errors);
         });
     });
   };
