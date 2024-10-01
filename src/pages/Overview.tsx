@@ -71,7 +71,7 @@ function Overview() {
           </SideBar.Sidebar>
         </Box>
 
-        <Box>
+        <Box style={{ width: "80vw" }}>
           <IconButton
             size="3"
             variant="soft"
