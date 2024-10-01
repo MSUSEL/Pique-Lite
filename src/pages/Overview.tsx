@@ -10,6 +10,7 @@ import * as SideBar from "react-pro-sidebar";
 import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
 import { ProjectVersionSelector } from "../views/ProjectVersionSelector";
+import { ProjectSelector } from "../views/ProjectSelector";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -85,6 +86,7 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
+          <ProjectSelector />
           <ProjectVersionSelector />
           <ProjectCharacteristicsRisks />
           <OverviewPanel.Container>

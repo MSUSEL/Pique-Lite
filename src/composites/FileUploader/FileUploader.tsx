@@ -69,30 +69,30 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
       const filesToLoad = d.map((f) => f.file);
       console.log("Files to load:", filesToLoad);
 
-      const projectName = "Project " + (Object.keys(projects).length + 1);
-      const projectUuid = uuidv4();
-
-      setSelectedProject(projectUuid);
-
       loadFiles(filesToLoad)
         .then((files) => {
-          const newProject: Project = {
-            name: projectName,
-            versions: files.map((f) => ({
-              name: extractVersionName(f.name),
-              fileName: f.name,
-              data: f.content,
-              date: new Date(f.lastModified),
-            })),
-          };
+          setProjects((prevProjects = {}) => {
+            const projectCount = Object.keys(prevProjects).length;
+            const projectName = "Project " + (projectCount + 1);
+            const projectUuid = uuidv4();
 
-          setProject(newProject);
+            const newProject: Project = {
+              name: projectName,
+              versions: files.map((f) => ({
+                name: extractVersionName(f.name),
+                fileName: f.name,
+                data: f.content,
+                date: new Date(f.lastModified),
+              })),
+            };
 
-          //update the projects dictionary using uuid as the key
-          setProjects((prevProjects) => ({
-            ...prevProjects,
-            [projectUuid]: newProject,
-          }));
+            setSelectedProject(projectUuid);
+
+            return {
+              ...prevProjects,
+              [projectUuid]: newProject,
+            };
+          });
         })
         .catch((errors) => {
           console.error("Error loading files:", errors);
