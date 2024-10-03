@@ -1,12 +1,12 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
-import { useSetAtom } from "jotai";
 import React, { useState } from "react";
-import { State } from "../../state/core";
 import { useFileUpload } from "./use-file-uploader";
 import FileVerifier from "./FileVerifier";
 import { UploadedFile } from "types";
-
+import { useSetAtom, useAtom } from "jotai";
+import { State, Project } from "../../state/core";
+import { v4 as uuidv4 } from "uuid";
 
 const loadFiles = async (
   files: File[]
@@ -63,6 +63,9 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   const [loadedFiles, setLoadedFiles] = useState<any[]>([]);
   const [, selectFile] = useFileUpload();
   const setProject = useSetAtom(State.project);
+  const setProjects = useSetAtom(State.projects);
+  const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
+  const [projects] = useAtom(State.projects); 
 
   const removeFile = (id: string) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
@@ -74,7 +77,6 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
       const updatedVersions = prevProject.versions.filter(
         (version) => version.fileName !== id 
       );
-
       return {
         ...prevProject,
         versions: updatedVersions,
@@ -100,35 +102,60 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
       console.log("Files to load:", filesToLoad);
       loadFiles(filesToLoad)
         .then((loadedFiles) => {
+          setLoadedFiles(loadedFiles); 
           setFiles((prevFiles) =>
             prevFiles.concat(
               loadedFiles.map((f) => {
-                const isValid = validateFileContent(f); 
+                const isValid = validateFileContent(f);
                 return {
-                  id: f.id, 
+                  id: f.id,
                   name: f.name,
                   verified: isValid,
                 };
               })
             )
           );
-          setLoadedFiles(loadedFiles); 
         })
-        .catch((errors) => {
-          console.error("Error loading files:", errors);
+        .catch((error) => {
+          console.error("Error loading files:", error);
         });
-    });
-  };
-
+    }); 
+  }; 
+  
   const handleContinue = () => {
-    setProject({
-      versions: loadedFiles.map((f) => ({
-        name: extractVersionName(f.name),
-        fileName: f.name,
-        data: f.content,
-        date: new Date(f.lastModified),
-      })),
+    setProjects((prevProjects = {}) => {
+      const projectCount = Object.keys(prevProjects).length;
+      const projectName = "Project " + (projectCount + 1);
+      const projectUuid = uuidv4();
+
+      const newProject: Project = {
+        name: projectName,
+        versions: loadedFiles.map((f) => ({
+          name: extractVersionName(f.name),
+          fileName: f.name,
+          data: f.content,
+          date: new Date(f.lastModified),
+        })),
+      };
+
+      setSelectedProject(projectUuid);
+
+      return {
+        ...prevProjects,
+        [projectUuid]: newProject,
+      };
     });
+    
+    if (loadedFiles.length > 0) {
+      setProject({
+        versions: loadedFiles.map((f) => ({
+          name: extractVersionName(f.name),
+          fileName: f.name,
+          data: f.content,
+          date: new Date(f.lastModified),
+        })),
+      });
+    }
   };
 
   return (
