@@ -1,39 +1,43 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
 import { useSetAtom } from "jotai";
-import React from "react";
+import React, { useState } from "react";
 import { State } from "../../state/core";
 import { useFileUpload } from "./use-file-uploader";
+import FileVerifier from "./FileVerifier";
+import { UploadedFile } from "types";
+
 
 const loadFiles = async (
   files: File[]
-): Promise<{ name: string; content: any; lastModified: number }[]> => {
-  const filePromises = files.map(
-    (file) =>
-      new Promise<{ name: string; content: any; lastModified: number }>(
-        (resolve, reject) => {
-          const fileReader = new FileReader();
-          fileReader.onload = (e) => {
-            const result = e.target?.result;
-            try {
-              const parsed = JSON.parse(result as string);
-              resolve({
-                name: file.name,
-                content: parsed,
-                lastModified: file.lastModified,
-              });
-            } catch (error) {
-              reject({
-                name: file.name,
-                error: "An error occurred while reading the file.",
-              });
-            }
-          };
-          fileReader.onerror = () =>
-            reject({ name: file.name, error: "Failed to read file." });
-          fileReader.readAsText(file);
-        }
-      )
+): Promise<{ id: string; name: string; content: any; lastModified: number }[]> => {
+  const filePromises = files.map((file) =>
+    new Promise<{ id: string; name: string; content: any; lastModified: number }>(
+      (resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const result = e.target?.result;
+          try {
+            const parsed = JSON.parse(result as string);
+            const uniqueId = `${Date.now()}-${file.name}`;
+            resolve({
+              id: uniqueId,
+              name: file.name,
+              content: parsed,
+              lastModified: file.lastModified,
+            });
+          } catch (error) {
+            reject({
+              name: file.name,
+              error: "An error occurred while reading the file.",
+            });
+          }
+        };
+        fileReader.onerror = () =>
+          reject({ name: file.name, error: "Failed to read file." });
+        fileReader.readAsText(file);
+      }
+    )
   );
 
   try {
@@ -54,11 +58,40 @@ const extractVersionName = (name: string) => {
 
 interface FileUploaderProps {}
 
-export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
-  const [_, selectFile] = useFileUpload();
-  // const [fileName, setFileName] = useState("");
-  // const [errors, setErrors] = useState<any>(null);
+export const FileUploader: React.FC<FileUploaderProps> = () => {
+  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [loadedFiles, setLoadedFiles] = useState<any[]>([]);
+  const [, selectFile] = useFileUpload();
   const setProject = useSetAtom(State.project);
+
+  const removeFile = (id: string) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
+    setLoadedFiles((prevLoadedFiles) =>
+      prevLoadedFiles.filter((file) => file.id !== id)
+    );
+
+    setProject((prevProject) => {
+      const updatedVersions = prevProject.versions.filter(
+        (version) => version.fileName !== id 
+      );
+
+      return {
+        ...prevProject,
+        versions: updatedVersions,
+      };
+    });
+  };
+
+  const validateFileContent = (file: any) => {
+    // try {
+    //   base.dataset.parse(file.content); 
+    //   return true;
+    // } catch (error) {
+    //   console.error('Validation error:', error);
+    //   return false;
+    // }
+    return true;
+  };
 
   const handleFileSelect = () => {
     selectFile({ accept: ".json", multiple: true }, (d: { file: File }[]) => {
@@ -66,22 +99,35 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
       const filesToLoad = d.map((f) => f.file);
       console.log("Files to load:", filesToLoad);
       loadFiles(filesToLoad)
-        .then((files) => {
-          setProject({
-            versions: files.map((f) => ({
-              name: extractVersionName(f.name),
-              fileName: f.name,
-              data: f.content,
-              date: new Date(f.lastModified),
-            })),
-          });
-          // setFileName(files[0].name);
-          // setErrors(null);
+        .then((loadedFiles) => {
+          setFiles((prevFiles) =>
+            prevFiles.concat(
+              loadedFiles.map((f) => {
+                const isValid = validateFileContent(f); 
+                return {
+                  id: f.id, 
+                  name: f.name,
+                  verified: isValid,
+                };
+              })
+            )
+          );
+          setLoadedFiles(loadedFiles); 
         })
         .catch((errors) => {
           console.error("Error loading files:", errors);
-          // setErrors(errors);
         });
+    });
+  };
+
+  const handleContinue = () => {
+    setProject({
+      versions: loadedFiles.map((f) => ({
+        name: extractVersionName(f.name),
+        fileName: f.name,
+        data: f.content,
+        date: new Date(f.lastModified),
+      })),
     });
   };
 
@@ -119,7 +165,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
           <InfoCircledIcon />
         </Callout.Icon>
         <Callout.Text>
-          Please upload one or more PIQUE JSON file to get started.
+          Please upload one or more PIQUE JSON files to get started.
         </Callout.Text>
       </Callout.Root>
 
@@ -128,11 +174,24 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
         variant="surface"
         radius="large"
         onClick={handleFileSelect}
+        style={{ margin: "16px" }}
       >
         <FileTextIcon /> Select Files
       </Button>
-      {/* 
-      {errors && <ErrorComponent errors={errors} />} */}
+
+      <FileVerifier files={files} onRemove={removeFile} />
+
+      {files.length > 0 && (
+        <Button
+          size="4"
+          variant="solid"
+          radius="large"
+          onClick={handleContinue}
+          style={{ marginTop: "10px" }}
+        >
+          Continue
+        </Button>
+      )}
     </div>
   );
 };
