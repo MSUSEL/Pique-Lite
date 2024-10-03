@@ -9,7 +9,7 @@ import * as OverviewPanel from "../composites/OverviewPanel";
 import * as SideBar from "react-pro-sidebar";
 import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
-import { ProjectVersionSelector } from "../views/ProjectVersionSelector";
+import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
 
 export const RiskLevelLegend = () => {
@@ -37,6 +37,7 @@ const ProjectCharacteristicsRisks = () => {
   const selectedVersion = useAtomValue(State.selectedVersion);
 
   if (!project) return null;
+  if (selectedVersion == undefined) return null;
 
   const version = project.versions[selectedVersion];
   const characteristics = version.data.children;
@@ -87,7 +88,7 @@ function Overview() {
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
           <ProjectSelector />
-          <ProjectVersionSelector />
+          <VersionSelector />
           <ProjectCharacteristicsRisks />
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>

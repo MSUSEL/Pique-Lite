@@ -3,7 +3,7 @@ import { State } from "../state";
 
 // FIXME: This is just a placeholder; it will be replaced
 // by our project/version selection/search system.
-export const ProjectVersionSelector = () => {
+export const VersionSelector = () => {
   const projects = useAtomValue(State.projects);
   const selectedProject = useAtomValue(State.selectedProject);
   if (!projects || !selectedProject) return null;
