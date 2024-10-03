@@ -44,7 +44,6 @@ export function createState() {
   const selectedProject = atom<string | undefined>(undefined);
   const selectedVersion = atom<number>(0);
   return {
-    project,
     projects,
     selectedProject,
     selectedVersion,

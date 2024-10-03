@@ -59,10 +59,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
   const [_, selectFile] = useFileUpload();
   // const [fileName, setFileName] = useState("");
   // const [errors, setErrors] = useState<any>(null);
-  const setProject = useSetAtom(State.project);
   const setProjects = useSetAtom(State.projects);
   const setSelectedProject = useSetAtom(State.selectedProject);
-  const projects = useAtom(State.projects);
 
   const handleFileSelect = () => {
     selectFile({ accept: ".json", multiple: true }, (d: { file: File }[]) => {
