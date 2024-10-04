@@ -208,7 +208,7 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
 
       <FileVerifier files={files} onRemove={removeFile} />
 
-      {files.length > 0 && (
+      {files.length > 0 && files.every(file => file.verified) && (
         <Button
           size="4"
           variant="solid"
@@ -218,6 +218,17 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
         >
           Continue
         </Button>
+      )}
+
+      {files.length > 0 && !files.every(file => file.verified) && (
+      <Callout.Root color="red" style={{ margin: "16px" }} size="2">
+        <Callout.Icon>
+          <InfoCircledIcon />
+        </Callout.Icon>
+        <Callout.Text>
+          Please delete unverified files to continue.
+        </Callout.Text>
+      </Callout.Root>
       )}
     </div>
   );
