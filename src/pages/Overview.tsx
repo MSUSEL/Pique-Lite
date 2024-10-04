@@ -37,9 +37,9 @@ const ProjectCharacteristicsRisks = () => {
   const selectedVersion = useAtomValue(State.selectedVersion);
 
   if (!project) return null;
-  if (selectedVersion == undefined) return null;
 
-  const version = project.versions[selectedVersion];
+  const version =
+    project.versions[selectedVersion == undefined ? 0 : selectedVersion];
   const characteristics = version.data.children;
 
   const riskCards = characteristics.map(
