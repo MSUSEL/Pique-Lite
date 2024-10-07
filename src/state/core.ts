@@ -14,9 +14,14 @@ interface Version {
   data: any;
 }
 
-interface Project {
+export interface Project {
   versions: Version[];
+  name: string;
   // TODO: We probably need other metadata here, e.g. project name
+}
+
+interface Projects {
+  [uuid: string]: Project;
 }
 
 export function createState() {
@@ -28,16 +33,18 @@ export function createState() {
   // and lastly, update `project`:
   // const project = atom<Project|undefined>(get => get(projects)[get(selectedProjectIdx)])
   // ^ in this, get(selectedProjectIdx) might be undefined, so we have to handle that case.
-  const project = atom<Project | undefined>(undefined);
+  const projects = atom<Projects | undefined>({});
 
   // TODO: Instead of initializing to 0, we should do the following:
   // const selectedVersion = atom<number|undefined>(undefined);
   // Here, undefined represents the state where no version is selected.
   // To apply this change, we will need to handle the undefined case
   // in `ProjectVersionSelector` and other places where this is used.
-  const selectedVersion = atom<number>(0);
+  const selectedProject = atom<string | undefined>(undefined);
+  const selectedVersion = atom<number | undefined>(undefined);
   return {
-    project,
+    projects,
+    selectedProject,
     selectedVersion,
   };
 }

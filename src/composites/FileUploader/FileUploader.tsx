@@ -1,9 +1,10 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
-import { useSetAtom } from "jotai";
+import { useSetAtom, useAtom } from "jotai";
 import React from "react";
-import { State } from "../../state/core";
+import { State, Project } from "../../state/core";
 import { useFileUpload } from "./use-file-uploader";
+import { v4 as uuidv4 } from "uuid";
 
 const loadFiles = async (
   files: File[]
@@ -58,29 +59,41 @@ export const FileUploader: React.FC<FileUploaderProps> = ({}) => {
   const [_, selectFile] = useFileUpload();
   // const [fileName, setFileName] = useState("");
   // const [errors, setErrors] = useState<any>(null);
-  const setProject = useSetAtom(State.project);
+  const setProjects = useSetAtom(State.projects);
+  const setSelectedProject = useSetAtom(State.selectedProject);
 
   const handleFileSelect = () => {
     selectFile({ accept: ".json", multiple: true }, (d: { file: File }[]) => {
-      // { file }: { file: File }
       const filesToLoad = d.map((f) => f.file);
       console.log("Files to load:", filesToLoad);
+
       loadFiles(filesToLoad)
         .then((files) => {
-          setProject({
-            versions: files.map((f) => ({
-              name: extractVersionName(f.name),
-              fileName: f.name,
-              data: f.content,
-              date: new Date(f.lastModified),
-            })),
+          setProjects((prevProjects = {}) => {
+            const projectCount = Object.keys(prevProjects).length;
+            const projectName = "Project " + (projectCount + 1);
+            const projectUuid = uuidv4();
+
+            const newProject: Project = {
+              name: projectName,
+              versions: files.map((f) => ({
+                name: extractVersionName(f.name),
+                fileName: f.name,
+                data: f.content,
+                date: new Date(f.lastModified),
+              })),
+            };
+
+            setSelectedProject(projectUuid);
+
+            return {
+              ...prevProjects,
+              [projectUuid]: newProject,
+            };
           });
-          // setFileName(files[0].name);
-          // setErrors(null);
         })
         .catch((errors) => {
           console.error("Error loading files:", errors);
-          // setErrors(errors);
         });
     });
   };

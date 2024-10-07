@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid, Text  } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
@@ -9,7 +9,8 @@ import * as OverviewPanel from "../composites/OverviewPanel";
 import * as SideBar from "react-pro-sidebar";
 import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
-import { ProjectVersionSelector } from "../views/ProjectVersionSelector";
+import { VersionSelector } from "../views/VersionSelector";
+import { ProjectSelector } from "../views/ProjectSelector";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -26,12 +27,19 @@ export const RiskLevelLegend = () => {
 };
 
 const ProjectCharacteristicsRisks = () => {
-  const project = useAtomValue(State.project);
+  const projects = useAtomValue(State.projects);
+  const selectedProject = useAtomValue(State.selectedProject);
+
+  //check to make sure there is a selected project
+  if (!selectedProject) return null;
+  const project = projects ? projects[selectedProject] : undefined;
+
   const selectedVersion = useAtomValue(State.selectedVersion);
 
   if (!project) return null;
 
-  const version = project.versions[selectedVersion];
+  const version =
+    project.versions[selectedVersion == undefined ? 0 : selectedVersion];
   const characteristics = version.data.children;
 
   const riskCards = characteristics.map(
@@ -64,14 +72,14 @@ function Overview() {
           </SideBar.Sidebar>
         </Box>
 
-        <Box>
+        <Box style={{ width: "80vw" }}>
           <IconButton
             size="3"
             variant="soft"
             style={{
               position: "absolute",
               top: "10vh",
-              left: collapsed ? "10px" : "260px", 
+              left: collapsed ? "10px" : "260px",
               zIndex: 2,
               transition: "left 0.3s ease-in-out",
             }}
@@ -79,7 +87,8 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
-          <ProjectVersionSelector />
+          <ProjectSelector />
+          <VersionSelector />
           <ProjectCharacteristicsRisks />
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>

@@ -3,7 +3,7 @@
  *               tabular data (e.g. for chart visualizations)
  */
 import { State } from "./core";
-import { atom } from "jotai";
+import { atom, useAtomValue } from "jotai";
 
 interface CharacteristicRecord extends Record<string, unknown> {
   name: string;
@@ -26,7 +26,12 @@ interface CharacteristicRecord extends Record<string, unknown> {
 // we can work with the `y` atom directly.
 // Read more here: https://jotai.org/docs/guides/composing-atoms
 export const flatCharacteristicDataAtom = atom((get) => {
-  const project = get(State.project);
+  const projects = get(State.projects);
+  const selectedProject = get(State.selectedProject);
+
+  //check to make sure there is a selected project
+  if (!selectedProject || !projects) return [];
+  const project = projects[selectedProject];
 
   if (!project) {
     return [];
