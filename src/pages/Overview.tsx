@@ -2,10 +2,12 @@ import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
+import { LinePlot_Compare } from "../composites/PiqueChart";
 import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";
 import * as OverviewPanel from "../composites/OverviewPanel";
+import * as ComparePanel from "../composites/ComparePanel";
 import * as SideBar from "react-pro-sidebar";
 import { useState } from "react";
 import { PageHeader } from "../views/PageHeader";
@@ -93,6 +95,11 @@ function Overview() {
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
             <LinePlot />
+          </OverviewPanel.Container>
+          {/* temporary comparison part*/}
+          <OverviewPanel.Container>
+            <OverviewPanel.Title>Compare Projects</OverviewPanel.Title>
+            <LinePlot_Compare />
           </OverviewPanel.Container>
         </Box>
       </Grid>

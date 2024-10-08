@@ -12,6 +12,11 @@ interface CharacteristicRecord extends Record<string, unknown> {
   tqi: number;
 }
 
+interface ProjectRecord extends Record<string, unknown> {
+  name: string;
+  versions: Project;
+}
+
 // Note:
 // This is an example of a pattern that should broadly be useful.
 // We have a base atom `x` (in our case, State.project), but we need
@@ -60,5 +65,29 @@ export const flatCharacteristicDataAtom = atom((get) => {
     );
   });
 
+  console.log('records', records);
+  return records;
+});
+
+// should work nearly identical to the above func
+export const flatProjectsDataAtom = atom((get) => {
+
+  const projects = get(State.projects);
+
+  if (!projects) {
+    return [];
+  }
+
+  const baseRecord = {
+    name: 'project 1'
+  };
+
+  const records: CharacteristicRecord[] =  projects[Object.keys(projects)].versions.reduce(
+    (acc: [Record<string, number>], current: any) => {
+      acc.push({['project_1'] : current.data.value, ['name'] : current.name});
+      return acc;
+    }, [])
+
+  console.log('my records', records);
   return records;
 });

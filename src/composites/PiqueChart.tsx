@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { flatCharacteristicDataAtom } from "../state";
+import { flatCharacteristicDataAtom, flatProjectsDataAtom } from "../state";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -20,6 +20,10 @@ const CHARACTERISTIC_NAMES = [
   "Non-repudiation",
   "Integrity",
 ];
+
+const PROJECT_NAMES = [
+  'project_1',
+]
 
 const CHARACTERISTIC_COLORS = [
   "#4CAF50", // green for Availability
@@ -45,6 +49,36 @@ export const LinePlot = () => {
         <Tooltip />
         <Legend />
         {CHARACTERISTIC_NAMES.map((characteristic, index) => (
+          <Line
+            key={characteristic}
+            type="monotone"
+            dataKey={characteristic}
+            name={characteristic}
+            stroke={CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length]}
+            strokeWidth={2}
+          />
+        ))}
+      </LineChart>
+    </ResponsiveContainer>
+  );
+};
+
+export const LinePlot_Compare = () => {
+
+  const projects = useAtomValue(flatProjectsDataAtom);  
+
+  return (
+    <ResponsiveContainer width={800} height={300}>
+      <LineChart
+        data={projects}
+        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        {PROJECT_NAMES.map((characteristic, index) => (
           <Line
             key={characteristic}
             type="monotone"
