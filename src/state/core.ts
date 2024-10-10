@@ -34,7 +34,6 @@ export function createState() {
   // const project = atom<Project|undefined>(get => get(projects)[get(selectedProjectIdx)])
   // ^ in this, get(selectedProjectIdx) might be undefined, so we have to handle that case.
   const projects = atom<Projects | undefined>({});
-  const project = atom<Project | undefined>(undefined);
 
   // TODO: Instead of initializing to 0, we should do the following:
   // const selectedVersion = atom<number|undefined>(undefined);
@@ -42,9 +41,8 @@ export function createState() {
   // To apply this change, we will need to handle the undefined case
   // in `ProjectVersionSelector` and other places where this is used.
   const selectedProject = atom<string | undefined>(undefined);
-  const selectedVersion = atom<number>(0);
+  const selectedVersion = atom<number | undefined>(undefined);
   return {
-    project,
     projects,
     selectedProject,
     selectedVersion,

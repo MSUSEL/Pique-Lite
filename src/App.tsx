@@ -6,7 +6,7 @@ import Overview from "./pages/Overview";
 import { Box } from "@radix-ui/themes";
 
 function App() {
-  const showLanding = useAtomValue(State.project) === undefined;
+  const showLanding = useAtomValue(State.selectedProject) === undefined;
   return (
     <Box height="100%" width="100%">
       {showLanding ? <Landing /> : <Overview />}
