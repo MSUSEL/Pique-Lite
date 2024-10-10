@@ -3,10 +3,11 @@ import { Button, Callout } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { useFileUpload } from "./use-file-uploader";
 import FileVerifier from "./FileVerifier";
-import { UploadedFile } from "types";
+import { UploadedFile } from "../../types";
 import { useSetAtom, useAtom } from "jotai";
 import { State, Project } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
+import { base } from "../../schema";
 
 const loadFiles = async (
   files: File[]
@@ -80,14 +81,14 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   };
 
   const validateFileContent = (file: any) => {
-    // try {
-    //   base.dataset.parse(file.content);
-    //   return true;
-    // } catch (error) {
-    //   console.error('Validation error:', error);
-    //   return false;
-    // }
-    return true;
+    try {
+      base.dataset.parse(file.content);
+      return true;
+    } catch (error) {
+      console.error("Validation error:", error);
+      return false;
+    }
+    //return true;
   };
 
   const handleFileSelect = () => {
@@ -105,6 +106,8 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
                 return {
                   id: f.id,
                   name: f.name,
+                  content: f.content,
+                  lastModified: f.lastModified,
                   verified: isValid,
                 };
               })
