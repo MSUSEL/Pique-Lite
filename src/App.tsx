@@ -8,7 +8,7 @@ import { Box } from "@radix-ui/themes";
 function App() {
   const showLanding = useAtomValue(State.selectedProject) === undefined;
   return (
-    <Box height="100%" width="100%">
+    <Box height="100%" width="100%" style={{overflow: 'auto'}}>
       {showLanding ? <Landing /> : <Overview />}
     </Box>
   );
