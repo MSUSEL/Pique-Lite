@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useFileUpload } from "./use-file-uploader";
 import FileVerifier from "./FileVerifier";
 import { UploadedFile } from "../../types";
-import { useSetAtom, useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { State, Project } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
 import { base } from "../../schema";
@@ -70,8 +70,8 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   const [loadedFiles, setLoadedFiles] = useState<any[]>([]);
   const [, selectFile] = useFileUpload();
   const setProjects = useSetAtom(State.projects);
-  const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
-  const [projects] = useAtom(State.projects);
+  const setSelectedProject = useSetAtom(State.selectedProject);
+  const setViewCode = useSetAtom(State.currentView);
 
   const removeFile = (id: string) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
@@ -121,6 +121,8 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   };
 
   const handleContinue = () => {
+    setViewCode("overview");
+
     if (loadedFiles.length > 0) {
       setProjects((prevProjects = {}) => {
         const projectCount = Object.keys(prevProjects).length;
