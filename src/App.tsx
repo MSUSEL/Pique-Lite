@@ -5,11 +5,17 @@ import Landing from "./pages/Landing";
 import Overview from "./pages/Overview";
 import { Box } from "@radix-ui/themes";
 
+const views: Record<string, JSX.Element> = {
+  landing: <Landing />,
+  overview: <Overview />,
+};
+
 function App() {
-  const showLanding = useAtomValue(State.selectedProject) === undefined;
+  const view = useAtomValue(State.currentView) || "landing";
+
   return (
-    <Box height="100%" width="100%" style={{overflow: 'auto'}}>
-      {showLanding ? <Landing /> : <Overview />}
+    <Box height="100%" width="100%">
+      {views[view]}
     </Box>
   );
 }
