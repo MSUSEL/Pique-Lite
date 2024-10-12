@@ -25,6 +25,7 @@ interface Projects {
 }
 
 export function createState() {
+  const currentView = atom<string>();
   // TODO: We are only defining a single project. Instead,
   // we need to define an atom `projects` which could simply
   // be `Project[]`:
@@ -43,6 +44,7 @@ export function createState() {
   const selectedProject = atom<string | undefined>(undefined);
   const selectedVersion = atom<number | undefined>(undefined);
   return {
+    currentView,
     projects,
     selectedProject,
     selectedVersion,
