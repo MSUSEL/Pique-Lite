@@ -2,12 +2,12 @@ import "./App.css";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
 import Landing from "./pages/Landing";
-import Overview from "./pages/Overview";
 import { Box } from "@radix-ui/themes";
+import MainView from "./pages/MainView";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
-  overview: <Overview />,
+  main: <MainView />,
 };
 
 function App() {

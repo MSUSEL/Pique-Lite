@@ -1,5 +1,5 @@
 import { Heading, Flex, Box } from "@radix-ui/themes";
-import { RiskLevelLegend } from "../pages/Overview";
+import { RiskLevelLegend } from "../composites/Overview";
 
 export function PageHeader() {
   return (
