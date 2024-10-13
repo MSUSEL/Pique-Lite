@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text, Section } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
@@ -60,21 +60,10 @@ function Overview() {
   return (
     <Box>
       <PageHeader />
-      <Grid columns="auto auto">
-        <Box>
-          <SideBar.Sidebar collapsed={collapsed} collapsedWidth="0px">
-            <SideBar.Menu>
-              <SideBar.MenuItem>
-                <Text>Overview</Text>
-              </SideBar.MenuItem>
-              <SideBar.MenuItem>
-                <Text>Evaluate</Text>
-              </SideBar.MenuItem>
-            </SideBar.Menu>
-          </SideBar.Sidebar>
-        </Box>
+      <Grid columns="auto auto" justify="center">
 
-        <Box style={{ width: "80vw" }}>
+        {/* SideBar content */}
+        <Box> 
           <IconButton
             size="3"
             variant="soft"
@@ -89,13 +78,38 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
-          <ProjectSelector />
-          <VersionSelector />
-          <ProjectCharacteristicsRisks />
+          <SideBar.Sidebar collapsed={collapsed} collapsedWidth="0px">
+            <SideBar.Menu>
+              <SideBar.MenuItem>
+                <Text>Overview</Text>
+              </SideBar.MenuItem>
+              <SideBar.MenuItem>
+                <Text>Evaluate</Text>
+              </SideBar.MenuItem>
+            </SideBar.Menu>
+          </SideBar.Sidebar>
+        </Box>
+        
+        {/* Main content */}
+        <Box style={{ width: "80vw", padding: '0 2vw' }}>
+          
+          {/* Selectors */}
+          <Section style={{ padding: "0" }}>
+            <Grid columns="auto auto auto" justify="between">
+              <ProjectSelector />
+              <VersionSelector />
+            </Grid>
+          </Section>
+          
+          {/* Risk Icons */}
+          <ProjectCharacteristicsRisks/>
+
+          {/* Risk Plot */}
           <OverviewPanel.Container>
             <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
             <LinePlot />
           </OverviewPanel.Container>
+
           {/* temporary comparison part*/}
           <OverviewPanel.Container>
             <OverviewPanel.Title>Compare Projects</OverviewPanel.Title>

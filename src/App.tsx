@@ -14,7 +14,7 @@ function App() {
   const view = useAtomValue(State.currentView) || "landing";
 
   return (
-    <Box height="100%" width="100%">
+    <Box height="100%" width="100%" style={{ overflow: "auto" }}>
       {views[view]}
     </Box>
   );

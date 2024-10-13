@@ -12,38 +12,37 @@ export const ProjectSelector = () => {
   const projectArray = Object.entries(projects);
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          position: "absolute",
-          top: "0",
-          right: "0",
-          padding: "10px",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <label htmlFor="project-select">Select Project: </label>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        position: "relative",
+        width: "100%",
+        top: "0",
+        right: "0",
+        margin: "10px",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <label htmlFor="project-select">Select Project: </label>
 
-          <select
-            id="project-select"
-            value={selectedProject}
-            onChange={(e) => setSelectedProject(String(e.target.value))}
-            style={{ marginBottom: "5px" }}
-          >
-            {projectArray.map(([uuid, project]) => (
-              <option key={uuid} value={uuid}>
-                {project.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <text style={{ fontSize: "12px", color: "gray" }}>
-          {"uuid: " + selectedProject}
-        </text>
+        <select
+          id="project-select"
+          value={selectedProject}
+          onChange={(e) => setSelectedProject(String(e.target.value))}
+          style={{ margin: "0 5px 5px", width: "150px" }}
+        >
+          {projectArray.map(([uuid, project]) => (
+            <option key={uuid} value={uuid}>
+              {project.name}
+            </option>
+          ))}
+        </select>
       </div>
+      <text style={{ fontSize: "12px", color: "gray" }}>
+        {"uuid: " + selectedProject}
+      </text>
     </div>
   );
 };

@@ -38,7 +38,7 @@ export const LinePlot = () => {
   const flatData = useAtomValue(flatCharacteristicDataAtom);
 
   return (
-    <ResponsiveContainer width={800} height={300}>
+    <ResponsiveContainer height={350}>
       <LineChart
         data={flatData}
         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -47,7 +47,7 @@ export const LinePlot = () => {
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
-        <Legend />
+        <Legend layout="vertical" align="right" verticalAlign="middle" wrapperStyle={{ paddingLeft: '70px' }} />
         {CHARACTERISTIC_NAMES.map((characteristic, index) => (
           <Line
             key={characteristic}

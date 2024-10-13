@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 
 export const Container = ({ children }: PropsWithChildren) => {
   return (
-    <Card>
+    <Card style={{ margin: "10px"}}>
       <Flex direction="column" gap="4">
         {children}
       </Flex>

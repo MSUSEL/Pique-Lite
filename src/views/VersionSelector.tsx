@@ -13,12 +13,22 @@ export const VersionSelector = () => {
   if (!project) return null;
 
   return (
-    <div>
+    <div style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-start",
+      position: "relative",
+      width: "100%",
+      top: "0",
+      right: "0",
+      margin: "10px",
+    }}>
       <label htmlFor="version-select">Select Version: </label>
       <select
         id="version-select"
         value={selectedVersion}
         onChange={(e) => setSelectedVersion(Number(e.target.value))}
+        style={{ margin: "0 5px 5px", width: "150px" }}
       >
         {project.versions.map((version, index) => (
           <option key={version.name} value={index}>
