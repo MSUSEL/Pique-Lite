@@ -131,6 +131,7 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
 
         const newProject: Project = {
           name: projectName,
+          uuid: projectUuid,
           versions: files.map((f) => ({
             name: extractVersionName(f.name),
             fileName: f.name,

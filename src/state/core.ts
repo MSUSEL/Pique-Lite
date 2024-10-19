@@ -17,6 +17,7 @@ interface Version {
 export interface Project {
   versions: Version[];
   name: string;
+  uuid: string;
   // TODO: We probably need other metadata here, e.g. project name
 }
 
