@@ -5,9 +5,9 @@ import { useFileUpload } from "./use-file-uploader";
 import FileVerifier from "./FileVerifier";
 import { UploadedFile } from "../../types";
 import { useSetAtom } from "jotai";
-import { State, Project } from "../../state/core";
-import { v4 as uuidv4 } from "uuid";
+import { State } from "../../state/core";
 import { base } from "../../schema";
+import { useProjects } from "./useProjects";
 
 const loadFiles = async (
   files: File[]
@@ -56,7 +56,7 @@ const loadFiles = async (
   }
 };
 
-const extractVersionName = (name: string) => {
+export const extractVersionName = (name: string) => {
   const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
   const match = name.match(nameMask);
   const version = match ? match[1] : name;
@@ -69,8 +69,7 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [loadedFiles, setLoadedFiles] = useState<any[]>([]);
   const [, selectFile] = useFileUpload();
-  const setProjects = useSetAtom(State.projects);
-  const setSelectedProject = useSetAtom(State.selectedProject);
+  const { addProject } = useProjects();
   const setViewCode = useSetAtom(State.currentView);
 
   const removeFile = (id: string) => {
@@ -123,31 +122,7 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   const handleContinue = () => {
     setViewCode("overview");
 
-    if (loadedFiles.length > 0) {
-      setProjects((prevProjects = {}) => {
-        const projectCount = Object.keys(prevProjects).length;
-        const projectName = "Project " + (projectCount + 1);
-        const projectUuid = uuidv4();
-
-        const newProject: Project = {
-          name: projectName,
-          uuid: projectUuid,
-          versions: files.map((f) => ({
-            name: extractVersionName(f.name),
-            fileName: f.name,
-            data: f.content,
-            date: new Date(f.lastModified),
-          })),
-        };
-
-        setSelectedProject(projectUuid);
-
-        return {
-          ...prevProjects,
-          [projectUuid]: newProject,
-        };
-      });
-    }
+    addProject(files);
   };
 
   return (
