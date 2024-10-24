@@ -120,9 +120,11 @@ export const FileUploader: React.FC<FileUploaderProps> = () => {
   };
 
   const handleContinue = () => {
-    setViewCode("overview");
+    if (loadedFiles.length > 0) {
+      addProject(files);
 
-    addProject(files);
+      setViewCode("overview");
+    }
   };
 
   return (

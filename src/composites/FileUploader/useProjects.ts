@@ -8,11 +8,10 @@ import { Project } from "../../state";
 
 // Custom hook for managing project-related actions
 export const useProjects = () => {
-  const setProjects = useSetAtom(State.projects);
-  const setSelectedProject = useSetAtom(State.selectedProject);
-  const selectedProjectId = useAtomValue(State.selectedProject);
-
-  const [projects, setLocalProjects] = useState<Record<string, Project>>({});
+  const projects = useAtomValue(State.projects); // Retrieve projects from global state
+  const setProjects = useSetAtom(State.projects); // Modify projects in global state
+  const setSelectedProject = useSetAtom(State.selectedProject); // Set the selected project globally
+  const selectedProjectId = useAtomValue(State.selectedProject); //Retrieve global current project ID
 
   const addProject = (files: UploadedFile[]) => {
     setProjects((prevProjects = {}) => {
@@ -31,13 +30,7 @@ export const useProjects = () => {
         })),
       };
 
-      setSelectedProject(projectUuid);
-
-      // Update both the local state and global state
-      setLocalProjects({
-        ...prevProjects,
-        [projectUuid]: newProject,
-      });
+      setSelectedProject(projectUuid); // Set the new project as selected
 
       return {
         ...prevProjects,
@@ -47,13 +40,32 @@ export const useProjects = () => {
   };
 
   const selectProject = (uuid: string) => {
-    setSelectedProject(uuid);
+    setSelectedProject(uuid); // Select a project by its UUID
+  };
+
+  const removeProject = (id: string) => {
+    setProjects((prevProjects) => {
+      if (prevProjects == undefined) return undefined;
+
+      // Create a new object excluding the project with the matching uuid
+      const updatedProjects = Object.fromEntries(
+        Object.entries(prevProjects).filter(([uuid]) => uuid !== id)
+      );
+
+      // Check if the selected project is being removed and reset if necessary
+      if (prevProjects[id]) {
+        setSelectedProject(undefined); // Deselect if the removed project was selected
+      }
+
+      return updatedProjects;
+    });
   };
 
   return {
-    projects,
-    selectedProjectId,
-    addProject,
-    selectProject,
+    projects, // Access current projects from global state
+    selectedProjectId, //String ID of 'current' project
+    addProject, // Add a new project
+    selectProject, // Select a specific project
+    removeProject, // Remove an existing project based on ID
   };
 };
