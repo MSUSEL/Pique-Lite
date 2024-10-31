@@ -6,9 +6,10 @@ import {
   DialogTitle,
   DialogPortal,
   DialogOverlay,
+  DialogClose,
 } from "@radix-ui/react-dialog";
 import { Button, Callout } from "@radix-ui/themes";
-import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
+import { FileTextIcon, InfoCircledIcon, Cross1Icon } from "@radix-ui/react-icons";
 import useFileUploader from "./FileUploader/useFileUploader";
 import FileVerifier from "./FileUploader/FileVerifier";
 import { useAtom } from "jotai";
@@ -107,6 +108,24 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
             flexDirection: "row",
           }}
         >
+          <DialogClose asChild>
+            <button
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                color: "blue",
+                background: "none",
+                border: "1 px",
+                bordercolor: "blue",
+                cursor: "pointer",
+              }}
+              aria-label="Close"
+            >
+              <Cross1Icon />
+            </button>
+          </DialogClose>
+
           {/* Left side - existing files */}
           <div style={{ width: "50%", borderRight: "1px solid #ddd" }}>
             <h4>Existing Files:</h4>
@@ -156,15 +175,17 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
                 </Button>
 
                 {existingFiles.length > 0 && (
-                  <Button
-                    variant="solid"
-                    size="4"
-                    radius="large"
-                    style={{ marginTop: "10px" }}
-                    onClick={handleContinue} 
-                  >
-                    Continue
-                  </Button>
+                  <DialogClose asChild>
+                    <Button
+                      variant="solid"
+                      size="4"
+                      radius="large"
+                      style={{ marginTop: "10px" }}
+                      onClick={handleContinue} 
+                    >
+                      Continue
+                    </Button>
+                  </DialogClose>
                 )}
               </>
             )}
