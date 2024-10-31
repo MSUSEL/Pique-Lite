@@ -3,6 +3,7 @@ import { Button, Callout } from "@radix-ui/themes";
 import React, { useState } from "react";
 import useFileUploader from "./useFileUploader"; 
 import FileVerifier from "./FileVerifier";
+<<<<<<< HEAD
 import { useSetAtom, useAtom } from "jotai";
 import { State, Project } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
@@ -42,17 +43,129 @@ export const FileUploader: React.FC = () => {
         ...prevProjects,
         [projectUuid]: newProject,
       };
+=======
+import { UploadedFile } from "../../types";
+import { useSetAtom } from "jotai";
+import { State } from "../../state/core";
+import { base } from "../../schema";
+import { useProjects } from "./useProjects";
+
+const loadFiles = async (
+  files: File[]
+): Promise<
+  { id: string; name: string; content: any; lastModified: number }[]
+> => {
+  const filePromises = files.map(
+    (file) =>
+      new Promise<{
+        id: string;
+        name: string;
+        content: any;
+        lastModified: number;
+      }>((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const result = e.target?.result;
+          try {
+            const parsed = JSON.parse(result as string);
+            const uniqueId = `${Date.now()}-${file.name}`;
+            resolve({
+              id: uniqueId,
+              name: file.name,
+              content: parsed,
+              lastModified: file.lastModified,
+            });
+          } catch (error) {
+            reject({
+              name: file.name,
+              error: "An error occurred while reading the file.",
+            });
+          }
+        };
+        fileReader.onerror = () =>
+          reject({ name: file.name, error: "Failed to read file." });
+        fileReader.readAsText(file);
+      })
+  );
+
+  try {
+    const results = await Promise.all(filePromises);
+    return results;
+  } catch (errors) {
+    console.error("Error loading files:", errors);
+    throw errors;
+  }
+};
+
+export const extractVersionName = (name: string) => {
+  const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
+  const match = name.match(nameMask);
+  const version = match ? match[1] : name;
+  return version;
+};
+
+interface FileUploaderProps {}
+
+export const FileUploader: React.FC<FileUploaderProps> = () => {
+  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [loadedFiles, setLoadedFiles] = useState<any[]>([]);
+  const [, selectFile] = useFileUpload();
+  const { addProject } = useProjects();
+  const setViewCode = useSetAtom(State.currentView);
+
+  const removeFile = (id: string) => {
+    setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
+    setLoadedFiles((prevLoadedFiles) =>
+      prevLoadedFiles.filter((file) => file.id !== id)
+    );
+  };
+
+  const validateFileContent = (file: any) => {
+    try {
+      base.dataset.parse(file.content);
+      return true;
+    } catch (error) {
+      console.error("Validation error:", error);
+      return false;
+    }
+    //return true;
+  };
+
+  const handleFileSelect = () => {
+    selectFile({ accept: ".json", multiple: true }, (d: { file: File }[]) => {
+      const filesToLoad = d.map((f) => f.file);
+      console.log("Files to load:", filesToLoad);
+
+      loadFiles(filesToLoad)
+        .then((loadedFiles) => {
+          setLoadedFiles(loadedFiles);
+          setFiles((prevFiles) =>
+            prevFiles.concat(
+              loadedFiles.map((f) => {
+                const isValid = validateFileContent(f);
+                return {
+                  id: f.id,
+                  name: f.name,
+                  content: f.content,
+                  lastModified: f.lastModified,
+                  verified: isValid,
+                };
+              })
+            )
+          );
+        })
+        .catch((error) => {
+          console.error("Error loading files:", error);
+        });
+>>>>>>> origin/zac_refactor
     });
-    
+  };
+
+  const handleContinue = () => {
     if (loadedFiles.length > 0) {
-      setProject({
-        versions: loadedFiles.map((f) => ({
-          name: extractVersionName(f.name),
-          fileName: f.name,
-          data: f.content,
-          date: new Date(f.lastModified),
-        })),
-      });
+      addProject(files);
+
+      setViewCode("overview");
     }
   };
 
@@ -122,7 +235,11 @@ export const FileUploader: React.FC = () => {
 
       <FileVerifier files={files} onRemove={removeFile} />
 
+<<<<<<< HEAD
       {files.length > 0 && (
+=======
+      {files.length > 0 && files.every((file) => file.verified) && (
+>>>>>>> origin/zac_refactor
         <Button
           size="4"
           variant="solid"
@@ -134,6 +251,7 @@ export const FileUploader: React.FC = () => {
           Continue
         </Button>
       )}
+<<<<<<< HEAD
     {files.length > 0 && !files.every(file => file.verified) && (
       <Callout.Root color="red" style={{ margin: "16px" }} size="2">
         <Callout.Icon>
@@ -143,6 +261,18 @@ export const FileUploader: React.FC = () => {
           Please delete unverified files to continue.
         </Callout.Text>
       </Callout.Root>
+=======
+
+      {files.length > 0 && !files.every((file) => file.verified) && (
+        <Callout.Root color="red" style={{ margin: "16px" }} size="2">
+          <Callout.Icon>
+            <InfoCircledIcon />
+          </Callout.Icon>
+          <Callout.Text>
+            Please delete unverified files to continue.
+          </Callout.Text>
+        </Callout.Root>
+>>>>>>> origin/zac_refactor
       )}
     </div>
   );
