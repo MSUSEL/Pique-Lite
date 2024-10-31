@@ -12,6 +12,7 @@ export const FileUploader: React.FC = () => {
   const setProject = useSetAtom(State.project);
   const setProjects = useSetAtom(State.projects);
   const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
+  const setCurrentView = useSetAtom(State.currentView);
 
   const extractVersionName = (name: string) => {
     const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
@@ -26,7 +27,7 @@ export const FileUploader: React.FC = () => {
       const projectName = "Project " + (projectCount + 1);
       const projectUuid = uuidv4();
 
-      const newProject: Project = {
+      const newProject = {
         name: projectName,
         versions: loadedFiles.map((f) => ({
           name: extractVersionName(f.name),
@@ -37,6 +38,7 @@ export const FileUploader: React.FC = () => {
       };
 
       setSelectedProject(projectUuid);
+      setCurrentView("overview"); 
 
       return {
         ...prevProjects,
@@ -55,6 +57,7 @@ export const FileUploader: React.FC = () => {
       });
     }
   };
+
 
   const handleFileUpload = () => {
     const input = document.createElement("input");

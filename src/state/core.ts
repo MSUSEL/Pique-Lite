@@ -17,6 +17,7 @@ interface Version {
 export interface Project {
   versions: Version[];
   name: string;
+  uuid: string;
   // TODO: We probably need other metadata here, e.g. project name
 }
 
@@ -25,6 +26,7 @@ interface Projects {
 }
 
 export function createState() {
+  const currentView = atom<string>();
   // TODO: We are only defining a single project. Instead,
   // we need to define an atom `projects` which could simply
   // be `Project[]`:
@@ -43,6 +45,7 @@ export function createState() {
   const selectedProject = atom<string | undefined>(undefined);
   const selectedVersion = atom<number | undefined>(undefined);
   return {
+    currentView,
     projects,
     selectedProject,
     selectedVersion,
