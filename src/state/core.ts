@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * A "version" of a project
@@ -24,6 +25,15 @@ export interface Project {
 interface Projects {
   [uuid: string]: Project;
 }
+
+export const createNewProject = (projects: any, setProjects: Function) => {
+  const newProjectId = uuidv4();
+  setProjects((prevProjects: any) => ({
+    ...prevProjects,
+    [newProjectId]: { name: `Project ${Object.keys(prevProjects).length + 1}`, versions: [] },
+  }));
+  return newProjectId;
+};
 
 export function createState() {
   const currentView = atom<string>();
