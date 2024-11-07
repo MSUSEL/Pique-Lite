@@ -83,6 +83,32 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
     setEditProjectId(null);
   };
 
+  const removeVersionFromProject = (versionName: string) => {
+    console.log("Removing version:", versionName, "from project:", currentProjectId);
+  
+    if (currentProjectId) {
+      setProjects((prevProjects) => {
+        const updatedProjects = { ...prevProjects };
+        const projectToUpdate = updatedProjects[currentProjectId];
+        console.log("Before update:", projectToUpdate);
+  
+        if (projectToUpdate) {
+          projectToUpdate.versions = projectToUpdate.versions.filter((file: any) => file.name !== versionName);
+        }
+  
+        console.log("After update:", projectToUpdate);
+        return updatedProjects;
+      });
+  
+      setExistingFiles((prevFiles) => {
+        console.log("Existing files before removal:", prevFiles);
+        const updatedFiles = prevFiles.filter((file) => file.name !== versionName);
+        console.log("Existing files after removal:", updatedFiles);
+        return updatedFiles;
+      });
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -175,20 +201,22 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
           </div>
 
           {/* Middle column - existing files */}
-          <div style={{ width: "40%", borderRight: "1px solid #ddd", padding: "0 10px" }}>
+          <div style={{ width: "20%", borderRight: "1px solid #ddd", padding: "0 10px" }}>
             <h4>Existing Files:</h4>
             {existingFiles.map((file, index) => (
               <div key={index} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 {file.name}
-                <Button variant="outline" size="2" onClick={() => removeFile(file.id)}>Remove</Button>
+                <Button variant="outline" size="2" onClick={() => removeVersionFromProject(file.name)}>
+                  Remove
+                </Button>
               </div>
             ))}
           </div>
 
           {/* Right column - file uploader */}
-          <div style={{ width: "40%", paddingLeft: "10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ width: "60%", paddingLeft: "10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
             <DialogTitle style={{ fontSize: "24px", marginBottom: "20px" }}>Upload PIQUE JSON Files</DialogTitle>
-            <Callout.Root size="2" style={{ marginBottom: "16px" }}>
+            <Callout.Root size="2">
               <Callout.Icon><InfoCircledIcon /></Callout.Icon>
               <Callout.Text>Please upload one or more PIQUE JSON files to get started.</Callout.Text>
             </Callout.Root>
