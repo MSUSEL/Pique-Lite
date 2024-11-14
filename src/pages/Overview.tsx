@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text, Callout } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
@@ -88,6 +88,7 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
+          
           <Box style={{ width: "100%", marginRight: "5vw" }}>
             <ProjectSelector />
           </Box>

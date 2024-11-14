@@ -89,12 +89,17 @@ const useFileUploader = () => {
 
   const allFilesVerified = () => files.every((file) => file.verified);
 
+  const resetFiles = () => {
+    setFiles([]); 
+  };
+
   return {
     files,
     loadedFiles,
     handleFileSelect,
     removeFile,
     allFilesVerified,
+    resetFiles
   };
 };
 

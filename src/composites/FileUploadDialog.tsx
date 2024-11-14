@@ -20,7 +20,7 @@ import { createNewProject } from "../state/core";
 export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined }> = ({ selectedProjectId }) => {
   const [projects, setProjects] = useAtom(State.projects);
   const [currentProjectId, setCurrentProjectId] = useState(selectedProjectId);
-  const { files, loadedFiles, handleFileSelect, removeFile, allFilesVerified } = useFileUploader();
+  const { files, loadedFiles, handleFileSelect, removeFile, allFilesVerified, resetFiles } = useFileUploader();
   const [existingFiles, setExistingFiles] = useState<any[]>([]);
   const [editProjectId, setEditProjectId] = useState<string | null>(null);
   const [editProjectName, setEditProjectName] = useState("");
@@ -52,9 +52,8 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
       data: file.content,
       date: new Date(file.lastModified),
     }));
-
+  
     setExistingFiles((prev) => [...prev, ...formattedFiles]);
-    handleFileSelect([]);
   };
 
   const handleContinue = () => {
@@ -68,6 +67,7 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
         return updatedProjects;
       });
     }
+    resetFiles();
   };
 
   const handleNewProject = () => {
