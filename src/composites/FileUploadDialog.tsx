@@ -7,6 +7,7 @@ import {
   DialogPortal,
   DialogOverlay,
   DialogClose,
+  Root
 } from "@radix-ui/react-dialog";
 import { Button, Callout } from "@radix-ui/themes";
 import { FileTextIcon, InfoCircledIcon, Cross1Icon } from "@radix-ui/react-icons";
@@ -110,6 +111,7 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
   };
 
   return (
+    <Root>
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="surface" size="4" radius="large">
@@ -257,6 +259,7 @@ export const FileUploadDialog: React.FC<{ selectedProjectId: string | undefined 
         </DialogContent>
       </DialogPortal>
     </Dialog>
+    </Root>
   );
 };
 

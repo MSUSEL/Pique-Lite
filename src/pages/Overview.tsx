@@ -73,7 +73,7 @@ function Overview() {
           </SideBar.Sidebar>
         </Box>
 
-        <Box style={{ width: "80vw" }}>
+        <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
           <IconButton
             size="3"
             variant="soft"
@@ -88,14 +88,18 @@ function Overview() {
           >
             {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
           </IconButton>
-          <ProjectSelector />
+          <Box style={{ width: "100%", marginRight: "5vw" }}>
+            <ProjectSelector />
+          </Box>
           <FileUploadDialog selectedProjectId={selectedProjectId} /> 
           <VersionSelector />
-          <ProjectCharacteristicsRisks />
-          <OverviewPanel.Container>
-            <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
-            <LinePlot />
-          </OverviewPanel.Container>
+          <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "0.5vh",}}>
+            <ProjectCharacteristicsRisks />
+            <OverviewPanel.Container >
+              <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
+              <LinePlot />
+            </OverviewPanel.Container>
+          </Box>
         </Box>
       </Grid>
     </Box>
