@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { UploadedFile } from "types"; 
+import { base } from '../../schema';
 
 const loadFiles = async (
   files: File[]
@@ -53,16 +54,14 @@ const useFileUploader = () => {
     );
   };
 
-  //can uncomment once merged with schema
   const validateFileContent = (file: any) => {
-//    try {
-//       base.dataset.parse(file.content); 
-//       return true;
-//     } catch (error) {
-//       console.error('Validation error:', error);
-//       return false;
-//     }
-        return true;
+   try {
+      base.dataset.parse(file.content); 
+      return true;
+    } catch (error) {
+      console.error('Validation error:', error);
+      return false;
+    }
   };
 
   const handleFileSelect = (selectedFiles: File[]) => {
