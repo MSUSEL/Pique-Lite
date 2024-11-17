@@ -28,6 +28,7 @@ export const FileUploader: React.FC = () => {
       const projectName = "Project " + (projectCount + 1);
       const projectUuid = uuidv4();
 
+      let uploadCounter = 1;
       const newProject = {
         name: projectName,
         versions: loadedFiles.map((f) => ({
@@ -35,6 +36,7 @@ export const FileUploader: React.FC = () => {
           fileName: f.name,
           data: f.content,
           date: new Date(f.lastModified),
+          uploadOrder: uploadCounter++,
         })),
       };
 

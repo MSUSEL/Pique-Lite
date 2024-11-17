@@ -1,0 +1,22 @@
+@import "@radix-ui/colors/black-alpha.css";
+
+.ScrollAreaScrollbar {
+  display: flex;
+  /* ensures no selection */
+  user-select: none;
+  /* disable browser handling of all panning and zooming gestures on touch devices */
+  touch-action: none;
+  padding: 2px;
+  background: var(--black-a3);
+  /*transition: background 160ms ease-out;*/
+}
+.ScrollAreaScrollbar:hover {
+  background: var(--black-a5);
+}
+.ScrollAreaScrollbar[data-orientation="vertical"] {
+  width: var(--scrollbar-size);
+}
+.ScrollAreaScrollbar[data-orientation="horizontal"] {
+  flex-direction: column;
+  height: var(--scrollbar-size);
+}

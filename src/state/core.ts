@@ -3,11 +3,12 @@ import { base } from "../schema";
 /**
  * A "version" of a project
  */
-interface Version {
+export interface Version {
   date: Date;
   name: string;
   fileName: string;
   data: base.Schema;
+  uploadOrder: number;
 }
 
 export interface Project {
