@@ -1,25 +1,26 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
 import React, { useState } from "react";
-import useFileUploader from "./useFileUploader"; 
+import useFileUploader from "./useFileUploader";
 import FileVerifier from "./FileVerifier";
 import { useSetAtom, useAtom } from "jotai";
 import { State, Project } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
 
+export const extractVersionName = (name: string) => {
+  const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
+  const match = name.match(nameMask);
+  const version = match ? match[1] : name;
+  return version;
+};
+
 export const FileUploader: React.FC = () => {
-  const { files, loadedFiles, handleFileSelect, removeFile, allFilesVerified } = useFileUploader();
+  const { files, loadedFiles, handleFileSelect, removeFile, allFilesVerified } =
+    useFileUploader();
   const setProject = useSetAtom(State.project);
   const setProjects = useSetAtom(State.projects);
   const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
   const setCurrentView = useSetAtom(State.currentView);
-
-  const extractVersionName = (name: string) => {
-    const nameMask = /busybox-(\d+\.\d+\.\d+)_/;
-    const match = name.match(nameMask);
-    const version = match ? match[1] : name;
-    return version;
-  };
 
   const handleContinue = () => {
     setProjects((prevProjects = {}) => {
@@ -27,6 +28,7 @@ export const FileUploader: React.FC = () => {
       const projectName = "Project " + (projectCount + 1);
       const projectUuid = uuidv4();
 
+      let uploadCounter = 1;
       const newProject = {
         name: projectName,
         versions: loadedFiles.map((f) => ({
@@ -34,18 +36,19 @@ export const FileUploader: React.FC = () => {
           fileName: f.name,
           data: f.content,
           date: new Date(f.lastModified),
+          uploadOrder: uploadCounter++,
         })),
       };
 
       setSelectedProject(projectUuid);
-      setCurrentView("overview"); 
+      setCurrentView("overview");
 
       return {
         ...prevProjects,
         [projectUuid]: newProject,
       };
     });
-    
+
     if (loadedFiles.length > 0) {
       setProject({
         versions: loadedFiles.map((f) => ({
@@ -58,7 +61,6 @@ export const FileUploader: React.FC = () => {
     }
   };
 
-
   const handleFileUpload = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -68,11 +70,11 @@ export const FileUploader: React.FC = () => {
     input.onchange = (event) => {
       const files = event.target.files;
       if (files) {
-        handleFileSelect(Array.from(files)); 
+        handleFileSelect(Array.from(files));
       }
     };
 
-    input.click(); 
+    input.click();
   };
 
   return (
@@ -117,7 +119,7 @@ export const FileUploader: React.FC = () => {
         size="4"
         variant="surface"
         radius="large"
-        onClick={handleFileUpload} 
+        onClick={handleFileUpload}
         style={{ margin: "16px" }}
       >
         <FileTextIcon /> Select Files
@@ -132,20 +134,20 @@ export const FileUploader: React.FC = () => {
           radius="large"
           onClick={handleContinue}
           style={{ marginTop: "10px" }}
-          disabled={!allFilesVerified()} 
+          disabled={!allFilesVerified()}
         >
           Continue
         </Button>
       )}
-    {files.length > 0 && !files.every(file => file.verified) && (
-      <Callout.Root color="red" style={{ margin: "16px" }} size="2">
-        <Callout.Icon>
-          <InfoCircledIcon />
-        </Callout.Icon>
-        <Callout.Text>
-          Please delete unverified files to continue.
-        </Callout.Text>
-      </Callout.Root>
+      {files.length > 0 && !files.every((file) => file.verified) && (
+        <Callout.Root color="red" style={{ margin: "16px" }} size="2">
+          <Callout.Icon>
+            <InfoCircledIcon />
+          </Callout.Icon>
+          <Callout.Text>
+            Please delete unverified files to continue.
+          </Callout.Text>
+        </Callout.Root>
       )}
     </div>
   );
