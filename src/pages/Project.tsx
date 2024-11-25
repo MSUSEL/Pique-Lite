@@ -48,7 +48,7 @@ const ProjectCharacteristicsRisks = () => {
   return <RiskCards risks={riskCards} />;
 };
 
-const Overview = () => {
+const Project = () => {
   return (
     <Box style={{ width: "80vw" }}>
       <ProjectSelector />
@@ -62,4 +62,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default Project;
