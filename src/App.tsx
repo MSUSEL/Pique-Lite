@@ -13,7 +13,7 @@ import MenuToggle from "./views/MenuToggle";
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
   overview: <Overview />,
-  projects: <Project />,
+  project: <Project />,
   //eval page set as overview for now while there is no eval page
   evaluate: <Overview />,
 };
