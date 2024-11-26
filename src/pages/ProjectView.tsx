@@ -1,17 +1,16 @@
-import { Box, IconButton, Grid, Text, Callout } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text} from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
 import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";
-import * as SideBar from "react-pro-sidebar";
-import { useState } from "react";
-import { PageHeader } from "../views/PageHeader";
 import * as OverviewPanel from "../composites/OverviewPanel";
 import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
 import { FileUploadDialog } from "../composites/FileUploadDialog";
+import * as SideBar from "react-pro-sidebar";
+import { useState } from "react";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -52,7 +51,7 @@ const ProjectCharacteristicsRisks = () => {
   return <RiskCards risks={riskCards} />;
 };
 
-function Overview() {
+function ProjectView() {
   const [collapsed, setCollapsed] = useState(true);
   const selectedProjectId = useAtomValue(State.selectedProject); 
 
@@ -61,33 +60,10 @@ function Overview() {
       <Grid columns="auto auto">
         <Box>
           <SideBar.Sidebar collapsed={collapsed} collapsedWidth="0px">
-            <SideBar.Menu>
-              <SideBar.MenuItem>
-                <Text>Overview</Text>
-              </SideBar.MenuItem>
-              <SideBar.MenuItem>
-                <Text>Evaluate</Text>
-              </SideBar.MenuItem>
-            </SideBar.Menu>
           </SideBar.Sidebar>
         </Box>
 
         <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
-          <IconButton
-            size="3"
-            variant="soft"
-            style={{
-              position: "absolute",
-              top: "10vh",
-              left: collapsed ? "10px" : "260px",
-              zIndex: 2,
-              transition: "left 0.3s ease-in-out",
-            }}
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            {collapsed ? <PinLeftIcon /> : <PinRightIcon />}
-          </IconButton>
-          
           <Box style={{ width: "100%", marginRight: "5vw" }}>
             <ProjectSelector />
           </Box>
@@ -106,4 +82,4 @@ function Overview() {
   );
 };
 
-export default Overview;
+export default ProjectView;
