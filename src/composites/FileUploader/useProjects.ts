@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSetAtom, useAtomValue } from "jotai";
 import { v4 as uuidv4 } from "uuid";
 import { State } from "../../state";
@@ -19,6 +18,7 @@ export const useProjects = () => {
       const projectName = "Project " + (projectCount + 1);
       const projectUuid = uuidv4();
 
+      let uploadCounter = 1;
       const newProject: Project = {
         name: projectName,
         uuid: projectUuid,
@@ -27,6 +27,7 @@ export const useProjects = () => {
           fileName: f.name,
           data: f.content,
           date: new Date(f.lastModified),
+          uploadOrder: uploadCounter++,
         })),
       };
 

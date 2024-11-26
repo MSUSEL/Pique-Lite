@@ -1,77 +1,79 @@
-import React from "react";
-import { Avatar, Box, Card, Heading, Text, Separator } from "@radix-ui/themes";
-import { useProjects } from "../composites/FileUploader/useProjects";
-import { Flex } from "@radix-ui/themes";
-import { getRisk } from "../risk-helpers";
+import { Box, Grid, Text, Callout } from "@radix-ui/themes";
+import { useAtomValue } from "jotai";
+import { LinePlot } from "../composites/PiqueChart";
+import { RiskCards, RiskLegend } from "../composites/RiskCards";
+import { getAllRiskLevels } from "../risk-helpers";
+import { State } from "../state/core";
+import { useState } from "react";
+import * as OverviewPanel from "../composites/OverviewPanel";
+import { VersionSelector } from "../views/VersionSelector";
+import { ProjectSelector } from "../views/ProjectSelector";
+import { FileUploadDialog } from "../composites/FileUploadDialog";
 
-const ProjectPage: React.FC = () => {
-  const { projects, selectedProjectId } = useProjects();
+export const RiskLevelLegend = () => {
+  const allRisks = getAllRiskLevels();
 
-  if (!projects || !selectedProjectId) return null;
-  const currentProject = projects[selectedProjectId];
+  return (
+    <RiskLegend
+      risks={allRisks.map((risk) => ({
+        title: risk.name,
+        score: risk.diagnosticRange[1] - 0.001,
+      }))}
+      scale="diagnostic"
+    />
+  );
+};
 
-  if (!currentProject.versions.length)
-    return (
-      <Box>
-        <Text>Project has no valid versions uploaded.</Text>
-      </Box>
-    );
+const ProjectCharacteristicsRisks = () => {
+  const projects = useAtomValue(State.projects);
+  const selectedProject = useAtomValue(State.selectedProject);
+
+  if (!selectedProject) return null;
+  const project = projects ? projects[selectedProject] : undefined;
+
+  const selectedVersion = useAtomValue(State.selectedVersion);
+
+  if (!project) return null;
+
+  const version =
+    project.versions[selectedVersion == undefined ? 0 : selectedVersion];
+  const characteristics = version.data.children;
+
+  const riskCards = characteristics.map(
+    (characteristic: { name: string; value: number }) => ({
+      title: characteristic.name,
+      score: characteristic.value,
+    })
+  );
+
+  return <RiskCards risks={riskCards} />;
+};
+
+function Project() {
+  const [collapsed, setCollapsed] = useState(true);
+  const selectedProjectId = useAtomValue(State.selectedProject); 
 
   return (
     <Box>
-      <Flex direction="column">
-        {currentProject.versions.map((version, index) => {
-          const versionRisk = getRisk(version.data.value, "normal");
-          return (
-            <Card key={index} style={{ margin: "10px", width: "70vw" }}>
-              <Heading size="3">Version: {version.name}</Heading>
-              <Flex key={version.name} direction="row" width="100%">
-                <Flex
-                  direction="row"
-                  gap="5"
-                  style={{
-                    width: "60%",
-                  }}
-                >
-                  {version.data.children.map((child, i) => {
-                    const childRisk = getRisk(child.value, "normal");
-                    return (
-                      <Flex
-                        direction="column"
-                        style={{ alignItems: "center" }}
-                        key={i}
-                      >
-                        <Text style={{ textWrap: "nowrap" }}>{child.name}</Text>
-                        <Avatar
-                          size="5"
-                          fallback={child.value.toFixed(2)}
-                          style={{ background: childRisk?.color || "gray" }}
-                          highContrast
-                        />
-                      </Flex>
-                    );
-                  })}
-                </Flex>
-                <Box style={{ width: "20%" }} />
-                <Flex
-                  direction="column"
-                  style={{ alignItems: "center", width: "20%" }}
-                >
-                  <Text>TQI</Text>
-                  <Avatar
-                    size="5"
-                    fallback={version.data.value.toFixed(2)}
-                    style={{ background: versionRisk?.color || "gray" }}
-                    highContrast
-                  />
-                </Flex>
-              </Flex>
-            </Card>
-          );
-        })}
-      </Flex>
+      <Grid columns="auto auto">
+
+        <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
+          <Box style={{ width: "100%", marginRight: "5vw" }}>
+            <ProjectSelector />
+          </Box>
+          <FileUploadDialog selectedProjectId={selectedProjectId} /> 
+          <VersionSelector />
+          <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "0.5vh",}}>
+            <ProjectCharacteristicsRisks />
+            <OverviewPanel.Container >
+              <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
+              <LinePlot />
+            </OverviewPanel.Container>
+          </Box>
+        </Box>
+      </Grid>
     </Box>
   );
 };
 
-export default ProjectPage;
+export default Project;
