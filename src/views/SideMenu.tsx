@@ -17,8 +17,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
           <SideBar.MenuItem onClick={() => setCurrentView("overview")}>
             <Text>Overview</Text>
           </SideBar.MenuItem>
-          <SideBar.MenuItem onClick={() => setCurrentView("projects")}>
-            <Text>Projects</Text>
+          <SideBar.MenuItem onClick={() => setCurrentView("project")}>
+            <Text>Project</Text>
           </SideBar.MenuItem>
           <SideBar.MenuItem onClick={() => setCurrentView("evaluate")}>
             <Text>Evaluate</Text>

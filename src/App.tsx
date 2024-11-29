@@ -3,8 +3,8 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { State } from "./state/core";
 import Landing from "./pages/Landing";
-import Overview from "./pages/Overview";
-import ProjectsPage from "./pages/projects/Projects";
+import Overview from "./pages/Overview/Overview";
+import Project from "./pages/Project";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
@@ -13,7 +13,7 @@ import MenuToggle from "./views/MenuToggle";
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
   overview: <Overview />,
-  projects: <ProjectsPage />,
+  project: <Project />,
   //eval page set as overview for now while there is no eval page
   evaluate: <Overview />,
 };
