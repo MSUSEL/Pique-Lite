@@ -10,7 +10,6 @@ import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
 import { FileUploadDialog } from "../composites/FileUploadDialog";
 
-
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
 
@@ -53,22 +52,34 @@ const ProjectCharacteristicsRisks = () => {
 
 function Project() {
   const [collapsed, setCollapsed] = useState(true);
-  const selectedProjectId = useAtomValue(State.selectedProject); 
+  const selectedProjectId = useAtomValue(State.selectedProject);
 
-const Project = () => {
   return (
     <Box>
       <Grid columns="auto auto">
-
-        <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
+        <Box
+          style={{
+            width: "100vw",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginLeft: collapsed ? "0vw" : "-20vw",
+          }}
+        >
           <Box style={{ width: "100%", marginRight: "5vw" }}>
             <ProjectSelector />
           </Box>
-          <FileUploadDialog selectedProjectId={selectedProjectId} /> 
           <VersionSelector />
-          <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "0.5vh",}}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "0.5vh",
+            }}
+          >
             <ProjectCharacteristicsRisks />
-            <OverviewPanel.Container >
+            <OverviewPanel.Container>
               <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
               <LinePlot />
             </OverviewPanel.Container>
@@ -77,6 +88,6 @@ const Project = () => {
       </Grid>
     </Box>
   );
-};
+}
 
 export default Project;

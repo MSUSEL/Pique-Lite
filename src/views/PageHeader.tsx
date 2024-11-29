@@ -1,7 +1,16 @@
 import { Heading, Flex, Box } from "@radix-ui/themes";
 import { RiskLevelLegend } from "../pages/Project";
+import { FileUploadDialog } from "../composites/FileUploadDialog";
 
-export function PageHeader() {
+interface PageHeaderProps {
+  showUploader?: boolean;
+  selectedProjectId?: string;
+}
+
+export function PageHeader({
+  showUploader = true,
+  selectedProjectId,
+}: PageHeaderProps) {
   return (
     <div
       style={{
@@ -36,6 +45,11 @@ export function PageHeader() {
       <Box marginTop="10px">
         <RiskLevelLegend />
       </Box>
+      <Flex justify="end" style={{ width: "100%", marginRight: "2em" }}>
+        {showUploader && (
+          <FileUploadDialog selectedProjectId={selectedProjectId} />
+        )}
+      </Flex>
     </div>
   );
 }

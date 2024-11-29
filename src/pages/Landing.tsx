@@ -1,10 +1,13 @@
+import { PageHeader } from "../views/PageHeader";
 import { FileUploader } from "../composites/FileUploader";
+import { Box } from "@radix-ui/themes";
 
 function Landing() {
   return (
-    <div>
+    <Box>
+      <PageHeader showUploader={false} />
       <FileUploader />
-    </div>
+    </Box>
   );
 }
 
