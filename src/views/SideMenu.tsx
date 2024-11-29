@@ -28,6 +28,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
             <Text>Overview</Text>
           </SideBar.MenuItem>
           <SideBar.MenuItem icon={<DashboardIcon />} onClick={() => setCurrentView("project")}>
+
             <Text>Project</Text>
           </SideBar.MenuItem>
           <SideBar.MenuItem icon={<MixIcon />} onClick={() => setCurrentView("evaluate")}>

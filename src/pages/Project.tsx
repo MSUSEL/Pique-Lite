@@ -10,6 +10,7 @@ import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
 import { FileUploadDialog } from "../composites/FileUploadDialog";
 
+
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
 
@@ -28,6 +29,7 @@ const ProjectCharacteristicsRisks = () => {
   const projects = useAtomValue(State.projects);
   const selectedProject = useAtomValue(State.selectedProject);
 
+  //check to make sure there is a selected project
   if (!selectedProject) return null;
   const project = projects ? projects[selectedProject] : undefined;
 
@@ -53,6 +55,7 @@ function Project() {
   const [collapsed, setCollapsed] = useState(true);
   const selectedProjectId = useAtomValue(State.selectedProject); 
 
+const Project = () => {
   return (
     <Box>
       <Grid columns="auto auto">
