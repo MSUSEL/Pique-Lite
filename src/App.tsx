@@ -31,10 +31,8 @@ function App() {
         <PageHeader />
         <Grid columns="auto auto" height="100%">
           <SideMenu />
-          <Box>
-            {/* <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} /> */}
-            {views[view]}
-          </Box>
+          {/* <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} /> */}
+          {views[view]}
         </Grid>
       </Box>
     );

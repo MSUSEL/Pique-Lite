@@ -8,7 +8,7 @@ import { useState } from "react";
 import * as OverviewPanel from "../composites/OverviewPanel";
 import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
-import { FileUploadDialog } from "../composites/FileUploadDialog";
+import { FileUploadDialog } from "../composites/FileUploadDialog/FileUploadDialog";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -51,39 +51,36 @@ const ProjectCharacteristicsRisks = () => {
 };
 
 function Project() {
-  const [collapsed, setCollapsed] = useState(true);
   return (
-    <Box>
-      <Grid columns="auto auto">
+    <Grid columns="auto auto" className="Project-root">
+      <Box
+        style={{
+          // width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Box style={{ width: "100%", marginRight: "5vw" }}>
+          <ProjectSelector />
+        </Box>
+        <VersionSelector />
         <Box
           style={{
-            width: "100vw",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            padding: "0.5vh",
           }}
         >
-          <Box style={{ width: "100%", marginRight: "5vw" }}>
-            <ProjectSelector />
-          </Box>
-          <VersionSelector />
-          <Box
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              padding: "0.5vh",
-            }}
-          >
-            <ProjectCharacteristicsRisks />
-            <OverviewPanel.Container>
-              <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
-              <LinePlot />
-            </OverviewPanel.Container>
-          </Box>
+          <ProjectCharacteristicsRisks />
+          <OverviewPanel.Container>
+            <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
+            <LinePlot />
+          </OverviewPanel.Container>
         </Box>
-      </Grid>
-    </Box>
+      </Box>
+    </Grid>
   );
 }
 
