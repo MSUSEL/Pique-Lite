@@ -29,8 +29,9 @@ export const FileUploader: React.FC = () => {
       const projectUuid = uuidv4();
 
       let uploadCounter = 1;
-      const newProject = {
+      const newProject: Project = {
         name: projectName,
+        uuid: projectUuid,
         versions: loadedFiles.map((f) => ({
           name: extractVersionName(f.name),
           fileName: f.name,
