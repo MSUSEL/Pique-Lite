@@ -6,10 +6,10 @@ import React, { useState } from "react";
 import { HomeIcon, DashboardIcon, MixIcon } from "@radix-ui/react-icons"; // Replace with actual icons
 
 interface SideMenuProps {
-  collapsed: boolean;
+  collapsed?: boolean;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
+const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
   const setCurrentView = useSetAtom(State.currentView);
   const [hovered, setHovered] = useState(false);
 
@@ -18,11 +18,16 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed }) => {
 
   return (
     <Box
+      className="SideMenu-root"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      height="100%"
       // style={{ width: collapsed && !hovered ? "50px" : "200px", transition: "width 0.3s" }}
     >
-      <SideBar.Sidebar collapsed={collapsed && !hovered}>
+      <SideBar.Sidebar
+        collapsed={collapsed && !hovered}
+        style={{ height: "100%" }}
+      >
         <SideBar.Menu>
           <SideBar.MenuItem
             icon={<HomeIcon />}

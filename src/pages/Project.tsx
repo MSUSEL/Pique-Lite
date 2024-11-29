@@ -52,8 +52,6 @@ const ProjectCharacteristicsRisks = () => {
 
 function Project() {
   const [collapsed, setCollapsed] = useState(true);
-  const selectedProjectId = useAtomValue(State.selectedProject);
-
   return (
     <Box>
       <Grid columns="auto auto">
@@ -63,7 +61,6 @@ function Project() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginLeft: collapsed ? "0vw" : "-20vw",
           }}
         >
           <Box style={{ width: "100%", marginRight: "5vw" }}>

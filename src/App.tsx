@@ -1,6 +1,5 @@
 import "./App.css";
 import { useAtomValue } from "jotai";
-import { useState } from "react";
 import { State } from "./state/core";
 import Landing from "./pages/Landing";
 import Overview from "./pages/Overview/Overview";
@@ -8,7 +7,6 @@ import Project from "./pages/Project";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
-import MenuToggle from "./views/MenuToggle";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
@@ -20,7 +18,6 @@ const views: Record<string, JSX.Element> = {
 
 function App() {
   const view = useAtomValue(State.currentView) || "landing";
-  const [collapsed, setCollapsed] = useState(true);
 
   if (view === "landing")
     return (
@@ -32,9 +29,9 @@ function App() {
     return (
       <Box height="100%" width="100%">
         <PageHeader />
-        <Grid columns="auto auto">
-          <SideMenu collapsed={collapsed} />
-          <Box style={{ width: "80vw" }}>
+        <Grid columns="auto auto" height="100%">
+          <SideMenu />
+          <Box>
             {/* <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} /> */}
             {views[view]}
           </Box>
