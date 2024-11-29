@@ -35,7 +35,7 @@ function App() {
         <Grid columns="auto auto">
           <SideMenu collapsed={collapsed} />
           <Box style={{ width: "80vw" }}>
-            <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
+            {/* <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} /> */}
             {views[view]}
           </Box>
         </Grid>

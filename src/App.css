@@ -40,3 +40,13 @@
 .read-the-docs {
   color: #888;
 }
+
+.Sidebar {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 0.3s ease;
+}
+
+.Sidebar:hover {
+  width: 200px;
+}

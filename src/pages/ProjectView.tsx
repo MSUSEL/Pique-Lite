@@ -1,15 +1,16 @@
-import { Box, Grid, Text, Callout } from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text} from "@radix-ui/themes";
+import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
 import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";
-import { useState } from "react";
 import * as OverviewPanel from "../composites/OverviewPanel";
 import { VersionSelector } from "../views/VersionSelector";
 import { ProjectSelector } from "../views/ProjectSelector";
 import { FileUploadDialog } from "../composites/FileUploadDialog";
-
+import * as SideBar from "react-pro-sidebar";
+import { useState } from "react";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -29,7 +30,6 @@ const ProjectCharacteristicsRisks = () => {
   const projects = useAtomValue(State.projects);
   const selectedProject = useAtomValue(State.selectedProject);
 
-  //check to make sure there is a selected project
   if (!selectedProject) return null;
   const project = projects ? projects[selectedProject] : undefined;
 
@@ -51,14 +51,17 @@ const ProjectCharacteristicsRisks = () => {
   return <RiskCards risks={riskCards} />;
 };
 
-function Project() {
+function ProjectView() {
   const [collapsed, setCollapsed] = useState(true);
   const selectedProjectId = useAtomValue(State.selectedProject); 
 
-const Project = () => {
   return (
     <Box>
       <Grid columns="auto auto">
+        <Box>
+          <SideBar.Sidebar collapsed={collapsed} collapsedWidth="0px">
+          </SideBar.Sidebar>
+        </Box>
 
         <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
           <Box style={{ width: "100%", marginRight: "5vw" }}>
@@ -79,4 +82,4 @@ const Project = () => {
   );
 };
 
-export default Project;
+export default ProjectView;
