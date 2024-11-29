@@ -1,4 +1,4 @@
-import { Box, IconButton, Grid, Text} from "@radix-ui/themes";
+import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
 import { LinePlot } from "../composites/PiqueChart";
@@ -52,26 +52,39 @@ const ProjectCharacteristicsRisks = () => {
 };
 
 function ProjectView() {
-  const [collapsed, setCollapsed] = useState(true);
-  const selectedProjectId = useAtomValue(State.selectedProject); 
+  const selectedProjectId = useAtomValue(State.selectedProject);
 
   return (
     <Box>
       <Grid columns="auto auto">
         <Box>
-          <SideBar.Sidebar collapsed={collapsed} collapsedWidth="0px">
-          </SideBar.Sidebar>
+          <SideBar.Sidebar collapsedWidth="0px"></SideBar.Sidebar>
         </Box>
 
-        <Box style={{ width: "100vw", display: "flex", flexDirection: "column", alignItems: "center", marginLeft: collapsed ? "0vw" : "-20vw"}}>
+        <Box
+          style={{
+            width: "100vw",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginLeft: collapsed ? "0vw" : "-20vw",
+          }}
+        >
           <Box style={{ width: "100%", marginRight: "5vw" }}>
             <ProjectSelector />
           </Box>
-          <FileUploadDialog selectedProjectId={selectedProjectId} /> 
+          <FileUploadDialog selectedProjectId={selectedProjectId} />
           <VersionSelector />
-          <Box style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "0.5vh",}}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "0.5vh",
+            }}
+          >
             <ProjectCharacteristicsRisks />
-            <OverviewPanel.Container >
+            <OverviewPanel.Container>
               <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
               <LinePlot />
             </OverviewPanel.Container>
@@ -80,6 +93,6 @@ function ProjectView() {
       </Grid>
     </Box>
   );
-};
+}
 
 export default ProjectView;
