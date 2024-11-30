@@ -55,7 +55,7 @@ function ProjectView() {
   const selectedProjectId = useAtomValue(State.selectedProject);
 
   return (
-    <Box>
+    <Box className="ProjectView-root">
       <Grid columns="auto auto">
         <Box>
           <SideBar.Sidebar collapsedWidth="0px"></SideBar.Sidebar>
@@ -67,7 +67,7 @@ function ProjectView() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginLeft: collapsed ? "0vw" : "-20vw",
+            // marginLeft: collapsed ? "0vw" : "-20vw",
           }}
         >
           <Box style={{ width: "100%", marginRight: "5vw" }}>

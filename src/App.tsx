@@ -3,22 +3,23 @@ import { useAtomValue } from "jotai";
 import { State } from "./state/core";
 import Landing from "./pages/Landing";
 import Overview from "./pages/Overview/Overview";
-import Project from "./pages/Project";
+import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
+import ProjectComparisonChart from "./pages/CompareProjects";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
   overview: <Overview />,
-  project: <Project />,
+  project: <ProjectDetailsView />,
   //eval page set as overview for now while there is no eval page
-  evaluate: <Overview />,
+  // evaluate: <Overview />,
+  compare: <ProjectComparisonChart />,
 };
 
 function App() {
   const view = useAtomValue(State.currentView) || "landing";
-
   if (view === "landing")
     return (
       <Box height="100%" width="100%">
@@ -27,12 +28,21 @@ function App() {
     );
   else
     return (
-      <Box height="100%" width="100%">
+      <Box
+        height="100vh"
+        width="100vw"
+        className="App-root"
+        style={{ overflow: "hidden" }}
+      >
         <PageHeader />
-        <Grid columns="auto auto" height="100%">
+        <Grid
+          columns="auto 1fr"
+          height="100%"
+          width="100%"
+          className="App-main-view-area"
+        >
           <SideMenu />
-          {/* <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} /> */}
-          {views[view]}
+          <Box className="App-right-panel">{views[view]}</Box>
         </Grid>
       </Box>
     );

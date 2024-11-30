@@ -1,7 +1,16 @@
 import React from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
-import { Avatar, Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Card,
+  Heading,
+  Text,
+  Link,
+  Flex,
+  ScrollArea,
+} from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/useProjects";
 import { getRisk } from "../../risk-helpers";
 import { Version } from "../../state";
@@ -35,39 +44,42 @@ const ProjectCard = ({
           </Flex>
 
           {/* Child Metrics Section */}
-          <Flex direction="row" align="center">
-            {version.data.children.map((child, i) => {
-              const childRisk = getRisk(child.value, "normal");
-              return (
-                <Flex
-                  key={i}
-                  direction="row"
-                  align="center"
-                  style={{
-                    minWidth: "120px",
-                    padding: "8px 16px",
-                    gap: "8px",
-                    borderLeft: i === 0 ? "none" : "1px solid var(--gray-5)",
-                  }}
-                >
-                  <Text size="2" weight="medium">
-                    {child.name}
-                  </Text>
-                  <Avatar
-                    size="2"
-                    fallback={child.value.toFixed(2)}
-                    style={{
-                      background: childRisk?.color || "gray",
-                      width: "45px",
-                      height: "24px",
-                      borderRadius: "4px",
-                    }}
-                    highContrast
-                  />
-                </Flex>
-              );
-            })}
-          </Flex>
+          <Box>
+            <ScrollArea scrollbars="horizontal">
+              <Flex direction="row">
+                {version.data.children.map((child, i) => {
+                  const childRisk = getRisk(child.value, "normal");
+                  return (
+                    <Flex
+                      key={i}
+                      direction="column"
+                      align="center"
+                      style={{
+                        minWidth: "120px",
+                        padding: "8px 16px",
+                        gap: "8px",
+                      }}
+                    >
+                      <Text size="2" weight="medium">
+                        {child.name}
+                      </Text>
+                      <Avatar
+                        size="2"
+                        fallback={child.value.toFixed(2)}
+                        style={{
+                          background: childRisk?.color || "gray",
+                          width: "45px",
+                          height: "24px",
+                          borderRadius: "4px",
+                        }}
+                        highContrast
+                      />
+                    </Flex>
+                  );
+                })}
+              </Flex>
+            </ScrollArea>
+          </Box>
         </Flex>
 
         {/* TQI Badge */}
@@ -114,31 +126,19 @@ const Overview: React.FC = () => {
   const setCurrentView = useSetAtom(State.currentView);
   const setProject = useSetAtom(State.selectedProject);
   const setVersion = useSetAtom(State.selectedVersion);
-
   if (!projects || !selectedProjectId) return null;
 
   return (
     <Box className="Overview-root">
       <Flex direction="column">
         {Object.entries(projects).map(([uuid, project]) => {
-          // Find the version with the greatest uploadOrder
-          const latestVersion = project.versions.reduce(
-            (latest: Version | null, version: Version) => {
-              return version.uploadOrder > (latest?.uploadOrder || 0)
-                ? version
-                : latest;
-            },
-            null
-          );
-
-          if (!latestVersion) return null;
-
+          if (project.versions.length === 0) return null;
           return (
             <ProjectCard
               key={uuid}
               uuid={uuid}
               project={project}
-              version={latestVersion}
+              version={project.versions[project.versions.length - 1]}
               onProjectClick={() => {
                 setCurrentView("project");
                 setProject(uuid);

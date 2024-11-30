@@ -62,3 +62,53 @@ export const flatCharacteristicDataAtom = atom((get) => {
 
   return records;
 });
+
+interface ProjectVersionRecord extends Record<string, unknown> {
+  projectName: string;
+  projectId: string;
+  name: string;
+  fileName: string;
+  date: Date;
+  tqi: number;
+}
+
+export const flatAllProjectVersionsAtom = atom((get) => {
+  const projects = get(State.projects);
+
+  if (!projects) return [];
+
+  const records: ProjectVersionRecord[] = Object.entries(projects).flatMap(
+    ([projectId, project]) => {
+      // Map each version in the project to a record
+      return project.versions.map((version) => {
+        // Create base record with project info
+        const baseRecord = {
+          projectName: project.name,
+          projectId: project.uuid,
+          name: version.name,
+          fileName: version.fileName,
+          date: version.date,
+          tqi: version.data.value,
+        };
+
+        // Add all child characteristics
+        return version.data.children.reduce(
+          (
+            acc: Record<string, unknown>,
+            child: {
+              name: string;
+              value: number;
+            }
+          ) => {
+            acc[child.name] = child.value;
+            return acc;
+          },
+          baseRecord
+        );
+      });
+    }
+  );
+
+  // Sort by date
+  return records.sort((a, b) => a.date.getTime() - b.date.getTime());
+});

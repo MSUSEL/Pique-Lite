@@ -32,13 +32,17 @@ export const FileUploader: React.FC = () => {
       const newProject: Project = {
         name: projectName,
         uuid: projectUuid,
-        versions: loadedFiles.map((f) => ({
-          name: extractVersionName(f.name),
-          fileName: f.name,
-          data: f.content,
-          date: new Date(f.lastModified),
-          uploadOrder: uploadCounter++,
-        })),
+        versions: loadedFiles.map((f) => {
+          return {
+            name: extractVersionName(f.name),
+            fileName: f.name,
+            data: f.content,
+            date: f.content.date
+              ? new Date(f.content.date)
+              : new Date(f.lastModified),
+            uploadOrder: uploadCounter++,
+          };
+        }),
       };
 
       setSelectedProject(projectUuid);
@@ -56,7 +60,10 @@ export const FileUploader: React.FC = () => {
           name: extractVersionName(f.name),
           fileName: f.name,
           data: f.content,
-          date: new Date(f.lastModified),
+          // date: new Date(f.lastModified),
+          date: f.content.date
+            ? new Date(f.content.date)
+            : new Date(f.lastModified),
         })),
       });
     }

@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace base {
   const diagnostics = z.object({
     name: z.string(),
@@ -35,6 +36,7 @@ export namespace base {
     name: z.string(),
     value: z.number(),
     children: z.array(aspects),
+    date: z.optional(z.string().date()),
   });
 
   export type Schema = z.infer<typeof dataset>;

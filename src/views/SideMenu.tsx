@@ -43,7 +43,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
           </SideBar.MenuItem>
           <SideBar.MenuItem
             icon={<MixIcon />}
-            onClick={() => setCurrentView("evaluate")}
+            onClick={() => setCurrentView("compare")}
           >
             <Text>Evaluate</Text>
           </SideBar.MenuItem>

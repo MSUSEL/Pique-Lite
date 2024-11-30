@@ -1,16 +1,15 @@
-import { Heading, Flex, Box } from "@radix-ui/themes";
-import { RiskLevelLegend } from "../pages/Project";
-import { FileUploadDialog } from "../composites/FileUploadDialog";
+import { Heading, Flex, Box, Button } from "@radix-ui/themes";
+import { RiskLevelLegend } from "../pages/ProjectDetailsView/ProjectDetailsView";
+import { ProjectManagerDialog } from "../composites/ProjectManager/ProjectManagerDialog";
+import { useState } from "react";
+import { FileTextIcon } from "@radix-ui/react-icons";
 
 interface PageHeaderProps {
   showUploader?: boolean;
   selectedProjectId?: string;
 }
 
-export function PageHeader({
-  showUploader = true,
-  selectedProjectId,
-}: PageHeaderProps) {
+export function PageHeader({ showUploader = true }: PageHeaderProps) {
   return (
     <div
       style={{
@@ -47,7 +46,12 @@ export function PageHeader({
       </Box>
       <Flex justify="end" style={{ width: "100%", marginRight: "2em" }}>
         {showUploader && (
-          <FileUploadDialog selectedProjectId={selectedProjectId} />
+          <ProjectManagerDialog>
+            <Button size="2" variant="surface">
+              <FileTextIcon width="16" height="16" />
+              Manage Projects
+            </Button>
+          </ProjectManagerDialog>
         )}
       </Flex>
     </div>

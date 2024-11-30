@@ -6,9 +6,10 @@ import { State } from "../state";
 export const VersionSelector = () => {
   const projects = useAtomValue(State.projects);
   const selectedProject = useAtomValue(State.selectedProject);
+  const [selectedVersion, setSelectedVersion] = useAtom(State.selectedVersion);
+
   if (!projects || !selectedProject) return null;
   const project = projects[selectedProject];
-  const [selectedVersion, setSelectedVersion] = useAtom(State.selectedVersion);
 
   if (!project) return null;
 

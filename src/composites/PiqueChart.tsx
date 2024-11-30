@@ -1,16 +1,6 @@
-import { atom, useAtomValue, useAtom } from "jotai";
-import { State } from "../state/core";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import { useAtomValue } from "jotai";
 import { flatCharacteristicDataAtom } from "../state";
+import ZoomableLineChart from "./ZoomableLineChart";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -33,28 +23,21 @@ const CHARACTERISTIC_COLORS = [
 export const LinePlot = () => {
   const flatData = useAtomValue(flatCharacteristicDataAtom);
 
+  const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
+    dataKey: characteristic,
+    name: characteristic,
+    stroke: CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length],
+    strokeWidth: 2,
+  }));
+
   return (
-    <ResponsiveContainer width={800} height={300}>
-      <LineChart
-        data={flatData}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        {CHARACTERISTIC_NAMES.map((characteristic, index) => (
-          <Line
-            key={characteristic}
-            type="monotone"
-            dataKey={characteristic}
-            name={characteristic}
-            stroke={CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length]}
-            strokeWidth={2}
-          />
-        ))}
-      </LineChart>
-    </ResponsiveContainer>
+    <ZoomableLineChart
+      data={flatData}
+      lines={lines}
+      width={1000}
+      height={250}
+      xAxisKey="date"
+      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+    />
   );
 };
