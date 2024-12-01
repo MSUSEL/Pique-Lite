@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { flatCharacteristicDataAtom } from "../state";
-import ZoomableLineChart from "./ZoomableLineChart";
+import { LinePlot } from "./LinePlot";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -20,27 +20,93 @@ const CHARACTERISTIC_COLORS = [
   "#8BC34A", // teal for Integrity
 ];
 
-export const LinePlot = () => {
+// Add type for our data structure
+type DataPoint = {
+  date: string;
+  [key: string]: string | number; // Allow for characteristic names as keys
+};
+
+export const PiqueChart = () => {
   const flatData = useAtomValue(flatCharacteristicDataAtom);
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
     date: d.date.toISOString().split("T")[0],
   }));
+
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
-    dataKey: characteristic,
+    dataKey: characteristic as keyof DataPoint,
     name: characteristic,
     stroke: CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length],
     strokeWidth: 2,
   }));
+
   return (
-    <ZoomableLineChart
-      data={flatDataWithStringDates}
-      lines={lines}
-      width={1000}
-      height={250}
-      xAxisKey="date"
-      // xAxisKey="name"
-      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-    />
+    <>
+      <LinePlot.Container
+        data={flatDataWithStringDates}
+        xAxisKey="date"
+        style={{ userSelect: "none" }}
+      >
+        <LinePlot.PlotArea
+          lines={lines}
+          width={1000}
+          height={250}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        />
+        <LinePlot.ZoomControls />
+        <LinePlot.BrushStats
+          fallback={<div>Select a region to see changes</div>}
+        >
+          {(selection) => (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "1rem",
+                marginTop: "1rem",
+              }}
+            >
+              {CHARACTERISTIC_NAMES.map((characteristic) => {
+                const startValue =
+                  selection.start[
+                    characteristic as keyof typeof selection.start
+                  ];
+                const endValue =
+                  selection.end[characteristic as keyof typeof selection.end];
+                const delta = Number(endValue) - Number(startValue);
+                const color =
+                  delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";
+
+                return (
+                  <div
+                    key={characteristic}
+                    style={{
+                      border: "1px solid #e5e5e5",
+                      borderRadius: "4px",
+                      padding: "1rem",
+                    }}
+                  >
+                    <div style={{ fontWeight: 500 }}>{characteristic}</div>
+                    <div
+                      style={{
+                        fontSize: "1.125rem",
+                        fontWeight: 600,
+                        color: color,
+                      }}
+                    >
+                      {delta > 0 ? "+" : ""}
+                      {delta.toFixed(2)}
+                    </div>
+                    <div style={{ fontSize: "0.875rem", color: "#666" }}>
+                      {startValue.toFixed(2)} → {endValue.toFixed(2)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </LinePlot.BrushStats>
+      </LinePlot.Container>
+    </>
   );
 };

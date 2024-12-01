@@ -41,7 +41,7 @@ export function PageHeader({ showUploader = true }: PageHeaderProps) {
           style={{ marginLeft: "20px" }}
         />
       </Flex>
-      <Box marginTop="10px">
+      <Box>
         <RiskLevelLegend />
       </Box>
       <Flex justify="end" style={{ width: "100%", marginRight: "2em" }}>

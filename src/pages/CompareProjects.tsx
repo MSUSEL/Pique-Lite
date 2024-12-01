@@ -1,7 +1,7 @@
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { Box, Select } from "@radix-ui/themes";
-import ZoomableLineChart from "../composites/ZoomableLineChart";
+import { LinePlot } from "../composites/LinePlot";
 import { flatAllProjectVersionsAtom } from "../state";
 
 interface DataPoint {
@@ -47,11 +47,8 @@ export const ProjectComparisonChart = () => {
   }));
 
   // Transform data for Recharts
-  // Group by date to create data points
   const transformedData = allVersionsData.reduce((acc: DataPoint[], record) => {
-    // Format the date to be used as the x-axis value
     const dateStr = new Date(record.date).toISOString().split("T")[0];
-
     const existingPoint = acc.find((p) => p.date === dateStr);
 
     if (existingPoint) {
@@ -93,14 +90,69 @@ export const ProjectComparisonChart = () => {
       </Box>
 
       <Box style={{ width: "1000px" }} className="ChartContainer">
-        <ZoomableLineChart
-          data={transformedData}
-          lines={lines}
-          xAxisKey="date"
-          width={1000}
-          height={300}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        />
+        <LinePlot.Container data={transformedData} xAxisKey="date">
+          <LinePlot.PlotArea
+            lines={lines}
+            width={1000}
+            height={300}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          />
+          <LinePlot.ZoomControls />
+          <LinePlot.BrushStats
+            fallback={<div>Select a region to see changes</div>}
+          >
+            {(selection) => (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: `repeat(${Math.min(
+                    projectNames.length,
+                    3
+                  )}, 1fr)`,
+                  gap: "1rem",
+                  marginTop: "1rem",
+                }}
+              >
+                {projectNames.map((projectName, index) => {
+                  const startValue = Number(selection.start[projectName]) || 0;
+                  const endValue = Number(selection.end[projectName]) || 0;
+                  const delta = endValue - startValue;
+                  const color =
+                    delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";
+
+                  return (
+                    <div
+                      key={projectName}
+                      style={{
+                        border: "1px solid #e5e5e5",
+                        borderRadius: "4px",
+                        padding: "1rem",
+                        borderLeft: `4px solid ${
+                          PROJECT_COLORS[index % PROJECT_COLORS.length]
+                        }`,
+                      }}
+                    >
+                      <div style={{ fontWeight: 500 }}>{projectName}</div>
+                      <div
+                        style={{
+                          fontSize: "1.125rem",
+                          fontWeight: 600,
+                          color: color,
+                        }}
+                      >
+                        {delta > 0 ? "+" : ""}
+                        {delta.toFixed(2)}
+                      </div>
+                      <div style={{ fontSize: "0.875rem", color: "#666" }}>
+                        {startValue.toFixed(2)} → {endValue.toFixed(2)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </LinePlot.BrushStats>
+        </LinePlot.Container>
       </Box>
     </Box>
   );

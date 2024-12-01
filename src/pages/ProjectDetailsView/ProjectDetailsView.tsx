@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
-import { LinePlot } from "../../composites/PiqueChart";
+import { PiqueChart } from "../../composites/PiqueChart";
 import { RiskLegend } from "../../composites/RiskCards";
 import { getAllRiskLevels } from "../../risk-helpers";
 import * as OverviewPanel from "../../composites/OverviewPanel";
@@ -81,14 +81,6 @@ function ProjectDetailsView() {
       style={{
         padding: "1em",
       }}
-      // style={{
-      //   display: "flex",
-      //   flexDirection: "column",
-      //   alignItems: "left",
-      //   // paddingLeft: "1em",
-      //   padding: "1em",
-      //   justifyContent: "left",
-      // }}
     >
       <Flex direction="row" width="100%" gap="6">
         <LabelledComboBox
@@ -119,7 +111,7 @@ function ProjectDetailsView() {
       <Box>
         <OverviewPanel.Container>
           <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
-          <LinePlot />
+          <PiqueChart />
         </OverviewPanel.Container>
       </Box>
     </Flex>
