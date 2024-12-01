@@ -54,16 +54,13 @@ export const PiqueChart = () => {
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         />
         <LinePlot.ZoomControls />
-        <LinePlot.BrushStats
-          fallback={<div>Select a region to see changes</div>}
-        >
+        <LinePlot.BrushStats>
           {(selection) => (
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
                 gap: "1rem",
-                marginTop: "1rem",
               }}
             >
               {CHARACTERISTIC_NAMES.map((characteristic) => {
@@ -81,7 +78,7 @@ export const PiqueChart = () => {
                   <div
                     key={characteristic}
                     style={{
-                      border: "1px solid #e5e5e5",
+                      border: "1px solid var(--gray-6)",
                       borderRadius: "4px",
                       padding: "1rem",
                     }}
@@ -97,7 +94,9 @@ export const PiqueChart = () => {
                       {delta > 0 ? "+" : ""}
                       {delta.toFixed(2)}
                     </div>
-                    <div style={{ fontSize: "0.875rem", color: "#666" }}>
+                    <div
+                      style={{ fontSize: "0.875rem", color: "var(--gray-9)" }}
+                    >
                       {startValue.toFixed(2)} → {endValue.toFixed(2)}
                     </div>
                   </div>

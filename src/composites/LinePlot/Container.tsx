@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useChartZoom } from "../../hooks/useChartZoom";
-import { LinePlotContext } from "./context";
-import type { ChartMode } from "./types";
-import type { BrushSelection } from "./types";
+import {
+  LinePlotContext,
+  type ChartMode,
+  type BrushSelection,
+} from "./context";
 
 interface ContainerProps<T> {
   children: React.ReactNode;
@@ -32,6 +34,9 @@ export function Container<T>({
         data: zoomHook.zoomState.data,
       });
       onZoom?.(selection);
+    },
+    onZoomOut: () => {
+      setCurrentSelection(null);
     },
   });
 

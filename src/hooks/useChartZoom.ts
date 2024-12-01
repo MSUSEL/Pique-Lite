@@ -1,11 +1,20 @@
-import { useState, useRef } from "react";
-import type { CategoricalChartState } from "recharts";
-
+import { useState, useRef, useEffect } from "react";
+// import type { CategoricalChartState } from "recharts/types/chart/generateCategoricalChart";
+type CategoricalChartState = {
+  activeLabel?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  activePayload?: Array<any>;
+  activeCoordinate?: {
+    x: number;
+    y: number;
+  };
+};
 interface UseChartZoomProps<T> {
   enabled: boolean;
   initialData: T[];
   xAxisKey: keyof T;
   onZoom?: (selection: { start: T; end: T }) => void;
+  onZoomOut?: () => void;
 }
 
 interface ZoomState<T> {
@@ -15,6 +24,31 @@ interface ZoomState<T> {
   isZooming: boolean;
   shouldAnimate: boolean;
   xAxisKey: keyof T;
+  zoomRange: { start: T; end: T } | null;
+}
+
+function getZoomedData<T>({
+  data,
+  startValue,
+  endValue,
+  xAxisKey,
+}: {
+  data: T[];
+  startValue: string;
+  endValue: string;
+  xAxisKey: keyof T;
+}): T[] | null {
+  const startIndex = data.findIndex((item) => item[xAxisKey] === startValue);
+  const endIndex = data.findIndex((item) => item[xAxisKey] === endValue);
+
+  if (startIndex === -1 || endIndex === -1) {
+    return null;
+  }
+
+  const [start, end] =
+    startIndex < endIndex ? [startIndex, endIndex] : [endIndex, startIndex];
+
+  return data.slice(start, end + 1);
 }
 
 export function useChartZoom<T>({
@@ -22,6 +56,7 @@ export function useChartZoom<T>({
   initialData,
   xAxisKey,
   onZoom,
+  onZoomOut,
 }: UseChartZoomProps<T>) {
   const [state, setState] = useState<ZoomState<T>>({
     data: initialData,
@@ -30,9 +65,39 @@ export function useChartZoom<T>({
     isZooming: false,
     shouldAnimate: true,
     xAxisKey,
+    zoomRange: null,
   });
 
   const isZoomingRef = useRef(false);
+
+  useEffect(() => {
+    if (state.zoomRange) {
+      const newZoomedData = getZoomedData({
+        data: initialData,
+        startValue: state.zoomRange.start[xAxisKey] as string,
+        endValue: state.zoomRange.end[xAxisKey] as string,
+        xAxisKey,
+      });
+
+      if (newZoomedData) {
+        setState((prev) => ({
+          ...prev,
+          data: newZoomedData,
+        }));
+      } else {
+        setState((prev) => ({
+          ...prev,
+          data: initialData,
+          zoomRange: null,
+        }));
+      }
+    } else {
+      setState((prev) => ({
+        ...prev,
+        data: initialData,
+      }));
+    }
+  }, [initialData, xAxisKey, state.zoomRange]);
 
   const zoom = () => {
     if (!enabled) return;
@@ -42,19 +107,14 @@ export function useChartZoom<T>({
       return;
     }
 
-    const startIndex = initialData.findIndex(
-      (item) => item[xAxisKey] === state.refAreaLeft
-    );
-    const endIndex = initialData.findIndex(
-      (item) => item[xAxisKey] === state.refAreaRight
-    );
+    const selectedData = getZoomedData({
+      data: initialData,
+      startValue: state.refAreaLeft,
+      endValue: state.refAreaRight,
+      xAxisKey,
+    });
 
-    if (startIndex !== -1 && endIndex !== -1) {
-      const [start, end] =
-        startIndex < endIndex ? [startIndex, endIndex] : [endIndex, startIndex];
-
-      const selectedData = initialData.slice(start, end + 1);
-
+    if (selectedData && selectedData.length >= 2) {
       isZoomingRef.current = true;
       setState((prev) => ({
         ...prev,
@@ -62,14 +122,16 @@ export function useChartZoom<T>({
         refAreaLeft: "",
         refAreaRight: "",
         shouldAnimate: true,
-      }));
-
-      if (onZoom && selectedData.length >= 2) {
-        onZoom({
+        zoomRange: {
           start: selectedData[0],
           end: selectedData[selectedData.length - 1],
-        });
-      }
+        },
+      }));
+
+      onZoom?.({
+        start: selectedData[0],
+        end: selectedData[selectedData.length - 1],
+      });
 
       setTimeout(() => {
         isZoomingRef.current = false;
@@ -87,7 +149,10 @@ export function useChartZoom<T>({
       refAreaLeft: "",
       refAreaRight: "",
       shouldAnimate: true,
+      zoomRange: null,
     }));
+
+    onZoomOut?.();
 
     setTimeout(() => {
       isZoomingRef.current = false;

@@ -9,6 +9,11 @@ interface DataPoint {
   [key: string]: string | number;
 }
 
+interface SelectionPoint {
+  start: Record<string, number>;
+  end: Record<string, number>;
+}
+
 const CHARACTERISTIC_NAMES = [
   "Availability",
   "Authenticity",
@@ -51,14 +56,17 @@ export const ProjectComparisonChart = () => {
     const dateStr = new Date(record.date).toISOString().split("T")[0];
     const existingPoint = acc.find((p) => p.date === dateStr);
 
+    const characteristicValue =
+      record[selectedCharacteristic.toLowerCase()] ??
+      record[selectedCharacteristic] ??
+      0;
+
     if (existingPoint) {
-      existingPoint[record.projectName] = record[
-        selectedCharacteristic
-      ] as number;
+      existingPoint[record.projectName] = characteristicValue;
     } else {
       const newPoint = {
         date: dateStr,
-        [record.projectName]: record[selectedCharacteristic] as number,
+        [record.projectName]: characteristicValue,
       };
       acc.push(newPoint);
     }
@@ -98,10 +106,8 @@ export const ProjectComparisonChart = () => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           />
           <LinePlot.ZoomControls />
-          <LinePlot.BrushStats
-            fallback={<div>Select a region to see changes</div>}
-          >
-            {(selection) => (
+          <LinePlot.BrushStats>
+            {(selection: SelectionPoint) => (
               <div
                 style={{
                   display: "grid",
@@ -110,7 +116,6 @@ export const ProjectComparisonChart = () => {
                     3
                   )}, 1fr)`,
                   gap: "1rem",
-                  marginTop: "1rem",
                 }}
               >
                 {projectNames.map((projectName, index) => {
@@ -124,7 +129,7 @@ export const ProjectComparisonChart = () => {
                     <div
                       key={projectName}
                       style={{
-                        border: "1px solid #e5e5e5",
+                        border: "1px solid var(--gray-6)",
                         borderRadius: "4px",
                         padding: "1rem",
                         borderLeft: `4px solid ${
@@ -143,7 +148,9 @@ export const ProjectComparisonChart = () => {
                         {delta > 0 ? "+" : ""}
                         {delta.toFixed(2)}
                       </div>
-                      <div style={{ fontSize: "0.875rem", color: "#666" }}>
+                      <div
+                        style={{ fontSize: "0.875rem", color: "var(--gray-9)" }}
+                      >
                         {startValue.toFixed(2)} → {endValue.toFixed(2)}
                       </div>
                     </div>

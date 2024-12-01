@@ -10,8 +10,8 @@ import {
   ResponsiveContainer,
   ReferenceArea,
 } from "recharts";
-import { useLinePlotContext } from "./hooks/useLinePlotContext";
-import type { PlotAreaProps } from "./types";
+import { useLinePlotContext } from "./context";
+import type { PlotAreaProps } from "./context";
 
 export function PlotArea<T extends Record<string, unknown>>({
   height = 400,

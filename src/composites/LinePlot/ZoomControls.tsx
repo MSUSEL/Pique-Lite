@@ -1,7 +1,5 @@
-import React from "react";
 import { Flex, SegmentedControl } from "@radix-ui/themes";
-import { useLinePlotContext } from "./hooks/useLinePlotContext";
-import type { ChartMode } from "./types";
+import { useLinePlotContext, type ChartMode } from "./context";
 
 interface ZoomControlsProps {
   className?: string;

@@ -1,5 +1,7 @@
+import { createContext, useContext } from "react";
 import type { useChartZoom } from "../../hooks/useChartZoom";
 
+// Types
 export type ChartMode = "brush" | "tooltip";
 
 export interface LineConfig<T> {
@@ -34,4 +36,20 @@ export interface LinePlotContextType<T> {
   zoomState: ReturnType<typeof useChartZoom<T>>["zoomState"];
   zoomHandlers: ReturnType<typeof useChartZoom<T>>["zoomHandlers"];
   currentSelection: BrushSelection<T> | null;
+}
+
+// Context
+export const LinePlotContext = createContext<LinePlotContextType<any> | null>(
+  null
+);
+
+// Hook
+export function useLinePlotContext<T>() {
+  const context = useContext(LinePlotContext);
+  if (!context) {
+    throw new Error(
+      "LinePlot components must be used within a LinePlot.Container"
+    );
+  }
+  return context as LinePlotContextType<T>;
 }
