@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import { Box, Select } from "@radix-ui/themes";
+import { Box, Flex, Grid, Select, Text } from "@radix-ui/themes";
 import { LinePlot } from "../composites/LinePlot";
 import { flatAllProjectVersionsAtom } from "../state";
 
@@ -33,6 +33,30 @@ const PROJECT_COLORS = [
   "#DCE775", // lime
   "#FFD54F", // amber
 ];
+
+const CharacteristicSelector = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) => (
+  <Flex align="center" justify="start" gap="2">
+    <Text weight="medium" size="3">
+      Characteristic
+    </Text>
+    <Select.Root value={value} onValueChange={onChange}>
+      <Select.Trigger />
+      <Select.Content>
+        {CHARACTERISTIC_NAMES.map((characteristic) => (
+          <Select.Item key={characteristic} value={characteristic}>
+            {characteristic}
+          </Select.Item>
+        ))}
+      </Select.Content>
+    </Select.Root>
+  </Flex>
+);
 
 export const ProjectComparisonChart = () => {
   const [selectedCharacteristic, setSelectedCharacteristic] = useState(
@@ -81,31 +105,22 @@ export const ProjectComparisonChart = () => {
 
   return (
     <Box>
-      <Box mb="4">
-        <Select.Root
-          value={selectedCharacteristic}
-          onValueChange={setSelectedCharacteristic}
-        >
-          <Select.Trigger />
-          <Select.Content>
-            {CHARACTERISTIC_NAMES.map((characteristic) => (
-              <Select.Item key={characteristic} value={characteristic}>
-                {characteristic}
-              </Select.Item>
-            ))}
-          </Select.Content>
-        </Select.Root>
-      </Box>
-
       <Box style={{ width: "1000px" }} className="ChartContainer">
         <LinePlot.Container data={transformedData} xAxisKey="date">
+          <Grid columns="3fr auto auto" pl="50px" pr="10px" py="3">
+            <CharacteristicSelector
+              value={selectedCharacteristic}
+              onChange={setSelectedCharacteristic}
+            />
+            <LinePlot.ZoomControls.ModeToggle />
+            <LinePlot.ZoomControls.ZoomOut />
+          </Grid>
           <LinePlot.PlotArea
             lines={lines}
             width={1000}
             height={300}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           />
-          <LinePlot.ZoomControls />
           <LinePlot.BrushStats>
             {(selection: SelectionPoint) => (
               <div

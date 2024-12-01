@@ -21,7 +21,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const versionRisk = getRisk(version.data.value, "normal");
 
   return (
-    <Card key={uuid} style={{ margin: "10px", minWidth: "550px" }}>
+    <Card
+      key={uuid}
+      style={{ margin: "10px", minWidth: "550px", maxWidth: "1024px" }}
+    >
       <Flex direction="row" justify="between">
         <Flex direction="column" gap="2" style={{ flex: 1 }}>
           <ProjectHeader

@@ -8,6 +8,7 @@ import {
   Button,
   Table,
   Text,
+  ScrollArea,
 } from "@radix-ui/themes";
 import { useProjectImport } from "./useProjectImport";
 import { ProjectListItem } from "./ProjectListItem";
@@ -29,7 +30,9 @@ export const ProjectManager = () => {
 
   return (
     <Grid columns="1fr 3fr" className="ProjectManager-root" height="100%">
-      <Box
+      <Flex
+        direction="column"
+        gap="3"
         p="4"
         style={{
           backgroundColor: "var(--gray-2)",
@@ -37,7 +40,7 @@ export const ProjectManager = () => {
         }}
       >
         <Flex direction="row" justify="between" align="center" gap="3">
-          <Heading>Projects</Heading>
+          <Heading size="6">Projects</Heading>
           <IconButton
             variant="soft"
             size="1"
@@ -58,81 +61,92 @@ export const ProjectManager = () => {
             />
           ))}
         </Flex>
-      </Box>
-      <Box p="4">
-        {!Object.keys(projects || {}).length ? (
-          <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            gap="4"
-            py="9"
-          >
-            <Text size="5" weight="bold" color="gray">
-              No projects added yet
-            </Text>
-            <Text size="2" color="gray">
-              Add a new project to get started
-            </Text>
-          </Flex>
-        ) : (
-          <>
-            <Heading>Manage Project Files</Heading>
-            <Button onClick={selectFiles} disabled={!selectedProject}>
-              Select Files
-            </Button>
-            {!currentProjectVersions?.length && !invalidFiles.length ? (
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                gap="4"
-                py="9"
-              >
-                <Text size="5" weight="bold" color="gray">
-                  No files in project
-                </Text>
-                <Text size="2" color="gray">
-                  Click "Select Files" to add files to this project
-                </Text>
+      </Flex>
+      <ScrollArea style={{ height: "100%" }}>
+        <Box p="4">
+          {!Object.keys(projects || {}).length ? (
+            <Flex
+              direction="column"
+              align="center"
+              justify="center"
+              gap="4"
+              py="9"
+            >
+              <Text size="5" weight="bold" color="gray">
+                No projects added yet
+              </Text>
+              <Text size="2" color="gray">
+                Add a new project to get started
+              </Text>
+            </Flex>
+          ) : (
+            <>
+              <Flex direction="row" justify="between" align="center" gap="3">
+                <Heading size="2" style={{ color: "var(--slate-11)" }}>
+                  Manage Project Files
+                </Heading>
+                <Button
+                  size="1"
+                  variant="surface"
+                  onClick={selectFiles}
+                  disabled={!selectedProject}
+                >
+                  Add Files
+                </Button>
               </Flex>
-            ) : (
-              <Table.Root>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>
-                      Last Modified
-                    </Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {currentProjectVersions.map((version) => (
-                    <Table.Row key={version.fileName}>
-                      <Table.Cell>{version.fileName}</Table.Cell>
-                      <Table.Cell>
-                        {version.date.toLocaleDateString()}
-                      </Table.Cell>
-                      <Table.Cell>Valid</Table.Cell>
+              {!currentProjectVersions?.length && !invalidFiles.length ? (
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  gap="4"
+                  py="9"
+                >
+                  <Text size="5" weight="bold" color="gray">
+                    No files in project
+                  </Text>
+                  <Text size="2" color="gray">
+                    Click "Select Files" to add files to this project
+                  </Text>
+                </Flex>
+              ) : (
+                <Table.Root>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>
+                        Last Modified
+                      </Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
                     </Table.Row>
-                  ))}
-                  {selectedProject &&
-                    invalidFiles.map((file) => (
-                      <Table.Row key={file.name}>
-                        <Table.Cell>{file.name}</Table.Cell>
-                        <Table.Cell>-</Table.Cell>
-                        <Table.Cell style={{ color: "var(--red-9)" }}>
-                          {file.reason}
+                  </Table.Header>
+                  <Table.Body>
+                    {currentProjectVersions.map((version) => (
+                      <Table.Row key={version.fileName}>
+                        <Table.Cell>{version.fileName}</Table.Cell>
+                        <Table.Cell>
+                          {version.date.toLocaleDateString()}
                         </Table.Cell>
+                        <Table.Cell>Valid</Table.Cell>
                       </Table.Row>
                     ))}
-                </Table.Body>
-              </Table.Root>
-            )}
-          </>
-        )}
-      </Box>
+                    {selectedProject &&
+                      invalidFiles.map((file) => (
+                        <Table.Row key={file.name}>
+                          <Table.Cell>{file.name}</Table.Cell>
+                          <Table.Cell>-</Table.Cell>
+                          <Table.Cell style={{ color: "var(--red-9)" }}>
+                            {file.reason}
+                          </Table.Cell>
+                        </Table.Row>
+                      ))}
+                  </Table.Body>
+                </Table.Root>
+              )}
+            </>
+          )}
+        </Box>
+      </ScrollArea>
     </Grid>
   );
 };

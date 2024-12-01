@@ -1,7 +1,7 @@
 import { Box, IconButton, Grid, Text } from "@radix-ui/themes";
 import { PinLeftIcon, PinRightIcon } from "@radix-ui/react-icons";
 import { useAtomValue } from "jotai";
-import { LinePlot } from "../composites/PiqueChart";
+import { LinePlot } from "./ProjectDetailsView/ProjectAttributesChart";
 import { RiskCards, RiskLegend } from "../composites/RiskCards";
 import { getAllRiskLevels } from "../risk-helpers";
 import { State } from "../state/core";

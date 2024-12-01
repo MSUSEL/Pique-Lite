@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
-import { PiqueChart } from "../../composites/PiqueChart";
+import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "../../composites/RiskCards";
 import { getAllRiskLevels } from "../../risk-helpers";
 import * as OverviewPanel from "../../composites/OverviewPanel";
@@ -111,7 +111,7 @@ function ProjectDetailsView() {
       <Box>
         <OverviewPanel.Container>
           <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
-          <PiqueChart />
+          <ProjectAttributesChart />
         </OverviewPanel.Container>
       </Box>
     </Flex>

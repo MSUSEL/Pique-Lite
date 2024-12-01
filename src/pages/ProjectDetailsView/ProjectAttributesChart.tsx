@@ -1,6 +1,7 @@
 import { useAtomValue } from "jotai";
-import { flatCharacteristicDataAtom } from "../state";
-import { LinePlot } from "./LinePlot";
+import { flatCharacteristicDataAtom } from "../../state";
+import { LinePlot } from "../../composites/LinePlot";
+import { Flex } from "@radix-ui/themes";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -26,7 +27,7 @@ type DataPoint = {
   [key: string]: string | number; // Allow for characteristic names as keys
 };
 
-export const PiqueChart = () => {
+export const ProjectAttributesChart = () => {
   const flatData = useAtomValue(flatCharacteristicDataAtom);
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
@@ -47,13 +48,16 @@ export const PiqueChart = () => {
         xAxisKey="date"
         style={{ userSelect: "none" }}
       >
+        <Flex justify="end" align="end" gap="2" pr="20px" pb="2">
+          <LinePlot.ZoomControls.ModeToggle />
+          <LinePlot.ZoomControls.ZoomOut />
+        </Flex>
         <LinePlot.PlotArea
           lines={lines}
           width={1000}
           height={250}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         />
-        <LinePlot.ZoomControls />
         <LinePlot.BrushStats>
           {(selection) => (
             <div
