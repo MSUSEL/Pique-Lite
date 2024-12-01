@@ -1,5 +1,5 @@
 import { LayersIcon, Pencil1Icon } from "@radix-ui/react-icons";
-import { Text, Flex, IconButton } from "@radix-ui/themes";
+import { Text, Flex, IconButton, Grid } from "@radix-ui/themes";
 import { useState } from "react";
 
 interface ProjectListItemProps {
@@ -34,8 +34,8 @@ export const ProjectListItem = ({
   };
 
   return (
-    <Flex
-      direction="row"
+    <Grid
+      columns="auto 1fr auto"
       gap="2"
       align="center"
       onClick={onClick}
@@ -65,6 +65,6 @@ export const ProjectListItem = ({
           <Pencil1Icon />
         </IconButton>
       )}
-    </Flex>
+    </Grid>
   );
 };

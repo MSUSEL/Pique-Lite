@@ -1,4 +1,4 @@
-import { PlusIcon } from "@radix-ui/react-icons";
+import { PlusIcon, TrashIcon } from "@radix-ui/react-icons";
 import {
   Box,
   Flex,
@@ -22,6 +22,7 @@ export const ProjectManager = () => {
     updateProjectName,
     selectFiles,
     invalidFiles,
+    removeVersionFromProject,
   } = useProjectImport();
 
   const currentProjectVersions = selectedProject
@@ -118,6 +119,7 @@ export const ProjectManager = () => {
                         Last Modified
                       </Table.ColumnHeaderCell>
                       <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
@@ -128,6 +130,21 @@ export const ProjectManager = () => {
                           {version.date.toLocaleDateString()}
                         </Table.Cell>
                         <Table.Cell>Valid</Table.Cell>
+                        <Table.Cell>
+                          <IconButton
+                            size="1"
+                            variant="ghost"
+                            color="red"
+                            onClick={() =>
+                              removeVersionFromProject(
+                                selectedProject,
+                                version.fileName
+                              )
+                            }
+                          >
+                            <TrashIcon />
+                          </IconButton>
+                        </Table.Cell>
                       </Table.Row>
                     ))}
                     {selectedProject &&
@@ -138,6 +155,7 @@ export const ProjectManager = () => {
                           <Table.Cell style={{ color: "var(--red-9)" }}>
                             {file.reason}
                           </Table.Cell>
+                          <Table.Cell></Table.Cell>
                         </Table.Row>
                       ))}
                   </Table.Body>

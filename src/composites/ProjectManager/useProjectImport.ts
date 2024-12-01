@@ -10,6 +10,7 @@ export const useProjectImport = () => {
     setSelectedProject,
     createNewProject,
     addFilesToProject,
+    removeVersionFromProject,
     updateProjectName,
   } = useProjectState();
 
@@ -64,5 +65,6 @@ export const useProjectImport = () => {
     updateProjectName,
     selectFiles,
     invalidFiles,
+    removeVersionFromProject,
   };
 };

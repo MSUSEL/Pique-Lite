@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Card,
-  Heading,
-  Text,
-  Link,
-  Flex,
-  ScrollArea,
-  Badge,
-} from "@radix-ui/themes";
+import { Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
 import { getRisk } from "../../risk-helpers";
 import { ProjectCardProps } from "./types";
 
