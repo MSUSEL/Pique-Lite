@@ -10,8 +10,8 @@ interface DataPoint {
 }
 
 interface SelectionPoint {
-  start: Record<string, number>;
-  end: Record<string, number>;
+  start: { date: string | Date };
+  end: { date: string | Date };
 }
 
 const CHARACTERISTIC_NAMES = [
@@ -122,57 +122,90 @@ export const ProjectComparisonChart = () => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           />
           <LinePlot.BrushStats>
-            {(selection: SelectionPoint) => (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: `repeat(${Math.min(
-                    projectNames.length,
-                    3
-                  )}, 1fr)`,
-                  gap: "1rem",
-                }}
-              >
-                {projectNames.map((projectName, index) => {
-                  const startValue = Number(selection.start[projectName]) || 0;
-                  const endValue = Number(selection.end[projectName]) || 0;
-                  const delta = endValue - startValue;
-                  const color =
-                    delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";
+            {(selection: SelectionPoint) => {
+              // Convert selection dates to timestamps for comparison
+              const startDate = new Date(selection.start.date).getTime();
+              const endDate = new Date(selection.end.date).getTime();
 
-                  return (
-                    <div
-                      key={projectName}
-                      style={{
-                        border: "1px solid var(--gray-6)",
-                        borderRadius: "4px",
-                        padding: "1rem",
-                        borderLeft: `4px solid ${
-                          PROJECT_COLORS[index % PROJECT_COLORS.length]
-                        }`,
-                      }}
-                    >
-                      <div style={{ fontWeight: 500 }}>{projectName}</div>
-                      <div
-                        style={{
-                          fontSize: "1.125rem",
-                          fontWeight: 600,
-                          color: color,
-                        }}
-                      >
-                        {delta > 0 ? "+" : ""}
-                        {delta.toFixed(2)}
-                      </div>
-                      <div
-                        style={{ fontSize: "0.875rem", color: "var(--gray-9)" }}
-                      >
-                        {startValue.toFixed(2)} → {endValue.toFixed(2)}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+              // Get values within the selection range for each project
+              const projectStats = projectNames.map((projectName) => {
+                const projectPoints = transformedData
+                  .filter((point) => {
+                    const pointDate = new Date(point.date).getTime();
+                    return pointDate >= startDate && pointDate <= endDate;
+                  })
+                  .map((point) => Number(point[projectName]) || 0);
+
+                const startValue = Math.min(...projectPoints);
+                const endValue = Math.max(...projectPoints);
+                const delta = endValue - startValue;
+
+                return {
+                  projectName,
+                  startValue,
+                  endValue,
+                  delta,
+                };
+              });
+
+              return (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: `repeat(${Math.min(
+                      projectNames.length,
+                      3
+                    )}, 1fr)`,
+                    gap: "1rem",
+                  }}
+                >
+                  {projectStats.map(
+                    ({ projectName, startValue, endValue, delta }, index) => {
+                      const color =
+                        delta > 0
+                          ? "#22c55e"
+                          : delta < 0
+                          ? "#ef4444"
+                          : "#666666";
+
+                      return (
+                        <div
+                          key={projectName}
+                          style={{
+                            border: "1px solid var(--gray-6)",
+                            borderRadius: "4px",
+                            padding: "1rem",
+                            borderLeft: `4px solid ${
+                              PROJECT_COLORS[index % PROJECT_COLORS.length]
+                            }`,
+                          }}
+                        >
+                          <div style={{ fontWeight: 500 }}>{projectName}</div>
+                          <div
+                            style={{
+                              fontSize: "1.125rem",
+                              fontWeight: 600,
+                              color: color,
+                            }}
+                          >
+                            {delta > 0 ? "+" : ""}
+                            {delta.toFixed(2)}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: "0.875rem",
+                              color: "var(--gray-9)",
+                            }}
+                          >
+                            {startValue.toFixed(2)} → {endValue.toFixed(2)}
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
+              );
+            }}
           </LinePlot.BrushStats>
         </LinePlot.Container>
       </Box>

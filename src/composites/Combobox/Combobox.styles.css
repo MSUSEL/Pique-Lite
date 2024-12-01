@@ -69,8 +69,7 @@
     transition-property: none;
 
     &[data-selected='true'] {
-      /* background: var(--gray-3); */
-      background: var(--red-3);
+      background: var(--gray-3);
       color: var(--gray-12);
     }
 

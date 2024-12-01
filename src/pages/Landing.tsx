@@ -14,7 +14,7 @@ function Landing() {
         direction="column"
         align="center"
         justify="center"
-        style={{ height: "calc(100vh - 60px)" }}
+        // style={{ height: "calc(100vh - 60px)" }}
       >
         <div
           style={{
