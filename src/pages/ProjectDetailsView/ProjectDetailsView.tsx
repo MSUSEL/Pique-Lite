@@ -116,7 +116,7 @@ function ProjectDetailsView() {
         </Text>
         <ProjectCharacteristicsRisks />
       </Flex>
-      <Box width="800px">
+      <Box>
         <OverviewPanel.Container>
           <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
           <LinePlot />

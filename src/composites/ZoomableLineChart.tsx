@@ -41,6 +41,8 @@ const ZoomableLineChart = <T extends Record<string, any>>({
   margin,
 }: ZoomableLineChartProps<T>) => {
   const [data, setData] = useState(initialData);
+  console.log("Chart datum: ");
+  console.log(initialData[0]);
   const [refAreaLeft, setRefAreaLeft] = useState("");
   const [refAreaRight, setRefAreaRight] = useState("");
   const [mode, setMode] = useState<ChartMode>("brush");
@@ -117,7 +119,6 @@ const ZoomableLineChart = <T extends Record<string, any>>({
       zoom();
     }
   };
-
   return (
     <div style={{ width: "100%", userSelect: "none" }}>
       <Flex gap="3" align="center" mb="4">
@@ -146,6 +147,16 @@ const ZoomableLineChart = <T extends Record<string, any>>({
           onMouseUp={handleMouseUp}
           margin={margin}
         >
+          {mode === "brush" && refAreaLeft && refAreaLeft ? (
+            <ReferenceArea
+              className="ReferenceArea"
+              x1={refAreaLeft}
+              x2={refAreaRight}
+              strokeOpacity={1}
+              fill="#8884d8"
+              fillOpacity={1}
+            />
+          ) : null}
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             allowDataOverflow
@@ -164,6 +175,7 @@ const ZoomableLineChart = <T extends Record<string, any>>({
               }
               return value;
             }}
+            axisLine={{ value: (value) => value }}
           />
           <YAxis allowDataOverflow />
           {mode === "tooltip" && <Tooltip />}
@@ -181,16 +193,6 @@ const ZoomableLineChart = <T extends Record<string, any>>({
               connectNulls={true}
             />
           ))}
-
-          {mode === "brush" && refAreaLeft && refAreaRight ? (
-            <ReferenceArea
-              x1={refAreaLeft}
-              x2={refAreaRight}
-              strokeOpacity={0.3}
-              fill="#8884d8"
-              fillOpacity={0.3}
-            />
-          ) : null}
         </LineChart>
       </ResponsiveContainer>
     </div>

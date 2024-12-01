@@ -22,21 +22,24 @@ const CHARACTERISTIC_COLORS = [
 
 export const LinePlot = () => {
   const flatData = useAtomValue(flatCharacteristicDataAtom);
-
+  const flatDataWithStringDates = flatData.map((d) => ({
+    ...d,
+    date: d.date.toISOString().split("T")[0],
+  }));
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
     dataKey: characteristic,
     name: characteristic,
     stroke: CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length],
     strokeWidth: 2,
   }));
-
   return (
     <ZoomableLineChart
-      data={flatData}
+      data={flatDataWithStringDates}
       lines={lines}
       width={1000}
       height={250}
       xAxisKey="date"
+      // xAxisKey="name"
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     />
   );
