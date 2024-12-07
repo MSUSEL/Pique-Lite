@@ -20,18 +20,16 @@ const Overview: React.FC = () => {
         {Object.entries(projects).map(([uuid, project]) => {
           if (project.versions.length === 0) return null;
 
-          const latestVersion = project.versions[project.versions.length - 1];
-
           return (
             <ProjectCard
               key={uuid}
               uuid={uuid}
               project={project}
-              version={latestVersion}
-              onProjectClick={() => {
+              //version={project.versions[project.versions.length - 1]}
+              onProjectClick={(versionIndex) => {
                 setCurrentView("project");
                 setProject(uuid);
-                setVersion(project.versions.length - 1);
+                setVersion(versionIndex);
               }}
             />
           );

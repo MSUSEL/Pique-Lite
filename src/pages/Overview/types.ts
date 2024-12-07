@@ -6,6 +6,6 @@ export interface ProjectCardProps {
     name: string;
     versions: Version[];
   };
-  version: Version;
-  onProjectClick: () => void;
+  //version: Version;
+  onProjectClick: (versionIndex: number) => void;
 }
