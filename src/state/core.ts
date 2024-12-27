@@ -17,7 +17,7 @@ export interface Project {
   uuid: string;
 }
 
-interface Projects {
+export interface Projects {
   [uuid: string]: Project;
 }
 

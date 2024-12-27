@@ -21,20 +21,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <Card
       key={uuid}
-      style={{ margin: "10px", minWidth: "550px", maxWidth: "1024px" }}
+      style={{
+        margin: "10px",
+        width: "90%",
+      }}
     >
       <Flex direction="row" justify="between">
-        <Flex direction="column" gap="2" style={{ flex: 1 }}>
-          <ProjectHeader
-            name={project.name}
-            versions={project.versions}
-            selectedVersionIndex={selectedVersionIndex}
-            onVersionChange={setSelectedVersionIndex}
-            onProjectClick={() => onProjectClick(selectedVersionIndex)}
-          />
-          {/* <MetricsSection metrics={selectedVersion.data.children} /> */}
-          <RadialGraphs metrics={selectedVersion.data.children} />
-        </Flex>
+        <ProjectHeader
+          name={project.name}
+          versions={project.versions}
+          selectedVersionIndex={selectedVersionIndex}
+          onVersionChange={setSelectedVersionIndex}
+          onProjectClick={() => onProjectClick(selectedVersionIndex)}
+        />
+        {/* <MetricsSection metrics={selectedVersion.data.children} /> */}
+        <RadialGraphs metrics={selectedVersion.data.children} />
         <TQIGraph value={selectedVersion.data.value} />
         {/* <TQIBadge value={selectedVersion.data.value} risk={versionRisk} /> */}
       </Flex>
@@ -58,7 +59,7 @@ const ProjectHeader: React.FC<{
   const selectedVersion = versions[selectedVersionIndex];
 
   return (
-    <Flex direction="row" gap="3" align="center">
+    <Flex direction="column" gap="3" align="center" justify="center">
       <Link onClick={onProjectClick}>
         <Heading size="3">{name}</Heading>
       </Link>
@@ -99,8 +100,8 @@ const MetricItem: React.FC<{
       direction="row"
       align="center"
       justify="center"
+      gap="9"
       style={{
-        gap: "2px",
         border: "0.5px solid var(--gray-6)",
         borderRadius: "5px",
         backgroundColor: childRisk?.color || "gray",
@@ -267,7 +268,7 @@ const RadialGraphs: React.FC<{
   };
   return (
     <Flex
-      gap="3"
+      gap="6"
       justify="center"
       align="center"
       wrap="wrap"

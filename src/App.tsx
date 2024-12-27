@@ -37,7 +37,7 @@ function App() {
 
         <Grid
           columns="auto 1fr"
-          height="78vh"
+          height="72vh"
           width="100%"
           className="App-main-view-area"
         >
