@@ -1,12 +1,16 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import { IconButton, Table, Flex, Text } from "@radix-ui/themes";
 import { Version } from "./types";
+import { useState } from "react";
+import { PaginationButtons } from "../../pages/Overview/Overview";
 
 interface ProjectFileListProps {
   versions: Version[];
   invalidFiles: { name: string; reason: string }[];
   onRemoveVersion: (fileName: string) => void;
 }
+
+const ITEMS_PER_PAGE = 5;
 
 export const ProjectFileList = ({
   versions,
@@ -25,6 +29,12 @@ export const ProjectFileList = ({
       </Flex>
     );
   }
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const totalPages = Math.ceil(versions.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const versionsToDisplay = versions.slice(startIndex, endIndex);
 
   const columnWidths = {
     name: "40%",
@@ -56,7 +66,7 @@ export const ProjectFileList = ({
         <Table.Body
           style={{ overflow: "scroll", height: "calc(400px - 41px)" }}
         >
-          {versions.map((version) => (
+          {versionsToDisplay.map((version) => (
             <Table.Row key={version.fileName}>
               <Table.Cell style={{ width: columnWidths.name }}>
                 {version.fileName}
@@ -98,6 +108,11 @@ export const ProjectFileList = ({
           ))}
         </Table.Body>
       </Table.Root>
+      <PaginationButtons
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
     </Flex>
   );
 };

@@ -23,10 +23,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       key={uuid}
       style={{
         margin: "10px",
-        width: "90%",
       }}
     >
-      <Flex direction="row" justify="between">
+      <Flex direction="row" justify="between" gap="5" align="center">
         <ProjectHeader
           name={project.name}
           versions={project.versions}
@@ -172,7 +171,7 @@ const TQIGraph: React.FC<{ value: number }> = ({ value }) => {
   return (
     <Flex direction="column" align="center" justify="center">
       <Text
-        size="5"
+        size="4"
         weight="bold"
         style={{
           color: risk.badgeColor,
@@ -183,13 +182,13 @@ const TQIGraph: React.FC<{ value: number }> = ({ value }) => {
       </Text>
 
       <RadialBarChart
-        width={150}
-        height={150}
+        width={100}
+        height={100}
         cx="50%"
         cy="50%"
         innerRadius="60%"
         outerRadius="60%"
-        barSize={14}
+        barSize={8}
         data={chartData}
         startAngle={90}
         endAngle={-270}
@@ -208,7 +207,6 @@ const TQIGraph: React.FC<{ value: number }> = ({ value }) => {
           textAnchor="middle"
           dominantBaseline="middle"
           style={{
-            fontSize: "125%",
             fontWeight: "bold",
             fill: risk.badgeColor,
           }}
@@ -240,13 +238,13 @@ const RadialGraphs: React.FC<{
         }}
       >
         <RadialBarChart
-          width={100}
-          height={100}
+          width={75}
+          height={75}
           cx="50%"
           cy="50%"
           innerRadius="60%"
           outerRadius="60%"
-          barSize={8}
+          barSize={6}
           data={chartData}
           startAngle={90}
           endAngle={-270}
@@ -258,17 +256,23 @@ const RadialGraphs: React.FC<{
             fill={getColor(metric.value)}
           />
           {/* Centered Value */}
-          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle">
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize="85%"
+          >
             {metric.value.toPrecision(2)}
           </text>
         </RadialBarChart>
-        <Text size="3">{metric.name}</Text>
+        <Text size="2">{metric.name}</Text>
       </Box>
     );
   };
   return (
     <Flex
-      gap="6"
+      gap="5"
       justify="center"
       align="center"
       wrap="wrap"

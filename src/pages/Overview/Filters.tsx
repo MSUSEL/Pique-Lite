@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { Box, Flex, Button } from "@radix-ui/themes";
+import { Box, Flex, Button, Text } from "@radix-ui/themes";
 import { CheckboxGroup } from "@radix-ui/themes";
 
 const Filters: React.FC<{ onFilterChange: (filters: string[]) => void }> = ({
@@ -34,7 +34,10 @@ const Filters: React.FC<{ onFilterChange: (filters: string[]) => void }> = ({
             padding: "16px",
           }}
         >
-          <Flex direction="column">
+          <Flex direction="column" gap="1">
+            <Text size="2" color="gray" align="left">
+              TQI Risk:
+            </Text>
             <CheckboxGroup.Root
               name="riskFiltering"
               value={selectedFilters}
