@@ -57,7 +57,7 @@ export const ProjectList = () => {
           value={searchQuery}
           style={{
             margin: "10px",
-            background: "white",
+            background: "var(--gray-2)",
             width: "95%",
             border: "none",
             borderBottom: "2px solid gray",

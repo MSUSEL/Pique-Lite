@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
-import { Box, Flex, Link } from "@radix-ui/themes";
+import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/useProjects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "./Filters";
@@ -18,12 +18,14 @@ const Overview: React.FC = () => {
   if (!projects || !selectedProjectId) return null;
 
   const initialFilters = ["Severe", "High", "Elevated", "Guarded", "Low"];
-  const [filters, setFilters] = useState<string[]>(initialFilters);
+  const [filters, setRiskFilters] = useState<string[]>(initialFilters);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sliderValue, setSliderValue] = useState([0, 1.0]);
 
-  const handleFilterChange = (newFilters: string[]) => {
-    setFilters(newFilters);
+  const handleFilterChange = (newFilters: string[], newValues: number[]) => {
+    setRiskFilters(newFilters);
+    setSliderValue(newValues);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,16 +35,18 @@ const Overview: React.FC = () => {
   const filteredProjects = Object.entries(projects).filter(([, project]) => {
     if (project.versions.length === 0) return false;
 
-    const recentRisk = getRisk(
-      project.versions[project.versions.length - 1].data.value,
-      "normal"
-    );
+    const recentVersion = project.versions[project.versions.length - 1];
+
+    const recentRisk = getRisk(recentVersion.data.value, "normal");
 
     const matchesRiskFilter = filters.includes(recentRisk.name);
     const matchesSearch =
       searchQuery === "" || project.name.toLowerCase().includes(searchQuery);
+    const matchesSliderFilter =
+      recentVersion.data.value >= sliderValue[0] &&
+      recentVersion.data.value <= sliderValue[1];
 
-    return matchesRiskFilter && matchesSearch;
+    return matchesRiskFilter && matchesSearch && matchesSliderFilter;
   });
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
@@ -70,14 +74,24 @@ const Overview: React.FC = () => {
             style={{
               margin: "10px",
               background: "white",
-              width: "80%",
+              width: "60vw",
               border: "none",
               borderBottom: "2px solid gray",
               color: "black",
             }}
           />
-          <Filters onFilterChange={handleFilterChange} />
+          <Filters onFilterChange={handleFilterChange} projects={projects} />
         </Flex>
+        {projectsToDisplay.length === 0 && (
+          <Flex direction={"column"} align="center">
+            <Heading mt="6" color="gray" size="5">
+              No projects found
+            </Heading>
+            <Text mt="2" color="gray" size="3">
+              Try changing your filters or adding more projects
+            </Text>
+          </Flex>
+        )}
         {totalPages > 1 && (
           <PaginationButtons
             currentPage={currentPage}

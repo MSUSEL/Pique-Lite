@@ -1,6 +1,6 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import { IconButton, Table, Flex, Text } from "@radix-ui/themes";
-import { Version } from "./types";
+import { Version } from "../../state";
 import { useState } from "react";
 import { PaginationButtons } from "../../pages/Overview/Overview";
 
