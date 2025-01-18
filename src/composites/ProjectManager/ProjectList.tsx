@@ -16,14 +16,16 @@ export const ProjectList = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.toLowerCase());
+    setSearchQuery(e.target.value);
   };
 
   const filteredProjects = Object.entries(projects).filter(([, project]) => {
     if (project.versions.length === 0) return false;
 
+    const queryLowercase = searchQuery.toLowerCase();
     const matchesSearch =
-      searchQuery === "" || project.name.toLowerCase().includes(searchQuery);
+      queryLowercase === "" ||
+      project.name.toLowerCase().includes(queryLowercase);
 
     return matchesSearch;
   });
@@ -64,7 +66,7 @@ export const ProjectList = () => {
             color: "black",
           }}
         />
-        {Object.entries(projects || {}).map(([uuid, project]) => {
+        {filteredProjects.map(([uuid, project]) => {
           return (
             <ProjectListItem
               key={uuid}

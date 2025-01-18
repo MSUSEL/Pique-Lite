@@ -29,7 +29,7 @@ const Overview: React.FC = () => {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.toLowerCase());
+    setSearchQuery(e.target.value);
   };
 
   const filteredProjects = Object.entries(projects).filter(([, project]) => {
@@ -40,8 +40,10 @@ const Overview: React.FC = () => {
     const recentRisk = getRisk(recentVersion.data.value, "normal");
 
     const matchesRiskFilter = filters.includes(recentRisk.name);
+    const queryLowercase = searchQuery.toLowerCase();
     const matchesSearch =
-      searchQuery === "" || project.name.toLowerCase().includes(searchQuery);
+      queryLowercase === "" ||
+      project.name.toLowerCase().includes(queryLowercase);
     const matchesSliderFilter =
       recentVersion.data.value >= sliderValue[0] &&
       recentVersion.data.value <= sliderValue[1];

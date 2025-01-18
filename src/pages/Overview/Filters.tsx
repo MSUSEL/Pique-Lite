@@ -78,7 +78,7 @@ const Filters: React.FC<{
                 <DialogTitle style={{ marginBottom: "20px", marginTop: "0px" }}>
                   Filters
                   <Text size="2" color="gray" style={{ marginLeft: "10px" }}>
-                    Based on Newest Project Version
+                    Based on Project's Newest Version
                   </Text>
                 </DialogTitle>
                 <DialogClose asChild>
@@ -131,13 +131,6 @@ const Filters: React.FC<{
                       </Box>
                     </Flex>
                   </ScrollAreaViewport>
-                  <ScrollAreaScrollbar orientation="vertical">
-                    <ScrollAreaThumb style={{ backgroundColor: "gray" }} />
-                  </ScrollAreaScrollbar>
-                  <ScrollAreaScrollbar orientation="horizontal">
-                    <ScrollAreaThumb style={{ backgroundColor: "gray" }} />
-                  </ScrollAreaScrollbar>
-                  <ScrollAreaCorner />
                 </ScrollAreaRoot>
               </DialogContent>
             </Theme>
@@ -231,11 +224,8 @@ const SliderFilter: React.FC<{
   return (
     <Box>
       <Flex direction="column" gap="1" align="center">
-        <BarChart width={250} height={150} data={data}>
+        <BarChart width={400} height={150} data={data}>
           <XAxis dataKey="name" />
-          <YAxis
-            tickFormatter={(tick) => (Number.isInteger(tick) ? tick : "")}
-          />
           <Tooltip />
           <Bar dataKey="value">
             {data.map((entry, index) => (
@@ -256,7 +246,7 @@ const SliderFilter: React.FC<{
                 setInputValue([newValue[0].toString(), newValue[1].toString()]);
               }
             }}
-            style={{ width: "300px" }}
+            style={{ width: "385px" }}
           />
           <Flex direction="row" gap="2" mt="2" align="center">
             <input
