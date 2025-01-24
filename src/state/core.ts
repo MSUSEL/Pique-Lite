@@ -9,6 +9,7 @@ export interface Version {
   name: string;
   fileName: string;
   data: base.Schema;
+  isHidden: boolean;
 }
 
 export interface Project {
