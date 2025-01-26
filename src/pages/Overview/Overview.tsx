@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSetAtom } from "jotai";
-import { State } from "../../state";
+import { State, Project } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/useProjects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "./Filters";
 import { getRisk } from "../../risk-helpers";
+import ProjectSearchBar from "./ProjectSearch";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -18,18 +19,13 @@ const Overview: React.FC = () => {
   if (!projects || !selectedProjectId) return null;
 
   const initialFilters = ["Severe", "High", "Elevated", "Guarded", "Low"];
-  const [filters, setRiskFilters] = useState<string[]>(initialFilters);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [riskFilters, setRiskFilters] = useState<string[]>(initialFilters);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sliderValue, setSliderValue] = useState([0, 1.0]);
 
   const handleFilterChange = (newFilters: string[], newValues: number[]) => {
     setRiskFilters(newFilters);
     setSliderValue(newValues);
-  };
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
   };
 
   const filteredProjects = Object.entries(projects).filter(([, project]) => {
@@ -39,22 +35,21 @@ const Overview: React.FC = () => {
 
     const recentRisk = getRisk(recentVersion.data.value, "normal");
 
-    const matchesRiskFilter = filters.includes(recentRisk.name);
-    const queryLowercase = searchQuery.toLowerCase();
-    const matchesSearch =
-      queryLowercase === "" ||
-      project.name.toLowerCase().includes(queryLowercase);
+    const matchesRiskFilter = riskFilters.includes(recentRisk.name);
     const matchesSliderFilter =
       recentVersion.data.value >= sliderValue[0] &&
       recentVersion.data.value <= sliderValue[1];
 
-    return matchesRiskFilter && matchesSearch && matchesSliderFilter;
+    return matchesRiskFilter && matchesSliderFilter;
   });
 
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const [sortedProjects, setSortedProjects] =
+    useState<[string, Project][]>(filteredProjects);
+
+  const totalPages = Math.ceil(sortedProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const projectsToDisplay = filteredProjects.slice(startIndex, endIndex);
+  const projectsToDisplay = sortedProjects.slice(startIndex, endIndex);
 
   return (
     <Box
@@ -68,19 +63,9 @@ const Overview: React.FC = () => {
     >
       <Flex direction="column" style={{ justifyContent: "center" }}>
         <Flex direction="row">
-          <input
-            type="text"
-            placeholder="Search projects..."
-            onChange={handleSearchChange}
-            value={searchQuery}
-            style={{
-              margin: "10px",
-              background: "white",
-              width: "60vw",
-              border: "none",
-              borderBottom: "2px solid gray",
-              color: "black",
-            }}
+          <ProjectSearchBar
+            projects={filteredProjects}
+            setSortedProjects={setSortedProjects}
           />
           <Filters onFilterChange={handleFilterChange} projects={projects} />
         </Flex>

@@ -1,25 +1,20 @@
 import React, { useState } from "react";
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogPortal,
-  DialogOverlay,
-  DialogClose,
-  Root as DialogRoot,
-} from "@radix-ui/react-dialog";
-import {
   Root as ScrollAreaRoot,
-  ScrollAreaCorner,
-  ScrollAreaScrollbar,
-  ScrollAreaThumb,
   ScrollAreaViewport,
 } from "@radix-ui/react-scroll-area";
-import { Cross1Icon, MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { Box, Flex, Button, Text, Slider, Theme } from "@radix-ui/themes";
+import { MixerHorizontalIcon } from "@radix-ui/react-icons";
+import {
+  Box,
+  Flex,
+  Button,
+  Text,
+  Slider,
+  Theme,
+  Popover,
+} from "@radix-ui/themes";
 import { CheckboxGroup } from "@radix-ui/themes";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from "recharts";
+import { BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
 import { Projects } from "../../state";
 
 const Filters: React.FC<{
@@ -43,100 +38,64 @@ const Filters: React.FC<{
 
   return (
     <Box>
-      <DialogRoot>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="soft">
-              <MixerHorizontalIcon width="16" height="16" />
-              Filters
-            </Button>
-          </DialogTrigger>
-          <DialogPortal>
-            <Theme>
-              <DialogOverlay
+      <Popover.Root>
+        <Popover.Trigger>
+          <Button variant="soft">
+            <MixerHorizontalIcon width="16" height="16" />
+            Filters
+          </Button>
+        </Popover.Trigger>
+        <Theme>
+          <Popover.Content
+            style={{
+              backgroundColor: "white",
+              borderRadius: "8px",
+              padding: "20px",
+              width: "65vw",
+              height: "75vh",
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+              color: "black",
+            }}
+          >
+            <ScrollAreaRoot style={{ height: "calc(100% - 40px)" }}>
+              <ScrollAreaViewport
                 style={{
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  position: "fixed",
-                  inset: 0,
-                }}
-              />
-              <DialogContent
-                style={{
-                  backgroundColor: "white",
-                  borderRadius: "8px",
-                  padding: "20px",
-                  width: "65vw",
-                  height: "75vh",
-                  position: "fixed",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                  color: "black",
+                  height: "100%",
                 }}
               >
-                <DialogTitle style={{ marginBottom: "20px", marginTop: "0px" }}>
-                  Filters
-                  <Text size="2" color="gray" style={{ marginLeft: "10px" }}>
-                    Based on Project's Newest Version
-                  </Text>
-                </DialogTitle>
-                <DialogClose asChild>
-                  <button
-                    style={{
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                      color: "blue",
-                      background: "none",
-                      cursor: "pointer",
-                    }}
-                    aria-label="Close"
-                  >
-                    <Cross1Icon />
-                  </button>
-                </DialogClose>
-                <ScrollAreaRoot style={{ height: "calc(100% - 40px)" }}>
-                  <ScrollAreaViewport
-                    style={{
-                      height: "100%",
-                    }}
-                  >
-                    <Flex direction="column" gap="5">
-                      <Box style={{ justifyContent: "center" }}>
-                        <Text size="2" color="gray">
-                          Filter Based on Risk Level:
-                        </Text>
-                        <CheckboxGroup.Root
-                          name="riskFiltering"
-                          value={selectedFilters}
-                          onValueChange={handleCheckboxChange}
-                        >
-                          {checkboxVals.map((val) => (
-                            <CheckboxGroup.Item key={val} value={val}>
-                              {val}
-                            </CheckboxGroup.Item>
-                          ))}
-                        </CheckboxGroup.Root>
-                      </Box>
-                      <Box>
-                        <Text size="2" color="gray">
-                          Filter Based on TQI Value:
-                        </Text>
-                        <SliderFilter
-                          value={sliderValue}
-                          projects={projects}
-                          onValueChange={handleSliderChange}
-                        />
-                      </Box>
-                    </Flex>
-                  </ScrollAreaViewport>
-                </ScrollAreaRoot>
-              </DialogContent>
-            </Theme>
-          </DialogPortal>
-        </Dialog>
-      </DialogRoot>
+                <Flex direction="column" gap="5">
+                  <Box style={{ justifyContent: "center" }}>
+                    <Text size="2" color="gray">
+                      Filter Based on Risk Level:
+                    </Text>
+                    <CheckboxGroup.Root
+                      name="riskFiltering"
+                      value={selectedFilters}
+                      onValueChange={handleCheckboxChange}
+                    >
+                      {checkboxVals.map((val) => (
+                        <CheckboxGroup.Item key={val} value={val}>
+                          {val}
+                        </CheckboxGroup.Item>
+                      ))}
+                    </CheckboxGroup.Root>
+                  </Box>
+                  <Box>
+                    <Text size="2" color="gray">
+                      Filter Based on TQI Value:
+                    </Text>
+                    <SliderFilter
+                      value={sliderValue}
+                      projects={projects}
+                      onValueChange={handleSliderChange}
+                    />
+                  </Box>
+                </Flex>
+              </ScrollAreaViewport>
+            </ScrollAreaRoot>
+          </Popover.Content>
+        </Theme>
+      </Popover.Root>
     </Box>
   );
 };

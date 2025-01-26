@@ -2,7 +2,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, IconButton } from "@radix-ui/themes";
 import { ProjectListItem } from "./ProjectListItem";
 import { useProjectManager } from "./ProjectManagerContext";
-import { useState } from "react";
+//import { useState } from "react";
 
 export const ProjectList = () => {
   const {
@@ -13,22 +13,23 @@ export const ProjectList = () => {
     updateProjectName,
   } = useProjectManager();
 
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  // Remove the commented lines if you want to use the search functionality
+  //const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
+  // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchQuery(e.target.value);
+  // };
 
-  const filteredProjects = Object.entries(projects).filter(([, project]) => {
-    if (project.versions.length === 0) return false;
+  // const filteredProjects = Object.entries(projects).filter(([, project]) => {
+  //   if (project.versions.length === 0) return false;
 
-    const queryLowercase = searchQuery.toLowerCase();
-    const matchesSearch =
-      queryLowercase === "" ||
-      project.name.toLowerCase().includes(queryLowercase);
+  //   const queryLowercase = searchQuery.toLowerCase();
+  //   const matchesSearch =
+  //     queryLowercase === "" ||
+  //     project.name.toLowerCase().includes(queryLowercase);
 
-    return matchesSearch;
-  });
+  //   return matchesSearch;
+  // });
 
   return (
     <Flex
@@ -52,7 +53,7 @@ export const ProjectList = () => {
         </IconButton>
       </Flex>
       <Flex direction="column" gap="2">
-        <input
+        {/* <input
           type="text"
           placeholder="Search projects..."
           onChange={handleSearchChange}
@@ -65,8 +66,8 @@ export const ProjectList = () => {
             borderBottom: "2px solid gray",
             color: "black",
           }}
-        />
-        {filteredProjects.map(([uuid, project]) => {
+        /> */}
+        {Object.entries(projects).map(([uuid, project]) => {
           return (
             <ProjectListItem
               key={uuid}

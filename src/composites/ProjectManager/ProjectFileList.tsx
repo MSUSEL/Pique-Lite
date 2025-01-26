@@ -3,6 +3,8 @@ import { IconButton, Table, Flex, Text } from "@radix-ui/themes";
 import { Version } from "../../state";
 import { useState } from "react";
 import { PaginationButtons } from "../../pages/Overview/Overview";
+import VersionSearchBar from "./VersionSearch";
+//import VersionFilters from "./Filters";
 
 interface ProjectFileListProps {
   versions: Version[];
@@ -30,11 +32,13 @@ export const ProjectFileList = ({
     );
   }
 
+  const [filteredVersions, setFilteredVersions] = useState<Version[]>(versions);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const totalPages = Math.ceil(versions.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredVersions.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const versionsToDisplay = versions.slice(startIndex, endIndex);
+  const versionsToDisplay = filteredVersions.slice(startIndex, endIndex);
 
   const columnWidths = {
     name: "40%",
@@ -45,6 +49,14 @@ export const ProjectFileList = ({
 
   return (
     <Flex direction="column" style={{ height: "400px" }}>
+      <Flex direction="row" justify="between">
+        <VersionSearchBar
+          versions={versions}
+          setFilteredVersions={setFilteredVersions}
+        />
+        {/* <VersionFilters versions={versions} /> */}
+      </Flex>
+
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>

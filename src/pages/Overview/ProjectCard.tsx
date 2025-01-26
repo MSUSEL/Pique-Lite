@@ -17,26 +17,27 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   );
 
   const selectedVersion = project.versions[selectedVersionIndex];
+  const versionRisk = getRisk(selectedVersion.data.value, "normal");
 
   return (
     <Card
       key={uuid}
-      style={{
-        margin: "10px",
-      }}
+      style={{ margin: "10px", minWidth: "550px", maxWidth: "1024px" }}
     >
-      <Flex direction="row" justify="between" gap="5" align="center">
-        <ProjectHeader
-          name={project.name}
-          versions={project.versions}
-          selectedVersionIndex={selectedVersionIndex}
-          onVersionChange={setSelectedVersionIndex}
-          onProjectClick={() => onProjectClick(selectedVersionIndex)}
-        />
-        {/* <MetricsSection metrics={selectedVersion.data.children} /> */}
-        <RadialGraphs metrics={selectedVersion.data.children} />
-        <TQIGraph value={selectedVersion.data.value} />
-        {/* <TQIBadge value={selectedVersion.data.value} risk={versionRisk} /> */}
+      <Flex direction="row" justify="between">
+        <Flex direction="column" gap="2" style={{ flex: 1 }}>
+          <ProjectHeader
+            name={project.name}
+            versions={project.versions}
+            selectedVersionIndex={selectedVersionIndex}
+            onVersionChange={setSelectedVersionIndex}
+            onProjectClick={() => onProjectClick(selectedVersionIndex)}
+          />
+          <MetricsSection metrics={selectedVersion.data.children} />
+        </Flex>
+        {/* <RadialGraphs metrics={selectedVersion.data.children} />
+        <TQIGraph value={selectedVersion.data.value} /> */}
+        <TQIBadge value={selectedVersion.data.value} risk={versionRisk} />
       </Flex>
     </Card>
   );
@@ -58,7 +59,7 @@ const ProjectHeader: React.FC<{
   const selectedVersion = versions[selectedVersionIndex];
 
   return (
-    <Flex direction="column" gap="3" align="center" justify="center">
+    <Flex direction="row" gap="3" align="center">
       <Link onClick={onProjectClick}>
         <Heading size="3">{name}</Heading>
       </Link>
