@@ -1,6 +1,6 @@
 # Getting Started with PIQUE Visualizer
 
-Welcome to **PIQUE-Lite**! This guide will walk you through the steps to install, set up, and run the visualizer on your machine.
+Welcome to **PIQUE**! This guide will walk you through the steps to install, set up, and run the visualizer on your machine.
 
 ## Prerequisites
 
