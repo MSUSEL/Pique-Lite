@@ -75,14 +75,15 @@ markdown_extensions:
 # Page tree
 nav:
   - Home: index.md
-  - Getting started:
-    - Testing: page2.md
   - PIQUE-Lite:
-      - Testing: test.md
-  - PIQUE-Visualizer:
-      - Testing: test2.md
-  - Input File Schema Requirements:
-      - Testing: page2.md
+    - Introduction: pique-lite/intro.md
+    - Getting Started: pique-lite/getting-started.md
+    - User Guide: pique-lite/user-guide.md
+    - Advanced Features: pique-lite/advanced-features.md
+  # - Getting started
+  # - PIQUE-Lite
+  # - PIQUE-Visualizer
+  # - Input File Schema Requirements
   
 # Page tree
 # nav:
