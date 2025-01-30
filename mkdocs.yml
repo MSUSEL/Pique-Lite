@@ -75,21 +75,20 @@ nav:
   - Overview:
     - Introduction: overview/introduction.md
     - Quick Start: overview/quick-start.md
-  - Developer Tools:
-    - System Requirements: developer-tools/system-requirements.md
-    - Installation: developer-tools/installation.md
+  - Developer Notes:
+    - Getting Started: developer-notes/getting-started.md
+    - Installation: developer-notes/installation.md
   - User Guide: 
-    - "Input Schema":
-      - test: user-guide/input-schema/input.md
-    - "Core Features":
-      - test: user-guide/core-features/core.md
-    - "Advanced Features":
-      - test: user-guide/advanced-features/adv.md
+    - Input Schema: user-guide/input-schema/input-schema.md
+    - Core Features: user-guide/core-features/core-features.md
+    - Advanced Features: user-guide/advanced-features/adv-features.md
   - Tutorials:
     - Basic Example: tutorials/basic-example.md
-    - Advanced Example: tutorials/advanced-example.md
+    - Advanced Example: tutorials/adv-example.md
   - Glossary: glossary.md
-  - FAQ: faq.md
+  - FAQ and Troubleshooting: 
+    - Frequently Asked Questions: faq-troubleshooting/faq.md
+    - Common Issues: faq-troubleshooting/common-issues.md
 
 extra_css:
   - assets/docs-theme.css
