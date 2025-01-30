@@ -1,107 +1,109 @@
-PIQUE Visualizer requires input data in a structured JSON format to assess and visualize software quality. This section explains the required structure and key components of the input file.
+PIQUE-Lite requires structured JSON input data to assess and visualize software quality. This section outlines the required structure and key components of the input file.
 
 ## Overview
-A valid input JSON file contains essential elements such as `name`, `global_config`, `factors`, `measures`, and `diagnostics`. These components collectively define how the software’s quality is evaluated and presented in the visualizer.
 
-### Core Structure
-| Key               | Type      | Description |
-|-------------------|-----------|-------------|
-| `name`            | `string`  | Name of the dataset (e.g., project identifier). |
-| `global_config`   | `object`  | Global settings that apply to the entire dataset. |
-| `factors`         | `object`  | Hierarchical quality model consisting of top-level quality indicators and contributing factors. |
-| `measures`        | `object`  | Measurable software quality attributes. |
-| `diagnostics`     | `object`  | Low-level data used to derive measure values. |
+A valid JSON input file contains factors, measures, and diagnostics. If the file is invalid, the user will receive an error message. Users typically upload multiple JSON files for different project versions to track software quality changes over time. The data will automatically integrate into various data visualization graphs on the dashboard.
 
+## JSON Structure
+The input JSON follows a hierarchical structure:
+
+- **Top Level**:
+    - **`name`**: `"Binary Security Quality"`. Represents the total computed quality
+    - **`value`**: Numeric value representing the overall quality score
+    - **`children`**: Array of **Quality Aspects**
+    - **(optional) `date`**: A date property can be included at the top level of the JSON structure to indicate when the data was generate
+
+- **Quality Aspects**:
+    - **`name`**: Name of the quality aspect (e.g., `"Availability"`)
+    - **`value`**: Numeric value for the quality aspect
+    - **`children`**: Array of **Product Factors** (represented by CWE numbers)
+
+- **Product Factors**:
+    - **`name`**: CWE number (e.g., `"CWE-1211"`). Represents a specific weakness (e.g., `"Authentication Errors"`)
+    - **`value`**: Numeric value for the factor
+    - **`children`**: Array of **Measures**
+
+- **Measures**:
+    - **`name`**: Name of the measure (e.g., `"CVE-CWE-294 Measure"`)
+    - **`value`**: Numeric value for the measure
+    - **`children`**: Array of **Diagnostics**
+
+- **Diagnostics**:
+    - **`name`**: Name of the diagnostic (e.g., `"CVE-CWE-294 Diagnostic"`)
+    - **`value`**: Numeric value for the diagnostic
+
+
+### Example JSON
+```json
+{
+  "name": "Binary Security Quality",
+  "value": 0.32076907778360153,
+  "children": [
+    {
+      "name": "Availability",
+      "value": 0.3517824935577334,
+      "children": [
+        {
+          "name": "Category CWE-1211",
+          "value": 0.1592293,
+          "children": [
+            {
+              "name": "CVE-CWE-294 Measure",
+              "value": 0.5,
+              "children": [
+                {
+                  "name": "CVE-CWE-294 Diagnostic",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "date": "2022-01-29"
+}
+```
+
+### Structure of the Quality Model
+The quality model is organized hierarchically, with the following structure:
+
+- **6 Quality Aspects**: Represent high-level security characteristics:
+    - `"Availability"`
+    - `"Authenticity"`
+    - `"Authorization"`
+    - `"Confidentiality"`
+    - `"Non-repudiation"`
+    - `"Integrity"`
+- **42 Factors per Quality Aspect**: Represent specific weaknesses or sub-characteristics (e.g., `"CWE-1211"` meaning `"Authentication Errors"`)
+- **19 Measures per Factor**: Quantify specific aspects of software quality (e.g., `"CVE-CWE-294 Measure"`)
+- **1 Diagnostic per Measure**: Provide raw data from analysis tools (e.g., `"CVE-CWE-294 Diagnostic"`)
+
+This structure ensures a comprehensive evaluation of software quality, from high-level attributes to low-level tool findings.
 
 ## Key Components
 
 ### Factors
-Factors represent higher-level software quality attributes, such as maintainability or security, and are calculated from measures.
+Factors are high-level, abstract concepts in the quality model that represent software quality attributes. They are not directly measurable but are calculated by aggregating values from lower-level components (measures). Factors are organized hierarchically:
 
-- **Structure**: Nested objects defining `tqi` (total quality index), `quality_aspects`, and `product_factors`
-- **Example**: 
-```json
-"factors": {
-  "Maintainability": {
-    "value": 0.8,
-    "weights": { "Modularity": 0.6, "Readability": 0.4 }
-  }
-}
-```
+- **Total Quality Index (TQI)**: 
+    - The root node of the model
+    - Represents the overall software quality score (e.g., 0.75 on a scale of 0.0 to 1.0)
+    - Example: If the TQI is 0.8, the software is considered high quality
+- **Quality Aspects (QA)**: 
+    - The highest-level factors that directly compose the TQI (e.g., `"Confidentiality"`, `"Authentication"`)
+- **Product Factors (PF)**: 
+    - Factors one level below quality aspects
+    - Product factors are represented by CWE (Common Weakness Enumeration) numbers. For example, `CWE-1211` represents `"Authentication Errors"`. Learn more about specific weaknesses by searching for the CWE ID on the [CWE website](https://cwe.mitre.org/)
 
 ### Measures
-Measures quantify specific aspects of software quality and are derived from diagnostics.
+Measures are concrete, quantifiable concepts derived from diagnostics. They can be:
 
-- **Fields**: `description`, `eval_strategy`, `normalizer`, `thresholds`, `utility_function`, `value`, and `weights`
-- **Example**: 
-```json
-"measures": {
-  "Code Complexity": {
-    "value": 0.7,
-    "eval_strategy": "static_analysis",
-    "utility_function": "linear"
-  }
-}
-```
+- **Positive Measures**: Findings that positively impact the TQI
+- **Negative Measures**: Findings that negatively impact the TQI
 
 ### Diagnostics
-Diagnostics provide raw data from analysis tools and serve as the foundation for measures.
-
-- **Fields**: `description`, `eval_strategy`, `toolName`, `value`, and `weights`
-- **Example**: 
-```json
-"diagnostics": {
-  "Cyclomatic Complexity": {
-    "value": 15,
-    "toolName": "SonarQube"
-  }
-}
-```
-
-### Utility Functions
-Utility functions determine how measure and factor values are interpreted. These can be simple (e.g., `linear`, `logarithmic`) or detailed with benchmarks.
-
-- **Example**: 
-```json
-"utility_function": {
-  "name": "benchmark_curve",
-  "benchmarkQualityMetrics": [0.2, 0.5, 0.8]
-}
-```
-
-## Input Validation
-
-To ensure the JSON input works correctly with PIQUE Visualizer, adhere to the following validation rules:
-
-### Required Fields
-The following fields must be present in the JSON file:
-
-- `name`: A string identifying the dataset (e.g., project name)
-- `factors`: An object defining quality attributes and their weights
-- `measures`: An object containing measurable quality attributes
-- `diagnostics`: An object providing raw data used to calculate measures
-
-### Data Types
-Each field must match the expected data type:
-
-- `name`: String
-- `factors`, `measures`, `diagnostics`: Objects
-- Numeric values (e.g., `value`, `weights`): Number
-
-### Value Constraints
-- **Normalized Values**: If normalized, measure and factor values must be between `0.0` and `1.0`
-- **Weights**: For a given factor, the sum of weights must equal `1.0`
-
-### Referential Integrity
-- **Measures**: Must reference valid diagnostics
-- **Factors**: Must reference valid measures
-
-### JSON Formatting
-Ensure the file is valid JSON:
-- Use double quotes for strings
-- Match all brackets (`{}`, `[]`) correctly
-- Avoid trailing commas
-
-By following these rules, you can ensure the input file is correctly processed by PIQUE Lite.
+Diagnostics are the raw outputs from analysis tools. They provide the foundational data used to calculate measures. Diagnostics are tool-specific and represent specific findings (e.g., a vulnerability or code smell)
 
 
