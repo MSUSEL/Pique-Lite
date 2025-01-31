@@ -78,9 +78,7 @@ nav:
   - Overview:
     - Introduction: overview/introduction.md
     - Quick Start: overview/quick-start.md
-  - Developer Notes:
-    - Getting Started: developer-notes/getting-started.md
-    - Installation: developer-notes/installation.md
+  - Developer Notes: developer-notes/setup.md
   - User Guide: 
     - Input Schema: 
       - Overview: user-guide/input-schema/input-schema.md
