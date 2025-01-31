@@ -1,10 +1,10 @@
 import { TrashIcon } from "@radix-ui/react-icons";
 import { IconButton, Table, Flex, Text } from "@radix-ui/themes";
 import { Version } from "../../state";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { PaginationButtons } from "../../pages/Overview/Overview";
 import VersionSearchBar from "./VersionSearch";
-//import VersionFilters from "./Filters";
+import VersionFilters from "./Filters";
 
 interface ProjectFileListProps {
   versions: Version[];
@@ -33,6 +33,9 @@ export const ProjectFileList = ({
   }
 
   const [filteredVersions, setFilteredVersions] = useState<Version[]>(versions);
+  useMemo(() => {
+    setFilteredVersions(versions);
+  }, [versions]);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = Math.ceil(filteredVersions.length / ITEMS_PER_PAGE);
@@ -54,7 +57,10 @@ export const ProjectFileList = ({
           versions={versions}
           setFilteredVersions={setFilteredVersions}
         />
-        {/* <VersionFilters versions={versions} /> */}
+        <VersionFilters
+          versions={versions}
+          setFilteredVersions={setFilteredVersions}
+        />
       </Flex>
 
       <Table.Root variant="surface">

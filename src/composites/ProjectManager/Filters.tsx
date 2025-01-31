@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Root as ScrollAreaRoot,
   ScrollAreaViewport,
@@ -13,20 +13,43 @@ import {
   Popover,
   Strong,
 } from "@radix-ui/themes";
-import DatePicker from "react-datepicker";
 import { Version } from "../../state";
 
-/* 
-  Version filtering currently not in use, but will be used in future versions
-*/
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { DateField } from "@mui/x-date-pickers/DateField";
 
-const VersionFilters: React.FC<{ versions: Version[] }> = ({ versions }) => {
-  const [startDate, setStartDate] = useState(
-    new Date(Math.min(...versions.map((v) => new Date(v.date).getTime())))
-  );
-  const [endDate, setEndDate] = useState(
-    new Date(Math.max(...versions.map((v) => new Date(v.date).getTime())))
-  );
+const VersionFilters: React.FC<{
+  versions: Version[];
+  setFilteredVersions: (versions: Version[]) => void;
+}> = ({ versions, setFilteredVersions }) => {
+  const getMinDate = () =>
+    dayjs(Math.min(...versions.map((v) => new Date(v.date).getTime())));
+  const getMaxDate = () =>
+    dayjs(Math.max(...versions.map((v) => new Date(v.date).getTime())));
+
+  const [startDate, setStartDate] = useState(getMinDate);
+  const [endDate, setEndDate] = useState(getMaxDate);
+
+  // Update startDate & endDate when versions change
+  useEffect(() => {
+    setStartDate(getMinDate());
+    setEndDate(getMaxDate());
+  }, [versions]);
+
+  // Filter versions based on selected date range
+  useEffect(() => {
+    const filtered = versions.filter((v) => {
+      const versionDate = dayjs(v.date);
+      return (
+        versionDate.isAfter(startDate.subtract(1, "day")) &&
+        versionDate.isBefore(endDate.add(1, "day"))
+      );
+    });
+    setFilteredVersions(filtered);
+  }, [startDate, endDate, versions]);
 
   return (
     <Box>
@@ -43,7 +66,7 @@ const VersionFilters: React.FC<{ versions: Version[] }> = ({ versions }) => {
               backgroundColor: "white",
               borderRadius: "8px",
               padding: "10px",
-              width: "20vw",
+              width: "40vw",
               height: "40vh",
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
               color: "black",
@@ -60,23 +83,26 @@ const VersionFilters: React.FC<{ versions: Version[] }> = ({ versions }) => {
                   <Text>Visibility</Text>
                   <Text>Status</Text>
                   <Text>Last modified date</Text>
-                  <Box>
-                    <DatePicker
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date || startDate)}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                    />
-                    <DatePicker
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date || endDate)}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                    />
-                  </Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <Flex direction="row" gap="2">
+                      <DateField
+                        label="Start Date"
+                        value={startDate}
+                        onChange={(newValue) =>
+                          setStartDate(newValue || getMinDate())
+                        }
+                      />
+                      <DateField
+                        label="End Date"
+                        value={endDate}
+                        onChange={(newValue) =>
+                          setEndDate(newValue || getMaxDate)
+                        }
+                        minDate={startDate}
+                        maxDate={getMaxDate()}
+                      />
+                    </Flex>
+                  </LocalizationProvider>
                 </Flex>
               </ScrollAreaViewport>
             </ScrollAreaRoot>

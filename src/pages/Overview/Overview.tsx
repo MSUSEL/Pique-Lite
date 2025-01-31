@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { State, Project } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
@@ -45,6 +45,9 @@ const Overview: React.FC = () => {
 
   const [sortedProjects, setSortedProjects] =
     useState<[string, Project][]>(filteredProjects);
+  useEffect(() => {
+    setSortedProjects(filteredProjects);
+  }, [filteredProjects]);
 
   const totalPages = Math.ceil(sortedProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

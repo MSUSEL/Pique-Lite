@@ -18,7 +18,7 @@ const VersionSearchBar: React.FC<{
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   return (
-    <Box>
+    <Box style={{ width: "100%" }}>
       <input
         type="text"
         placeholder="Search files..."
