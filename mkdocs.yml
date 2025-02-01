@@ -17,6 +17,7 @@ theme:
     - navigation.expand
     - navigation.footer
     - navigation.indexes
+    - navigation.sections
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.top
@@ -79,16 +80,22 @@ nav:
     - Introduction: overview/introduction.md
     - Quick Start: overview/quick-start.md
   - Developer Notes: developer-notes/setup.md
-  - User Guide: 
+  - User Guide:
+    - Overview: user-guide/index.md
     - Input Schema: 
       - Overview: user-guide/input-schema/input-schema.md
       - Handling Input Errors: user-guide/input-schema/input-errors.md
-    - Core Features: user-guide/core-features/core-features.md
-    - Advanced Features: user-guide/advanced-features/adv-features.md
+    - Core Features: 
+      - File Upload: user-guide/core-features/file-upload.md
+      - Initial Display: user-guide/core-features/initial-display.md
+      - Understanding the Metrics: user-guide/core-features/interpreting-metrics.md
+    - Advanced Features: 
+      - Tree Display: user-guide/advanced-features/tree-display.md
+      - Adjusting Category Weights: user-guide/advanced-features/adjusting-weights.md
+      - Understanding the Metrics: user-guide/advanced-features/interpreting-metrics.md
   - Tutorials:
     - Basic Example: tutorials/basic-example.md
     - Advanced Example: tutorials/adv-example.md
-  - Glossary: glossary.md
   - FAQ and Troubleshooting: 
     - Frequently Asked Questions: faq-troubleshooting/faq.md
     - Common Issues: faq-troubleshooting/common-issues.md

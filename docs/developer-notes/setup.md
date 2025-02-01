@@ -75,7 +75,7 @@ http://localhost:
 Now that the PIQUE Visualizer is running, you’re ready to analyze your software quality results!
 
 - Explore the Using the Visualizer section for a detailed walkthrough of the tool's features.
-- Refer to the Input Schema page to understand how to prepare your JSON input files.
+- Refer to the [Input Schema](../user-guide/input-schema/input-schema.md) page to understand how to prepare your JSON input files.
 
 
 

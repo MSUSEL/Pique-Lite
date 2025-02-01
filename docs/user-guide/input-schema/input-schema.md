@@ -1,8 +1,8 @@
 PIQUE-Lite requires structured JSON input data to assess and visualize software quality. This section outlines the required structure and key components of the input file.
 
-## Overview
+## Input Schema
 
-A valid JSON input file contains factors, measures, and diagnostics. If the file is invalid, the user will receive an error message. Users typically upload multiple JSON files for different project versions to track software quality changes over time. The data will automatically integrate into various data visualization graphs on the dashboard.
+A valid JSON file for PIQUE includes factors, measures, and diagnostics. If the file is invalid, an error message appears. Users upload multiple versions to track software quality over time, with data automatically visualized on the dashboard.
 
 ## JSON Structure
 The input JSON follows a hierarchical structure:
