@@ -16,10 +16,10 @@ The input JSON follows a hierarchical structure:
 - **Quality Aspects**:
     - **`name`**: Name of the quality aspect (e.g., `"Availability"`)
     - **`value`**: Numeric value for the quality aspect
-    - **`children`**: Array of **Product Factors** (represented by CWE numbers)
+    - **`children`**: Array of **Product Factors**
 
 - **Product Factors**:
-    - **`name`**: CWE number (e.g., `"CWE-1211"`). Represents a specific weakness (e.g., `"Authentication Errors"`)
+    - **`name`**: CWE number (e.g., `"CWE-1211"`). Represents a specific weakness (e.g., `"Authentication Errors"`). See the Factors section for more info on CWE
     - **`value`**: Numeric value for the factor
     - **`children`**: Array of **Measures**
 
@@ -95,7 +95,7 @@ Factors are high-level, abstract concepts in the quality model that represent so
     - The highest-level factors that directly compose the TQI (e.g., `"Confidentiality"`, `"Authentication"`)
 - **Product Factors (PF)**: 
     - Factors one level below quality aspects
-    - Product factors are represented by CWE (Common Weakness Enumeration) numbers. For example, `CWE-1211` represents `"Authentication Errors"`. Learn more about specific weaknesses by searching for the CWE ID on the [CWE website](https://cwe.mitre.org/)
+    - Product factors are represented by CWE (Common Weakness Enumeration) numbers. For example, `CWE-1211` represents `"Authentication Errors"`. Learn more about specific weaknesses by searching for the CWE ID on the <a href="https://cwe.mitre.org/" target="_blank" rel="noopener noreferrer">CWE Website</a>
 
 ### Measures
 Measures are concrete, quantifiable concepts derived from diagnostics. They can be:
