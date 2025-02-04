@@ -75,10 +75,7 @@ markdown_extensions:
 
 # Page tree
 nav:
-  - Home: index.md
-  - Overview:
-    - Introduction: overview/introduction.md
-    - Quick Start: overview/quick-start.md
+  - PIQUE: index.md
   - Developer Notes: developer-notes/setup.md
   - User Guide:
     - Overview: user-guide/index.md
