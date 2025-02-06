@@ -65,7 +65,7 @@ npm run dev
 2. Open your browser and navigate to the following URL (if it doesn’t open automatically):
 
 ```bash
-http://localhost:
+http://localhost:5173
 ```
 
 ---
@@ -74,8 +74,8 @@ http://localhost:
 
 Now that the PIQUE Visualizer is running, you’re ready to analyze your software quality results!
 
-- Explore the Using the Visualizer section for a detailed walkthrough of the tool's features.
-- Refer to the [Input Schema](../user-guide/input-schema/input-schema.md) page to understand how to prepare your JSON input files.
+- Explore the [User Guide](../user-guide/index.md) section for a detailed walkthrough of the tool's features
+- Refer to the [Input Schema](../user-guide/input-schema/input-schema.md) page to understand how to prepare your JSON input files
 
 
 
