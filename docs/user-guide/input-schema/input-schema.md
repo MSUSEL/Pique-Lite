@@ -5,6 +5,7 @@ PIQUE-Lite requires structured JSON input data to assess and visualize software 
 A valid JSON file for PIQUE includes factors, measures, and diagnostics. If the file is invalid, an error message appears. Users upload multiple versions to track software quality over time, with data automatically visualized on the dashboard.
 
 ## JSON Structure
+
 The input JSON follows a hierarchical structure:
 
 - **Top Level**:
@@ -34,6 +35,7 @@ The input JSON follows a hierarchical structure:
 
 
 ### Example JSON
+
 ```json
 {
   "name": "Binary Security Quality",
@@ -67,6 +69,7 @@ The input JSON follows a hierarchical structure:
 ```
 
 ### Structure of the Quality Model
+
 The quality model is organized hierarchically, with the following structure:
 
 - **6 Quality Aspects**: Represent high-level security characteristics:
@@ -85,6 +88,7 @@ This structure ensures a comprehensive evaluation of software quality, from high
 ## Key Components
 
 ### Factors
+
 Factors are high-level, abstract concepts in the quality model that represent software quality attributes. They are not directly measurable but are calculated by aggregating values from lower-level components (measures). Factors are organized hierarchically:
 
 - **Total Quality Index (TQI)**: 
@@ -98,12 +102,14 @@ Factors are high-level, abstract concepts in the quality model that represent so
     - Product factors are represented by CWE (Common Weakness Enumeration) numbers. For example, `CWE-1211` represents `"Authentication Errors"`. Learn more about specific weaknesses by searching for the CWE ID on the <a href="https://cwe.mitre.org/" target="_blank" rel="noopener noreferrer">CWE Website</a>
 
 ### Measures
+
 Measures are concrete, quantifiable concepts derived from diagnostics. They can be:
 
 - **Positive Measures**: Findings that positively impact the TQI
 - **Negative Measures**: Findings that negatively impact the TQI
 
 ### Diagnostics
+
 Diagnostics are the raw outputs from analysis tools. They provide the foundational data used to calculate measures. Diagnostics are tool-specific and represent specific findings (e.g., a vulnerability or code smell)
 
 

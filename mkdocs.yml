@@ -84,8 +84,8 @@ nav:
       - Handling Input Errors: user-guide/input-schema/input-errors.md
     - Core Features: 
       - File Upload: user-guide/core-features/file-upload.md
-      - Project Dashboard: user-guide/core-features/project-overview.md
-      - Characteristics Page: user-guide/core-features/characteristics-page.md
+      - Project Overview: user-guide/core-features/project-overview.md
+      - Project Characteristics: user-guide/core-features/characteristics-page.md
       - Comparing Projects: user-guide/core-features/comparison-page.md
     - Advanced Features: 
       - Tree Display: user-guide/advanced-features/tree-display.md

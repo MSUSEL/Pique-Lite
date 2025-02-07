@@ -1,6 +1,6 @@
 ## Introduction
 
-<img src="../../../assets/images/initial-display.png" class="medium-img" alt="Project Dashboard">
+<img src="../../../assets/images/initial-display.png" class="medium-img" alt="Project Overview">
 
 Each project input displays a Total Quality Index (TQI) along with quality scores for six key aspects of software security:
 
