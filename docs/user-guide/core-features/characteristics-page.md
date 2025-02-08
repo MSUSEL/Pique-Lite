@@ -2,7 +2,7 @@
 
 To access this page, click on the **Project** tab in the navigation bar.  
 
-<img src="../../../assets/images/switch-to-project-page.png" class="medium-img" alt="Navigation bar">
+<img src="../../../assets/images/switch-to-project-page.png" class="small-img" alt="Navigation bar">
 
 ## Understanding the Graph
 
@@ -42,15 +42,3 @@ Above the graph, you can:
 - **Choose a specific version** to display its **exact quality scores** above the graph.
 
 <img src="../../../assets/images/select-version.png" class="medium-img">
-
-
-## Managing Projects  
-
-On the far right of the screen, you’ll see the **Manage Project** button 
-
-<img src="../../../assets/images/characteristics-page.png" class="medium-img" alt="Project graph">
-
-- Click this to edit, update, or remove uploaded projects and files
-
-<img src="../../../assets/images/manage-projects.png" class="medium-img" alt="Project graph">
-

@@ -32,4 +32,19 @@ A legend is provided on the dashboard to help you interpret these color codes.
 
 <img src="../../../assets/images/risk-levels.png" class="medium-img" alt="Risk levels">
 
+## Managing Projects  
+
+On the far right of the screen, you’ll see the **Manage Project** button 
+
+<img src="../../../assets/images/initial-display.png" class="medium-img" alt="Project Overview">
+
+<img src="../../../assets/images/manage-projects-button.png" class="small-img" alt="Manage projects button">
+
+
+- Click this to edit, update, or remove uploaded projects and files
+
+<img src="../../../assets/images/manage-projects.png" class="medium-img" alt="Project graph">
+
+
+
 

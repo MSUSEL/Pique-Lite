@@ -81,12 +81,12 @@ nav:
     - Overview: user-guide/index.md
     - Input Schema: 
       - Overview: user-guide/input-schema/input-schema.md
+      - File Upload: user-guide/input-schema/file-upload.md      
       - Handling Input Errors: user-guide/input-schema/input-errors.md
     - Core Features: 
-      - File Upload: user-guide/core-features/file-upload.md
       - Project Overview: user-guide/core-features/project-overview.md
       - Project Characteristics: user-guide/core-features/characteristics-page.md
-      - Comparing Projects: user-guide/core-features/comparison-page.md
+      - Project Comparison: user-guide/core-features/comparison-page.md
     - Advanced Features: 
       - Tree Display: user-guide/advanced-features/tree-display.md
       - Adjusting Category Weights: user-guide/advanced-features/adjusting-weights.md
