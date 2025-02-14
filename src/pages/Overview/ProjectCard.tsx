@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
 import { getRisk } from "../../risk-helpers";
 import { ProjectCardProps } from "./types";
@@ -16,7 +16,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
     project.versions.length - 1
   );
 
-  const selectedVersion = project.versions[selectedVersionIndex];
+  useEffect(() => {
+    setSelectedVersionIndex((prevIndex) => {
+      const newLength = project.versions.length;
+      if (newLength === 0) return 0;
+      return Math.min(prevIndex, newLength - 1); // Ensure the index is within bounds
+    });
+  }, [project.versions.length]);
+
+  const selectedVersion = project.versions[selectedVersionIndex] || project.versions[project.versions.length - 1];
 
   return (
     <Card
