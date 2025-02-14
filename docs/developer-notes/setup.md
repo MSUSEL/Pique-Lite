@@ -37,6 +37,7 @@ cd Pique-Lite
 ```
 
 ### (Optional) Set up a Virtual Environment
+
 ```bash
 # This example uses `venv` on Linux:
 python3 -m venv venv

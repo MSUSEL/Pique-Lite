@@ -15,4 +15,4 @@ If the input JSON file is invalid, PIQUE Visualizer will display an error messag
 1. **Validate JSON Syntax**: Use a JSON validator (e.g., <a href="https://jsonlint.com/" target="_blank" rel="noopener noreferrer">JSONLint</a>) to check for syntax errors
 2. **Check Field Names**: Ensure all field names are spelled correctly and match the expected format
 3. **Review Data Types**: Confirm that numeric values are numbers, strings are quoted, and objects are properly structured
-4. **Regenerate File**: Regenerate the JSON file if all else fails
+4. **Regenerate File**: Regenerate the JSON file if everything else fails

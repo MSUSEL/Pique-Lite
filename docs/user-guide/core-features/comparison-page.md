@@ -1,3 +1,5 @@
+The **Project Comparison** page allows you to compare the quality of different projects.
+
 ## Navigating to the Comparison Page
 
 To access this page, click on the **Comparison** tab in the navigation bar.  
@@ -19,11 +21,13 @@ This page lets you compare multiple projects based on a single quality aspect. T
 ## Interacting with the Graph
 
 ### Hover for Detailed Information  
+
 - Move your mouse over any version to see the scores for each project
 
 <img src="../../../assets/images/project-comparison-hover.png" class="medium-img" alt="Project comparison page">
 
-### Zoom & Crop Feature  
+### Zoom & Crop Feature
+
 - Select a range of versions to zoom in and focus on changes over time
 - Click the **Zoom Out Magnifier** button to return to the full graph view  
 

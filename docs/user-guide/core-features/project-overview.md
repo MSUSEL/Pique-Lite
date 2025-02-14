@@ -1,9 +1,13 @@
-## Introduction
+## Project Dashboard
+
+The **Project Dashboard** displays the quality scores for each project.
 
 <img src="../../../assets/images/initial-display.png" class="medium-img" alt="Project Overview">
+<br>
+<img src="../../../assets/images/project-score-zoomed.png" class="medium-img" alt="Project quality scores up close">
+<br>
 
-Each project input displays a Total Quality Index (TQI) along with quality scores for six key aspects of software security:
-
+Each project has a Total Quality Index (TQI) along with quality scores for six key aspects of software security.
 
 | Quality Aspect     | Definition                                                                       | Opposing Threat           |
 |--------------------|----------------------------------------------------------------------------------|---------------------------|
@@ -14,9 +18,6 @@ Each project input displays a Total Quality Index (TQI) along with quality score
 | **Non-repudiation**| Ensures actions or transactions cannot be denied after execution                 | Repudiation               |
 | **Integrity**      | Maintains accuracy and consistency of data over its lifecycle                    | Tampering                 |
 
-<img src="../../../assets/images/project-score-zoomed.png" class="medium-img" alt="Project quality scores up close">
-
-The TQI provides a composite measure of overall software quality, while the individual quality scores highlight specific security areas.
 
 ## Risk Level Indicators
 

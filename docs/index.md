@@ -1,30 +1,32 @@
-<img src="https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg" class="small-img">
+<img src="assets/images/PIQUE_svg-cropped.svg" class="pique-logo">
 
 ## Introduction
 
-**PIQUE** (Platform for Investigative software Quality Understanding and Evaluation) is a tool designed to help developers, security analysts, and project managers assess and track the security quality of software. By collecting and displaying findings from multiple security analysis tools, PIQUE provides a clear, intuitive way to evaluate software quality.
+**PIQUE** (**P**latform for **I**nvestigative software **Q**uality **U**nderstanding and **E**valuation) is a tool designed to help developers, project managers, and security analysts assess and track the quality and security of their projects. 
 
-<img src="assets/images/characteristics.png" class="medium-img" alt="PIQUE project quality comparison">
+<img src="assets/images/pique-welcome-screen.png" class="medium-img" alt="PIQUE welcome screen">
+<br>
+<img src="assets/images/characteristics-page-zoomed.png" class="medium-img" alt="PIQUE project quality comparison">
 
 ## Key Features
 
-- **Visualize Software Quality Over Time** – Track how security scores change across different software versions and dates
-- **Explore a Hierarchical Breakdown of Security Metrics** – Understand software quality through an interactive tree-based representation
-- **Compare Quality Across Categories** – Assess security across multiple aspects, including Availability, Authenticity, Authorization, Confidentiality, Non-repudiation, and Integrity
-- **Prioritize Areas for Improvement** – Identify high-risk areas in the software that require immediate attention
+- **Compare Quality Across Categories**: Assess security across multiple aspects, including Availability, Authenticity, Authorization, Confidentiality, Non-repudiation, and Integrity
+- **Visualize Software Quality Over Time**: Track how security scores change across different software versions and dates
+- **Prioritize Areas for Improvement**: Identify high-risk areas in the software that require immediate attention
+- **Customize Quality Assessments to Fit Your Needs**: Adjust the weights of core security aspects to tailor evaluations based on priorities and risk tolerance
+- **Explore a Hierarchical Breakdown of Security Metrics**: Understand software quality through an interactive tree-based representation
 
 ## Who is PIQUE for?
 
-PIQUE is designed to support multiple stakeholders:
+PIQUE is built for different types of users:
 
 - **Developers** can analyze security risks in their software and track improvements over time
-- **Security Analysts/Researchers** gain insights from multiple security tools to assess vulnerabilities more effectively
 - **Project Managers** can review high-level security trends and make informed decisions without deep technical knowledge
+- **Security Analysts/Researchers** can gain insights from multiple security tools to assess vulnerabilities more effectively
 
-## Customization and Advanced Features
-
-PIQUE allows users to customize quality assessments to fit their needs. Users can adjust the weights of the six core quality aspects: Availability, Authenticity, Authorization, Confidentiality, Non-repudiation, and Integrity. This gives stakeholders control over how security scores are calculated so evaluations match their priorities and risk tolerance.
 
 ## Next Steps
 
 The [User Guide](user-guide/index.md) will walk you through how to interact with PIQUE’s features, interpret results, and make informed decisions based on security quality assessments.
+
+The [Developer Notes](developer-notes/setup.md) section will help those wanting to clone and run PIQUE on their local machine.

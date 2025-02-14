@@ -1,3 +1,5 @@
+The **Project Characteristics** page visualizes quality changes over time.
+
 ## Navigating to the Characteristics Page
 
 To access this page, click on the **Project** tab in the navigation bar.  
@@ -17,24 +19,28 @@ The graph displays six colored lines each representing a quality aspect.
 
 ## Interacting with the Graph
 
-### Hover for Detailed Information  
+### Hover for Detailed Information
+
 - Move your mouse over any version to see the **TQI** and scores for all six aspects
 
 <img src="../../../assets/images/hover-graph.png" class="medium-img" alt="Hovering over project graph">
 
 
-### Zoom & Crop Feature  
+### Zoom & Crop Feature
+
 - Select a range of versions to zoom in and analyze quality trends more closely
-- View increases or decreases in quality scores for a selected time range
 - Click the **Zoom Out Magnifier** button to return to the full graph view
 
 <img src="../../../assets/images/crop-graph.png" class="medium-img" alt="Selecting a range of the project graph to display">
+
+**Zoom results**:
 
 <img src="../../../assets/images/cropped-results.png" class="medium-img">
 
 ## Selecting Projects & Versions  
 
 Above the graph, you can:  
+
 - **Select a project** from the dropdown to load its data
 
 <img src="../../../assets/images/select-project.png" class="medium-img">

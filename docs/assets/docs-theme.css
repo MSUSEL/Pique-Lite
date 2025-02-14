@@ -25,3 +25,11 @@
   margin-right: auto;
   width: 70%;
 }
+
+.pique-logo {
+  display: block;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+}
