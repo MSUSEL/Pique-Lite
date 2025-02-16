@@ -17,24 +17,16 @@ import { CheckboxGroup } from "@radix-ui/themes";
 import { BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
 import { Projects } from "../../state";
 
+//Filters element for projects in overview
+//Brings in states from parent element and changes them with 'onFilterChange'
 const Filters: React.FC<{
+  selectedFilters: string[];
+  sliderValue: number[];
   onFilterChange: (filters: string[], newValues: number[]) => void;
   projects: Projects;
-}> = ({ onFilterChange, projects }) => {
+}> = ({ selectedFilters, sliderValue, onFilterChange, projects }) => {
+  //Temporary values to fill out checkboxes later
   const checkboxVals = ["Severe", "High", "Elevated", "Guarded", "Low"];
-  const [selectedFilters, setSelectedFilters] =
-    useState<string[]>(checkboxVals);
-  const [sliderValue, setSliderValue] = useState([0, 1.0]);
-
-  const handleCheckboxChange = (values: string[]) => {
-    setSelectedFilters(values);
-    onFilterChange(values, sliderValue);
-  };
-
-  const handleSliderChange = (values: number[]) => {
-    setSliderValue(values);
-    onFilterChange(selectedFilters, values);
-  };
 
   return (
     <Box>
@@ -64,6 +56,7 @@ const Filters: React.FC<{
                 }}
               >
                 <Flex direction="column" gap="5">
+                  {/* Checkboxes to filter on risk level */}
                   <Box style={{ justifyContent: "center" }}>
                     <Text size="2" color="gray">
                       Filter Based on Risk Level:
@@ -71,7 +64,9 @@ const Filters: React.FC<{
                     <CheckboxGroup.Root
                       name="riskFiltering"
                       value={selectedFilters}
-                      onValueChange={handleCheckboxChange}
+                      onValueChange={(values) =>
+                        onFilterChange(values, sliderValue)
+                      }
                     >
                       {checkboxVals.map((val) => (
                         <CheckboxGroup.Item key={val} value={val}>
@@ -80,6 +75,7 @@ const Filters: React.FC<{
                       ))}
                     </CheckboxGroup.Root>
                   </Box>
+                  {/* Slider filter */}
                   <Box>
                     <Text size="2" color="gray">
                       Filter Based on TQI Value:
@@ -87,9 +83,23 @@ const Filters: React.FC<{
                     <SliderFilter
                       value={sliderValue}
                       projects={projects}
-                      onValueChange={handleSliderChange}
+                      onValueChange={(newValues) =>
+                        onFilterChange(selectedFilters, newValues)
+                      }
                     />
                   </Box>
+                  {/* Reset filters */}
+                  <Button
+                    variant="soft"
+                    onClick={() =>
+                      onFilterChange(
+                        ["Severe", "High", "Elevated", "Guarded", "Low"],
+                        [0, 1.0]
+                      )
+                    }
+                  >
+                    Reset Filters
+                  </Button>
                 </Flex>
               </ScrollAreaViewport>
             </ScrollAreaRoot>
@@ -100,6 +110,8 @@ const Filters: React.FC<{
   );
 };
 
+//Slider filter element
+//TODO: Move this to its own file
 const SliderFilter: React.FC<{
   value: number[];
   projects: Projects;
@@ -110,6 +122,9 @@ const SliderFilter: React.FC<{
     value[1].toString(),
   ]);
 
+  //Set up risk level windows and data for bar chart
+  //TODO: see if we can use another method to pull these
+  //  windows from globally-defined values in case these ever change
   const data = [
     { name: "Low", value: 0, range: [0, 0.2] },
     { name: "Guarded", value: 0, range: [0.2, 0.4] },
@@ -118,6 +133,7 @@ const SliderFilter: React.FC<{
     { name: "Severe", value: 0, range: [0.8, 1.0] },
   ];
 
+  //Populate bar chart data
   Object.values(projects).forEach((project) => {
     if (project.versions.length > 0) {
       const recentVersionValue =
@@ -136,6 +152,7 @@ const SliderFilter: React.FC<{
     }
   });
 
+  //Sanitize input from text inputs
   const sanitizeInput = (value: string): number => {
     const num = parseFloat(value);
     if (isNaN(num) || num < 0) return 0;
@@ -143,6 +160,7 @@ const SliderFilter: React.FC<{
     return parseFloat(num.toFixed(2));
   };
 
+  //Make sure two slider values have at least a 0.01 difference from eachother
   const ensureNotEqual = (newValue: number[], index: number) => {
     if (newValue[0] === newValue[1]) {
       if (index === 0) {
@@ -154,6 +172,7 @@ const SliderFilter: React.FC<{
     return newValue;
   };
 
+  //Ensures only valid inputs from text input boxes
   const handleBlur = (index: number) => {
     const sanitizedValue = sanitizeInput(inputValue[index]);
     let newValue = [...value];
@@ -163,6 +182,7 @@ const SliderFilter: React.FC<{
     setInputValue([newValue[0].toString(), newValue[1].toString()]);
   };
 
+  //Sanitizes, validates, and stores text inputs
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
@@ -172,6 +192,7 @@ const SliderFilter: React.FC<{
     }
   };
 
+  //Colors bar based on slider's values
   const getBarColor = (barRange: number[]): string => {
     const [start, end] = value;
     if (barRange[1] < start || barRange[0] > end) {
@@ -183,6 +204,7 @@ const SliderFilter: React.FC<{
   return (
     <Box>
       <Flex direction="column" gap="1" align="center">
+        {/* Bar chart from recharts */}
         <BarChart width={400} height={150} data={data}>
           <XAxis dataKey="name" />
           <Tooltip />
@@ -193,6 +215,7 @@ const SliderFilter: React.FC<{
           </Bar>
         </BarChart>
         <Flex direction="column" gap="2">
+          {/* Slider element from Radix */}
           <Slider
             value={value}
             size="1"
@@ -208,6 +231,7 @@ const SliderFilter: React.FC<{
             style={{ width: "385px" }}
           />
           <Flex direction="row" gap="2" mt="2" align="center">
+            {/* First Text Box */}
             <input
               type="text"
               value={inputValue[0]}
@@ -224,6 +248,7 @@ const SliderFilter: React.FC<{
               }}
             />
             <Text>to</Text>
+            {/* Second Text Box */}
             <input
               type="text"
               value={inputValue[1]}

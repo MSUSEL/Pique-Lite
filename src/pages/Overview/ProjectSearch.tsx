@@ -3,6 +3,11 @@ import { Project } from "../../state";
 import { matchSorter } from "match-sorter";
 import { Box } from "@radix-ui/themes";
 
+//Search bar kept next to filtering button
+//Sorts projects based on matchSorter and updates the state
+//TODO: Move match sorter to parent element, only pass back searchQuery
+//TODO: Verify search bug is fixed - currently projects are filtered out
+//        and then overwritten
 const ProjectSearchBar: React.FC<{
   projects: [string, Project][];
   setSortedProjects: (projects: [string, Project][]) => void;

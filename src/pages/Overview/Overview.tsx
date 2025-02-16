@@ -11,15 +11,21 @@ import ProjectSearchBar from "./ProjectSearch";
 const ITEMS_PER_PAGE = 5;
 
 const Overview: React.FC = () => {
-  const { projects, selectedProjectId } = useProjects();
+  const { projects } = useProjects();
   const setCurrentView = useSetAtom(State.currentView);
   const setProject = useSetAtom(State.selectedProject);
   const setVersion = useSetAtom(State.selectedVersion);
 
-  if (!projects || !selectedProjectId) return null;
+  if (!projects) return null;
 
-  const initialFilters = ["Severe", "High", "Elevated", "Guarded", "Low"];
-  const [riskFilters, setRiskFilters] = useState<string[]>(initialFilters);
+  //Create filtering states with default values
+  const [riskFilters, setRiskFilters] = useState<string[]>([
+    "Severe",
+    "High",
+    "Elevated",
+    "Guarded",
+    "Low",
+  ]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sliderValue, setSliderValue] = useState([0, 1.0]);
 
@@ -28,14 +34,19 @@ const Overview: React.FC = () => {
     setSliderValue(newValues);
   };
 
+  //Pass projects state through filters to create a set of projects to display
   const filteredProjects = Object.entries(projects).filter(([, project]) => {
+    //If no projects
     if (project.versions.length === 0) return false;
 
+    //Set recent version to last one uploaded
+    //TODO: change this to set recent version based on date, if possible
     const recentVersion = project.versions[project.versions.length - 1];
-
     const recentRisk = getRisk(recentVersion.data.value, "normal");
 
+    //Check recent version if it matches risk level filters
     const matchesRiskFilter = riskFilters.includes(recentRisk.name);
+    //Check recent version with slider value
     const matchesSliderFilter =
       recentVersion.data.value >= sliderValue[0] &&
       recentVersion.data.value <= sliderValue[1];
@@ -43,12 +54,15 @@ const Overview: React.FC = () => {
     return matchesRiskFilter && matchesSliderFilter;
   });
 
+  //Carry out filtering via search
+  //TODO: Change to handle filtering here, not in the search element
   const [sortedProjects, setSortedProjects] =
     useState<[string, Project][]>(filteredProjects);
   useEffect(() => {
     setSortedProjects(filteredProjects);
   }, [filteredProjects]);
 
+  //Pagination logic
   const totalPages = Math.ceil(sortedProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -70,8 +84,15 @@ const Overview: React.FC = () => {
             projects={filteredProjects}
             setSortedProjects={setSortedProjects}
           />
-          <Filters onFilterChange={handleFilterChange} projects={projects} />
+          {/* Contains all checkbox and slider filters in 'Filters' popover */}
+          <Filters
+            selectedFilters={riskFilters}
+            sliderValue={sliderValue}
+            onFilterChange={handleFilterChange}
+            projects={projects}
+          />
         </Flex>
+        {/* Display if filters have filtered out all projects */}
         {projectsToDisplay.length === 0 && (
           <Flex direction={"column"} align="center">
             <Heading mt="6" color="gray" size="5">
@@ -89,6 +110,7 @@ const Overview: React.FC = () => {
             setCurrentPage={setCurrentPage}
           />
         )}
+        {/* Display paginated projects */}
         {projectsToDisplay.map(([uuid, project]) => (
           <ProjectCard
             key={uuid}
@@ -119,6 +141,8 @@ interface PaginationButtonsProps {
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
+//Pagination logic
+//TODO: Add this to another file, it is used in other places in PIQUE LITE
 export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
   currentPage,
   totalPages,

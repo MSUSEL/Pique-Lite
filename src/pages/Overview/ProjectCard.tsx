@@ -5,7 +5,6 @@ import { ProjectCardProps } from "./types";
 import { useState } from "react";
 import { LabelledComboBox } from "../../composites/Combobox";
 import { Version } from "../../state";
-import { RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   uuid,
@@ -35,14 +34,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           />
           <MetricsSection metrics={selectedVersion.data.children} />
         </Flex>
-        {/* <RadialGraphs metrics={selectedVersion.data.children} />
-        <TQIGraph value={selectedVersion.data.value} /> */}
         <TQIBadge value={selectedVersion.data.value} risk={versionRisk} />
       </Flex>
     </Card>
   );
 };
 
+//Header containing link to project view and version selector
 const ProjectHeader: React.FC<{
   name: string;
   versions: Array<Version>;
@@ -78,6 +76,7 @@ const ProjectHeader: React.FC<{
   );
 };
 
+//Set of colored badges for child data
 const MetricsSection: React.FC<{
   metrics: Array<{ name: string; value: number }>;
 }> = ({ metrics }) => (
@@ -90,6 +89,7 @@ const MetricsSection: React.FC<{
   </Box>
 );
 
+//Individual badges for child data
 const MetricItem: React.FC<{
   name: string;
   value: number;
@@ -120,6 +120,7 @@ const MetricItem: React.FC<{
   );
 };
 
+//Badge for TQI data
 const TQIBadge: React.FC<{
   value: number;
   risk: ReturnType<typeof getRisk>;
@@ -158,133 +159,3 @@ const TQIBadge: React.FC<{
     </Text>
   </Flex>
 );
-
-const TQIGraph: React.FC<{ value: number }> = ({ value }) => {
-  const risk = getRisk(value, "normal");
-
-  const chartData = [
-    {
-      name: "TQI",
-      value: value * 100,
-    },
-  ];
-
-  return (
-    <Flex direction="column" align="center" justify="center">
-      <Text
-        size="4"
-        weight="bold"
-        style={{
-          color: risk.badgeColor,
-          textAlign: "center",
-        }}
-      >
-        TQI
-      </Text>
-
-      <RadialBarChart
-        width={100}
-        height={100}
-        cx="50%"
-        cy="50%"
-        innerRadius="60%"
-        outerRadius="60%"
-        barSize={8}
-        data={chartData}
-        startAngle={90}
-        endAngle={-270}
-      >
-        <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-
-        <RadialBar
-          dataKey="value"
-          background={{ fill: "#f0f0f0" }}
-          fill={risk.color}
-        />
-
-        <text
-          x="50%"
-          y="50%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          style={{
-            fontWeight: "bold",
-            fill: risk.badgeColor,
-          }}
-        >
-          {value.toFixed(2)}
-        </text>
-      </RadialBarChart>
-    </Flex>
-  );
-};
-
-const RadialGraphs: React.FC<{
-  metrics: Array<{ name: string; value: number }>;
-}> = ({ metrics }) => {
-  const renderIndividualChart = (metric: { name: string; value: number }) => {
-    const getColor = (value: number) => getRisk(value, "normal").color;
-    const chartData = [
-      {
-        name: metric.name,
-        value: metric.value * 100,
-      },
-    ];
-    return (
-      <Box
-        key={metric.name}
-        style={{
-          textAlign: "center",
-          display: "inline-block",
-        }}
-      >
-        <RadialBarChart
-          width={75}
-          height={75}
-          cx="50%"
-          cy="50%"
-          innerRadius="60%"
-          outerRadius="60%"
-          barSize={6}
-          data={chartData}
-          startAngle={90}
-          endAngle={-270}
-        >
-          <PolarAngleAxis type="number" domain={[0, 100]} tick={false} />
-          <RadialBar
-            dataKey="value"
-            background={{ fill: "#f9f9f9" }}
-            fill={getColor(metric.value)}
-          />
-          {/* Centered Value */}
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="85%"
-          >
-            {metric.value.toPrecision(2)}
-          </text>
-        </RadialBarChart>
-        <Text size="2">{metric.name}</Text>
-      </Box>
-    );
-  };
-  return (
-    <Flex
-      gap="5"
-      justify="center"
-      align="center"
-      wrap="wrap"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      {metrics.map((metric) => renderIndividualChart(metric))}
-    </Flex>
-  );
-};
