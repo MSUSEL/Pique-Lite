@@ -16,6 +16,7 @@ interface ProjectManagerContextType {
   invalidFiles: Array<{ name: string; reason: string }>;
   removeVersionFromProject: (projectId: string, fileName: string) => void;
   renderAfterFiles?: ReactNode;
+  changeVersionVisibility: (projectId: string, versionName: string) => void;
 }
 
 const ProjectManagerContext = createContext<ProjectManagerContextType | null>(
@@ -50,6 +51,7 @@ export const ProjectManagerProvider = ({
     selectFiles,
     invalidFiles,
     removeVersionFromProject,
+    changeVersionVisibility,
   } = useProjectImport();
 
   const value: ProjectManagerContextType = {
@@ -61,6 +63,7 @@ export const ProjectManagerProvider = ({
     selectFiles,
     invalidFiles,
     removeVersionFromProject,
+    changeVersionVisibility,
     renderAfterFiles,
   };
 

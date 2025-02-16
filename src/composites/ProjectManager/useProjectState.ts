@@ -50,6 +50,7 @@ export function useProjectState() {
         date: f.content.date
           ? new Date(f.content.date)
           : new Date(f.metadata.lastModified),
+        isHidden: false,
       }));
 
       console.log("New versions:", newVersions);
@@ -79,6 +80,29 @@ export function useProjectState() {
     });
   };
 
+  const changeVersionVisibility = (projectId: string, versionName: string) => {
+    setProjects((prev = {}) => {
+      const project = prev[projectId];
+      if (!project) return prev;
+  
+      return {
+        ...prev,
+        [projectId]: {
+          ...project,
+          versions: project.versions.map((v) => {
+            if (v.name === versionName) {
+              return {
+                ...v,
+                isHidden: !v.isHidden,
+              };
+            }
+            return v;
+          }),
+        },
+      };
+    });
+  };
+
   const updateProjectName = (projectId: string, newName: string) => {
     setProjects((prev = {}) => ({
       ...prev,
@@ -93,6 +117,7 @@ export function useProjectState() {
     createNewProject,
     addFilesToProject,
     removeVersionFromProject,
+    changeVersionVisibility,
     updateProjectName,
   };
 }

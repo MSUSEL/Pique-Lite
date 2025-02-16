@@ -1,4 +1,4 @@
-import { TrashIcon } from "@radix-ui/react-icons";
+import { TrashIcon, EyeOpenIcon, EyeNoneIcon } from "@radix-ui/react-icons";
 import { IconButton, Table, Flex, Text, Heading } from "@radix-ui/themes";
 import { Version } from "../../state";
 import { useState } from "react";
@@ -12,6 +12,7 @@ interface ProjectFileListProps {
   versions: Version[];
   invalidFiles: { name: string; reason: string }[];
   onRemoveVersion: (fileName: string) => void;
+  onUpdateVersionVisibility: (fileName: string) => void;
 }
 
 const ITEMS_PER_PAGE = 5;
@@ -20,6 +21,7 @@ export const ProjectFileList = ({
   versions,
   invalidFiles,
   onRemoveVersion,
+  onUpdateVersionVisibility,
 }: ProjectFileListProps) => {
   if (!versions.length && !invalidFiles.length) {
     return (
@@ -60,10 +62,9 @@ export const ProjectFileList = ({
         (!filters.date.to ||
           versionDate <= new Date(filters.date.to).getTime()));
 
-    // Currently removed until visibility is implemented
-    const matchesVisibility = true;
-    // (v.isHidden && filters.visibility.includes("hidden")) ||
-    // (!v.isHidden && filters.visibility.includes("visible"));
+    const matchesVisibility =
+      (v.isHidden && filters.visibility.includes("hidden")) ||
+      (!v.isHidden && filters.visibility.includes("visible"));
 
     return isInDateRange && matchesVisibility;
   });
@@ -133,7 +134,15 @@ export const ProjectFileList = ({
           >
             {filters.status.includes("valid") &&
               versionsToDisplay.map((version) => (
-                <Table.Row key={version.fileName}>
+                <Table.Row
+                  key={version.fileName}
+                  style={{
+                    opacity: version.isHidden ? 0.5 : 1, // Conditional opacity
+                    backgroundColor: version.isHidden
+                      ? "#f9f9f9"
+                      : "transparent", // Conditional background
+                  }}
+                >
                   <Table.Cell style={{ width: columnWidths.name }}>
                     {version.fileName}
                   </Table.Cell>
@@ -149,34 +158,42 @@ export const ProjectFileList = ({
                       variant="ghost"
                       color="red"
                       onClick={() => onRemoveVersion(version.fileName)}
+                      style={{ marginRight: "8px" }}
                     >
                       <TrashIcon />
+                    </IconButton>
+                    <IconButton
+                      size="1"
+                      variant="ghost"
+                      color="gray"
+                      onClick={() =>
+                        onUpdateVersionVisibility(version.fileName)
+                      }
+                    >
+                      {version.isHidden ? <EyeNoneIcon /> : <EyeOpenIcon />}
                     </IconButton>
                   </Table.Cell>
                 </Table.Row>
               ))}
-            {filters.status.includes("invalid") &&
-              invalidFiles.map((file) => (
-                <Table.Row key={file.name}>
-                  <Table.Cell style={{ width: columnWidths.name }}>
-                    {file.name}
-                  </Table.Cell>
-                  <Table.Cell style={{ width: columnWidths.date }}>
-                    -
-                  </Table.Cell>
-                  <Table.Cell
-                    style={{
-                      width: columnWidths.status,
-                      color: "var(--red-9)",
-                    }}
-                  >
-                    {file.reason}
-                  </Table.Cell>
-                  <Table.Cell
-                    style={{ width: columnWidths.actions }}
-                  ></Table.Cell>
-                </Table.Row>
-              ))}
+            {invalidFiles.map((file) => (
+              <Table.Row key={file.name}>
+                <Table.Cell style={{ width: columnWidths.name }}>
+                  {file.name}
+                </Table.Cell>
+                <Table.Cell style={{ width: columnWidths.date }}>-</Table.Cell>
+                <Table.Cell
+                  style={{
+                    width: columnWidths.status,
+                    color: "var(--red-9)",
+                  }}
+                >
+                  {file.reason}
+                </Table.Cell>
+                <Table.Cell
+                  style={{ width: columnWidths.actions }}
+                ></Table.Cell>
+              </Table.Row>
+            ))}
           </Table.Body>
         </Table.Root>
       )}
