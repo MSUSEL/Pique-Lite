@@ -3,7 +3,7 @@ import { IconButton, Table, Flex, Text, Heading } from "@radix-ui/themes";
 import { Version } from "../../state";
 import { useState } from "react";
 import { PaginationButtons } from "../../pages/Overview/Overview";
-import VersionSearchBar from "./VersionSearch";
+import SearchBar from "../../views/SearchBar";
 import VersionFilters, { Filters } from "./Filters/Filters";
 import { matchSorter } from "match-sorter";
 import { DateRange } from "react-day-picker";
@@ -89,9 +89,10 @@ export const ProjectFileList = ({
   return (
     <Flex direction="column" style={{ height: "400px" }}>
       <Flex direction="row" justify="between">
-        <VersionSearchBar
+        <SearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          hint={"versions"}
         />
         <VersionFilters
           filters={filters}

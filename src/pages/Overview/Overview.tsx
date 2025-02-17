@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSetAtom } from "jotai";
-import { State, Project } from "../../state";
+import { State } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/useProjects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "./Filters";
 import { getRisk } from "../../risk-helpers";
-import ProjectSearchBar from "./ProjectSearch";
+import SearchBar from "../../views/SearchBar";
+import { matchSorter } from "match-sorter";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -27,7 +28,8 @@ const Overview: React.FC = () => {
     "Low",
   ]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sliderValue, setSliderValue] = useState([0, 1.0]);
+  const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleFilterChange = (newFilters: string[], newValues: number[]) => {
     setRiskFilters(newFilters);
@@ -54,19 +56,16 @@ const Overview: React.FC = () => {
     return matchesRiskFilter && matchesSliderFilter;
   });
 
-  //Carry out filtering via search
-  //TODO: Change to handle filtering here, not in the search element
-  const [sortedProjects, setSortedProjects] =
-    useState<[string, Project][]>(filteredProjects);
-  useEffect(() => {
-    setSortedProjects(filteredProjects);
-  }, [filteredProjects]);
+  //Process search query
+  const searchFilteredProjects = matchSorter(filteredProjects, searchQuery, {
+    keys: ["*.name"],
+  });
 
   //Pagination logic
-  const totalPages = Math.ceil(sortedProjects.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(searchFilteredProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const projectsToDisplay = sortedProjects.slice(startIndex, endIndex);
+  const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
     <Box
@@ -80,9 +79,10 @@ const Overview: React.FC = () => {
     >
       <Flex direction="column" style={{ justifyContent: "center" }}>
         <Flex direction="row">
-          <ProjectSearchBar
-            projects={filteredProjects}
-            setSortedProjects={setSortedProjects}
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            hint={"projects"}
           />
           {/* Contains all checkbox and slider filters in 'Filters' popover */}
           <Filters

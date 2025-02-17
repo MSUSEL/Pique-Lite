@@ -1,14 +1,15 @@
 import { Box } from "@radix-ui/themes";
 
-const VersionSearchBar: React.FC<{
+const SearchBar: React.FC<{
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-}> = ({ searchQuery, setSearchQuery }) => {
+  hint: string;
+}> = ({ searchQuery, setSearchQuery, hint }) => {
   return (
     <Box style={{ width: "100%" }}>
       <input
         type="text"
-        placeholder="Search files..."
+        placeholder={"Search " + hint + "..."}
         onChange={(e) => setSearchQuery(e.target.value)}
         value={searchQuery}
         style={{
@@ -25,4 +26,4 @@ const VersionSearchBar: React.FC<{
   );
 };
 
-export default VersionSearchBar;
+export default SearchBar;
