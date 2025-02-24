@@ -2,9 +2,12 @@
 
 Welcome to the **PIQUE User Guide**! 
 
-This section walks you through how to use PIQUE, from uploading input files to understanding software quality metrics.  
+This section walks you through how to use PIQUE, from uploading input files to understanding software quality metrics. 
 
-### What's in this guide?  
+## What are Projects and Versions?
+In PIQUE, a project represents a software system or repository being analyzed. Each project consists of multiple versions, which are snapshots of the software at different points in time. This allows you to track changes in quality, compare versions, and observe trends over time.
+
+## What's in this guide?  
 
 - **[Input Schema](input-schema/input-schema.md):** Learn about the required JSON format and how to prepare your data for analysis
 - **[File Upload](input-schema/file-upload.md):** Instructions for uploading files
