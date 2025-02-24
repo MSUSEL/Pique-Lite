@@ -30,17 +30,9 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  logo: https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg
+  logo: assets/images/PIQUE_svg-cropped.svg
   language: en
   palette:
-    # Dark Mode
-    - scheme: slate
-      primary: black
-      accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: Dark mode
-
     # Light Mode
     - scheme: default
       primary: indigo
@@ -48,6 +40,14 @@ theme:
       toggle:
         icon: material/weather-night
         name: Light mode
+
+    # Dark Mode
+    - scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Dark mode
 
 # Extensions
 markdown_extensions:
@@ -80,7 +80,6 @@ plugins:
 # Page tree
 nav:
   - PIQUE: index.md
-  - Developer Notes: developer-notes/setup.md
   - User Guide:
     - Overview: user-guide/index.md
     - Input Schema: 
@@ -98,6 +97,7 @@ nav:
   - Tutorials:
     - Basic Example: tutorials/basic-example.md
     - Advanced Example: tutorials/adv-example.md
+  - Developer Notes: developer-notes/setup.md
   - FAQ and Troubleshooting: 
     - Frequently Asked Questions: faq-troubleshooting/faq.md
     - Common Issues: faq-troubleshooting/common-issues.md
