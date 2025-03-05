@@ -37,6 +37,10 @@ export const ProjectFileList = ({
   }
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const [prevVersions, setPrevVersions] = useState<Version[]>(versions);
+
+  // Set default date range to earliest and latest dates of versions
   const defaultDateRange: DateRange = {
     from: new Date(
       Math.min(...versions.map((v) => new Date(v.date).getTime()))
@@ -44,11 +48,20 @@ export const ProjectFileList = ({
     to: new Date(Math.max(...versions.map((v) => new Date(v.date).getTime()))),
   };
 
-  const [filters, setFilters] = useState<Filters>({
+  // Default filters, used to reset upon version change
+  const defaultFilters: Filters = {
     date: defaultDateRange,
     visibility: ["visible", "hidden"],
     status: ["valid", "invalid"],
-  });
+  };
+
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
+
+  // Reset filters when versions change
+  if (versions !== prevVersions) {
+    setFilters(defaultFilters);
+    setPrevVersions(versions);
+  }
 
   // Apply filters dynamically
   const filteredVersions = versions.filter((v) => {

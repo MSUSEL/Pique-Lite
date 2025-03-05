@@ -122,6 +122,14 @@ const SliderFilter: React.FC<{
     value[1].toString(),
   ]);
 
+  // Update inputValue state whenever the value prop changes
+  if (
+    inputValue[0] !== value[0].toString() ||
+    inputValue[1] !== value[1].toString()
+  ) {
+    setInputValue([value[0].toString(), value[1].toString()]);
+  }
+
   //Set up risk level windows and data for bar chart
   //TODO: see if we can use another method to pull these
   //  windows from globally-defined values in case these ever change

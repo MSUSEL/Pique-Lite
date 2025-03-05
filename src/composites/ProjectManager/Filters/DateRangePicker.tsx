@@ -18,14 +18,7 @@ export function DateRangePicker({
     <Box style={{ marginTop: "10px" }} {...props}>
       <Popover.Root>
         <Popover.Trigger>
-          <Button
-            id="date"
-            variant={"outline"}
-            className={cn(
-              "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
+          <Button id="date" variant={"outline"}>
             <CalendarIcon />
             {date?.from ? (
               date.to ? (
@@ -42,7 +35,6 @@ export function DateRangePicker({
           </Button>
         </Popover.Trigger>
         <Popover.Content
-          className="w-auto p-0"
           align="start"
           style={{ maxHeight: "40vh", maxWidth: "50vw" }}
         >
@@ -57,8 +49,4 @@ export function DateRangePicker({
       </Popover.Root>
     </Box>
   );
-}
-
-function cn(...classes: (string | undefined | false)[]) {
-  return classes.filter(Boolean).join(" ");
 }

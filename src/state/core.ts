@@ -63,18 +63,17 @@ export function createState() {
     }
   );
 
-  const visibleProjects = atom(
-    (get) => {
-      const projectsValue = get(projects);
-      console.log("Projects:", projectsValue); // Log projects to ensure it's populated
-  
-      if (!projectsValue) return undefined;
-  
-      // Reduce through projects and filter visible versions
-      const visibleProjects = Object.entries(projectsValue).reduce((acc, [uuid, project]) => {
-        const visibleVersions = (project.versions || []).filter((version: Version) => !version.isHidden);
-        console.log("Visible Versions for Project", uuid, visibleVersions); // Log visible versions
-  
+  const visibleProjects = atom((get) => {
+    const projectsValue = get(projects);
+    if (!projectsValue) return undefined;
+
+    // Reduce through projects and filter visible versions
+    const visibleProjects = Object.entries(projectsValue).reduce(
+      (acc, [uuid, project]) => {
+        const visibleVersions = (project.versions || []).filter(
+          (version: Version) => !version.isHidden
+        );
+
         // If there are visible versions, add them to the result
         if (visibleVersions.length > 0) {
           acc[uuid] = {
@@ -82,14 +81,14 @@ export function createState() {
             versions: visibleVersions,
           };
         }
-  
+
         return acc;
-      }, {} as Projects);
-  
-      console.log("Visible Projects:", visibleProjects); // Log the final result
-      return visibleProjects;
-    }
-  );
+      },
+      {} as Projects
+    );
+
+    return visibleProjects;
+  });
 
   return {
     currentView,
