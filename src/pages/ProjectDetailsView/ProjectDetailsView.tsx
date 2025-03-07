@@ -1,9 +1,9 @@
-import { Box, Flex, Grid, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
-import { RiskLegend } from "../../composites/RiskCards";
+import { RiskLegend } from "./RiskCards";
 import { getAllRiskLevels } from "../../risk-helpers";
-import * as OverviewPanel from "../../composites/OverviewPanel";
+import * as ProjectPanel from "./ProjectPanel";
 import { useMemo } from "react";
 import { useAtom } from "jotai/react";
 import { State } from "../../state";
@@ -109,10 +109,10 @@ function ProjectDetailsView() {
         <ProjectCharacteristicsRisks />
       </Flex>
       <Box>
-        <OverviewPanel.Container>
-          <OverviewPanel.Title>Characteristics</OverviewPanel.Title>
+        <ProjectPanel.Container>
+          <ProjectPanel.Title>Characteristics</ProjectPanel.Title>
           <ProjectAttributesChart />
-        </OverviewPanel.Container>
+        </ProjectPanel.Container>
       </Box>
     </Flex>
   );
