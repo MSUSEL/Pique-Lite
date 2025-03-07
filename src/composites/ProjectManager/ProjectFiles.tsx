@@ -10,6 +10,7 @@ export const ProjectFiles = () => {
     invalidFiles,
     removeVersionFromProject,
     renderAfterFiles,
+    changeVersionVisibility,
   } = useProjectManager();
 
   const currentProjectVersions = selectedProject
@@ -21,6 +22,12 @@ export const ProjectFiles = () => {
       removeVersionFromProject(selectedProject, fileName);
     }
   };
+
+  const handleChangeVisibility = (fileName: string) => {
+    if (selectedProject) {
+      changeVersionVisibility(selectedProject, fileName);
+    }
+  }
 
   return (
     <Flex direction="column" height="100%">
@@ -66,6 +73,7 @@ export const ProjectFiles = () => {
                 versions={currentProjectVersions}
                 invalidFiles={invalidFiles}
                 onRemoveVersion={handleRemoveVersion}
+                onUpdateVersionVisibility={handleChangeVisibility}
               />
             </>
           )}

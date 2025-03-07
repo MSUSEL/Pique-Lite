@@ -8,6 +8,7 @@ import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
 import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
+import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
@@ -33,14 +34,55 @@ function App() {
         style={{ overflow: "hidden" }}
       >
         <PageHeader />
+
         <Grid
           columns="auto 1fr"
-          height="100%"
+          height="72vh"
           width="100%"
           className="App-main-view-area"
         >
           <SideMenu />
-          <Box className="App-right-panel">{views[view]}</Box>
+
+          <ScrollArea.Root
+            style={{
+              height: "100%",
+              width: "100%",
+              overflow: "hidden",
+            }}
+          >
+            <ScrollArea.Viewport
+              style={{
+                height: "100%",
+                width: "100%",
+              }}
+            >
+              {views[view]}
+            </ScrollArea.Viewport>
+
+            <ScrollArea.Scrollbar
+              orientation="vertical"
+              style={{ width: "10px" }}
+            >
+              <ScrollArea.Thumb
+                style={{
+                  background: "#999",
+                  borderRadius: "5px",
+                }}
+              />
+            </ScrollArea.Scrollbar>
+
+            <ScrollArea.Scrollbar
+              orientation="horizontal"
+              style={{ height: "10px" }}
+            >
+              <ScrollArea.Thumb
+                style={{
+                  background: "#999",
+                  borderRadius: "5px",
+                }}
+              />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </Grid>
       </Box>
     );
