@@ -1,20 +1,18 @@
 import "./App.css";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
-import Landing from "./pages/Landing";
+import Landing from "./pages/Landing/Landing";
 import Overview from "./pages/Overview/Overview";
 import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
-import ProjectComparisonChart from "./pages/CompareProjects";
+import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
   overview: <Overview />,
   project: <ProjectDetailsView />,
-  //eval page set as overview for now while there is no eval page
-  // evaluate: <Overview />,
   compare: <ProjectComparisonChart />,
 };
 

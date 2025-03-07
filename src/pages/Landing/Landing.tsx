@@ -1,6 +1,6 @@
-import { PageHeader } from "../views/PageHeader";
+import { PageHeader } from "../../views/PageHeader";
 import { Box, Button, Flex, Text } from "@radix-ui/themes";
-import { InitialProjectSetupDialog } from "./InitialProjectSetupDialog";
+import { InitialProjectSetupDialog } from "./InitialProjectSetupDialog.tsx";
 import { useState } from "react";
 import { FileTextIcon } from "@radix-ui/react-icons";
 
