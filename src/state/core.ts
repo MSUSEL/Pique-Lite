@@ -9,6 +9,7 @@ export interface Version {
   name: string;
   fileName: string;
   data: base.Schema;
+  isHidden: boolean;
 }
 
 export interface Project {
@@ -17,7 +18,7 @@ export interface Project {
   uuid: string;
 }
 
-interface Projects {
+export interface Projects {
   [uuid: string]: Project;
 }
 
@@ -62,11 +63,39 @@ export function createState() {
     }
   );
 
+  const visibleProjects = atom((get) => {
+    const projectsValue = get(projects);
+    if (!projectsValue) return undefined;
+
+    // Reduce through projects and filter visible versions
+    const visibleProjects = Object.entries(projectsValue).reduce(
+      (acc, [uuid, project]) => {
+        const visibleVersions = (project.versions || []).filter(
+          (version: Version) => !version.isHidden
+        );
+
+        // If there are visible versions, add them to the result
+        if (visibleVersions.length > 0) {
+          acc[uuid] = {
+            ...project,
+            versions: visibleVersions,
+          };
+        }
+
+        return acc;
+      },
+      {} as Projects
+    );
+
+    return visibleProjects;
+  });
+
   return {
     currentView,
     projects,
     selectedProject: selectedProjectWithVersion,
     selectedVersion,
+    visibleProjects,
   };
 }
 

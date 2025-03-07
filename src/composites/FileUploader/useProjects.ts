@@ -7,7 +7,7 @@ import { Project } from "../../state";
 
 // Custom hook for managing project-related actions
 export const useProjects = () => {
-  const projects = useAtomValue(State.projects); // Retrieve projects from global state
+  const projects = useAtomValue(State.visibleProjects); // Retrieve projects from global state
   const setProjects = useSetAtom(State.projects); // Modify projects in global state
   const setSelectedProject = useSetAtom(State.selectedProject); // Set the selected project globally
   const selectedProjectId = useAtomValue(State.selectedProject); //Retrieve global current project ID

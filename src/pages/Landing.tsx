@@ -1,4 +1,3 @@
-import { PageHeader } from "../views/PageHeader";
 import { Box, Button, Flex, Text } from "@radix-ui/themes";
 import { InitialProjectSetupDialog } from "./InitialProjectSetupDialog";
 import { useState } from "react";
@@ -9,12 +8,11 @@ function Landing() {
 
   return (
     <Box>
-      <PageHeader showUploader={false} />
       <Flex
         direction="column"
         align="center"
         justify="center"
-        // style={{ height: "calc(100vh - 60px)" }}
+        style={{ height: "calc(100vh - 60px)" }}
       >
         <div
           style={{

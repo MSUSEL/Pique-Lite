@@ -16,6 +16,7 @@ export function PageHeader({ showUploader = true }: PageHeaderProps) {
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#f9f9f9",
+        height: "22vh",
         width: "100%",
         alignItems: "center",
         padding: "20px 0",
