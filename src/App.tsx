@@ -1,13 +1,13 @@
 import "./App.css";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
-import Landing from "./pages/Landing";
+import Landing from "./pages/Landing/Landing";
 import Overview from "./pages/Overview/Overview";
 import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
-import ProjectComparisonChart from "./pages/CompareProjects";
+import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 const views: Record<string, JSX.Element> = {

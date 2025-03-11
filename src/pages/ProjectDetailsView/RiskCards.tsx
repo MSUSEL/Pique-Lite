@@ -1,5 +1,5 @@
 import { Box, Flex, Badge, Text, Tooltip } from "@radix-ui/themes";
-import { getRisk } from "../risk-helpers";
+import { getRisk } from "../../risk-helpers";
 
 export interface RiskCardProps {
   title: string;
@@ -11,7 +11,10 @@ export interface RiskCardProps {
 export const RiskCard = (props: RiskCardProps) => {
   const risk = getRisk(props.score, props.scale);
   return (
-    <Badge style={{ backgroundColor: risk.color, color: risk.badgeColor }} size="1">
+    <Badge
+      style={{ backgroundColor: risk.color, color: risk.badgeColor }}
+      size="1"
+    >
       <Flex direction="column">
         <Box p="3" style={{ fontSize: 25 }}>
           {risk.icon}
@@ -26,7 +29,10 @@ export const RiskCard = (props: RiskCardProps) => {
 export const RiskLegendCard = (props: RiskCardProps) => {
   const risk = getRisk(props.score, props.scale);
   return (
-    <Badge style={{ backgroundColor: risk.color, color: risk.badgeColor }} size="1">
+    <Badge
+      style={{ backgroundColor: risk.color, color: risk.badgeColor }}
+      size="1"
+    >
       <Flex direction="row" align="center" pl="2">
         <Text color={risk.fontColor}>{props.title}</Text>
         <Box p="1" style={{ fontSize: 16 }}>

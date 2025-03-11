@@ -1,9 +1,9 @@
 import { Button, Dialog, Flex, Grid } from "@radix-ui/themes";
-import { ProjectList } from "../composites/ProjectManager/ProjectList";
-import { ProjectFiles } from "../composites/ProjectManager/ProjectFiles";
-import { ProjectManagerProvider } from "../composites/ProjectManager/ProjectManagerContext";
+import { ProjectList } from "../../composites/ProjectManager/ProjectList";
+import { ProjectFiles } from "../../composites/ProjectManager/ProjectFiles";
+import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
 import { useSetAtom, useAtomValue } from "jotai";
-import { State } from "../state/core";
+import { State } from "../../state";
 
 interface InitialProjectSetupDialogProps {
   open: boolean;
