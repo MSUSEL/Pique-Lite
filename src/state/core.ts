@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 import { v4 as uuidv4 } from "uuid";
-import { base } from "../schema";
+import { base } from "./schema";
 /**
  * A "version" of a project
  */

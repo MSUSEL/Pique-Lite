@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
-import { State, Version } from "../../state/core";
+import { State, Version } from "../../../state/core";
 import { v4 as uuidv4 } from "uuid";
-import { base } from "../../schema";
+import { base } from "../../../state/schema";
 
 interface FileMetadata {
   name: string;
@@ -84,7 +84,7 @@ export function useProjectState() {
     setProjects((prev = {}) => {
       const project = prev[projectId];
       if (!project) return prev;
-  
+
       return {
         ...prev,
         [projectId]: {

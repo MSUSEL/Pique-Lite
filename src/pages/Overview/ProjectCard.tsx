@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
-import { getRisk } from "../../risk-helpers";
+import { getRisk } from "../../composites/RiskHelpers";
 import { ProjectCardProps } from "./types";
 import { useState } from "react";
 import { LabelledComboBox } from "../../composites/Combobox";
