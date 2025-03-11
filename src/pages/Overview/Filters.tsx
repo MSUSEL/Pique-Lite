@@ -16,6 +16,7 @@ import {
 import { CheckboxGroup } from "@radix-ui/themes";
 import { BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
 import { Projects } from "../../state";
+import { getAllRiskLevels, getRisk } from "../../risk-helpers";
 
 //Filters element for projects in overview
 //Brings in states from parent element and changes them with 'onFilterChange'
@@ -131,31 +132,27 @@ const SliderFilter: React.FC<{
   }
 
   //Set up risk level windows and data for bar chart
-  //TODO: see if we can use another method to pull these
-  //  windows from globally-defined values in case these ever change
-  const data = [
-    { name: "Low", value: 0, range: [0, 0.2] },
-    { name: "Guarded", value: 0, range: [0.2, 0.4] },
-    { name: "Elevated", value: 0, range: [0.4, 0.6] },
-    { name: "High", value: 0, range: [0.6, 0.8] },
-    { name: "Severe", value: 0, range: [0.8, 1.0] },
-  ];
+  const data = getAllRiskLevels().map((riskLevel) => ({
+    name: riskLevel.name,
+    value: 0,
+    range: riskLevel.normalRange, // Using the predefined ranges
+  }));
 
-  //Populate bar chart data
+  // Create a lookup map for quick access to the corresponding data entry
+  const dataMap = new Map(data.map((entry) => [entry.name, entry]));
+
+  // Populate bar chart data dynamically
   Object.values(projects).forEach((project) => {
     if (project.versions.length > 0) {
       const recentVersionValue =
         project.versions[project.versions.length - 1].data.value;
-      if (recentVersionValue >= 0 && recentVersionValue < 0.2) {
-        data[0].value += 1;
-      } else if (recentVersionValue >= 0.2 && recentVersionValue < 0.4) {
-        data[1].value += 1;
-      } else if (recentVersionValue >= 0.4 && recentVersionValue < 0.6) {
-        data[2].value += 1;
-      } else if (recentVersionValue >= 0.6 && recentVersionValue < 0.8) {
-        data[3].value += 1;
-      } else if (recentVersionValue >= 0.8 && recentVersionValue <= 1.0) {
-        data[4].value += 1;
+
+      // Find the matching risk level
+      const riskLevel = getRisk(recentVersionValue, "normal");
+
+      // Increment the corresponding data entry
+      if (riskLevel) {
+        dataMap.get(riskLevel.name)!.value += 1;
       }
     }
   });
