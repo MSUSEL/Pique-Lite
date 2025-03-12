@@ -16,7 +16,7 @@ import {
 import { CheckboxGroup } from "@radix-ui/themes";
 import { BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
 import { Projects } from "../../state";
-import { getAllRiskLevels, getRisk } from "../../risk-helpers";
+import { getAllRiskLevels, getRisk } from "../../composites/RiskHelpers";
 
 //Filters element for projects in overview
 //Brings in states from parent element and changes them with 'onFilterChange'
