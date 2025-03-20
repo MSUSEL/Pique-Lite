@@ -2,8 +2,9 @@ import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
 import React, { useState } from "react";
 import useFileUploader from "./hooks/use-file-uploader";
+import { useNavigate } from "react-router-dom"; 
 import FileVerifier from "./FileVerifier";
-import { useSetAtom, useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { State, Project } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,8 +20,8 @@ export const FileUploader: React.FC = () => {
     useFileUploader();
   const setProject = useSetAtom(State.project);
   const setProjects = useSetAtom(State.projects);
-  const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
-  const setCurrentView = useSetAtom(State.currentView);
+  const setSelectedProject = useSetAtom(State.selectedProject);
+  const navigate = useNavigate();
 
   const handleContinue = () => {
     setProjects((prevProjects = {}) => {
@@ -46,7 +47,7 @@ export const FileUploader: React.FC = () => {
       };
 
       setSelectedProject(projectUuid);
-      setCurrentView("overview");
+      navigate(`/overview/projectid/${projectUuid}`);
 
       return {
         ...prevProjects,
