@@ -16,11 +16,10 @@ export const InitialProjectSetupDialog = ({
   onOpenChange,
 }: InitialProjectSetupDialogProps) => {
   const projects = useAtomValue(State.projects);
-  const selectedProject = useAtomValue(State.selectedProject);
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate(`/overview/projectid/${selectedProject}`);
+    navigate("/overview");
     onOpenChange(false);
   };
 

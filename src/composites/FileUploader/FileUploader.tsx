@@ -47,7 +47,7 @@ export const FileUploader: React.FC = () => {
       };
 
       setSelectedProject(projectUuid);
-      navigate(`/overview/projectid/${projectUuid}`);
+      navigate("/overview");
 
       return {
         ...prevProjects,

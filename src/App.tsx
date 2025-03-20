@@ -1,7 +1,8 @@
 import "./App.css";
+import { useEffect } from "react";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
-import { BrowserRouter, Routes, Route, Outlet, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import Landing from "./pages/Landing/Landing";
 import Overview from "./pages/Overview/Overview";
 import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
@@ -83,7 +84,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/*" element={<DashboardLayout />}>
           <Route path="overview" element={<Overview />} />
-          <Route path="project/:projectId" element={<ProjectDetailsView />} />
+          <Route path="projectview/projectid/:projectId/versionid/:versionId" element={<ProjectDetailsView />} />
           <Route path="compare" element={<ProjectComparisonChart />} />
         </Route>
       </Routes>
