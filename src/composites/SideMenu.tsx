@@ -12,7 +12,7 @@ interface SideMenuProps {
 
 const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
   const [hovered, setHovered] = useState(false);
-  const [selectedProject] = useAtom(State.selectedProject); 
+  const [selectedProject] = useAtom(State.selectedProject);
   const [selectedVersion] = useAtom(State.selectedVersion);
 
   const handleMouseEnter = () => setHovered(true);
@@ -24,28 +24,28 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       height="100%"
-      // style={{ width: collapsed && !hovered ? "50px" : "200px", transition: "width 0.3s" }}
+    // style={{ width: collapsed && !hovered ? "50px" : "200px", transition: "width 0.3s" }}
     >
       <SideBar.Sidebar
         collapsed={collapsed && !hovered}
         style={{ height: "100%" }}
       >
         <SideBar.Menu>
-          <SideBar.MenuItem 
+          <SideBar.MenuItem
             icon={<HomeIcon />}>
-            <Link to="overview">
+            <Link to="/overview">
               <Text>Overview</Text>
             </Link>
           </SideBar.MenuItem>
 
-          <SideBar.MenuItem 
+          <SideBar.MenuItem
             icon={<DashboardIcon />}>
-            <Link to={`/projectview/projectid=${selectedProject}/versionid=${selectedVersion}`}>
+            <Link to={`/projectview?projectid=${selectedProject}&versionid=${selectedVersion}`}>
               <Text>Project</Text>
             </Link>
           </SideBar.MenuItem>
 
-          <SideBar.MenuItem 
+          <SideBar.MenuItem
             icon={<MixIcon />}>
             <Link to="/compare">
               <Text>Compare Projects</Text>

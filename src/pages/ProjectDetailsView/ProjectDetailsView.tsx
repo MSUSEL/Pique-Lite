@@ -5,9 +5,9 @@ import { RiskLegend } from "./RiskCards";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
 import * as ProjectPanel from "./ProjectPanel";
 import { useMemo } from "react";
-import { useAtom } from "jotai/react";
 import { State } from "../../state";
 import { LabelledComboBox } from "../../composites/Combobox";
+import { useSearchParams } from "react-router-dom";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -50,19 +50,26 @@ const ProjectCharacteristicsRisks = () => {
 
 function ProjectDetailsView() {
   const projectMapping = useAtomValue(State.projects);
+  const [searchParams, setURLSearchParameters] = useSearchParams();
+  const selectedProjectId = useAtomValue(State.selectedProject);
+  const selectedVersion = useAtomValue(State.selectedVersion);
+
+  const projectId = searchParams.get("projectid") || selectedProjectId || "";
+  const versionIdParam = searchParams.get("versionid") || selectedVersion?.toString() || "";
+  const versionId = versionIdParam !== null
+    ? parseInt(versionIdParam, 10)
+    : 0;
+
+  console.log("Rendering ProjectDetailsView: ", versionId);
+
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
     return Object.values(projectMapping);
   }, [projectMapping]);
 
-  const [selectedProjectId, setSelectedProjectId] = useAtom(
-    State.selectedProject
-  );
-  const [selectedVersion, setSelectedVersion] = useAtom(State.selectedVersion);
-
   const selectedProject =
-    projects.find((project) => project.uuid === selectedProjectId) || null;
+    projects.find((project) => project.uuid === projectId) || null;
 
   const versions = useMemo(() => {
     if (!selectedProject) return [];
@@ -89,17 +96,22 @@ function ProjectDetailsView() {
           getOptionLabel={(project) => project.name}
           options={projects}
           value={selectedProject}
-          onChange={(project) => setSelectedProjectId(project?.uuid || "")}
+          onChange={(project) => {
+            const newProjectId = project?.uuid || "";
+            const newVersionId = versions.length > 0 ? versions[0].name : "";
+            setURLSearchParameters({ projectid: newProjectId, versionid: newVersionId });
+          }}
         />
         <LabelledComboBox
           label="Version"
           options={versions}
-          value={versions[selectedVersion]! || undefined}
+          value={versions[versionId]! || undefined}
           getOptionKey={(version) => version.name}
           getOptionLabel={(version) => version.name}
-          onChange={(version) =>
-            setSelectedVersion(version ? versions.indexOf(version) : undefined)
-          }
+          onChange={(version) => {
+            const newVersionId = version ? versions.indexOf(version).toString() : "";
+            setURLSearchParameters({ projectid: projectId, versionid: newVersionId });
+          }}
         />
       </Flex>
       <Flex justify="center" direction="row" align="center" gap="6">
