@@ -1,5 +1,5 @@
 import { Box, Flex, Badge, Text, Tooltip } from "@radix-ui/themes";
-import { getRisk } from "../../risk-helpers";
+import { getRisk } from "../../composites/RiskHelpers";
 
 export interface RiskCardProps {
   title: string;

@@ -1,7 +1,7 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
 import React, { useState } from "react";
-import useFileUploader from "./useFileUploader";
+import useFileUploader from "./hooks/use-file-uploader";
 import FileVerifier from "./FileVerifier";
 import { useSetAtom, useAtom } from "jotai";
 import { State, Project } from "../../state/core";

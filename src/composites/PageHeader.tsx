@@ -1,7 +1,6 @@
 import { Heading, Flex, Box, Button } from "@radix-ui/themes";
 import { RiskLevelLegend } from "../pages/ProjectDetailsView/ProjectDetailsView";
 import { ProjectManagerDialog } from "../composites/ProjectManager/ProjectManagerDialog";
-import { useState } from "react";
 import { FileTextIcon } from "@radix-ui/react-icons";
 
 interface PageHeaderProps {

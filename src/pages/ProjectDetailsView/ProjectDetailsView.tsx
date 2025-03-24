@@ -2,7 +2,7 @@ import { Box, Flex, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
-import { getAllRiskLevels } from "../../risk-helpers";
+import { getAllRiskLevels } from "../../composites/RiskHelpers";
 import * as ProjectPanel from "./ProjectPanel";
 import { useMemo } from "react";
 import { useAtom } from "jotai/react";

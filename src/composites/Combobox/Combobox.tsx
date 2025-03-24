@@ -66,7 +66,7 @@ export const LabelledComboBox = <T,>({
   flexProps?: React.CSSProperties;
 }) => {
   return (
-    <Flex direction={"row"} align="center" gap="3" {...flexProps}>
+    <Flex direction="row" align="center" gap="3" {...flexProps}>
       <Text>{label}</Text>
       <ComboBox {...props} />
     </Flex>

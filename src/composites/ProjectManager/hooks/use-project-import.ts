@@ -1,6 +1,6 @@
 import { useFileSelect } from "./use-file-upload-hook";
-import { base } from "../../schema";
-import { useProjectState } from "./useProjectState";
+import { base } from "../../../state/schema";
+import { useProjectState } from "./use-project-state";
 import { useState } from "react";
 
 export const useProjectImport = () => {
