@@ -1,9 +1,9 @@
 import { useSetAtom, useAtomValue } from "jotai";
 import { v4 as uuidv4 } from "uuid";
-import { State } from "../../state";
-import { UploadedFile } from "../../types";
-import { extractVersionName } from "./FileUploader";
-import { Project } from "../../state";
+import { State } from "../../../state";
+import { UploadedFile } from "../types";
+import { extractVersionName } from "../FileUploader";
+import { Project } from "../../../state";
 
 // Custom hook for managing project-related actions
 export const useProjects = () => {

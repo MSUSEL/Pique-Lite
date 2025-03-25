@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useChartZoom } from "../../hooks/useChartZoom";
+import { useChartZoom } from "./hooks/use-chart-zoom";
 import {
   LinePlotContext,
   type ChartMode,

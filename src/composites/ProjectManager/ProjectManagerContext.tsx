@@ -1,5 +1,5 @@
 import { createContext, useContext, ReactNode } from "react";
-import { useProjectImport } from "./useProjectImport";
+import { useProjectImport } from "./hooks/use-project-import";
 
 interface Project {
   name: string;

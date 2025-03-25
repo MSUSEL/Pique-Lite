@@ -1,13 +1,13 @@
 import "./App.css";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
-import Landing from "./pages/Landing";
+import Landing from "./pages/Landing/Landing";
 import Overview from "./pages/ProjectOverview/Overview";
 import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
-import { PageHeader } from "./views/PageHeader";
+import { PageHeader } from "./composites/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
-import SideMenu from "./views/SideMenu";
-import ProjectComparisonChart from "./pages/CompareProjects";
+import SideMenu from "./composites/SideMenu";
+import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import VersionOverview from "./pages/VersionOverview/Overview";
 import ListView from "./pages/ListView/ListView";

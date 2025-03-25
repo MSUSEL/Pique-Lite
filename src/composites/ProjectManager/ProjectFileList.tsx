@@ -3,7 +3,7 @@ import { IconButton, Table, Flex, Text, Heading } from "@radix-ui/themes";
 import { Version } from "../../state";
 import { useState } from "react";
 import { PaginationButtons } from "../../pages/ProjectOverview/Overview";
-import SearchBar from "../../views/SearchBar";
+import SearchBar from "../SearchBar";
 import VersionFilters, { Filters } from "./Filters/Filters";
 import { matchSorter } from "match-sorter";
 import { DateRange } from "react-day-picker";
@@ -107,24 +107,30 @@ export const ProjectFileList = ({
           setSearchQuery={setSearchQuery}
           hint={"versions"}
         />
-        <VersionFilters
-          filters={filters}
-          setFilters={setFilters}
-          defaultDate={defaultDateRange}
-        />
+        {versions.length > 0 && (
+          <VersionFilters
+            filters={filters}
+            setFilters={setFilters}
+            defaultDate={defaultDateRange}
+          />
+        )}
       </Flex>
       {versionsToDisplay.length === 0 &&
         (versions.length > 0 || invalidFiles.length > 0) && (
-          <Flex direction={"column"} align="center">
+          <Flex
+            direction={"column"}
+            align="center"
+            style={{ marginBottom: "20px" }}
+          >
             <Heading mt="6" color="gray" size="5">
-              No versions found
+              No valid versions found
             </Heading>
             <Text mt="2" color="gray" size="3">
               Try changing your filters or adding more versions
             </Text>
           </Flex>
         )}
-      {versionsToDisplay.length != 0 && (
+      {(versionsToDisplay.length != 0 || invalidFiles.length != 0) && (
         <Table.Root variant="surface">
           <Table.Header>
             <Table.Row>

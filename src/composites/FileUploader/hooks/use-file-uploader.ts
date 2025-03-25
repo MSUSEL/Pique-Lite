@@ -1,13 +1,20 @@
-import { useState } from 'react';
-import { UploadedFile } from "types"; 
-import { base } from '../../schema';
+import { useState } from "react";
+import { UploadedFile } from "types";
+import { base } from "../../../state/schema";
 
 const loadFiles = async (
   files: File[]
-): Promise<{ id: string; name: string; content: any; lastModified: number }[]> => {
-  const filePromises = files.map((file) =>
-    new Promise<{ id: string; name: string; content: any; lastModified: number }>(
-      (resolve, reject) => {
+): Promise<
+  { id: string; name: string; content: any; lastModified: number }[]
+> => {
+  const filePromises = files.map(
+    (file) =>
+      new Promise<{
+        id: string;
+        name: string;
+        content: any;
+        lastModified: number;
+      }>((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
           const result = e.target?.result;
@@ -30,8 +37,7 @@ const loadFiles = async (
         fileReader.onerror = () =>
           reject({ name: file.name, error: "Failed to read file." });
         fileReader.readAsText(file);
-      }
-    )
+      })
   );
 
   try {
@@ -55,11 +61,11 @@ const useFileUploader = () => {
   };
 
   const validateFileContent = (file: any) => {
-   try {
-      base.dataset.parse(file.content); 
+    try {
+      base.dataset.parse(file.content);
       return true;
     } catch (error) {
-      console.error('Validation error:', error);
+      console.error("Validation error:", error);
       return false;
     }
   };
@@ -71,7 +77,7 @@ const useFileUploader = () => {
         setFiles((prevFiles) =>
           prevFiles.concat(
             loadedFiles.map((f) => {
-              const isValid = validateFileContent(f); 
+              const isValid = validateFileContent(f);
               return {
                 id: f.id,
                 name: f.name,
@@ -89,7 +95,7 @@ const useFileUploader = () => {
   const allFilesVerified = () => files.every((file) => file.verified);
 
   const resetFiles = () => {
-    setFiles([]); 
+    setFiles([]);
   };
 
   return {
@@ -98,7 +104,7 @@ const useFileUploader = () => {
     handleFileSelect,
     removeFile,
     allFilesVerified,
-    resetFiles
+    resetFiles,
   };
 };
 

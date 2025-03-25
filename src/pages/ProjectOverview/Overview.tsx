@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
-import { useProjects } from "../../composites/FileUploader/useProjects";
+import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "./Filters";
-import { getRisk } from "../../risk-helpers";
-import SearchBar from "../../views/SearchBar";
+import { getRisk } from "../../composites/RiskHelpers";
+import SearchBar from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
 
 const ITEMS_PER_PAGE = 5;

@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import type { useChartZoom } from "../../hooks/useChartZoom";
+import type { useChartZoom } from "./hooks/use-chart-zoom";
 
 // Types
 export type ChartMode = "brush" | "tooltip";

@@ -1,8 +1,8 @@
 import { useAtomValue } from "jotai";
 import { useState } from "react";
 import { Box, Flex, Grid, Select, Text } from "@radix-ui/themes";
-import { LinePlot } from "../composites/LinePlot";
-import { flatAllProjectVersionsAtom } from "../state";
+import { LinePlot } from "../../composites/LinePlot";
+import { flatAllProjectVersionsAtom } from "../../state";
 
 interface DataPoint {
   date: string;
