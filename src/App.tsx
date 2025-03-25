@@ -2,19 +2,29 @@ import "./App.css";
 import { useAtomValue } from "jotai";
 import { State } from "./state/core";
 import Landing from "./pages/Landing";
-import Overview from "./pages/Overview/Overview";
+import Overview from "./pages/ProjectOverview/Overview";
 import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
 import { PageHeader } from "./views/PageHeader";
 import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./views/SideMenu";
 import ProjectComparisonChart from "./pages/CompareProjects";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
+import VersionOverview from "./pages/VersionOverview/Overview";
+import ListView from "./pages/ListView/ListView";
+import TreeView from "./pages/TreeView/TreeView";
+import VersionSelector from "./pages/VersionSelector/VersionSelector";
+import ImportanceAdjustment from "./pages/ImportanceAdjustment/ImportanceAjustment";
 
 const views: Record<string, JSX.Element> = {
   landing: <Landing />,
   overview: <Overview />,
   project: <ProjectDetailsView />,
   compare: <ProjectComparisonChart />,
+  versionselector: <VersionSelector />,
+  versionoverview: <VersionOverview />,
+  list: <ListView />,
+  tree: <TreeView />,
+  adjustment: <ImportanceAdjustment />,
 };
 
 function App() {

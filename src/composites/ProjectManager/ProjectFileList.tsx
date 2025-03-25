@@ -2,7 +2,7 @@ import { TrashIcon, EyeOpenIcon, EyeNoneIcon } from "@radix-ui/react-icons";
 import { IconButton, Table, Flex, Text, Heading } from "@radix-ui/themes";
 import { Version } from "../../state";
 import { useState } from "react";
-import { PaginationButtons } from "../../pages/Overview/Overview";
+import { PaginationButtons } from "../../pages/ProjectOverview/Overview";
 import SearchBar from "../../views/SearchBar";
 import VersionFilters, { Filters } from "./Filters/Filters";
 import { matchSorter } from "match-sorter";

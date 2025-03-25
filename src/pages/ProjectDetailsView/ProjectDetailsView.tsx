@@ -1,11 +1,11 @@
-import { Box, Flex, Grid, Text } from "@radix-ui/themes";
+import { Box, Flex, Link, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "../../composites/RiskCards";
 import { getAllRiskLevels } from "../../risk-helpers";
 import * as OverviewPanel from "../../composites/OverviewPanel";
 import { useMemo } from "react";
-import { useAtom } from "jotai/react";
+import { useAtom, useSetAtom } from "jotai/react";
 import { State } from "../../state";
 import { LabelledComboBox } from "../../composites/Combobox";
 
@@ -50,6 +50,8 @@ const ProjectCharacteristicsRisks = () => {
 
 function ProjectDetailsView() {
   const projectMapping = useAtomValue(State.projects);
+
+  const setCurrentView = useSetAtom(State.currentView);
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
