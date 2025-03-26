@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
@@ -13,7 +13,10 @@ const ITEMS_PER_PAGE = 5;
 
 const Overview: React.FC = () => {
   const setCurrentView = useSetAtom(State.currentView);
-  setCurrentView("overview");
+  useEffect(() => {
+    setCurrentView("overview");
+  }, [setCurrentView]);
+
   const { projects } = useProjects();
   const setProject = useSetAtom(State.selectedProject);
   const setVersion = useSetAtom(State.selectedVersion);

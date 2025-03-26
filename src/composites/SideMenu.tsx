@@ -1,6 +1,6 @@
 import { Box, Text } from "@radix-ui/themes";
 import * as SideBar from "react-pro-sidebar";
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { State } from "../state";
 import React, { useState } from "react";
 import { HomeIcon, DashboardIcon, MixIcon } from "@radix-ui/react-icons"; // Replace with actual icons
@@ -11,7 +11,6 @@ interface SideMenuProps {
 }
 
 const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
-  const setCurrentView = useSetAtom(State.currentView);
   const [hovered, setHovered] = useState(false);
   const selectedProject = useAtomValue(State.selectedProject);
   const selectedVersion = useAtomValue(State.selectedVersion);

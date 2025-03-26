@@ -4,7 +4,7 @@ import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
 import * as ProjectPanel from "./ProjectPanel";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { State } from "../../state";
 import { LabelledComboBox } from "../../composites/Combobox";
 import { useSearchParams } from "react-router-dom";
@@ -50,7 +50,10 @@ const ProjectCharacteristicsRisks = () => {
 
 function ProjectDetailsView() {
   const setCurrentView = useSetAtom(State.currentView);
-  setCurrentView("project");
+    useEffect(() => {
+      setCurrentView("projectview");
+    }, [setCurrentView]);
+
   const projectMapping = useAtomValue(State.projects);
   const [searchParams, setURLSearchParameters] = useSearchParams();
   const [selectedProjectId, setSelectedProjectId] = useAtom(

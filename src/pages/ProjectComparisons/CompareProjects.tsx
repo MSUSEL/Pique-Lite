@@ -1,6 +1,6 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
-import { State } from "../state";
+import { useState, useEffect } from "react";
+import { State } from "../../state";
 import { Box, Flex, Grid, Select, Text } from "@radix-ui/themes";
 import { LinePlot } from "../../composites/LinePlot";
 import { flatAllProjectVersionsAtom } from "../../state";
@@ -61,7 +61,10 @@ const CharacteristicSelector = ({
 
 export const ProjectComparisonChart = () => {
   const setCurrentView = useSetAtom(State.currentView);
-  setCurrentView("compare");
+    useEffect(() => {
+      setCurrentView("compare");
+    }, [setCurrentView]);
+
   const [selectedCharacteristic, setSelectedCharacteristic] = useState(
     CHARACTERISTIC_NAMES[0]
   );
