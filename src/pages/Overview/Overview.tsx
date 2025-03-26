@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
 import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
@@ -12,11 +12,11 @@ import { matchSorter } from "match-sorter";
 const ITEMS_PER_PAGE = 5;
 
 const Overview: React.FC = () => {
-  const { projects } = useProjects();
   const setCurrentView = useSetAtom(State.currentView);
+  setCurrentView("overview");
+  const { projects } = useProjects();
   const setProject = useSetAtom(State.selectedProject);
   const setVersion = useSetAtom(State.selectedVersion);
-
 
   if (!projects) return null;
 

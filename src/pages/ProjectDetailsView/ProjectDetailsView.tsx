@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom, useAtom } from "jotai";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
@@ -49,19 +49,29 @@ const ProjectCharacteristicsRisks = () => {
 };
 
 function ProjectDetailsView() {
+  const setCurrentView = useSetAtom(State.currentView);
+  setCurrentView("project");
   const projectMapping = useAtomValue(State.projects);
   const [searchParams, setURLSearchParameters] = useSearchParams();
-  const selectedProjectId = useAtomValue(State.selectedProject);
-  const selectedVersion = useAtomValue(State.selectedVersion);
+  const [selectedProjectId, setSelectedProjectId] = useAtom(
+    State.selectedProject
+  );
+  const [selectedVersion, setSelectedVersion] = useAtom(State.selectedVersion);
 
   const projectId = searchParams.get("projectid") || selectedProjectId || "";
-  const versionIdParam = searchParams.get("versionid") || selectedVersion?.toString() || "";
-  const versionId = versionIdParam !== null
-    ? parseInt(versionIdParam, 10)
-    : 0;
+  const versionIdParam = searchParams.get("versionid");
+
+  if (versionIdParam === null || versionIdParam === "undefined") {
+    const params = new URLSearchParams(searchParams);
+    params.set("versionid", "0");
+    setURLSearchParameters(params, { replace: true });
+  }
+
+  const versionId = versionIdParam && !isNaN(parseInt(versionIdParam, 10))
+  ? parseInt(versionIdParam, 10)
+  : 0;
 
   console.log("Rendering ProjectDetailsView: ", versionId);
-
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
@@ -98,6 +108,7 @@ function ProjectDetailsView() {
           value={selectedProject}
           onChange={(project) => {
             const newProjectId = project?.uuid || "";
+            setSelectedProjectId(newProjectId);
             const newVersionId = versions.length > 0 ? versions[0].name : "";
             setURLSearchParameters({ projectid: newProjectId, versionid: newVersionId });
           }}
@@ -109,6 +120,7 @@ function ProjectDetailsView() {
           getOptionKey={(version) => version.name}
           getOptionLabel={(version) => version.name}
           onChange={(version) => {
+            setSelectedVersion(version ? versions.indexOf(version) : undefined)
             const newVersionId = version ? versions.indexOf(version).toString() : "";
             setURLSearchParameters({ projectid: projectId, versionid: newVersionId });
           }}

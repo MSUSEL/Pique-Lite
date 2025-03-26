@@ -2,7 +2,7 @@ import { Button, Dialog, Flex, Grid } from "@radix-ui/themes";
 import { ProjectList } from "../../composites/ProjectManager/ProjectList";
 import { ProjectFiles } from "../../composites/ProjectManager/ProjectFiles";
 import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
-import { useAtomValue } from "jotai";
+import { useSetAtom, useAtomValue } from "jotai";
 import { State } from "../../state";
 import { useNavigate } from "react-router-dom"; 
 
@@ -15,10 +15,12 @@ export const InitialProjectSetupDialog = ({
   open,
   onOpenChange,
 }: InitialProjectSetupDialogProps) => {
+  const setCurrentView = useSetAtom(State.currentView);
   const projects = useAtomValue(State.projects);
   const navigate = useNavigate();
 
   const handleContinue = () => {
+    setCurrentView("overview");
     navigate("/overview");
     onOpenChange(false);
   };
