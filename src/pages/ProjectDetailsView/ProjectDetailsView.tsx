@@ -64,7 +64,7 @@ function ProjectDetailsView() {
   const projectId = searchParams.get("projectid") || selectedProjectId || "";
   const versionIdParam = searchParams.get("versionid");
 
-  if (versionIdParam === undefined || versionIdParam === "undefined") {
+  if (versionIdParam === undefined || versionIdParam === "undefined" || versionIdParam === "") {
     const params = new URLSearchParams(searchParams);
     const lastVersion = projectMapping?.[projectId]?.versions?.length
       ? String(projectMapping[projectId].versions.length - 1) : "0";
@@ -111,7 +111,7 @@ function ProjectDetailsView() {
           onChange={(project) => {
             const newProjectId = project?.uuid || "";
             setSelectedProjectId(newProjectId);
-            const newVersionId = versions.length > 0 ? String(versions.length - 1) : "0";
+            const newVersionId = "";
             setURLSearchParameters({ projectid: newProjectId, versionid: newVersionId });
           }}
         />
