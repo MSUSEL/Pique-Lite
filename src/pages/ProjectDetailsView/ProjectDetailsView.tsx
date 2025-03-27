@@ -51,7 +51,7 @@ const ProjectCharacteristicsRisks = () => {
 function ProjectDetailsView() {
   const setCurrentView = useSetAtom(State.currentView);
     useEffect(() => {
-      setCurrentView("projectview");
+      setCurrentView("project");
     }, [setCurrentView]);
 
   const projectMapping = useAtomValue(State.projects);
@@ -59,7 +59,7 @@ function ProjectDetailsView() {
   const [selectedProjectId, setSelectedProjectId] = useAtom(
     State.selectedProject
   );
-  const [selectedVersion, setSelectedVersion] = useAtom(State.selectedVersion);
+  const setSelectedVersion = useSetAtom(State.selectedVersion);
 
   const projectId = searchParams.get("projectid") || selectedProjectId || "";
   const versionIdParam = searchParams.get("versionid");
@@ -70,9 +70,7 @@ function ProjectDetailsView() {
     setURLSearchParameters(params, { replace: true });
   }
 
-  const versionId = versionIdParam && !isNaN(parseInt(versionIdParam, 10))
-  ? parseInt(versionIdParam, 10)
-  : 0;
+  const versionId = versionIdParam ? parseInt(versionIdParam, 10) : 0;
 
   console.log("Rendering ProjectDetailsView: ", versionId);
 
