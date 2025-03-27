@@ -111,7 +111,7 @@ function ProjectDetailsView() {
           onChange={(project) => {
             const newProjectId = project?.uuid || "";
             setSelectedProjectId(newProjectId);
-            const newVersionId = versions.length > 0 ? versions[0].name : "";
+            const newVersionId = versions.length > 0 ? String(versions.length - 1) : "0";
             setURLSearchParameters({ projectid: newProjectId, versionid: newVersionId });
           }}
         />
