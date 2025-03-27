@@ -64,15 +64,16 @@ function ProjectDetailsView() {
   const projectId = searchParams.get("projectid") || selectedProjectId || "";
   const versionIdParam = searchParams.get("versionid");
 
-  if (versionIdParam === null || versionIdParam === "undefined") {
+  if (versionIdParam === undefined || versionIdParam === "undefined") {
     const params = new URLSearchParams(searchParams);
-    params.set("versionid", "0");
+    const lastVersion = projectMapping?.[projectId]?.versions?.length
+      ? String(projectMapping[projectId].versions.length - 1) : "0";
+    setSelectedVersion(parseInt(lastVersion, 10));
+    params.set("versionid", lastVersion);
     setURLSearchParameters(params, { replace: true });
   }
 
   const versionId = versionIdParam ? parseInt(versionIdParam, 10) : 0;
-
-  console.log("Rendering ProjectDetailsView: ", versionId);
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
