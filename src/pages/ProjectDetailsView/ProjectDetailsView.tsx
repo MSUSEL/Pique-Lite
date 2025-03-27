@@ -111,8 +111,7 @@ function ProjectDetailsView() {
           onChange={(project) => {
             const newProjectId = project?.uuid || "";
             setSelectedProjectId(newProjectId);
-            const newVersionId = "";
-            setURLSearchParameters({ projectid: newProjectId, versionid: newVersionId });
+            setURLSearchParameters({ projectid: newProjectId, versionid: "" });
           }}
         />
         <LabelledComboBox
