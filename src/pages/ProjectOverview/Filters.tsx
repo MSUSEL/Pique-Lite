@@ -15,7 +15,7 @@ import {
 } from "@radix-ui/themes";
 import { CheckboxGroup } from "@radix-ui/themes";
 import { BarChart, Bar, XAxis, Tooltip, Cell } from "recharts";
-import { Projects } from "../../state";
+import { Projects, Version } from "../../state";
 import { getAllRiskLevels, getRisk } from "../../composites/RiskHelpers";
 
 //Filters element for projects in overview
@@ -24,8 +24,9 @@ const Filters: React.FC<{
   selectedFilters: string[];
   sliderValue: number[];
   onFilterChange: (filters: string[], newValues: number[]) => void;
-  projects: Projects;
-}> = ({ selectedFilters, sliderValue, onFilterChange, projects }) => {
+  projects?: Projects;
+  versions?: Version[];
+}> = ({ selectedFilters, sliderValue, onFilterChange, projects, versions }) => {
   //Temporary values to fill out checkboxes later
   const checkboxVals = ["Severe", "High", "Elevated", "Guarded", "Low"];
 
@@ -83,7 +84,8 @@ const Filters: React.FC<{
                     </Text>
                     <SliderFilter
                       value={sliderValue}
-                      projects={projects}
+                      versions={versions ? versions : undefined}
+                      projects={projects ? projects : undefined}
                       onValueChange={(newValues) =>
                         onFilterChange(selectedFilters, newValues)
                       }
@@ -115,9 +117,10 @@ const Filters: React.FC<{
 //TODO: Move this to its own file
 const SliderFilter: React.FC<{
   value: number[];
-  projects: Projects;
+  projects?: Projects;
+  versions?: Version[];
   onValueChange: (value: number[]) => void;
-}> = ({ value, projects, onValueChange }) => {
+}> = ({ value, projects, versions, onValueChange }) => {
   const [inputValue, setInputValue] = useState<string[]>([
     value[0].toString(),
     value[1].toString(),
@@ -141,19 +144,24 @@ const SliderFilter: React.FC<{
   // Create a lookup map for quick access to the corresponding data entry
   const dataMap = new Map(data.map((entry) => [entry.name, entry]));
 
+  const allVersions: Version[] = versions
+    ? versions
+    : Object.values(projects || {}).flatMap((project) =>
+        project.versions.length > 0
+          ? [project.versions[project.versions.length - 1]] // Use the most recent version
+          : []
+      );
+
   // Populate bar chart data dynamically
-  Object.values(projects).forEach((project) => {
-    if (project.versions.length > 0) {
-      const recentVersionValue =
-        project.versions[project.versions.length - 1].data.value;
+  allVersions.forEach((version) => {
+    const recentVersionValue = version.data.value;
 
-      // Find the matching risk level
-      const riskLevel = getRisk(recentVersionValue, "normal");
+    // Find the matching risk level
+    const riskLevel = getRisk(recentVersionValue, "normal");
 
-      // Increment the corresponding data entry
-      if (riskLevel) {
-        dataMap.get(riskLevel.name)!.value += 1;
-      }
+    // Increment the corresponding data entry
+    if (riskLevel) {
+      dataMap.get(riskLevel.name)!.value += 1;
     }
   });
 

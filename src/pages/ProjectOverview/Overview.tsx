@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
-import { Box, Flex, Heading, Link, Text } from "@radix-ui/themes";
+import { Flex, Heading, Link, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "./Filters";
@@ -42,7 +42,6 @@ const Overview: React.FC = () => {
     if (project.versions.length === 0) return false;
 
     //Set recent version to last one uploaded
-    //TODO: change this to set recent version based on date, if possible
     const recentVersion = project.versions[project.versions.length - 1];
     const recentRisk = getRisk(recentVersion.data.value, "normal");
 
@@ -68,70 +67,65 @@ const Overview: React.FC = () => {
   const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
-    <Box
-      className="Overview-root"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <Flex direction="column" style={{ justifyContent: "center" }}>
-        <Flex direction="row">
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            hint={"projects"}
-          />
-          {/* Contains all checkbox and slider filters in 'Filters' popover */}
-          <Filters
-            selectedFilters={riskFilters}
-            sliderValue={sliderValue}
-            onFilterChange={handleFilterChange}
-            projects={projects}
-          />
-        </Flex>
-        {/* Display if filters have filtered out all projects */}
-        {projectsToDisplay.length === 0 && (
-          <Flex direction={"column"} align="center">
-            <Heading mt="6" color="gray" size="5">
-              No projects found
-            </Heading>
-            <Text mt="2" color="gray" size="3">
-              Try changing your filters or adding more projects
-            </Text>
-          </Flex>
-        )}
-        {totalPages > 1 && (
-          <PaginationButtons
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
-        {/* Display paginated projects */}
-        {projectsToDisplay.map(([uuid, project]) => (
-          <ProjectCard
-            key={uuid}
-            uuid={uuid}
-            project={project}
-            onProjectClick={(versionIndex) => {
-              setCurrentView("project");
-              setProject(uuid);
-              setVersion(versionIndex);
-            }}
-          />
-        ))}
-        {totalPages > 1 && (
-          <PaginationButtons
-            currentPage={currentPage}
-            totalPages={totalPages}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
+    <Flex direction="column" align="center">
+      <Flex
+        direction="row"
+        style={{
+          width: "90%",
+        }}
+      >
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          hint={"projects"}
+        />
+        {/* Contains all checkbox and slider filters in 'Filters' popover */}
+        <Filters
+          selectedFilters={riskFilters}
+          sliderValue={sliderValue}
+          onFilterChange={handleFilterChange}
+          projects={projects}
+        />
       </Flex>
-    </Box>
+      {/* Display if filters have filtered out all projects */}
+      {projectsToDisplay.length === 0 && (
+        <Flex direction={"column"} align="center">
+          <Heading mt="6" color="gray" size="5">
+            No projects found
+          </Heading>
+          <Text mt="2" color="gray" size="3">
+            Try changing your filters or adding more projects
+          </Text>
+        </Flex>
+      )}
+      {totalPages > 1 && (
+        <PaginationButtons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
+      {/* Display paginated projects */}
+      {projectsToDisplay.map(([uuid, project]) => (
+        <ProjectCard
+          key={uuid}
+          uuid={uuid}
+          project={project}
+          onProjectClick={(versionIndex) => {
+            setCurrentView("project");
+            setProject(uuid);
+            setVersion(versionIndex);
+          }}
+        />
+      ))}
+      {totalPages > 1 && (
+        <PaginationButtons
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
+    </Flex>
   );
 };
 

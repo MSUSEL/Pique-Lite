@@ -3,11 +3,9 @@ import { Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
 import { getRisk } from "../../composites/RiskHelpers";
 import { ProjectCardProps } from "./types";
 import { useState } from "react";
-import { LabelledComboBox } from "../../composites/Combobox";
 import { Version } from "../../state";
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
-  uuid,
   project,
   onProjectClick,
 }) => {
@@ -26,25 +24,57 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const selectedVersion =
     project.versions[selectedVersionIndex] ||
     project.versions[project.versions.length - 1];
-  const versionRisk = getRisk(selectedVersion.data.value, "normal");
+
+  return (
+    <VersionCard
+      version={selectedVersion}
+      title={
+        <ProjectHeader
+          name={project.name}
+          versions={project.versions}
+          selectedVersionIndex={selectedVersionIndex}
+          onVersionChange={setSelectedVersionIndex}
+          onProjectClick={() => onProjectClick(selectedVersionIndex)}
+        />
+      }
+      onClick={() => onProjectClick(selectedVersionIndex)}
+    />
+  );
+};
+
+interface VersionCardProps {
+  version: Version;
+  title: React.ReactNode;
+  onClick: () => void;
+}
+
+export const VersionCard: React.FC<VersionCardProps> = ({
+  version,
+  title,
+  onClick,
+}) => {
+  const versionRisk = getRisk(version.data.value, "normal");
 
   return (
     <Card
-      key={uuid}
-      style={{ margin: "10px", minWidth: "550px", maxWidth: "1024px" }}
+      onClick={onClick}
+      style={{
+        alignSelf: "center",
+        margin: "10px",
+        width: "90%",
+        cursor: "pointer",
+        transition: "transform 0.2s ease-in-out",
+      }}
     >
       <Flex direction="row" justify="between">
         <Flex direction="column" gap="2" style={{ flex: 1 }}>
-          <ProjectHeader
-            name={project.name}
-            versions={project.versions}
-            selectedVersionIndex={selectedVersionIndex}
-            onVersionChange={setSelectedVersionIndex}
-            onProjectClick={() => onProjectClick(selectedVersionIndex)}
-          />
-          <MetricsSection metrics={selectedVersion.data.children} />
+          <Box>{title}</Box>
+          <Text size="2" color="gray">
+            Last Modified: {new Date(version.date).toLocaleDateString()}
+          </Text>
+          <MetricsSection metrics={version.data.children} />
         </Flex>
-        <TQIBadge value={selectedVersion.data.value} risk={versionRisk} />
+        <TQIBadge value={version.data.value} risk={versionRisk} />
       </Flex>
     </Card>
   );
@@ -57,31 +87,15 @@ const ProjectHeader: React.FC<{
   selectedVersionIndex: number;
   onVersionChange: (versionIndex: number) => void;
   onProjectClick: () => void;
-}> = ({
-  name,
-  versions,
-  selectedVersionIndex,
-  onVersionChange,
-  onProjectClick,
-}) => {
-  const selectedVersion = versions[selectedVersionIndex];
+}> = ({ name, versions, onProjectClick }) => {
+  const recentVersion = versions[versions.length - 1];
 
   return (
     <Flex direction="row" gap="3" align="center">
       <Link onClick={onProjectClick}>
         <Heading size="3">{name}</Heading>
       </Link>
-      <LabelledComboBox
-        label="Version:"
-        options={versions}
-        value={selectedVersion}
-        onChange={(version) =>
-          onVersionChange(versions.findIndex((v) => v === version))
-        }
-        placeholder="Select a version"
-        renderOption={(option) => option.name}
-        getOptionLabel={(option) => option.name}
-      />
+      <Text>Most Recent Version: {recentVersion.name}</Text>
     </Flex>
   );
 };
