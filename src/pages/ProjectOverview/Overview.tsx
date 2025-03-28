@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
-import { Flex, Heading, Link, Text } from "@radix-ui/themes";
+import { Flex, Heading, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
-import Filters from "./Filters";
+import Filters from "../../composites/VersionFiltering/Filters";
 import { getRisk } from "../../composites/RiskHelpers";
 import SearchBar from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
+import { PaginationButtons } from "../../composites/Combobox/PaginationButtons";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -129,64 +130,4 @@ const Overview: React.FC = () => {
   );
 };
 
-interface PaginationButtonsProps {
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-//Pagination logic
-//TODO: Add this to another file, it is used in other places in PIQUE LITE
-export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
-  currentPage,
-  totalPages,
-  setCurrentPage,
-}) => {
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  return (
-    <Flex direction="row" gap="3" mt="4">
-      <Link
-        onClick={handlePreviousPage}
-        style={{
-          color: currentPage === 1 ? "gray" : "blue",
-          cursor: currentPage === 1 ? "not-allowed" : "pointer",
-        }}
-      >
-        Previous
-      </Link>
-      {Array.from({ length: totalPages }, (_, index) => (
-        <Link
-          key={index + 1}
-          onClick={() => setCurrentPage(index + 1)}
-          style={{
-            color: currentPage === index + 1 ? "black" : "blue",
-            cursor: "pointer",
-          }}
-        >
-          {index + 1}
-        </Link>
-      ))}
-      <Link
-        onClick={handleNextPage}
-        style={{
-          color: currentPage === totalPages ? "gray" : "blue",
-          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-        }}
-      >
-        Next
-      </Link>
-    </Flex>
-  );
-};
 export default Overview;

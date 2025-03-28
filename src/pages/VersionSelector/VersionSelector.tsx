@@ -6,9 +6,9 @@ import { LabelledComboBox } from "../../composites/Combobox";
 import { useAtom, useSetAtom, useAtomValue } from "jotai";
 import SearchBar from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
-import Filters from "../ProjectOverview/Filters";
+import Filters from "../../composites/VersionFiltering/Filters";
 import { getRisk } from "../../composites/RiskHelpers";
-import { PaginationButtons } from "../ProjectOverview";
+import { PaginationButtons } from "../../composites/Combobox/PaginationButtons";
 
 const ITEMS_PER_PAGE = 5;
 

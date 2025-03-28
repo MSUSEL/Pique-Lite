@@ -51,8 +51,6 @@ const ProjectCharacteristicsRisks = () => {
 function ProjectDetailsView() {
   const projectMapping = useAtomValue(State.projects);
 
-  const setCurrentView = useSetAtom(State.currentView);
-
   const projects = useMemo(() => {
     if (!projectMapping) return [];
     return Object.values(projectMapping);
