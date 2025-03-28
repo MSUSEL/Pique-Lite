@@ -61,9 +61,9 @@ const CharacteristicSelector = ({
 
 export const ProjectComparisonChart = () => {
   const setCurrentView = useSetAtom(State.currentView);
-    useEffect(() => {
-      setCurrentView("compare");
-    }, [setCurrentView]);
+  useEffect(() => {
+    setCurrentView("compare");
+  }, [setCurrentView]);
 
   const [selectedCharacteristic, setSelectedCharacteristic] = useState(
     CHARACTERISTIC_NAMES[0]
