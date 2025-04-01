@@ -12,33 +12,27 @@ interface CharacteristicRecord extends Record<string, unknown> {
   tqi: number;
 }
 
-// Note:
-// This is an example of a pattern that should broadly be useful.
-// We have a base atom `x` (in our case, State.project), but we need
-// to perform a heavy computation, `f` on `x` in order to get
-// data in a format we can use in our components. Instead of
-// calling `useAtomValue(x)` in our component, then performing
-// a computation `y = useMemo(() => f(x))` in many different components,
-// we can define a derived atom using this computation:
-// y = atom(get => f(get(x)))
-//
-// This will automatically cache the computation. Then
-// we can work with the `y` atom directly.
-// Read more here: https://jotai.org/docs/guides/composing-atoms
-export const flatCharacteristicDataAtom = atom((get) => {
-  const projects = get(State.projects);
-  const selectedProject = get(State.selectedProject);
+// Hook to get flat characteristic data for a specific project
+export const useFlatCharacteristicData = (projectId: string | undefined) => {
+  const projects = useAtomValue(State.projects);
+  console.log("Projects from state:", projects);
+  console.log("Project ID received:", projectId);
 
-  //check to make sure there is a selected project
-  if (!selectedProject || !projects) return [];
-  const project = projects[selectedProject];
+  //check to make sure there is a project id and projects
+  if (!projectId || !projects) {
+    console.log("No project ID or projects, returning empty array");
+    return [];
+  }
+  const project = projects[projectId];
+  console.log("Found project:", project);
 
   if (!project) {
+    console.log("No project found, returning empty array");
     return [];
   }
 
   const records: CharacteristicRecord[] = project.versions.map((version) => {
-    const baseRecord = {
+    const baseRecord: CharacteristicRecord = {
       name: version.name,
       fileName: version.fileName,
       date: version.date,
@@ -46,13 +40,7 @@ export const flatCharacteristicDataAtom = atom((get) => {
     };
 
     return version.data.children.reduce(
-      (
-        acc: Record<string, number>,
-        child: {
-          name: string;
-          value: number;
-        }
-      ) => {
+      (acc: CharacteristicRecord, child: { name: string; value: number }) => {
         acc[child.name] = child.value;
         return acc;
       },
@@ -60,8 +48,9 @@ export const flatCharacteristicDataAtom = atom((get) => {
     );
   });
 
+  console.log("Generated records:", records);
   return records;
-});
+};
 
 interface ProjectVersionRecord extends Record<string, unknown> {
   projectName: string;

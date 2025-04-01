@@ -3,21 +3,22 @@ import { VersionCards } from "./VersionCards";
 import React, { useMemo, useState } from "react";
 import { State } from "../../state";
 import { LabelledComboBox } from "../../composites/Combobox";
-import { useAtom, useSetAtom, useAtomValue } from "jotai";
+import { useSetAtom, useAtomValue } from "jotai";
 import SearchBar from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
 import Filters from "../../composites/VersionFiltering/Filters";
 import { getRisk } from "../../composites/RiskHelpers";
 import { PaginationButtons } from "../../composites/Combobox/PaginationButtons";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 5;
 
 export const VersionSelector: React.FC = () => {
   const projectMapping = useAtomValue(State.projects);
-
   const setCurrentView = useSetAtom(State.currentView);
-  const setVersion = useSetAtom(State.selectedVersion);
-  const setSelectedProjectId = useSetAtom(State.selectedProject);
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const projectId = searchParams.get("projectid");
 
   const projects = Object.values(projectMapping || {});
 
@@ -28,7 +29,6 @@ export const VersionSelector: React.FC = () => {
     "Guarded",
     "Low",
   ]);
-  const [selectedProjectId] = useAtom(State.selectedProject);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
@@ -39,7 +39,7 @@ export const VersionSelector: React.FC = () => {
   };
 
   const selectedProject =
-    projects.find((project) => project.uuid === selectedProjectId) || null;
+    projects.find((project) => project.uuid === projectId) || null;
 
   const versions = useMemo(() => {
     if (!selectedProject) return [];
@@ -89,7 +89,10 @@ export const VersionSelector: React.FC = () => {
           getOptionLabel={(project) => project.name}
           options={projects}
           value={selectedProject}
-          onChange={(project) => setSelectedProjectId(project?.uuid || "")}
+          onChange={(project) => {
+            const newProjectId = project?.uuid || "";
+            setSearchParams({ projectid: newProjectId });
+          }}
         />
         <SearchBar
           searchQuery={searchQuery}
@@ -107,7 +110,13 @@ export const VersionSelector: React.FC = () => {
         versions={versionsToDisplay.map(([, version]) => version)}
         onVersionClick={(versionIndex) => {
           setCurrentView("versionoverview");
-          setVersion(versionIndex);
+          // Only include versionid if it's not the last version
+          const isLastVersion = versionIndex === versions.length - 1;
+          const params = new URLSearchParams({ projectid: projectId || "" });
+          if (!isLastVersion) {
+            params.set("versionid", versionIndex.toString());
+          }
+          navigate(`/versionoverview?${params.toString()}`);
         }}
       />
       {totalPages > 1 && (

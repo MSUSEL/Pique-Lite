@@ -1,7 +1,7 @@
-import { useAtomValue } from "jotai";
-import { flatCharacteristicDataAtom } from "../../state";
+import { useFlatCharacteristicData } from "../../state";
 import { LinePlot } from "../../composites/LinePlot";
 import { Flex } from "@radix-ui/themes";
+import { useSearchParams } from "react-router-dom";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -28,11 +28,18 @@ type DataPoint = {
 };
 
 export const ProjectAttributesChart = () => {
-  const flatData = useAtomValue(flatCharacteristicDataAtom);
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get('projectid');
+  console.log('Project ID from URL:', projectId);
+  
+  const flatData = useFlatCharacteristicData(projectId || undefined);
+  console.log('Flat data from hook:', flatData);
+  
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
     date: d.date.toISOString().split("T")[0],
   }));
+  console.log('Transformed data for chart:', flatDataWithStringDates);
 
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
     dataKey: characteristic as keyof DataPoint,
@@ -68,13 +75,9 @@ export const ProjectAttributesChart = () => {
               }}
             >
               {CHARACTERISTIC_NAMES.map((characteristic) => {
-                const startValue =
-                  selection.start[
-                    characteristic as keyof typeof selection.start
-                  ];
-                const endValue =
-                  selection.end[characteristic as keyof typeof selection.end];
-                const delta = Number(endValue) - Number(startValue);
+                const startValue = Number(selection.start[characteristic as keyof typeof selection.start]);
+                const endValue = Number(selection.end[characteristic as keyof typeof selection.end]);
+                const delta = endValue - startValue;
                 const color =
                   delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";
 

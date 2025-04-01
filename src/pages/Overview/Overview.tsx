@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSetAtom } from "jotai";
-import { State } from "../../state";
+import React, { useState } from "react";
 import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
-// import { ProjectCard } from "./ProjectCard";
-// import Filters from "./Filters";
 import { getRisk } from "../../composites/RiskHelpers";
 import SearchBar from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
@@ -15,20 +11,11 @@ import Filters from "../../composites/VersionFiltering/Filters";
 const ITEMS_PER_PAGE = 5;
 
 const Overview: React.FC = () => {
-  const setCurrentView = useSetAtom(State.currentView);
-  useEffect(() => {
-    setCurrentView("overview");
-  }, [setCurrentView]);
-
   const { projects } = useProjects();
-  const setProject = useSetAtom(State.selectedProject);
-  const setVersion = useSetAtom(State.selectedVersion);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page");
   let currentPage = page ? parseInt(page, 10) : 1;
-
-  if (!projects) return null;
 
   //Create filtering states with default values
   const [riskFilters, setRiskFilters] = useState<string[]>([
@@ -40,6 +27,8 @@ const Overview: React.FC = () => {
   ]);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  if (!projects) return null;
 
   const handleFilterChange = (newFilters: string[], newValues: number[]) => {
     setRiskFilters(newFilters);
@@ -127,12 +116,13 @@ const Overview: React.FC = () => {
             uuid={uuid}
             project={project}
             onProjectClick={(versionIndex) => {
-              setCurrentView("project");
-              setProject(uuid);
-              setVersion(versionIndex);
-              navigate(
-                `/projectview?projectid=${uuid}&versionid=${versionIndex}`,
-              );
+              // Only include versionid if it's not the last version
+              const isLastVersion = versionIndex === project.versions.length - 1;
+              const searchParams = new URLSearchParams({ projectid: uuid });
+              if (!isLastVersion) {
+                searchParams.set("versionid", versionIndex.toString());
+              }
+              navigate(`/projectview?${searchParams.toString()}`);
             }}
           />
         ))}
@@ -199,4 +189,5 @@ export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
     </Flex>
   );
 };
+
 export default Overview;

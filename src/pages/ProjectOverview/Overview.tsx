@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
 import { Flex, Heading, Text } from "@radix-ui/themes";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "../../composites/VersionFiltering/Filters";
@@ -16,10 +16,7 @@ const ITEMS_PER_PAGE = 5;
 const Overview: React.FC = () => {
   const { projects } = useProjects();
   const setCurrentView = useSetAtom(State.currentView);
-  const setProject = useSetAtom(State.selectedProject);
-  const setVersion = useSetAtom(State.selectedVersion);
-
-  if (!projects) return null;
+  const navigate = useNavigate();
 
   //Create filtering states with default values
   const [riskFilters, setRiskFilters] = useState<string[]>([
@@ -32,6 +29,8 @@ const Overview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  if (!projects) return null;
 
   const handleFilterChange = (newFilters: string[], newValues: number[]) => {
     setRiskFilters(newFilters);
@@ -109,18 +108,21 @@ const Overview: React.FC = () => {
       )}
       {/* Display paginated projects */}
       {projectsToDisplay.map(([uuid, project]) => (
-        <Link key={uuid} to={`/projectview?projectid=${uuid}&versionid=${0}`}>
-          <ProjectCard
-            key={uuid}
-            uuid={uuid}
-            project={project}
-            onProjectClick={(versionIndex) => {
-              // setCurrentView("project");
-              // setProject(uuid);
-              // setVersion(versionIndex);
-            }}
-          />
-        </Link>
+        <ProjectCard
+          key={uuid}
+          uuid={uuid}
+          project={project}
+          onProjectClick={(versionIndex) => {
+            setCurrentView("project");
+            // Only include versionid if it's not the last version
+            const isLastVersion = versionIndex === project.versions.length - 1;
+            const params = new URLSearchParams({ projectid: uuid });
+            if (!isLastVersion) {
+              params.set("versionid", versionIndex.toString());
+            }
+            navigate(`/projectview?${params.toString()}`);
+          }}
+        />
       ))}
       {totalPages > 1 && (
         <PaginationButtons

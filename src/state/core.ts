@@ -24,7 +24,7 @@ export interface Projects {
 
 export const createNewProject = (
   projects: Project[],
-  setProjects: Function
+  setProjects: (updater: (prev: Project[]) => Project[]) => void
 ) => {
   const newProjectId = uuidv4();
   setProjects((prevProjects: Project[]) => ({
@@ -41,27 +41,6 @@ export const createNewProject = (
 export function createState() {
   const currentView = atom<string>();
   const projects = atom<Projects | undefined>({});
-  const selectedProject = atom<string | undefined>(undefined);
-  const selectedVersion = atom<number | undefined>(undefined);
-
-  // Create a derived atom that updates selectedVersion when selectedProject changes
-  const selectedProjectWithVersion = atom(
-    (get) => get(selectedProject),
-    (get, set, newProjectId: string | undefined) => {
-      set(selectedProject, newProjectId);
-      if (newProjectId) {
-        const projectsValue = get(projects);
-        const project = projectsValue?.[newProjectId];
-        if (project && project.versions.length > 0) {
-          set(selectedVersion, project.versions.length - 1);
-        } else {
-          set(selectedVersion, undefined);
-        }
-      } else {
-        set(selectedVersion, undefined);
-      }
-    }
-  );
 
   const visibleProjects = atom((get) => {
     const projectsValue = get(projects);
@@ -93,8 +72,6 @@ export function createState() {
   return {
     currentView,
     projects,
-    selectedProject: selectedProjectWithVersion,
-    selectedVersion,
     visibleProjects,
   };
 }

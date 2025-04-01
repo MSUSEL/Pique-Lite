@@ -66,7 +66,7 @@ export const ProjectManagerProvider = ({
     changeVersionVisibility,
     renderAfterFiles,
   };
-
+  console.log(value)
   return (
     <ProjectManagerContext.Provider value={value}>
       {children}

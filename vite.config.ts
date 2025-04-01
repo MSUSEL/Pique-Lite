@@ -4,5 +4,8 @@ import MillionLint from "@million/lint";
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
-  plugins: [react(), MillionLint.vite()],
+  plugins: [
+    react(),
+    // MillionLint.vite()
+  ],
 });

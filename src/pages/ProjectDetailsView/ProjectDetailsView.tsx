@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useMemo } from "react";
+import { useAtomValue } from "jotai";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { LabelledComboBox } from "../../composites/Combobox";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
@@ -25,17 +25,18 @@ export const RiskLevelLegend = () => {
 
 const ProjectCharacteristicsRisks = () => {
   const projects = useAtomValue(State.projects);
-  const selectedProject = useAtomValue(State.selectedProject);
-  const selectedVersion = useAtomValue(State.selectedVersion);
+  const [searchParams] = useSearchParams();
+  const projectId = searchParams.get("projectid");
+  const versionId = searchParams.get("versionid");
 
   //check to make sure there is a selected project
-  if (!selectedProject) return null;
-  const project = projects ? projects[selectedProject] : undefined;
+  if (!projectId) return null;
+  const project = projects ? projects[projectId] : undefined;
 
   if (!project) return null;
 
-  const version =
-    project.versions[selectedVersion == undefined ? 0 : selectedVersion];
+  const versionIndex = versionId ? parseInt(versionId, 10) : 0;
+  const version = project.versions[versionIndex];
   const characteristics = version.data.children;
 
   const riskCards = characteristics.map(
@@ -51,29 +52,22 @@ const ProjectCharacteristicsRisks = () => {
 function ProjectDetailsView() {
   const projectMapping = useAtomValue(State.projects);
   const [searchParams, setURLSearchParameters] = useSearchParams();
-  const [selectedProjectId, setSelectedProjectId] = useAtom(
-    State.selectedProject,
-  );
-  const setSelectedVersion = useSetAtom(State.selectedVersion);
-
-  const projectId = searchParams.get("projectid") || selectedProjectId || "";
+  const projectId = searchParams.get("projectid") || "";
   const versionIdParam = searchParams.get("versionid");
 
-  if (
-    versionIdParam === undefined ||
-    versionIdParam === "undefined" ||
-    versionIdParam === ""
-  ) {
-    const params = new URLSearchParams(searchParams);
-    const lastVersion = projectMapping?.[projectId]?.versions?.length
-      ? String(projectMapping[projectId].versions.length - 1)
-      : "0";
-    setSelectedVersion(parseInt(lastVersion, 10));
-    params.set("versionid", lastVersion);
-    setURLSearchParameters(params, { replace: true });
-  }
+  const versionId = useMemo(() => {
+    // If versionId is specified and valid, use it
+    if (versionIdParam && versionIdParam !== "undefined" && versionIdParam !== "") {
+      return parseInt(versionIdParam, 10);
+    }
 
-  const versionId = versionIdParam ? parseInt(versionIdParam, 10) : 0;
+    // Otherwise, compute the default version (last version)
+    const lastVersion = projectMapping?.[projectId]?.versions?.length
+      ? projectMapping[projectId].versions.length - 1
+      : 0;
+
+    return lastVersion;
+  }, [versionIdParam, projectId, projectMapping]);
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
@@ -110,7 +104,6 @@ function ProjectDetailsView() {
           value={selectedProject}
           onChange={(project) => {
             const newProjectId = project?.uuid || "";
-            setSelectedProjectId(newProjectId);
             setURLSearchParameters({ projectid: newProjectId, versionid: "" });
           }}
         />
@@ -121,7 +114,6 @@ function ProjectDetailsView() {
           getOptionKey={(version) => version.name}
           getOptionLabel={(version) => version.name}
           onChange={(version) => {
-            setSelectedVersion(version ? versions.indexOf(version) : undefined);
             const newVersionId = version
               ? versions.indexOf(version).toString()
               : "";
