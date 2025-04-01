@@ -23,6 +23,9 @@ export const ProjectFileList = ({
   onRemoveVersion,
   onUpdateVersionVisibility,
 }: ProjectFileListProps) => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [prevVersions, setPrevVersions] = useState<Version[]>(versions);
+
   if (!versions.length && !invalidFiles.length) {
     return (
       <Flex direction="column" align="center" justify="center" gap="4" py="9">
@@ -36,14 +39,10 @@ export const ProjectFileList = ({
     );
   }
 
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
-  const [prevVersions, setPrevVersions] = useState<Version[]>(versions);
-
   // Set default date range to earliest and latest dates of versions
   const defaultDateRange: DateRange = {
     from: new Date(
-      Math.min(...versions.map((v) => new Date(v.date).getTime()))
+      Math.min(...versions.map((v) => new Date(v.date).getTime())),
     ),
     to: new Date(Math.max(...versions.map((v) => new Date(v.date).getTime()))),
   };
