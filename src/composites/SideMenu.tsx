@@ -1,5 +1,5 @@
 import React from "react";
-import { Home, Calendar, Plus } from "lucide-react";
+import { Home, Calendar, Plus, MoreHorizontal } from "lucide-react";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import { Link, useSearchParams } from "react-router-dom";
 import {
@@ -11,10 +11,19 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../components/ui/sidebar";
 import { useProjects } from "./FileUploader/hooks/use-projects";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const sidebarItems = [
   {
@@ -35,7 +44,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   const currentProjectId = searchParams.get("projectid");
 
   return (
-    <Sidebar side="left" variant="sidebar" className="h-full">
+    <Sidebar variant="sidebar">
       <SidebarHeader>
         <span className="flex flex-row justify-left align-center gap-8">
           <img src={PiqueLogoNoText} className="h-16 " alt="Pique Logo" />
@@ -72,7 +81,10 @@ const SideMenu: React.FC<SideMenuProps> = () => {
             <SidebarMenu>
               {projects &&
                 Object.entries(projects).map(([uuid, project]) => (
-                  <SidebarMenuItem key={uuid}>
+                  <SidebarMenuItem
+                    key={uuid}
+                    className="last-child:invisible last-child:hover:visible"
+                  >
                     <SidebarMenuButton
                       asChild
                       isActive={currentProjectId === uuid}
@@ -81,6 +93,21 @@ const SideMenu: React.FC<SideMenuProps> = () => {
                         {project.name}
                       </Link>
                     </SidebarMenuButton>
+                    <DropdownMenu>
+                      <SidebarMenuAction asChild>
+                        <DropdownMenuTrigger asChild>
+                          <MoreHorizontal />
+                        </DropdownMenuTrigger>
+                      </SidebarMenuAction>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>
+                          <span>Edit Project</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <span>Delete Project</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </SidebarMenuItem>
                 ))}
             </SidebarMenu>

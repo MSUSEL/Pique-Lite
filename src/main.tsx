@@ -5,8 +5,8 @@ import App from "./App.tsx";
 import "./globals.css";
 import { DevTools } from "jotai-devtools";
 
-import "@radix-ui/themes/styles.css";
-import "./index.css";
+// import "@radix-ui/themes/styles.css";
+// import "./index.css";
 
 if (process.env.NODE_ENV === "development") {
   import("jotai-devtools/styles.css");
@@ -18,5 +18,5 @@ createRoot(document.getElementById("root")!).render(
       {/* {process.env.NODE_ENV === "development" && <DevTools />} */}
       <App />
     </StrictMode>
-  </Theme>,
+  </Theme>
 );
