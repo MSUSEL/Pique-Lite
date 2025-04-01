@@ -26,4 +26,4 @@ node_modules/
 venv/
 .local/
 **/.million/store.json
-
+.cursor
