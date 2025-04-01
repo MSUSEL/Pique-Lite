@@ -16,69 +16,18 @@ import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import "./App.css";
+import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";
 
 // TODO: This probably needs to put somewhere else or removed
 function DashboardLayout() {
   return (
-    <Box
-      height="100vh"
-      width="100vw"
-      className="App-root"
-      style={{ overflow: "hidden" }}
-    >
-      <PageHeader />
-      <Grid
-        columns="auto 1fr"
-        height="72vh"
-        width="100%"
-        className="App-main-view-area"
-      >
-        <SideMenu />
-
-        <ScrollArea.Root
-          style={{
-            height: "100%",
-            width: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <ScrollArea.Viewport
-            style={{
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <main>
-              <Outlet />
-            </main>
-          </ScrollArea.Viewport>
-
-          <ScrollArea.Scrollbar
-            orientation="vertical"
-            style={{ width: "10px" }}
-          >
-            <ScrollArea.Thumb
-              style={{
-                background: "#999",
-                borderRadius: "5px",
-              }}
-            />
-          </ScrollArea.Scrollbar>
-
-          <ScrollArea.Scrollbar
-            orientation="horizontal"
-            style={{ height: "10px" }}
-          >
-            <ScrollArea.Thumb
-              style={{
-                background: "#999",
-                borderRadius: "5px",
-              }}
-            />
-          </ScrollArea.Scrollbar>
-        </ScrollArea.Root>
-      </Grid>
-    </Box>
+    <SidebarProvider>
+      <SideMenu />
+      <main>
+        <SidebarTrigger />
+        <Outlet />
+      </main>
+    </SidebarProvider>
   );
 }
 

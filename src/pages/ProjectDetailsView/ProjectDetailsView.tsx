@@ -2,7 +2,6 @@ import { Box, Flex, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LabelledComboBox } from "../../composites/Combobox";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
 import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
@@ -57,7 +56,11 @@ function ProjectDetailsView() {
 
   const versionId = useMemo(() => {
     // If versionId is specified and valid, use it
-    if (versionIdParam && versionIdParam !== "undefined" && versionIdParam !== "") {
+    if (
+      versionIdParam &&
+      versionIdParam !== "undefined" &&
+      versionIdParam !== ""
+    ) {
       return parseInt(versionIdParam, 10);
     }
 
@@ -96,33 +99,33 @@ function ProjectDetailsView() {
       }}
     >
       <Flex direction="row" width="100%" gap="6">
-        <LabelledComboBox
-          label="Project"
-          getOptionKey={(project) => project.uuid}
-          getOptionLabel={(project) => project.name}
-          options={projects}
-          value={selectedProject}
-          onChange={(project) => {
-            const newProjectId = project?.uuid || "";
-            setURLSearchParameters({ projectid: newProjectId, versionid: "" });
-          }}
-        />
-        <LabelledComboBox
-          label="Version"
-          options={versions}
-          value={versions[versionId]! || undefined}
-          getOptionKey={(version) => version.name}
-          getOptionLabel={(version) => version.name}
-          onChange={(version) => {
-            const newVersionId = version
-              ? versions.indexOf(version).toString()
-              : "";
-            setURLSearchParameters({
-              projectid: projectId,
-              versionid: newVersionId,
-            });
-          }}
-        />
+        {/* <LabelledComboBox */}
+        {/*   label="Project" */}
+        {/*   getOptionKey={(project) => project.uuid} */}
+        {/*   getOptionLabel={(project) => project.name} */}
+        {/*   options={projects} */}
+        {/*   value={selectedProject} */}
+        {/*   onChange={(project) => { */}
+        {/*     const newProjectId = project?.uuid || ""; */}
+        {/*     setURLSearchParameters({ projectid: newProjectId, versionid: "" }); */}
+        {/*   }} */}
+        {/* /> */}
+        {/* <LabelledComboBox */}
+        {/*   label="Version" */}
+        {/*   options={versions} */}
+        {/*   value={versions[versionId]! || undefined} */}
+        {/*   getOptionKey={(version) => version.name} */}
+        {/*   getOptionLabel={(version) => version.name} */}
+        {/*   onChange={(version) => { */}
+        {/*     const newVersionId = version */}
+        {/*       ? versions.indexOf(version).toString() */}
+        {/*       : ""; */}
+        {/*     setURLSearchParameters({ */}
+        {/*       projectid: projectId, */}
+        {/*       versionid: newVersionId, */}
+        {/*     }); */}
+        {/*   }} */}
+        {/* /> */}
       </Flex>
       <Flex justify="center" direction="row" align="center" gap="6">
         <Text style={{ display: "block", whiteSpace: "nowrap" }}>

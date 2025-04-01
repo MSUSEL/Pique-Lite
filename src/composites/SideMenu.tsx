@@ -1,63 +1,90 @@
 import { Box, Text } from "@radix-ui/themes";
-import * as SideBar from "react-pro-sidebar";
 import React, { useState } from "react";
-import {
-  HomeIcon,
-  DashboardIcon,
-} from "@radix-ui/react-icons";
-import { Link } from "react-router-dom";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 
+import { Link } from "react-router-dom";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+} from "../components/ui/sidebar";
+import { cn } from "../components/lib/utils";
+
+const sidebarItems = [
+  {
+    label: "Overview",
+    href: "/overview",
+    icon: Home,
+  },
+  {
+    label: "Projects",
+    href: "/projects",
+    icon: Calendar,
+  },
+];
 interface SideMenuProps {
-  collapsed?: boolean;
   selectedProjectId?: string | null;
   selectedVersionId?: string | null;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ 
-  collapsed = true,
+const SideMenu: React.FC<SideMenuProps> = ({
   selectedProjectId = null,
-  selectedVersionId = null
+  selectedVersionId = null,
 }) => {
-  const [hovered, setHovered] = useState(false);
-
-  const handleMouseEnter = () => setHovered(true);
-  const handleMouseLeave = () => setHovered(false);
-
   return (
-    <Box
-      className="SideMenu-root"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      height="100%"
-    >
-      <SideBar.Sidebar
-        collapsed={collapsed && !hovered}
-        style={{ height: "100%" }}
-      >
-        <Text color="gray" size="1" style={{ opacity: hovered ? 1 : 0 }}>
-          Project Level
-        </Text>
-        <SideBar.Menu>
-          <SideBar.MenuItem
-            component={<Link to="/overview" />}
-            icon={<HomeIcon />}
-          >
-            <Text>Overview</Text>
-          </SideBar.MenuItem>
+    <Sidebar side="left" variant="sidebar" className="h-full">
+      <SidebarHeader>
+        <span className="flex flex-row justify-left align-center gap-8">
+          <img src={PiqueLogoNoText} className="h-16 " alt="Pique Logo" />
+          <h2 className="flex flex-col justify-center align-center text-lg">
+            Pique
+          </h2>
+        </span>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            {sidebarItems.map((item) => (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to={item.href}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        {/* <Link */}
+        {/*   to="/overview" */}
+        {/*   className={cn( */}
+        {/*     "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", */}
+        {/*     "text-muted-foreground hover:text-foreground", */}
+        {/*   )} */}
+        {/* > */}
+        {/*   <HomeIcon className="h-4 w-4" /> */}
+        {/*   <span>Overview</span> */}
+        {/* </Link> */}
 
-          <SideBar.MenuItem
-            icon={<DashboardIcon />}
-            component={
-              <Link
-                to={`/projectview?projectid=${selectedProjectId}&versionid=${selectedVersionId}`}
-              />
-            }
-          >
-            <Text>Project Details</Text>
-          </SideBar.MenuItem>
-        </SideBar.Menu>
-      </SideBar.Sidebar>
-    </Box>
+        {/* <Link */}
+        {/*   to={`/projectview?projectid=${selectedProjectId}&versionid=${selectedVersionId}`} */}
+        {/*   className={cn( */}
+        {/*     "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", */}
+        {/*     "text-muted-foreground hover:text-foreground", */}
+        {/*   )} */}
+        {/* > */}
+        {/*   <DashboardIcon className="h-4 w-4" /> */}
+        {/*   <span>Project Details</span> */}
+        {/* </Link> */}
+      </SidebarContent>
+    </Sidebar>
   );
 };
 
