@@ -49,11 +49,6 @@ const ProjectCharacteristicsRisks = () => {
 };
 
 function ProjectDetailsView() {
-  const setCurrentView = useSetAtom(State.currentView);
-  useEffect(() => {
-    setCurrentView("project");
-  }, [setCurrentView]);
-
   const projectMapping = useAtomValue(State.projects);
   const [searchParams, setURLSearchParameters] = useSearchParams();
   const [selectedProjectId, setSelectedProjectId] = useAtom(

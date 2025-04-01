@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Card, Heading, Text, Link, Flex } from "@radix-ui/themes";
+import { Box, Card, Heading, Text, Flex } from "@radix-ui/themes";
 import { getRisk } from "../../composites/RiskHelpers";
 import { ProjectCardProps } from "./types";
 import { useState } from "react";
@@ -10,7 +10,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onProjectClick,
 }) => {
   const [selectedVersionIndex, setSelectedVersionIndex] = useState(
-    project.versions.length - 1
+    project.versions.length - 1,
   );
 
   useEffect(() => {
@@ -92,9 +92,7 @@ const ProjectHeader: React.FC<{
 
   return (
     <Flex direction="row" gap="3" align="center">
-      <Link onClick={onProjectClick}>
-        <Heading size="3">{name}</Heading>
-      </Link>
+      <Heading size="3">{name}</Heading>
       <Text>Most Recent Version: {recentVersion.name}</Text>
     </Flex>
   );

@@ -44,19 +44,22 @@ const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
           Project Level
         </Text>
         <SideBar.Menu>
-          <SideBar.MenuItem icon={<HomeIcon />}>
-            <Link to="/overview">
-              <Text>Overview</Text>
-            </Link>
+          <SideBar.MenuItem
+            component={<Link to="/overview" />}
+            icon={<HomeIcon />}
+          >
+            <Text>Overview</Text>
           </SideBar.MenuItem>
 
-          <SideBar.MenuItem icon={<DashboardIcon />}>
+          <SideBar.MenuItem
+            icon={<DashboardIcon />}
+            component={
+              <Link
+                to={`/projectview?projectid=${selectedProject}&versionid=${selectedVersion}`}
+              />
+            }
+          >
             <Text>Project Details</Text>
-            <Link
-              to={`/projectview?projectid=${selectedProject}&versionid=${selectedVersion}`}
-            >
-              <Text>Project</Text>
-            </Link>
           </SideBar.MenuItem>
           {/*   <SideBar.MenuItem */}
           {/*     icon={<MixIcon />}> */}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSetAtom } from "jotai";
 import { State } from "../../state";
 import { Flex, Heading, Text } from "@radix-ui/themes";
+import { Link } from "react-router-dom";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "../../composites/VersionFiltering/Filters";
@@ -108,16 +109,18 @@ const Overview: React.FC = () => {
       )}
       {/* Display paginated projects */}
       {projectsToDisplay.map(([uuid, project]) => (
-        <ProjectCard
-          key={uuid}
-          uuid={uuid}
-          project={project}
-          onProjectClick={(versionIndex) => {
-            setCurrentView("project");
-            setProject(uuid);
-            setVersion(versionIndex);
-          }}
-        />
+        <Link key={uuid} to={`/projectview?projectid=${uuid}&versionid=${0}`}>
+          <ProjectCard
+            key={uuid}
+            uuid={uuid}
+            project={project}
+            onProjectClick={(versionIndex) => {
+              // setCurrentView("project");
+              // setProject(uuid);
+              // setVersion(versionIndex);
+            }}
+          />
+        </Link>
       ))}
       {totalPages > 1 && (
         <PaginationButtons
