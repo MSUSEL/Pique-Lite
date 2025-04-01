@@ -4,7 +4,7 @@ import { ProjectFiles } from "../../composites/ProjectManager/ProjectFiles";
 import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
 import { useSetAtom, useAtomValue } from "jotai";
 import { State } from "../../state";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 interface InitialProjectSetupDialogProps {
   open: boolean;
@@ -20,8 +20,7 @@ export const InitialProjectSetupDialog = ({
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    setCurrentView("overview");
-    navigate("/overview");
+    navigate("/dashboard/overview");
     onOpenChange(false);
   };
 

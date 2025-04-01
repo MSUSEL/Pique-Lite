@@ -3,13 +3,14 @@ import react from "@vitejs/plugin-react";
 import MillionLint from "@million/lint";
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
+import { reactRouter } from "@react-router/dev/vite";
 
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
   plugins: [
+    reactRouter(),
     tailwindcss(),
-    react(),
-
+    // react(),
     // MillionLint.vite()
   ],
   resolve: {

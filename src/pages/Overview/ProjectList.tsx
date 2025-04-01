@@ -118,12 +118,13 @@ const ProjectList: React.FC = () => {
             project={project}
             onProjectClick={(versionIndex) => {
               // Only include versionid if it's not the last version
-              const isLastVersion = versionIndex === project.versions.length - 1;
+              const isLastVersion =
+                versionIndex === project.versions.length - 1;
               const searchParams = new URLSearchParams({ projectid: uuid });
-              if (!isLastVersion) {
-                searchParams.set("versionid", versionIndex.toString());
-              }
-              navigate(`/projectview?${searchParams.toString()}`);
+              // if (!isLastVersion) {
+              //   searchParams.set("versionid", versionIndex.toString());
+              // }
+              navigate(`/dashboard/project/${uuid}`);
             }}
           />
         ))}

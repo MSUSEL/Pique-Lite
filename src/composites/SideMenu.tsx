@@ -1,42 +1,39 @@
-import { Box, Text } from "@radix-ui/themes";
-import React, { useState } from "react";
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import React from "react";
+import { Home, Calendar, Plus } from "lucide-react";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
-
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
 } from "../components/ui/sidebar";
-import { cn } from "../components/lib/utils";
+import { useProjects } from "./FileUploader/hooks/use-projects";
 
 const sidebarItems = [
   {
-    label: "Overview",
-    href: "/overview",
+    label: "Projects",
+    href: "/dashboard/overview",
     icon: Home,
   },
-  {
-    label: "Projects",
-    href: "/projects",
-    icon: Calendar,
-  },
 ];
+
 interface SideMenuProps {
   selectedProjectId?: string | null;
   selectedVersionId?: string | null;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({
-  selectedProjectId = null,
-  selectedVersionId = null,
-}) => {
+const SideMenu: React.FC<SideMenuProps> = () => {
+  const { projects } = useProjects();
+  const [searchParams] = useSearchParams();
+  const currentProjectId = searchParams.get("projectid");
+
   return (
     <Sidebar side="left" variant="sidebar" className="h-full">
       <SidebarHeader>
@@ -51,7 +48,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
         <SidebarGroup>
           <SidebarMenu>
             {sidebarItems.map((item) => (
-              <SidebarMenuItem>
+              <SidebarMenuItem key={item.label}>
                 <SidebarMenuButton asChild>
                   <Link to={item.href}>
                     <item.icon />
@@ -62,27 +59,33 @@ const SideMenu: React.FC<SideMenuProps> = ({
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        {/* <Link */}
-        {/*   to="/overview" */}
-        {/*   className={cn( */}
-        {/*     "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", */}
-        {/*     "text-muted-foreground hover:text-foreground", */}
-        {/*   )} */}
-        {/* > */}
-        {/*   <HomeIcon className="h-4 w-4" /> */}
-        {/*   <span>Overview</span> */}
-        {/* </Link> */}
 
-        {/* <Link */}
-        {/*   to={`/projectview?projectid=${selectedProjectId}&versionid=${selectedVersionId}`} */}
-        {/*   className={cn( */}
-        {/*     "flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-accent", */}
-        {/*     "text-muted-foreground hover:text-foreground", */}
-        {/*   )} */}
-        {/* > */}
-        {/*   <DashboardIcon className="h-4 w-4" /> */}
-        {/*   <span>Project Details</span> */}
-        {/* </Link> */}
+        {/* Projects Section */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+
+          {/* TODO: Hook up action to create new project */}
+          <SidebarGroupAction asChild>
+            <Plus />
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {projects &&
+                Object.entries(projects).map(([uuid, project]) => (
+                  <SidebarMenuItem key={uuid}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={currentProjectId === uuid}
+                    >
+                      <Link to={`/dashboard/project/${uuid}`}>
+                        {project.name}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );

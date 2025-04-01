@@ -1,7 +1,6 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 import { getAllRiskLevels } from "../../composites/RiskHelpers";
 import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
@@ -22,11 +21,8 @@ export const RiskLevelLegend = () => {
   );
 };
 
-const ProjectCharacteristicsRisks = () => {
+const ProjectCharacteristicsRisks = ({ projectId }: { projectId: string }) => {
   const projects = useAtomValue(State.projects);
-  const [searchParams] = useSearchParams();
-  const projectId = searchParams.get("projectid");
-  const versionId = searchParams.get("versionid");
 
   //check to make sure there is a selected project
   if (!projectId) return null;
@@ -34,7 +30,7 @@ const ProjectCharacteristicsRisks = () => {
 
   if (!project) return null;
 
-  const versionIndex = versionId ? parseInt(versionId, 10) : 0;
+  const versionIndex = 0; // Default to first version for now
   const version = project.versions[versionIndex];
   const characteristics = version.data.children;
 
@@ -42,35 +38,19 @@ const ProjectCharacteristicsRisks = () => {
     (characteristic: { name: string; value: number }) => ({
       title: characteristic.name,
       score: characteristic.value,
-    }),
+    })
   );
 
   return <RiskLegend risks={riskCards} scale="normal" />;
 };
 
-function ProjectDetailsView() {
+interface ProjectDetailsViewProps {
+  projectId: string;
+}
+
+function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   const projectMapping = useAtomValue(State.projects);
-  const [searchParams, setURLSearchParameters] = useSearchParams();
-  const projectId = searchParams.get("projectid") || "";
-  const versionIdParam = searchParams.get("versionid");
-
-  const versionId = useMemo(() => {
-    // If versionId is specified and valid, use it
-    if (
-      versionIdParam &&
-      versionIdParam !== "undefined" &&
-      versionIdParam !== ""
-    ) {
-      return parseInt(versionIdParam, 10);
-    }
-
-    // Otherwise, compute the default version (last version)
-    const lastVersion = projectMapping?.[projectId]?.versions?.length
-      ? projectMapping[projectId].versions.length - 1
-      : 0;
-
-    return lastVersion;
-  }, [versionIdParam, projectId, projectMapping]);
+  const versionId = 0; // Default to first version for now
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
@@ -79,7 +59,7 @@ function ProjectDetailsView() {
 
   const selectedProject =
     projects.find((project) => project.uuid === projectId) || null;
-
+  console.log(`selectedProject`, selectedProject);
   const versions = useMemo(() => {
     if (!selectedProject) return [];
     return selectedProject.versions;
@@ -131,12 +111,12 @@ function ProjectDetailsView() {
         <Text style={{ display: "block", whiteSpace: "nowrap" }}>
           Risk Status
         </Text>
-        <ProjectCharacteristicsRisks />
+        <ProjectCharacteristicsRisks projectId={projectId} />
       </Flex>
       <Box>
         <ProjectPanel.Container>
           <ProjectPanel.Title>Characteristics</ProjectPanel.Title>
-          <ProjectAttributesChart />
+          <ProjectAttributesChart projectId={projectId} />
         </ProjectPanel.Container>
       </Box>
     </Flex>

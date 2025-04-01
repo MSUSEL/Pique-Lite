@@ -27,19 +27,19 @@ type DataPoint = {
   [key: string]: string | number; // Allow for characteristic names as keys
 };
 
-export const ProjectAttributesChart = () => {
-  const [searchParams] = useSearchParams();
-  const projectId = searchParams.get('projectid');
-  console.log('Project ID from URL:', projectId);
-  
+interface ProjectAttributesChartProps {
+  projectId: string;
+}
+export const ProjectAttributesChart = ({
+  projectId,
+}: ProjectAttributesChartProps) => {
   const flatData = useFlatCharacteristicData(projectId || undefined);
-  console.log('Flat data from hook:', flatData);
-  
+
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
     date: d.date.toISOString().split("T")[0],
   }));
-  console.log('Transformed data for chart:', flatDataWithStringDates);
+  console.log("Transformed data for chart:", flatDataWithStringDates);
 
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
     dataKey: characteristic as keyof DataPoint,
@@ -75,8 +75,14 @@ export const ProjectAttributesChart = () => {
               }}
             >
               {CHARACTERISTIC_NAMES.map((characteristic) => {
-                const startValue = Number(selection.start[characteristic as keyof typeof selection.start]);
-                const endValue = Number(selection.end[characteristic as keyof typeof selection.end]);
+                const startValue = Number(
+                  selection.start[
+                    characteristic as keyof typeof selection.start
+                  ]
+                );
+                const endValue = Number(
+                  selection.end[characteristic as keyof typeof selection.end]
+                );
                 const delta = endValue - startValue;
                 const color =
                   delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";

@@ -15,19 +15,14 @@ interface CharacteristicRecord extends Record<string, unknown> {
 // Hook to get flat characteristic data for a specific project
 export const useFlatCharacteristicData = (projectId: string | undefined) => {
   const projects = useAtomValue(State.projects);
-  console.log("Projects from state:", projects);
-  console.log("Project ID received:", projectId);
 
   //check to make sure there is a project id and projects
   if (!projectId || !projects) {
-    console.log("No project ID or projects, returning empty array");
     return [];
   }
   const project = projects[projectId];
-  console.log("Found project:", project);
 
   if (!project) {
-    console.log("No project found, returning empty array");
     return [];
   }
 
@@ -48,7 +43,6 @@ export const useFlatCharacteristicData = (projectId: string | undefined) => {
     );
   });
 
-  console.log("Generated records:", records);
   return records;
 };
 
