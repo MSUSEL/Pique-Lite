@@ -1,12 +1,12 @@
-import { TrashIcon, EyeOpenIcon, EyeNoneIcon } from "@radix-ui/react-icons";
-import { IconButton, Table, Flex, Text, Heading } from "@radix-ui/themes";
-import { Version } from "../../state";
+import { EyeNoneIcon, EyeOpenIcon, TrashIcon } from "@radix-ui/react-icons";
+import { Flex, Heading, IconButton, Table, Text } from "@radix-ui/themes";
+import { matchSorter } from "match-sorter";
 import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { Version } from "../../state";
 import { PaginationButtons } from "../Combobox/PaginationButtons";
 import SearchBar from "../SearchBar";
 import VersionFilters, { Filters } from "./Filters/Filters";
-import { matchSorter } from "match-sorter";
-import { DateRange } from "react-day-picker";
 
 interface ProjectFileListProps {
   versions: Version[];
@@ -23,8 +23,23 @@ export const ProjectFileList = ({
   onRemoveVersion,
   onUpdateVersionVisibility,
 }: ProjectFileListProps) => {
+  // Set default date range to earliest and latest dates of versions
+  const defaultDateRange: DateRange = {
+    from: new Date(
+      Math.min(...versions.map((v) => new Date(v.date).getTime())),
+    ),
+    to: new Date(Math.max(...versions.map((v) => new Date(v.date).getTime()))),
+  };
+  // Default filters, used to reset upon version change
+  const defaultFilters: Filters = {
+    date: defaultDateRange,
+    visibility: ["visible", "hidden"],
+    status: ["valid", "invalid"],
+  };
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [prevVersions, setPrevVersions] = useState<Version[]>(versions);
+  const [filters, setFilters] = useState<Filters>(defaultFilters);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   if (!versions.length && !invalidFiles.length) {
     return (
@@ -38,23 +53,6 @@ export const ProjectFileList = ({
       </Flex>
     );
   }
-
-  // Set default date range to earliest and latest dates of versions
-  const defaultDateRange: DateRange = {
-    from: new Date(
-      Math.min(...versions.map((v) => new Date(v.date).getTime())),
-    ),
-    to: new Date(Math.max(...versions.map((v) => new Date(v.date).getTime()))),
-  };
-
-  // Default filters, used to reset upon version change
-  const defaultFilters: Filters = {
-    date: defaultDateRange,
-    visibility: ["visible", "hidden"],
-    status: ["valid", "invalid"],
-  };
-
-  const [filters, setFilters] = useState<Filters>(defaultFilters);
 
   // Reset filters when versions change
   if (versions !== prevVersions) {
@@ -85,7 +83,6 @@ export const ProjectFileList = ({
     keys: ["*.name"],
   });
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = Math.ceil(searchFilteredVersions.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
