@@ -48,13 +48,18 @@ export function convertVisualToLite(data: z.infer<typeof baseVisual.dataset>): z
                 }
 
                 // Setting up Diagnostic
-                const diagnosticName = measure.name.replace("Measure", "Diagnostic");
-                const diagnostic: Diagnostic = {
-                    name: diagnosticName,
-                    value: data.measures?.diagnosticName.value 
-                }
+                const diagnosticName = measureKey.replace("Measure", "Diagnostic");
 
-                measure.children.push(diagnostic)
+                const diagnosticValue = data.diagnostics?.[diagnosticName]?.value;
+                
+                if (diagnosticValue !== undefined) {
+                    const diagnostic: Diagnostic = {
+                        name: diagnosticName,
+                        value: diagnosticValue,
+                    };
+                
+                    measure.children.push(diagnostic);
+                }  
 
                 factor.children.push(measure)
             }
