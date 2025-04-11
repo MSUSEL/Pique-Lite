@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
@@ -30,26 +31,24 @@ export const InitialProjectSetupDialog = ({
   };
 
   return (
-    <DialogContent className="max-w-[1200px] px-0 py-0 sm:max-w-[1200px]">
+    <DialogContent className="h-[800px] max-w-[800px] px-0 py-0 sm:max-w-[800px]">
       <VisuallyHidden>
         <DialogHeader>
           <DialogTitle>Project Manager</DialogTitle>
         </DialogHeader>
       </VisuallyHidden>
-      <div className="">
-        <div className="grid flex-1 grid-cols-[1fr_3fr]">
-          <ProjectSidebar />
-          <ProjectContent />
-        </div>
-        <div className="border-border flex justify-end gap-3 border-t p-4">
-          <Button
-            onClick={handleContinue}
-            disabled={!Object.keys(projects || {}).length}
-          >
-            Continue
-          </Button>
-        </div>
+      <div className="h-800px w-800px grid grid-cols-[1fr_3fr]">
+        <ProjectSidebar />
+        <ProjectContent />
       </div>
+      <DialogFooter>
+        <Button
+          onClick={handleContinue}
+          disabled={!Object.keys(projects || {}).length}
+        >
+          Continue
+        </Button>
+      </DialogFooter>
     </DialogContent>
   );
 };
