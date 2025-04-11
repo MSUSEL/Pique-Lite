@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Box, Flex, Heading, Text } from "@radix-ui/themes";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { getRisk } from "../../composites/RiskHelpers";
-import SearchBar from "../../composites/SearchBar";
+import { SearchBar } from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
-import { ProjectCard } from "../ProjectOverview";
 import Filters from "../../composites/VersionFiltering/Filters";
+import { ProjectCard } from "../ProjectOverview/ProjectCard";
 
 const ITEMS_PER_PAGE = 5;
 
-const ProjectList: React.FC = () => {
+const Overview: React.FC = () => {
   const { projects } = useProjects();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -23,7 +22,7 @@ const ProjectList: React.FC = () => {
     "High",
     "Elevated",
     "Guarded",
-    "Low",
+    "Low"
   ]);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -57,7 +56,7 @@ const ProjectList: React.FC = () => {
 
   //Process search query
   const searchFilteredProjects = matchSorter(filteredProjects, searchQuery, {
-    keys: ["*.name"],
+    keys: ["*.name"]
   });
 
   //Pagination logic
@@ -68,19 +67,9 @@ const ProjectList: React.FC = () => {
   const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
-    <Box
-      className="Overview-root"
-      style={
-        {
-          // display: "flex",
-          // justifyContent: "center",
-          // alignItems: "center",
-          // flexDirection: "column",
-        }
-      }
-    >
-      <Flex direction="column" style={{ justifyContent: "center" }}>
-        <Flex direction="row">
+    <div className="Overview-root px-4">
+      <div>
+        <div>
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -93,17 +82,13 @@ const ProjectList: React.FC = () => {
             onFilterChange={handleFilterChange}
             projects={projects}
           />
-        </Flex>
+        </div>
         {/* Display if filters have filtered out all projects */}
         {projectsToDisplay.length === 0 && (
-          <Flex direction={"column"} align="center">
-            <Heading mt="6" color="gray" size="5">
-              No projects found
-            </Heading>
-            <Text mt="2" color="gray" size="3">
-              Try changing your filters or adding more projects
-            </Text>
-          </Flex>
+          <div>
+            <h1>No projects found</h1>
+            <span>Try changing your filters or adding more projects</span>
+          </div>
         )}
         {totalPages > 1 && (
           <PaginationButtons
@@ -117,15 +102,8 @@ const ProjectList: React.FC = () => {
             key={uuid}
             uuid={uuid}
             project={project}
-            onProjectClick={(versionIndex) => {
-              // Only include versionid if it's not the last version
-              const isLastVersion =
-                versionIndex === project.versions.length - 1;
-              const searchParams = new URLSearchParams({ projectid: uuid });
-              if (!isLastVersion) {
-                searchParams.set("versionid", versionIndex.toString());
-              }
-              navigate(`/projectview?${searchParams.toString()}`);
+            onProjectClick={() => {
+              navigate(`/project/${uuid}`);
             }}
           />
         ))}
@@ -135,8 +113,8 @@ const ProjectList: React.FC = () => {
             totalPages={totalPages}
           />
         )}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };
 
@@ -149,10 +127,10 @@ interface PaginationButtonsProps {
 //TODO: Add this to another file, it is used in other places in PIQUE LITE
 export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
   currentPage,
-  totalPages,
+  totalPages
 }) => {
   return (
-    <Flex direction="row" gap="3" mt="4">
+    <div>
       <Link
         to={`?page=${currentPage - 1}`}
         onClick={(e) => {
@@ -160,7 +138,7 @@ export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
         }}
         style={{
           color: currentPage === 1 ? "gray" : "blue",
-          cursor: currentPage === 1 ? "not-allowed" : "pointer",
+          cursor: currentPage === 1 ? "not-allowed" : "pointer"
         }}
       >
         Previous
@@ -171,7 +149,7 @@ export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
           to={`?page=${index + 1}`}
           style={{
             color: currentPage === index + 1 ? "black" : "blue",
-            cursor: "pointer",
+            cursor: "pointer"
           }}
         >
           {index + 1}
@@ -181,7 +159,7 @@ export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
         to={`?page=${currentPage + 1}`}
         style={{
           color: currentPage === totalPages ? "gray" : "blue",
-          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+          cursor: currentPage === totalPages ? "not-allowed" : "pointer"
         }}
         onClick={(e) => {
           if (currentPage === totalPages) e.preventDefault();
@@ -189,8 +167,8 @@ export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
       >
         Next
       </Link>
-    </Flex>
+    </div>
   );
 };
 
-export default ProjectList;
+export { Overview };

@@ -1,21 +1,10 @@
 import React from "react";
-import {
-  Root as ScrollAreaRoot,
-  ScrollAreaViewport,
-} from "@radix-ui/react-scroll-area";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import {
-  Box,
-  Flex,
-  Button,
-  Text,
-  Theme,
-  Popover,
-  Strong,
-  CheckboxGroup,
-} from "@radix-ui/themes";
-import { DateRangePicker } from "./DateRangePicker";
 import { DateRange } from "react-day-picker";
+import { DateRangePicker } from "./DateRangePicker";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 export interface Filters {
   date?: DateRange;
@@ -29,93 +18,95 @@ const VersionFilters: React.FC<{
   defaultDate: DateRange;
 }> = ({ filters, setFilters, defaultDate }) => {
   return (
-    <Box>
-      <Popover.Root>
-        <Popover.Trigger>
-          <Button variant="soft">
-            <MixerHorizontalIcon width="16" height="16" />
-            Filters
-          </Button>
-        </Popover.Trigger>
-        <Theme>
-          <Popover.Content
-            style={{
-              backgroundColor: "white",
-              borderRadius: "8px",
-              padding: "10px",
-              width: "35vw",
-              height: "50vh",
-              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
-              color: "black",
-            }}
-          >
-            <ScrollAreaRoot>
-              <ScrollAreaViewport>
-                <Flex direction="column" gap="3">
-                  <Strong>Filter Files</Strong>
-                  <Box>
-                    <Text>Visibility</Text>
-                    <CheckboxGroup.Root
-                      value={filters.visibility}
-                      onValueChange={(value) =>
-                        setFilters({
-                          ...filters,
-                          visibility: value as string[],
-                        })
-                      }
-                    >
-                      <CheckboxGroup.Item value="visible">
-                        <Text>Visible</Text>
-                      </CheckboxGroup.Item>
-                      <CheckboxGroup.Item value="hidden">
-                        <Text>Hidden</Text>
-                      </CheckboxGroup.Item>
-                    </CheckboxGroup.Root>
-                  </Box>
-                  <Box>
-                    <Text>Status</Text>
-                    <CheckboxGroup.Root
-                      value={filters.status}
-                      onValueChange={(value) =>
-                        setFilters({ ...filters, status: value as string[] })
-                      }
-                    >
-                      <CheckboxGroup.Item value="valid">
-                        <Text>Valid</Text>
-                      </CheckboxGroup.Item>
-                      <CheckboxGroup.Item value="invalid">
-                        <Text>Invalid</Text>
-                      </CheckboxGroup.Item>
-                    </CheckboxGroup.Root>
-                  </Box>
-                  <Box>
-                    <Text>Date</Text>
-                    <DateRangePicker
-                      date={filters.date}
-                      setDate={(date) =>
-                        setFilters({ ...filters, date: date as DateRange })
-                      }
-                    />
-                  </Box>
-                  <Button
-                    variant="soft"
-                    onClick={() =>
-                      setFilters({
-                        visibility: ["visible", "hidden"],
-                        status: ["valid", "invalid"],
-                        date: defaultDate,
-                      })
-                    }
-                  >
-                    Reset Filters
-                  </Button>
-                </Flex>
-              </ScrollAreaViewport>
-            </ScrollAreaRoot>
-          </Popover.Content>
-        </Theme>
-      </Popover.Root>
-    </Box>
+    <div className="flex flex-col gap-4 p-4">
+      <div className="flex items-center gap-2">
+        <MixerHorizontalIcon className="h-4 w-4" />
+        <strong className="text-lg">Filter Files</strong>
+      </div>
+      <div className="space-y-2">
+        <Label>Visibility</Label>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="visible"
+              checked={filters.visibility.includes("visible")}
+              onCheckedChange={(checked) => {
+                const newVisibility = checked
+                  ? [...filters.visibility, "visible"]
+                  : filters.visibility.filter((v) => v !== "visible");
+                setFilters({ ...filters, visibility: newVisibility });
+              }}
+            />
+            <Label htmlFor="visible">Visible</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="hidden"
+              checked={filters.visibility.includes("hidden")}
+              onCheckedChange={(checked) => {
+                const newVisibility = checked
+                  ? [...filters.visibility, "hidden"]
+                  : filters.visibility.filter((v) => v !== "hidden");
+                setFilters({ ...filters, visibility: newVisibility });
+              }}
+            />
+            <Label htmlFor="hidden">Hidden</Label>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label>Status</Label>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="valid"
+              checked={filters.status.includes("valid")}
+              onCheckedChange={(checked) => {
+                const newStatus = checked
+                  ? [...filters.status, "valid"]
+                  : filters.status.filter((s) => s !== "valid");
+                setFilters({ ...filters, status: newStatus });
+              }}
+            />
+            <Label htmlFor="valid">Valid</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="invalid"
+              checked={filters.status.includes("invalid")}
+              onCheckedChange={(checked) => {
+                const newStatus = checked
+                  ? [...filters.status, "invalid"]
+                  : filters.status.filter((s) => s !== "invalid");
+                setFilters({ ...filters, status: newStatus });
+              }}
+            />
+            <Label htmlFor="invalid">Invalid</Label>
+          </div>
+        </div>
+      </div>
+      <div className="space-y-2">
+        <Label>Date</Label>
+        <DateRangePicker
+          date={filters.date}
+          setDate={(date) =>
+            setFilters({ ...filters, date: date as DateRange })
+          }
+        />
+      </div>
+      <Button
+        variant="outline"
+        onClick={() =>
+          setFilters({
+            visibility: ["visible", "hidden"],
+            status: ["valid", "invalid"],
+            date: defaultDate
+          })
+        }
+      >
+        Reset Filters
+      </Button>
+    </div>
   );
 };
 

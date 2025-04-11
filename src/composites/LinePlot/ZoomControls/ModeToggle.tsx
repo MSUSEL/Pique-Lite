@@ -15,8 +15,8 @@ export function ModeToggle() {
     <ToggleGroup
       variant="outline"
       type="single"
-      // value={mode}
-      // onValueChange={handleModeChange}
+      value={mode}
+      onValueChange={handleModeChange}
     >
       <ToggleGroupItem value="brush">
         <CropIcon />

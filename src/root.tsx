@@ -4,9 +4,9 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
+  ScrollRestoration
 } from "react-router";
-import { Theme as RadixTheme} from "@radix-ui/themes"
+import { Theme as RadixTheme } from "@radix-ui/themes";
 
 import type { Route } from "./+types/root";
 import "./app.css";
@@ -15,9 +15,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <title>Pique LOTE</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Pique Lite</title>
         <Meta />
 
         <Links />
@@ -32,11 +32,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function Root() {
-  return (
-    <RadixTheme>
-      <Outlet />
-    </RadixTheme>
-  );
+  // TODO: Remove this when shadcn migration is complete
+  return <Outlet />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -56,11 +53,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="container mx-auto p-4 pt-16">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="w-full overflow-x-auto p-4">
           <code>{stack}</code>
         </pre>
       )}

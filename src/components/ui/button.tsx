@@ -19,23 +19,23 @@ const buttonVariants = cva(
           "bg-neutral-100 text-neutral-900 shadow-xs hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80",
         ghost:
           "hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-100/50 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:dark:hover:bg-neutral-800/50",
-        link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
+        link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        icon: "size-9",
-      },
+        icon: "size-9"
+      }
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
-  },
+      size: "default"
+    }
+  }
 );
 
-function Button({
+function OldButton({
   className,
   variant,
   size,
@@ -56,4 +56,32 @@ function Button({
   );
 }
 
-export { Button, buttonVariants };
+export const Button = React.forwardRef(
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      ...props
+    }: React.ComponentProps<"button"> &
+      VariantProps<typeof buttonVariants> & {
+        asChild?: boolean;
+      },
+    ref
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    const refProps = asChild ? { ref } : {};
+    return (
+      // @ts-ignore
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        {...props}
+        {...refProps}
+      />
+    );
+  }
+);
+
+export { buttonVariants };

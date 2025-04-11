@@ -1,20 +1,20 @@
-import { EyeNoneIcon, EyeOpenIcon, TrashIcon } from "@radix-ui/react-icons";
-import { Flex, Heading, IconButton, Text } from "@radix-ui/themes";
+import { Eye, EyeOff, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import { useVersionList } from "./context";
 
 const columnWidths = {
   name: "40%",
   date: "25%",
   status: "20%",
-  actions: "15%",
+  actions: "15%"
 };
 
 export const VersionTable = () => {
@@ -24,19 +24,19 @@ export const VersionTable = () => {
     versionsToDisplay,
     filters,
     onRemoveVersion,
-    onUpdateVersionVisibility,
+    onUpdateVersionVisibility
   } = useVersionList();
 
   if (!versions.length && !invalidFiles.length) {
     return (
-      <Flex direction="column" align="center" justify="center" gap="4" py="9">
-        <Text size="5" weight="bold" color="gray">
+      <div className="flex flex-col items-center justify-center gap-4 py-9">
+        <h2 className="text-lg font-bold text-gray-500">
           No files in project
-        </Text>
-        <Text size="2" color="gray">
+        </h2>
+        <p className="text-sm text-gray-500">
           Click "Select Files" to add files to this project
-        </Text>
-      </Flex>
+        </p>
+      </div>
     );
   }
 
@@ -46,14 +46,14 @@ export const VersionTable = () => {
     filters.status.includes("valid")
   ) {
     return (
-      <Flex direction="column" align="center" style={{ marginBottom: "20px" }}>
-        <Heading mt="6" color="gray" size="5">
+      <div className="flex flex-col items-center mb-5">
+        <h2 className="mt-6 text-lg font-semibold text-gray-500">
           No valid versions found
-        </Heading>
-        <Text mt="2" color="gray" size="3">
+        </h2>
+        <p className="mt-2 text-sm text-gray-500">
           Try changing your filters or adding more versions
-        </Text>
-      </Flex>
+        </p>
+      </div>
     );
   }
 
@@ -61,7 +61,7 @@ export const VersionTable = () => {
     <div className="rounded-md border">
       <div className="max-h-[calc(100vh-300px)] overflow-auto">
         <Table>
-          <TableHeader className="sticky top-0 bg-white z-10">
+          <TableHeader className="sticky top-0 z-10 bg-white">
             <TableRow className="hover:bg-transparent">
               <TableHead style={{ width: columnWidths.name }}>Name</TableHead>
               <TableHead style={{ width: columnWidths.date }}>
@@ -81,7 +81,7 @@ export const VersionTable = () => {
                 <TableRow
                   key={version.fileName}
                   className={
-                    version.isHidden ? "opacity-50 bg-neutral-100/50" : ""
+                    version.isHidden ? "bg-neutral-100/50 opacity-50" : ""
                   }
                 >
                   <TableCell style={{ width: columnWidths.name }}>
@@ -94,25 +94,25 @@ export const VersionTable = () => {
                     Valid
                   </TableCell>
                   <TableCell style={{ width: columnWidths.actions }}>
-                    <IconButton
-                      size="1"
+                    <Button
                       variant="ghost"
-                      color="red"
+                      size="icon"
+                      className="text-red-500 hover:text-red-600"
                       onClick={() => onRemoveVersion(version.fileName)}
-                      style={{ marginRight: "8px" }}
                     >
-                      <TrashIcon />
-                    </IconButton>
-                    <IconButton
-                      size="1"
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                    <Button
                       variant="ghost"
-                      color="gray"
-                      onClick={() =>
-                        onUpdateVersionVisibility(version.fileName)
-                      }
+                      size="icon"
+                      onClick={() => onUpdateVersionVisibility(version.fileName)}
                     >
-                      {version.isHidden ? <EyeNoneIcon /> : <EyeOpenIcon />}
-                    </IconButton>
+                      {version.isHidden ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,7 +125,7 @@ export const VersionTable = () => {
                 <TableCell
                   style={{
                     width: columnWidths.status,
-                    color: "var(--red-9)",
+                    color: "var(--red-9)"
                   }}
                 >
                   {file.reason}

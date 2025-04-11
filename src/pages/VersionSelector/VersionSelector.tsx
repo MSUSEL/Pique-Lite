@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { State } from "../../state";
 import { LabelledComboBox } from "../../composites/Combobox";
 import { useSetAtom, useAtomValue } from "jotai";
-import SearchBar from "../../composites/SearchBar";
+import { SearchBar } from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
 import Filters from "../../composites/VersionFiltering/Filters";
 import { getRisk } from "../../composites/RiskHelpers";

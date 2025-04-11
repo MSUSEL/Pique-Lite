@@ -1,5 +1,6 @@
 import { PlusIcon } from "@radix-ui/react-icons";
-import { Flex, Heading, IconButton } from "@radix-ui/themes";
+import { Button } from "../../components/ui/button";
+import { ScrollArea } from "../../components/ui/scroll-area";
 import { ProjectListItem } from "./ProjectListItem";
 import { useProjectManager } from "./ProjectManagerContext";
 //import { useState } from "react";
@@ -32,53 +33,46 @@ export const ProjectSidebar = () => {
   // });
 
   return (
-    <Flex
-      direction="column"
-      gap="3"
-      p="4"
-      style={{
-        backgroundColor: "var(--gray-2)",
-        borderRight: "1px solid var(--gray-6)",
-      }}
-    >
-      <Flex direction="row" justify="between" align="center" gap="3">
-        <Heading size="6">Projects</Heading>
-        <IconButton
-          variant="soft"
-          size="1"
-          color="gray"
+    <div className="flex flex-col gap-3 p-4 bg-muted border-r">
+      <div className="flex flex-row justify-between items-center gap-3">
+        <h2 className="text-lg font-semibold">Projects</h2>
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={createNewProject}
         >
-          <PlusIcon fontWeight="bold" />
-        </IconButton>
-      </Flex>
-      <Flex direction="column" gap="2">
-        {/* <input
-          type="text"
-          placeholder="Search projects..."
-          onChange={handleSearchChange}
-          value={searchQuery}
-          style={{
-            margin: "10px",
-            background: "var(--gray-2)",
-            width: "95%",
-            border: "none",
-            borderBottom: "2px solid gray",
-            color: "black",
-          }}
-        /> */}
-        {Object.entries(projects).map(([uuid, project]) => {
-          return (
-            <ProjectListItem
-              key={uuid}
-              name={project.name}
-              onClick={() => setSelectedProject(uuid)}
-              onEditName={(newName) => updateProjectName(uuid, newName)}
-              isSelected={selectedProject === uuid}
-            />
-          );
-        })}
-      </Flex>
-    </Flex>
+          <PlusIcon className="h-4 w-4" />
+        </Button>
+      </div>
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col gap-2">
+          {/* <input
+            type="text"
+            placeholder="Search projects..."
+            onChange={handleSearchChange}
+            value={searchQuery}
+            style={{
+              margin: "10px",
+              background: "var(--gray-2)",
+              width: "95%",
+              border: "none",
+              borderBottom: "2px solid gray",
+              color: "black",
+            }}
+          /> */}
+          {Object.entries(projects).map(([uuid, project]) => {
+            return (
+              <ProjectListItem
+                key={uuid}
+                name={project.name}
+                onClick={() => setSelectedProject(uuid)}
+                onEditName={(newName) => updateProjectName(uuid, newName)}
+                isSelected={selectedProject === uuid}
+              />
+            );
+          })}
+        </div>
+      </ScrollArea>
+    </div>
   );
 };

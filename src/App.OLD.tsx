@@ -3,17 +3,9 @@ import {
   Routes,
   Route,
   Outlet,
-  Navigate,
+  Navigate
 } from "react-router-dom";
-import Landing from "./pages/Landing/Landing";
-import ProjectList from "./pages/Overview/ProjectList";
-import ProjectDetailsView from "./pages/ProjectDetailsView/ProjectDetailsView";
-import NotFound from "./pages/404/404";
-import { PageHeader } from "./composites/PageHeader";
-import { Grid, Box } from "@radix-ui/themes";
 import SideMenu from "./composites/SideMenu";
-import ProjectComparisonChart from "./pages/ProjectComparisons/CompareProjects";
-import * as ScrollArea from "@radix-ui/react-scroll-area";
 
 import "./App.css";
 import { SidebarProvider, SidebarTrigger } from "./components/ui/sidebar";

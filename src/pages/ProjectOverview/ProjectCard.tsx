@@ -1,44 +1,44 @@
-import React, { useEffect } from "react";
-import { Box, Card, Heading, Text, Flex } from "@radix-ui/themes";
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRisk } from "../../composites/RiskHelpers";
-import { ProjectCardProps } from "./types";
-import { useState } from "react";
 import { Version } from "../../state";
+import { Badge } from "@radix-ui/themes";
+
+export interface ProjectCardProps {
+  uuid: string;
+  project: {
+    name: string;
+    versions: Version[];
+  };
+  onProjectClick: () => void;
+}
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
-  onProjectClick,
+  onProjectClick
 }) => {
-  const [selectedVersionIndex, setSelectedVersionIndex] = useState(
-    project.versions.length - 1,
-  );
-
-  useEffect(() => {
-    setSelectedVersionIndex((prevIndex) => {
-      const newLength = project.versions.length;
-      if (newLength === 0) return 0;
-      return Math.min(prevIndex, newLength - 1); // Ensure the index is within bounds
-    });
-  }, [project.versions.length]);
-
-  const selectedVersion =
-    project.versions[selectedVersionIndex] ||
-    project.versions[project.versions.length - 1];
+  const latestVersion = project.versions[project.versions.length - 1];
 
   return (
-    <VersionCard
-      version={selectedVersion}
-      title={
-        <ProjectHeader
-          name={project.name}
-          versions={project.versions}
-          selectedVersionIndex={selectedVersionIndex}
-          onVersionChange={setSelectedVersionIndex}
-          onProjectClick={() => onProjectClick(selectedVersionIndex)}
+    <Card className="gap-1 py-2">
+      <CardHeader>
+        <CardTitle className="flex justify-between">
+          <span className="cursor-pointer" onClick={onProjectClick}>
+            {project.name}
+          </span>
+          <span className="text-muted-foreground text-sm font-normal">
+            Last Modified: {new Date(latestVersion.date).toLocaleDateString()}
+          </span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex">
+        <MetricsSection metrics={latestVersion.data.children} />
+        <TQIBadge
+          value={latestVersion.data.value}
+          risk={getRisk(latestVersion.data.value, "normal")}
         />
-      }
-      onClick={() => onProjectClick(selectedVersionIndex)}
-    />
+      </CardContent>
+    </Card>
   );
 };
 
@@ -51,133 +51,85 @@ interface VersionCardProps {
 export const VersionCard: React.FC<VersionCardProps> = ({
   version,
   title,
-  onClick,
+  onClick
 }) => {
   const versionRisk = getRisk(version.data.value, "normal");
 
   return (
-    <Card
-      onClick={onClick}
-      style={{
-        alignSelf: "center",
-        margin: "10px",
-        width: "90%",
-        cursor: "pointer",
-        transition: "transform 0.2s ease-in-out",
-      }}
-    >
-      <Flex direction="row" justify="between">
-        <Flex direction="column" gap="2" style={{ flex: 1 }}>
-          <Box>{title}</Box>
-          <Text size="2" color="gray">
-            Last Modified: {new Date(version.date).toLocaleDateString()}
-          </Text>
-          <MetricsSection metrics={version.data.children} />
-        </Flex>
-        <TQIBadge value={version.data.value} risk={versionRisk} />
-      </Flex>
+    <Card className="mx-auto my-2.5 w-[90%] cursor-pointer" onClick={onClick}>
+      <CardContent className="p-6">
+        <div className="flex justify-between">
+          <div className="flex flex-1 flex-col gap-2">
+            <div>{title}</div>
+            <p className="text-muted-foreground text-sm">
+              Last Modified: {new Date(version.date).toLocaleDateString()}
+            </p>
+            <MetricsSection metrics={version.data.children} />
+          </div>
+          <TQIBadge value={version.data.value} risk={versionRisk} />
+        </div>
+      </CardContent>
     </Card>
   );
 };
 
-//Header containing link to project view and version selector
-const ProjectHeader: React.FC<{
-  name: string;
-  versions: Array<Version>;
-  selectedVersionIndex: number;
-  onVersionChange: (versionIndex: number) => void;
-  onProjectClick: () => void;
-}> = ({ name, versions, onProjectClick }) => {
-  const recentVersion = versions[versions.length - 1];
-
-  return (
-    <Flex direction="row" gap="3" align="center">
-      <Heading size="3">{name}</Heading>
-      <Text>Most Recent Version: {recentVersion.name}</Text>
-    </Flex>
-  );
-};
-
-//Set of colored badges for child data
 const MetricsSection: React.FC<{
   metrics: Array<{ name: string; value: number }>;
 }> = ({ metrics }) => (
-  <Box>
-    <Flex direction="row" wrap="wrap" gap="2">
-      {metrics.map((metric, i) => (
-        <MetricItem key={i} name={metric.name} value={metric.value} />
-      ))}
-    </Flex>
-  </Box>
+  <div className="flex flex-wrap gap-1">
+    {metrics.map((metric) => (
+      <MetricItem key={metric.name} name={metric.name} value={metric.value} />
+    ))}
+  </div>
 );
 
-//Individual badges for child data
 const MetricItem: React.FC<{
   name: string;
   value: number;
 }> = ({ name, value }) => {
   const childRisk = getRisk(value, "normal");
   return (
-    <Flex
-      direction="row"
-      align="center"
-      justify="center"
-      gap="9"
+    <Badge
+      variant="outline"
       style={{
-        border: "0.5px solid var(--gray-6)",
-        borderRadius: "5px",
-        backgroundColor: childRisk?.color || "gray",
-        color: "var(--gray-12)",
+        padding: 0,
+        overflow: "hidden",
+        backgroundColor: childRisk?.color || "gray"
       }}
     >
-      <Flex justify="center" align="center" pl="2" py="1">
-        <Text size="1" style={{ whiteSpace: "nowrap" }}>
-          {name}
-        </Text>
-      </Flex>
-      <Flex justify="center" align="center" py="1" px="2">
-        <Text size="1">{value.toFixed(2)}</Text>
-      </Flex>
-    </Flex>
+      <span className="px-2 py-1" style={{}}>
+        {name}
+      </span>
+      <span className="px-2 py-1">{value.toFixed(2)}</span>
+    </Badge>
   );
 };
 
-//Badge for TQI data
 const TQIBadge: React.FC<{
   value: number;
   risk: ReturnType<typeof getRisk>;
 }> = ({ value, risk }) => (
-  <Flex
-    direction="column"
-    align="center"
-    justify="center"
+  <div
+    className="ml-6 flex min-w-[100px] flex-col items-center justify-center rounded-md p-3"
     style={{
-      background: risk?.color || "gray",
-      padding: "12px 24px",
-      borderRadius: "4px",
-      marginLeft: "24px",
-      minWidth: "100px",
+      background: risk?.color || "gray"
     }}
   >
-    <Text
-      size="2"
-      weight="medium"
+    <span
+      className="mb-1 text-sm font-medium"
       style={{
-        color: risk.badgeColor,
-        marginBottom: "4px",
+        color: risk.badgeColor
       }}
     >
       TQI
-    </Text>
-    <Text
-      size="6"
-      weight="bold"
+    </span>
+    <span
+      className="text-2xl leading-none font-bold"
       style={{
-        color: risk.badgeColor,
-        lineHeight: "1",
+        color: risk.badgeColor
       }}
     >
       {value.toFixed(2)}
-    </Text>
-  </Flex>
+    </span>
+  </div>
 );

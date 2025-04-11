@@ -9,7 +9,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { useProjects } from "../composites/FileUploader/hooks/use-projects";
 
@@ -34,16 +34,16 @@ const projectMatcher: SegmentMatcher = {
   matches: (segment) => segment === "project",
   render: () => ({
     text: "Projects",
-    isLink: false,
-  }),
+    isLink: false
+  })
 };
 
 const projectIdMatcher: SegmentMatcher = {
   matches: (segment, path) => path[0] === "project" && path[1] === segment,
   render: (segment: string, _: string[], projects?: Projects) => ({
     text: projects?.[segment]?.name || segment,
-    isLink: false,
-  }),
+    isLink: false
+  })
 };
 
 const defaultMatcher: SegmentMatcher = {
@@ -51,14 +51,14 @@ const defaultMatcher: SegmentMatcher = {
   render: (segment: string, path: string[]) => ({
     text: segment,
     isLink: true,
-    path: `/${path.join("/")}`,
-  }),
+    path: `/${path.join("/")}`
+  })
 };
 
 const matchers: SegmentMatcher[] = [
   projectMatcher,
   projectIdMatcher,
-  defaultMatcher,
+  defaultMatcher
 ];
 
 function findMatcher(segment: string, path: string[]): SegmentMatcher {
@@ -104,8 +104,8 @@ export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <SideMenu />
-      <main className="grid grid-rows-[min-content_auto] w-full">
-        <div className="flex items-center gap-4 px-4 py-2 border-b-[0.5px] border-gray-200">
+      <main className="grid w-full grid-rows-[min-content_auto]">
+        <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2">
           <SidebarTrigger />
           <DashboardBreadcrumbs />
         </div>

@@ -7,7 +7,7 @@ import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { ProjectCard } from "./ProjectCard";
 import Filters from "../../composites/VersionFiltering/Filters";
 import { getRisk } from "../../composites/RiskHelpers";
-import SearchBar from "../../composites/SearchBar";
+import { SearchBar } from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
 import { PaginationButtons } from "../../composites/Combobox/PaginationButtons";
 

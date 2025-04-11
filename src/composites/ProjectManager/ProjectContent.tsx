@@ -1,4 +1,5 @@
-import { Box, Button, Flex, Heading, ScrollArea, Text } from "@radix-ui/themes";
+import { Button } from "../../components/ui/button";
+import { ScrollArea } from "../../components/ui/scroll-area";
 import { VersionList } from "../VersionList";
 import { useProjectManager } from "./ProjectManagerContext";
 
@@ -10,11 +11,11 @@ export const ProjectContent = () => {
     invalidFiles,
     removeVersionFromProject,
     renderAfterFiles,
-    changeVersionVisibility,
+    changeVersionVisibility
   } = useProjectManager();
 
   const currentProjectVersions = selectedProject
-    ? projects?.[selectedProject]?.versions ?? []
+    ? (projects?.[selectedProject]?.versions ?? [])
     : [];
 
   const handleRemoveVersion = (fileName: string) => {
@@ -30,56 +31,42 @@ export const ProjectContent = () => {
   };
 
   return (
-    <Flex direction="column" height="100%">
-      <ScrollArea style={{ height: "100%" }}>
-        <Box p="4">
-          {!Object.keys(projects || {}).length ? (
-            <Flex
-              direction="column"
-              align="center"
-              justify="center"
-              gap="4"
-              py="9"
-            >
-              <Text size="5" weight="bold" color="gray">
-                No projects added yet
-              </Text>
-              <Text size="2" color="gray">
-                Add a new project to get started
-              </Text>
-            </Flex>
-          ) : (
-            <>
-              <Flex
-                direction="row"
-                justify="between"
-                align="center"
-                gap="3"
-                mb="4"
+    <div className="project-manager-content">
+      <div className="p-4">
+        {!Object.keys(projects || {}).length ? (
+          <div className="project-manager-content-container flex flex-col items-start justify-start gap-4 py-9">
+            <p className="text-muted-foreground text-lg font-bold">
+              No projects added yet
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Add a new project to get started
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="">
+              <h2 className="text-muted-foreground text-sm">
+                Manage Project Files
+              </h2>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={selectFiles}
+                disabled={!selectedProject}
               >
-                <Heading size="2" style={{ color: "var(--slate-11)" }}>
-                  Manage Project Files
-                </Heading>
-                <Button
-                  size="1"
-                  variant="surface"
-                  onClick={selectFiles}
-                  disabled={!selectedProject}
-                >
-                  Add Files
-                </Button>
-              </Flex>
-              <VersionList
-                versions={currentProjectVersions}
-                invalidFiles={invalidFiles}
-                onRemoveVersion={handleRemoveVersion}
-                onUpdateVersionVisibility={handleChangeVisibility}
-              />
-            </>
-          )}
-        </Box>
-      </ScrollArea>
+                Add Files
+              </Button>
+            </div>
+            <VersionList
+              versions={currentProjectVersions}
+              invalidFiles={invalidFiles}
+              onRemoveVersion={handleRemoveVersion}
+              onUpdateVersionVisibility={handleChangeVisibility}
+            />
+          </>
+        )}
+      </div>
       {renderAfterFiles}
-    </Flex>
+    </div>
   );
 };

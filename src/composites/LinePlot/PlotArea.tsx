@@ -5,12 +5,23 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
-  ResponsiveContainer,
+  // Legend,
+  // ResponsiveContainer,
   ReferenceArea,
 } from "recharts";
+import {
+  ChartContainer,
+  type ChartConfig,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
 import { useLinePlotContext } from "./context";
 import type { PlotAreaProps } from "./context";
+import { useMemo } from "react";
+
+const chartConfig = {} satisfies ChartConfig;
 
 export function PlotArea<T extends Record<string, unknown>>({
   height = 400,
@@ -19,9 +30,22 @@ export function PlotArea<T extends Record<string, unknown>>({
   lines,
 }: Omit<PlotAreaProps<T>, "data" | "xAxisKey">) {
   const { mode, zoomState, zoomHandlers } = useLinePlotContext<T>();
-
+  const derivedChartConfig = useMemo(() => {
+    const config = {} satisfies ChartConfig;
+    lines.forEach((lineConfig) => {
+      config[lineConfig.dataKey] = {
+        label: lineConfig.name,
+        color: lineConfig.stroke,
+      };
+    });
+    return config;
+  }, [lines]);
+  console.log(derivedChartConfig);
   return (
-    <ResponsiveContainer width={width ?? "100%"} height={height}>
+    <ChartContainer
+      config={derivedChartConfig}
+      className="min-h-[200px] max-h-[200px] w-full"
+    >
       <LineChart
         data={zoomState.data}
         onMouseDown={zoomHandlers.handleMouseDown}
@@ -56,9 +80,10 @@ export function PlotArea<T extends Record<string, unknown>>({
             return value;
           }}
         />
-        <YAxis allowDataOverflow />
-        {mode === "tooltip" && <Tooltip />}
-        <Legend />
+        <YAxis />
+        {mode === "tooltip" && (
+          <ChartTooltip content={<ChartTooltipContent />} />
+        )}
 
         {lines.map(({ dataKey, stroke, name }) => (
           <Line
@@ -72,7 +97,11 @@ export function PlotArea<T extends Record<string, unknown>>({
             connectNulls={true}
           />
         ))}
+
+        <ChartLegend
+          content={<ChartLegendContent className="flex flex-wrap gap-1" />}
+        />
       </LineChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   );
 }

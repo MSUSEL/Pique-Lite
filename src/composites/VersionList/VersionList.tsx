@@ -5,7 +5,7 @@ import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { Version } from "../../state";
 import { PaginationButtons } from "./PaginationButtons";
-import SearchBar from "../SearchBar";
+import { SearchBar } from "../SearchBar";
 import VersionFilters, { Filters } from "../ProjectManager/Filters/Filters";
 import {
   Table,

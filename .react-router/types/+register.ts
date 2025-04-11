@@ -11,6 +11,10 @@ type Params = {
   "/project/:projectId": {
     "projectId": string;
   };
+  "/project/:projectId/version/:versionId": {
+    "projectId": string;
+    "versionId": string;
+  };
   "/overview": {};
   "/about": {};
 };

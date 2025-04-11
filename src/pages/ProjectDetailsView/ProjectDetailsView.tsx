@@ -90,7 +90,7 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                     Characteristics
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pl-1">
                   <ProjectAttributesChart projectId={projectId} />
                 </CardContent>
               </Card>

@@ -1,10 +1,16 @@
-import { Button, Dialog, Flex, Grid } from "@radix-ui/themes";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
 import { ProjectSidebar } from "../../composites/ProjectManager/ProjectSidebar";
 import { ProjectContent } from "../../composites/ProjectManager/ProjectContent";
-import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
 import { useAtomValue } from "jotai";
 import { State } from "../../state";
 import { useNavigate } from "react-router-dom";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface InitialProjectSetupDialogProps {
   open: boolean;
@@ -13,7 +19,7 @@ interface InitialProjectSetupDialogProps {
 
 export const InitialProjectSetupDialog = ({
   open,
-  onOpenChange,
+  onOpenChange
 }: InitialProjectSetupDialogProps) => {
   const projects = useAtomValue(State.projects);
   const navigate = useNavigate();
@@ -24,39 +30,26 @@ export const InitialProjectSetupDialog = ({
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Content
-        style={{
-          maxWidth: 900,
-          width: "90vw",
-          padding: 0,
-          height: "80vh",
-        }}
-      >
-        <ProjectManagerProvider>
-          <Flex direction="column" height="100%">
-            <Grid columns="1fr 3fr" style={{ flex: 1 }}>
-              <ProjectSidebar />
-              <ProjectContent />
-            </Grid>
-            <Flex
-              gap="3"
-              p="4"
-              justify="end"
-              style={{ borderTop: "1px solid var(--gray-6)" }}
-            >
-              <Button
-                size="3"
-                variant="solid"
-                onClick={handleContinue}
-                disabled={!Object.keys(projects || {}).length}
-              >
-                Continue
-              </Button>
-            </Flex>
-          </Flex>
-        </ProjectManagerProvider>
-      </Dialog.Content>
-    </Dialog.Root>
+    <DialogContent className="max-w-[1200px] px-0 py-0 sm:max-w-[1200px]">
+      <VisuallyHidden>
+        <DialogHeader>
+          <DialogTitle>Project Manager</DialogTitle>
+        </DialogHeader>
+      </VisuallyHidden>
+      <div className="">
+        <div className="grid flex-1 grid-cols-[1fr_3fr]">
+          <ProjectSidebar />
+          <ProjectContent />
+        </div>
+        <div className="border-border flex justify-end gap-3 border-t p-4">
+          <Button
+            onClick={handleContinue}
+            disabled={!Object.keys(projects || {}).length}
+          >
+            Continue
+          </Button>
+        </div>
+      </div>
+    </DialogContent>
   );
 };

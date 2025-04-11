@@ -17,7 +17,7 @@ export const Container = ({
   invalidFiles,
   onRemoveVersion,
   onUpdateVersionVisibility,
-  itemsPerPage = 20,
+  itemsPerPage = 20
 }: ContainerProps) => {
   return (
     <VersionListProvider
@@ -27,9 +27,9 @@ export const Container = ({
       onUpdateVersionVisibility={onUpdateVersionVisibility}
       itemsPerPage={itemsPerPage}
     >
-      <div className="flex flex-col h-full gap-4">
+      <div className="flex flex-col gap-4">
         <SearchHeader />
-        <div className="flex-1 min-h-0">
+        <div className="min-h-0 flex-1">
           <VersionTable />
         </div>
         <div className="flex justify-center">
