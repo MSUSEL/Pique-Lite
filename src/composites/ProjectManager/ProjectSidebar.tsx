@@ -4,7 +4,7 @@ import { ProjectListItem } from "./ProjectListItem";
 import { useProjectManager } from "./ProjectManagerContext";
 //import { useState } from "react";
 
-export const ProjectList = () => {
+export const ProjectSidebar = () => {
   const {
     projects,
     selectedProject,

@@ -1,7 +1,6 @@
 import { useFlatCharacteristicData } from "../../state";
 import { LinePlot } from "../../composites/LinePlot";
 import { Flex } from "@radix-ui/themes";
-import { useSearchParams } from "react-router-dom";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -34,12 +33,10 @@ export const ProjectAttributesChart = ({
   projectId,
 }: ProjectAttributesChartProps) => {
   const flatData = useFlatCharacteristicData(projectId || undefined);
-
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
     date: d.date.toISOString().split("T")[0],
   }));
-  console.log("Transformed data for chart:", flatDataWithStringDates);
 
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
     dataKey: characteristic as keyof DataPoint,
@@ -61,9 +58,9 @@ export const ProjectAttributesChart = ({
         </Flex>
         <LinePlot.PlotArea
           lines={lines}
-          width={1000}
+          width={600}
           height={250}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         />
         <LinePlot.BrushStats>
           {(selection) => (

@@ -124,7 +124,7 @@ const ProjectList: React.FC = () => {
               // if (!isLastVersion) {
               //   searchParams.set("versionid", versionIndex.toString());
               // }
-              navigate(`/dashboard/project/${uuid}`);
+              navigate(`/project/${uuid}`);
             }}
           />
         ))}

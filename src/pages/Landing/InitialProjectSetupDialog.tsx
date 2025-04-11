@@ -1,8 +1,8 @@
 import { Button, Dialog, Flex, Grid } from "@radix-ui/themes";
-import { ProjectList } from "../../composites/ProjectManager/ProjectList";
-import { ProjectFiles } from "../../composites/ProjectManager/ProjectFiles";
+import { ProjectSidebar } from "../../composites/ProjectManager/ProjectSidebar";
+import { ProjectContent } from "../../composites/ProjectManager/ProjectContent";
 import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { State } from "../../state";
 import { useNavigate } from "react-router-dom";
 
@@ -15,12 +15,11 @@ export const InitialProjectSetupDialog = ({
   open,
   onOpenChange,
 }: InitialProjectSetupDialogProps) => {
-  const setCurrentView = useSetAtom(State.currentView);
   const projects = useAtomValue(State.projects);
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate("/dashboard/overview");
+    navigate("/overview");
     onOpenChange(false);
   };
 
@@ -35,27 +34,27 @@ export const InitialProjectSetupDialog = ({
         }}
       >
         <ProjectManagerProvider>
-          <Grid columns="1fr 3fr" height="100%">
-            <ProjectList />
-            <Flex direction="column" height="100%">
-              <ProjectFiles />
-              <Flex
-                gap="3"
-                p="4"
-                justify="end"
-                // style={{ borderTop: "1px solid var(--gray-6)" }}
+          <Flex direction="column" height="100%">
+            <Grid columns="1fr 3fr" style={{ flex: 1 }}>
+              <ProjectSidebar />
+              <ProjectContent />
+            </Grid>
+            <Flex
+              gap="3"
+              p="4"
+              justify="end"
+              style={{ borderTop: "1px solid var(--gray-6)" }}
+            >
+              <Button
+                size="3"
+                variant="solid"
+                onClick={handleContinue}
+                disabled={!Object.keys(projects || {}).length}
               >
-                <Button
-                  size="3"
-                  variant="solid"
-                  onClick={handleContinue}
-                  disabled={!Object.keys(projects || {}).length}
-                >
-                  Continue
-                </Button>
-              </Flex>
+                Continue
+              </Button>
             </Flex>
-          </Grid>
+          </Flex>
         </ProjectManagerProvider>
       </Dialog.Content>
     </Dialog.Root>

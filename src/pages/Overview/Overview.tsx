@@ -12,7 +12,6 @@ const ITEMS_PER_PAGE = 5;
 
 const ProjectList: React.FC = () => {
   const { projects } = useProjects();
-  console.log(projects);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page");
@@ -71,12 +70,14 @@ const ProjectList: React.FC = () => {
   return (
     <Box
       className="Overview-root"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
+      style={
+        {
+          // display: "flex",
+          // justifyContent: "center",
+          // alignItems: "center",
+          // flexDirection: "column",
+        }
+      }
     >
       <Flex direction="column" style={{ justifyContent: "center" }}>
         <Flex direction="row">
@@ -118,7 +119,8 @@ const ProjectList: React.FC = () => {
             project={project}
             onProjectClick={(versionIndex) => {
               // Only include versionid if it's not the last version
-              const isLastVersion = versionIndex === project.versions.length - 1;
+              const isLastVersion =
+                versionIndex === project.versions.length - 1;
               const searchParams = new URLSearchParams({ projectid: uuid });
               if (!isLastVersion) {
                 searchParams.set("versionid", versionIndex.toString());

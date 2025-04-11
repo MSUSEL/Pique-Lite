@@ -8,10 +8,9 @@ declare module "react-router" {
 
 type Params = {
   "/": {};
-  "/dashboard": {};
-  "/dashboard/project/:projectId": {
+  "/project/:projectId": {
     "projectId": string;
   };
-  "/dashboard/overview": {};
+  "/overview": {};
   "/about": {};
 };

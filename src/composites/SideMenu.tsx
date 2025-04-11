@@ -27,8 +27,8 @@ import {
 
 const sidebarItems = [
   {
-    label: "Projects",
-    href: "/dashboard/overview",
+    label: "Dashboard",
+    href: "/overview",
     icon: Home,
   },
 ];
@@ -89,9 +89,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
                       asChild
                       isActive={currentProjectId === uuid}
                     >
-                      <Link to={`/dashboard/project/${uuid}`}>
-                        {project.name}
-                      </Link>
+                      <Link to={`/project/${uuid}`}>{project.name}</Link>
                     </SidebarMenuButton>
                     <DropdownMenu>
                       <SidebarMenuAction asChild>

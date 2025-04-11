@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Heading, ScrollArea, Text } from "@radix-ui/themes";
-import { ProjectFileList } from "./ProjectFileList";
+import { VersionList } from "../VersionList";
 import { useProjectManager } from "./ProjectManagerContext";
 
-export const ProjectFiles = () => {
+export const ProjectContent = () => {
   const {
     projects,
     selectedProject,
@@ -27,7 +27,7 @@ export const ProjectFiles = () => {
     if (selectedProject) {
       changeVersionVisibility(selectedProject, fileName);
     }
-  }
+  };
 
   return (
     <Flex direction="column" height="100%">
@@ -69,7 +69,7 @@ export const ProjectFiles = () => {
                   Add Files
                 </Button>
               </Flex>
-              <ProjectFileList
+              <VersionList
                 versions={currentProjectVersions}
                 invalidFiles={invalidFiles}
                 onRemoveVersion={handleRemoveVersion}
