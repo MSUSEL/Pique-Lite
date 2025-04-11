@@ -84,9 +84,9 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
           </TabsList>
           <TabsContent value="overview">
             <div>
-              <Card>
+              <Card className="py-2 gap-1">
                 <CardHeader>
-                  <CardTitle className="text-left text-2xl">
+                  <CardTitle className="text-left text-xl">
                     Characteristics
                   </CardTitle>
                 </CardHeader>

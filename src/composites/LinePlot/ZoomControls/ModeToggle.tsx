@@ -1,6 +1,6 @@
-import { SegmentedControl } from "@radix-ui/themes";
 import { useLinePlotContext, type ChartMode } from "../context";
 import { ChatBubbleIcon, CropIcon } from "@radix-ui/react-icons";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export function ModeToggle() {
   const { mode, setMode } = useLinePlotContext();
@@ -12,13 +12,18 @@ export function ModeToggle() {
   };
 
   return (
-    <SegmentedControl.Root value={mode} onValueChange={handleModeChange}>
-      <SegmentedControl.Item value="brush">
+    <ToggleGroup
+      variant="outline"
+      type="single"
+      // value={mode}
+      // onValueChange={handleModeChange}
+    >
+      <ToggleGroupItem value="brush">
         <CropIcon />
-      </SegmentedControl.Item>
-      <SegmentedControl.Item value="tooltip">
+      </ToggleGroupItem>
+      <ToggleGroupItem value="tooltip">
         <ChatBubbleIcon />
-      </SegmentedControl.Item>
-    </SegmentedControl.Root>
+      </ToggleGroupItem>
+    </ToggleGroup>
   );
 }

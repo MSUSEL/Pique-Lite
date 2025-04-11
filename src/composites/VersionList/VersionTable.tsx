@@ -79,7 +79,7 @@ export const VersionTable = () => {
             {filters.status.includes("valid") &&
               versionsToDisplay.map((version) => (
                 <TableRow
-                  key={version.versionId}
+                  key={version.fileName}
                   className={
                     version.isHidden ? "opacity-50 bg-neutral-100/50" : ""
                   }

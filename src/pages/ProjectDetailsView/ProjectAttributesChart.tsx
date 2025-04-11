@@ -1,6 +1,5 @@
 import { useFlatCharacteristicData } from "../../state";
 import { LinePlot } from "../../composites/LinePlot";
-import { Flex } from "@radix-ui/themes";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -52,13 +51,13 @@ export const ProjectAttributesChart = ({
         xAxisKey="date"
         style={{ userSelect: "none" }}
       >
-        <Flex justify="end" align="end" gap="2" pr="20px" pb="2">
+        <div className="flex justify-end gap-2 py-1">
           <LinePlot.ZoomControls.ModeToggle />
           <LinePlot.ZoomControls.ZoomOut />
-        </Flex>
+        </div>
         <LinePlot.PlotArea
           lines={lines}
-          width={600}
+          // width={600}
           height={250}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         />
