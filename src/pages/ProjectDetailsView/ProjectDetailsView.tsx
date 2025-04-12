@@ -13,8 +13,9 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table";
+import { ProjectVersionsTable } from "./VersionTableNew";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -23,7 +24,7 @@ export const RiskLevelLegend = () => {
     <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
-        score: risk.diagnosticRange[1] - 0.001,
+        score: risk.diagnosticRange[1] - 0.001
       }))}
       scale="diagnostic"
     />
@@ -46,7 +47,7 @@ const ProjectCharacteristicsRisks = ({ projectId }: { projectId: string }) => {
   const riskCards = characteristics.map(
     (characteristic: { name: string; value: number }) => ({
       title: characteristic.name,
-      score: characteristic.value,
+      score: characteristic.value
     })
   );
 
@@ -71,20 +72,20 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   if (!selectedProject || !selectedProject.versions.length) return null;
 
   return (
-    <div className="project-details-view bg-white rounded-lg padding px-8">
+    <div className="project-details-view padding rounded-lg bg-white px-8">
       <div className="grid grid-rows-[auto_auto_1fr] gap-6">
-        <h1 className="text-4xl font-bold text-left">{selectedProject.name}</h1>
+        <h1 className="text-left text-4xl font-bold">{selectedProject.name}</h1>
         {/* <ProjectPanel.Container>
           <ProjectAttributesChart projectId={projectId} />
         </ProjectPanel.Container> */}
         <Tabs defaultValue="overview">
-          <TabsList className="tabs-list border-solid border-b-2 border-gray-200">
+          <TabsList className="tabs-list border-b-2 border-solid border-gray-200">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="versions">Version Details</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
             <div>
-              <Card className="py-2 gap-1">
+              <Card className="gap-1 py-2">
                 <CardHeader>
                   <CardTitle className="text-left text-xl">
                     Characteristics
@@ -97,33 +98,7 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
             </div>
           </TabsContent>
           <TabsContent value="versions">
-            <Table>
-              <TableCaption>
-                A list of all versions for this project.
-              </TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Version</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Score</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {selectedProject.versions.map((version, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">
-                      {version.name}
-                    </TableCell>
-                    <TableCell>{version.date.toLocaleDateString()}</TableCell>
-                    <TableCell>Completed</TableCell>
-                    <TableCell className="text-right">
-                      {version.data.value.toFixed(2)}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <ProjectVersionsTable versions={selectedProject.versions} />
           </TabsContent>
         </Tabs>
       </div>
