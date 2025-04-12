@@ -1,7 +1,13 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Home, MoreHorizontal, Plus } from "lucide-react";
 import React from "react";
-import { Home, Calendar, Plus, MoreHorizontal } from "lucide-react";
-import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import { Link, useSearchParams } from "react-router-dom";
+import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import {
   Sidebar,
   SidebarContent,
@@ -13,24 +19,18 @@ import {
   SidebarMenu,
   SidebarMenuAction,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "../components/ui/sidebar";
 import { useProjects } from "./FileUploader/hooks/use-projects";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ProjectManagerDialog } from "./ProjectManager/ProjectManagerDialog";
 
 const sidebarItems = [
   {
     label: "Dashboard",
     href: "/overview",
-    icon: Home,
-  },
+    icon: Home
+  }
 ];
 
 interface SideMenuProps {
@@ -46,9 +46,9 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   return (
     <Sidebar variant="sidebar">
       <SidebarHeader>
-        <span className="flex flex-row justify-left align-center gap-8">
-          <img src={PiqueLogoNoText} className="h-16 " alt="Pique Logo" />
-          <h2 className="flex flex-col justify-center align-center text-lg">
+        <span className="justify-left align-center flex flex-row gap-8">
+          <img src={PiqueLogoNoText} className="h-16" alt="Pique Logo" />
+          <h2 className="align-center flex flex-col justify-center text-lg">
             Pique
           </h2>
         </span>
@@ -72,10 +72,10 @@ const SideMenu: React.FC<SideMenuProps> = () => {
         {/* Projects Section */}
         <SidebarGroup>
           <SidebarGroupLabel>Projects</SidebarGroupLabel>
-
-          {/* TODO: Hook up action to create new project */}
-          <SidebarGroupAction asChild>
-            <Plus />
+          <SidebarGroupAction>
+            <ProjectManagerDialog>
+              <Plus />
+            </ProjectManagerDialog>
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -98,10 +98,11 @@ const SideMenu: React.FC<SideMenuProps> = () => {
                         </DropdownMenuTrigger>
                       </SidebarMenuAction>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <span>Edit Project</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            // TODO: Remvoe project
+                          }}
+                        >
                           <span>Delete Project</span>
                         </DropdownMenuItem>
                       </DropdownMenuContent>

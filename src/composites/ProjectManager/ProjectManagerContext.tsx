@@ -1,9 +1,10 @@
 import { createContext, useContext, ReactNode } from "react";
 import { useProjectImport } from "./hooks/use-project-import";
+import { Version } from "../../state/core";
 
 interface Project {
   name: string;
-  versions: Array<{ name: string; content: string }>; // Adjust this type based on your actual version structure
+  versions: Version[];
 }
 
 interface ProjectManagerContextType {

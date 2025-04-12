@@ -9,7 +9,7 @@ import {
 import { Theme as RadixTheme } from "@radix-ui/themes";
 
 import type { Route } from "./+types/root";
-import "./app.css";
+import "./root.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

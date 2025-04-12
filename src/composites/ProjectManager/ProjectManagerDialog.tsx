@@ -1,4 +1,4 @@
-import { Dialog } from "@radix-ui/themes";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ProjectManager } from "./ProjectManager";
 
 interface ProjectManagerDialogProps {
@@ -6,21 +6,21 @@ interface ProjectManagerDialogProps {
 }
 
 export const ProjectManagerDialog = ({
-  children,
+  children
 }: ProjectManagerDialogProps) => {
   return (
-    <Dialog.Root>
-      <Dialog.Trigger asChild>{children}</Dialog.Trigger>
-      <Dialog.Content
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent
         style={{
           maxWidth: 900,
           width: "90vw",
           padding: 0,
-          height: "40vh",
+          height: "40vh"
         }}
       >
         <ProjectManager />
-      </Dialog.Content>
-    </Dialog.Root>
+      </DialogContent>
+    </Dialog>
   );
 };

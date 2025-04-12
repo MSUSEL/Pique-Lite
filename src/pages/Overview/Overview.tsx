@@ -3,9 +3,10 @@ import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
 import { getRisk } from "../../composites/RiskHelpers";
 import { SearchBar } from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Filters from "../../composites/VersionFiltering/Filters";
 import { ProjectCard } from "../ProjectOverview/ProjectCard";
+import { PaginationButtons } from "../../composites/Pagination/PaginationButtons";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -114,59 +115,6 @@ const Overview: React.FC = () => {
           />
         )}
       </div>
-    </div>
-  );
-};
-
-interface PaginationButtonsProps {
-  currentPage: number;
-  totalPages: number;
-}
-
-//Pagination logic
-//TODO: Add this to another file, it is used in other places in PIQUE LITE
-export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
-  currentPage,
-  totalPages
-}) => {
-  return (
-    <div>
-      <Link
-        to={`?page=${currentPage - 1}`}
-        onClick={(e) => {
-          if (currentPage === 1) e.preventDefault();
-        }}
-        style={{
-          color: currentPage === 1 ? "gray" : "blue",
-          cursor: currentPage === 1 ? "not-allowed" : "pointer"
-        }}
-      >
-        Previous
-      </Link>
-      {Array.from({ length: totalPages }, (_, index) => (
-        <Link
-          key={index + 1}
-          to={`?page=${index + 1}`}
-          style={{
-            color: currentPage === index + 1 ? "black" : "blue",
-            cursor: "pointer"
-          }}
-        >
-          {index + 1}
-        </Link>
-      ))}
-      <Link
-        to={`?page=${currentPage + 1}`}
-        style={{
-          color: currentPage === totalPages ? "gray" : "blue",
-          cursor: currentPage === totalPages ? "not-allowed" : "pointer"
-        }}
-        onClick={(e) => {
-          if (currentPage === totalPages) e.preventDefault();
-        }}
-      >
-        Next
-      </Link>
     </div>
   );
 };
