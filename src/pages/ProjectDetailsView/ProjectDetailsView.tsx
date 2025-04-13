@@ -15,7 +15,10 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { ProjectVersionsTable } from "./VersionTableNew";
+import {
+  ProjectVersionsProvider,
+  ProjectVersionsTable
+} from "./VersionTableNew";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -98,7 +101,9 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
             </div>
           </TabsContent>
           <TabsContent value="versions">
-            <ProjectVersionsTable versions={selectedProject.versions} />
+            <ProjectVersionsProvider versions={selectedProject.versions}>
+              <ProjectVersionsTable />
+            </ProjectVersionsProvider>
           </TabsContent>
         </Tabs>
       </div>

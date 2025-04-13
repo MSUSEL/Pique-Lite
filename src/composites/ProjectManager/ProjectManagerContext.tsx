@@ -41,7 +41,7 @@ interface ProjectManagerProviderProps {
 
 export const ProjectManagerProvider = ({
   children,
-  renderAfterFiles,
+  renderAfterFiles
 }: ProjectManagerProviderProps) => {
   const {
     projects = {},
@@ -52,7 +52,7 @@ export const ProjectManagerProvider = ({
     selectFiles,
     invalidFiles,
     removeVersionFromProject,
-    changeVersionVisibility,
+    changeVersionVisibility
   } = useProjectImport();
 
   const value: ProjectManagerContextType = {
@@ -65,9 +65,8 @@ export const ProjectManagerProvider = ({
     invalidFiles,
     removeVersionFromProject,
     changeVersionVisibility,
-    renderAfterFiles,
+    renderAfterFiles
   };
-  console.log(value)
   return (
     <ProjectManagerContext.Provider value={value}>
       {children}

@@ -19,13 +19,9 @@ import {
 } from "@/components/ui/table";
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable
+  useReactTable,
+  Table as TanstackTable
 } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
 import React, { useState } from "react";
@@ -34,144 +30,57 @@ import React, { useState } from "react";
 // Component Props
 //------------------------------------------------------------------------------
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  // New filtering props (using TanStack Table's built-in filtering)
-  columnFilters?: ColumnFiltersState;
-  onColumnFiltersChange?: (filters: ColumnFiltersState) => void;
-  // Row actions
-  rowActions?: (row: TData) => React.ReactNode;
-  // Styling
-  getRowStyles?: (row: TData) => React.CSSProperties | string | undefined;
-  // Empty state
-  emptyStateMessage?: string;
-  noMatchingDataMessage?: string;
+interface DataTableProps<TData> {
+  table: TanstackTable<TData>;
 }
 
 //------------------------------------------------------------------------------
 // Main DataTable Component
 //------------------------------------------------------------------------------
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  columnFilters: externalColumnFilters,
-  onColumnFiltersChange,
-  rowActions,
-  getRowStyles,
-  emptyStateMessage = "No data available.",
-  noMatchingDataMessage = "No matching results."
-}: DataTableProps<TData, TValue>) {
-  // Internal state for sorting and filtering
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-    externalColumnFilters || []
-  );
-
-  // Handle filter state changes
-  const handleColumnFiltersChange = (filters: ColumnFiltersState) => {
-    setColumnFilters(filters);
-    if (onColumnFiltersChange) {
-      onColumnFiltersChange(filters);
-    }
-  };
-
-  // Sync with external filters when they change
-  React.useEffect(() => {
-    if (externalColumnFilters) {
-      setColumnFilters(externalColumnFilters);
-    }
-  }, [externalColumnFilters]);
-
-  // Add rowActions column if provided
-  const columnsWithActions = React.useMemo(() => {
-    if (!rowActions) return columns;
-
-    return [
-      ...columns,
-      {
-        id: "actions",
-        cell: ({ row }) => rowActions(row.original)
-      }
-    ] as ColumnDef<TData, TValue>[];
-  }, [columns, rowActions]);
-
-  // Initialize TanStack Table
-  const table = useReactTable({
-    data,
-    columns: columnsWithActions,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: handleColumnFiltersChange,
-    state: {
-      sorting,
-      columnFilters: externalColumnFilters || columnFilters
-    }
-  });
-
-  // Check if data is empty
-  const isDataEmpty = data.length === 0;
-  const isFilteredDataEmpty =
-    table.getRowModel().rows.length === 0 && !isDataEmpty;
-
+export function DataTable<TData>({ table }: DataTableProps<TData>) {
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
+              })}
             </TableRow>
           ))}
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => {
-              // Apply custom row styles if provided
-              const customStyles = getRowStyles
-                ? getRowStyles(row.original)
-                : undefined;
-              const rowClassName =
-                typeof customStyles === "string" ? customStyles : "";
-              const rowStyle =
-                typeof customStyles === "object" ? customStyles : undefined;
-
-              return (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  style={rowStyle}
-                  className={rowClassName}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              );
-            })
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                {isFilteredDataEmpty
-                  ? noMatchingDataMessage
-                  : emptyStateMessage}
+              <TableCell
+                colSpan={table.getAllColumns().length}
+                className="h-24 text-center"
+              >
+                No results.
               </TableCell>
             </TableRow>
           )}
@@ -371,55 +280,3 @@ export function RowActions({ actions, label = "Actions" }: RowActionsProps) {
     </DropdownMenu>
   );
 }
-
-//------------------------------------------------------------------------------
-// Usage Examples
-//------------------------------------------------------------------------------
-
-// Example: How to use column filters
-/*
-  // In your component:
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([
-    { id: "status", value: "active" }
-  ]);
-
-  // Pass to DataTable:
-  <DataTable
-    columns={columns}
-    data={data}
-    columnFilters={columnFilters}
-    onColumnFiltersChange={setColumnFilters}
-  />
-
-  // Using filter inputs in your UI
-  const table = useReactTable({...});
-  
-  return (
-    <div>
-      <div className="flex gap-2 mb-4">
-        {createTextFilter(table, "name", "Filter by name...")}
-        {createTextFilter(table, "email", "Filter by email...")}
-      </div>
-      <DataTable table={table} />
-    </div>
-  )
-*/
-
-// Example: How to use custom row styling
-/*
-  <DataTable
-    columns={columns}
-    data={data}
-    getRowStyles={(row) => {
-      // Return CSS properties object
-      if (row.status === "failed") {
-        return { backgroundColor: "rgba(239, 68, 68, 0.1)" };
-      }
-      // Or return a className string
-      if (row.status === "processing") {
-        return "bg-blue-50";
-      }
-      return undefined;
-    }}
-  />
-*/

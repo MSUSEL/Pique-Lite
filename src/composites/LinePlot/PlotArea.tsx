@@ -7,7 +7,7 @@ import {
   Tooltip,
   // Legend,
   // ResponsiveContainer,
-  ReferenceArea,
+  ReferenceArea
 } from "recharts";
 import {
   ChartContainer,
@@ -15,7 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   ChartLegend,
-  ChartLegendContent,
+  ChartLegendContent
 } from "@/components/ui/chart";
 import { useLinePlotContext } from "./context";
 import type { PlotAreaProps } from "./context";
@@ -27,7 +27,7 @@ export function PlotArea<T extends Record<string, unknown>>({
   height = 400,
   width,
   margin,
-  lines,
+  lines
 }: Omit<PlotAreaProps<T>, "data" | "xAxisKey">) {
   const { mode, zoomState, zoomHandlers } = useLinePlotContext<T>();
   const derivedChartConfig = useMemo(() => {
@@ -35,16 +35,15 @@ export function PlotArea<T extends Record<string, unknown>>({
     lines.forEach((lineConfig) => {
       config[lineConfig.dataKey] = {
         label: lineConfig.name,
-        color: lineConfig.stroke,
+        color: lineConfig.stroke
       };
     });
     return config;
   }, [lines]);
-  console.log(derivedChartConfig);
   return (
     <ChartContainer
       config={derivedChartConfig}
-      className="min-h-[200px] max-h-[200px] w-full"
+      className="max-h-[200px] min-h-[200px] w-full"
     >
       <LineChart
         data={zoomState.data}
@@ -74,7 +73,7 @@ export function PlotArea<T extends Record<string, unknown>>({
               const date = value instanceof Date ? value : new Date(value);
               return date.toLocaleDateString(undefined, {
                 month: "short",
-                year: "numeric",
+                year: "numeric"
               });
             }
             return value;

@@ -1,84 +1,152 @@
-import { ColumnDef } from "@tanstack/react-table";
+import {
+  CellContext,
+  ColumnDef,
+  getCoreRowModel,
+  HeaderContext,
+  useReactTable
+} from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "../../composites/DataTable.tsx";
 import { Version } from "src/state/core.ts";
+import React, { createContext, useContext, useMemo, ReactNode } from "react";
 
-interface ProjectVersionsTableProps {
+interface ProjectVersionsProviderProps {
   versions: Version[];
+  children: ReactNode;
 }
 
-export function ProjectVersionsTable({ versions }: ProjectVersionsTableProps) {
-  // Define columns with sorting enabled
-  const columns: ColumnDef<Version>[] = [
-    {
-      accessorKey: "name",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 hover:bg-transparent"
-        >
-          Version
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-      cell: ({ row }) => (
-        <div className="font-medium">{row.getValue("name")}</div>
-      ),
-      size: 100 // w-[100px] equivalent
-    },
-    {
-      accessorKey: "date",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 hover:bg-transparent"
-        >
-          Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-      cell: ({ row }) => {
-        const date = row.getValue("date") as Date;
-        return <div>{date.toLocaleDateString()}</div>;
+interface FlatVersion extends Omit<Version, "data"> {
+  availability: number;
+  authenticity: number;
+  authorization: number;
+  confidentiality: number;
+  non_repudiation: number;
+  integrity: number;
+}
+
+// Context for sharing flat versions
+interface ProjectVersionsContextValue {
+  flatVersions: FlatVersion[];
+}
+const ProjectVersionsContext = createContext<ProjectVersionsContextValue | undefined>(undefined);
+
+export function ProjectVersionsProvider({ versions, children }: ProjectVersionsProviderProps) {
+  const flatVersions: FlatVersion[] = useMemo(() => {
+    return versions.map((version) => {
+      const obj = {
+        name: version.name,
+        tqi: version.data.value,
+        date: version.date,
+        isHidden: version.isHidden,
+        fileName: version.fileName
+      };
+      for (const child of version.data.children) {
+        // @ts-expect-error - Dynamic key assignment based on child name
+        obj[child.name.toLowerCase().replace("-", "_")] = child.value;
       }
-    },
-    {
-      accessorKey: "status",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 hover:bg-transparent"
-        >
-          Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    {
-      accessorKey: "data.value",
-      header: ({ column }) => (
+      return obj as unknown as FlatVersion;
+    });
+  }, [versions]);
+
+  return (
+    <ProjectVersionsContext.Provider value={{ flatVersions }}>
+      {children}
+    </ProjectVersionsContext.Provider>
+  );
+}
+
+const METRIC_NAME_MAPPING = {
+  tqi: "TQI",
+  availability: "Availability",
+  authenticity: "Authenticity",
+  authorization: "Authorization",
+  confidentiality: "Confidentiality",
+  non_repudiation: "Non-Repudiation",
+  integrity: "Integrity"
+};
+
+// Define columns with sorting enabled
+const columns: ColumnDef<FlatVersion>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="p-0 hover:bg-transparent"
+      >
+        Version
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("name")}</div>
+    ),
+    size: 100 // w-[100px] equivalent
+  },
+  {
+    accessorKey: "date",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        className="p-0 hover:bg-transparent"
+      >
+        Date
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => {
+      const date = row.getValue("date") as Date;
+      return <div>{date.toLocaleDateString()}</div>;
+    }
+  },
+  ...Object.keys(METRIC_NAME_MAPPING).map((metricName) => {
+    return {
+      accessorKey: metricName,
+      header: ({ column }: HeaderContext<FlatVersion, unknown>) => (
         <div className="text-right">
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="p-0 hover:bg-transparent"
           >
-            Score
+            {
+              // @ts-expect-error - METRIC_NAME_MAPPING is indexed by string keys
+              METRIC_NAME_MAPPING[metricName]
+            }
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
       ),
-      cell: ({ row }) => {
+      cell: ({ row }: CellContext<FlatVersion, number>) => {
         // Use nested accessor to get the data.value
-        const value = row.original.data.value;
-        return <div className="text-right">{value.toFixed(2)}</div>;
+        console.log(row);
+        // Explicitly cast the value to number before calling toFixed
+        const value = row.getValue(metricName) as number;
+        return (
+          <div className="text-right">
+            {value.toFixed(2)}
+          </div>
+        );
       }
-    }
-  ];
+    };
+  })
+];
 
-  return <DataTable columns={columns} data={versions} />;
+export function ProjectVersionsTable() {
+  // Consume context directly
+  const context = useContext(ProjectVersionsContext);
+  if (!context) {
+    throw new Error("ProjectVersionsTable must be used within a ProjectVersionsProvider");
+  }
+  const { flatVersions } = context;
+
+  const table = useReactTable({
+    data: flatVersions,
+    columns,
+    getCoreRowModel: getCoreRowModel()
+  });
+  return <DataTable table={table} />;
 }
