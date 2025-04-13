@@ -105,10 +105,10 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <SideMenu />
       <main className="grid w-full grid-rows-[min-content_auto]">
-        <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2">
-          <SidebarTrigger />
-          <DashboardBreadcrumbs />
-        </div>
+        {/* <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2"> */}
+        {/* <SidebarTrigger /> */}
+        {/* <DashboardBreadcrumbs /> */}
+        {/* </div> */}
         <Outlet />
       </main>
     </SidebarProvider>

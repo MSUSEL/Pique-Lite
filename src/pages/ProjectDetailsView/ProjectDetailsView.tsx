@@ -19,6 +19,7 @@ import {
   ProjectVersionsProvider,
   ProjectVersionsTable
 } from "./VersionTableNew";
+import { Calendar } from "lucide-react";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -33,6 +34,39 @@ export const RiskLevelLegend = () => {
     />
   );
 };
+
+/**
+ * Formats a Date object to "DD MMM YYYY" format (e.g., "02 Dec 2025")
+ * @param date - The Date object to format
+ * @returns The formatted date string
+ */
+function formatDate(date: Date): string {
+  // Get the day and add leading zero if needed
+  const day = date.getDate().toString().padStart(2, "0");
+
+  // Get the month name
+  const monthNames: string[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  const monthName = monthNames[date.getMonth()];
+
+  // Get the year
+  const year = date.getFullYear();
+
+  // Return the formatted date
+  return `${day} ${monthName} ${year}`;
+}
 
 const ProjectCharacteristicsRisks = ({ projectId }: { projectId: string }) => {
   const projects = useAtomValue(State.projects);
@@ -75,19 +109,36 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   if (!selectedProject || !selectedProject.versions.length) return null;
 
   return (
-    <div className="project-details-view padding rounded-lg bg-white px-8">
-      <div className="grid grid-rows-[auto_auto_1fr] gap-6">
-        <h1 className="text-left text-4xl font-bold">{selectedProject.name}</h1>
-        {/* <ProjectPanel.Container>
-          <ProjectAttributesChart projectId={projectId} />
-        </ProjectPanel.Container> */}
+    <div className="project-details-view">
+      <div className="grid grid-rows-[auto_auto_1fr]">
+        <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm">
+          <h1 className="text-left text-2xl font-bold text-gray-700">
+            {selectedProject.name}
+          </h1>
+          <span className="align-center inline-flex items-center gap-1 text-sm font-light text-gray-500">
+            <Calendar size={14} />
+            {formatDate(
+              selectedProject.versions[selectedProject.versions.length - 1].date
+            )}
+          </span>
+        </div>
         <Tabs defaultValue="overview">
-          <TabsList className="tabs-list border-b-2 border-solid border-gray-200">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="versions">Version Details</TabsTrigger>
+          <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0">
+            <TabsTrigger
+              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+              value="overview"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+              value="versions"
+            >
+              Version Details
+            </TabsTrigger>
           </TabsList>
-          <TabsContent value="overview">
-            <div>
+          <div className="px-4">
+            <TabsContent value="overview">
               <Card className="gap-1 py-2">
                 <CardHeader>
                   <CardTitle className="text-left text-xl">
@@ -98,46 +149,15 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                   <ProjectAttributesChart projectId={projectId} />
                 </CardContent>
               </Card>
-            </div>
-          </TabsContent>
-          <TabsContent value="versions">
-            <ProjectVersionsProvider versions={selectedProject.versions}>
-              <ProjectVersionsTable />
-            </ProjectVersionsProvider>
-          </TabsContent>
+            </TabsContent>
+            <TabsContent value="versions">
+              <ProjectVersionsProvider versions={selectedProject.versions}>
+                <ProjectVersionsTable />
+              </ProjectVersionsProvider>
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
-
-      {/* Keeping the commented out code for future reference */}
-      {/* <div className="flex flex-row w-full gap-6"> */}
-      {/* <LabelledComboBox */}
-      {/*   label="Project" */}
-      {/*   getOptionKey={(project) => project.uuid} */}
-      {/*   getOptionLabel={(project) => project.name} */}
-      {/*   options={projects} */}
-      {/*   value={selectedProject} */}
-      {/*   onChange={(project) => { */}
-      {/*     const newProjectId = project?.uuid || ""; */}
-      {/*     setURLSearchParameters({ projectid: newProjectId, versionid: "" }); */}
-      {/*   }} */}
-      {/* /> */}
-      {/* <LabelledComboBox */}
-      {/*   label="Version" */}
-      {/*   options={versions} */}
-      {/*   value={versions[versionId]! || undefined} */}
-      {/*   getOptionKey={(version) => version.name} */}
-      {/*   getOptionLabel={(version) => version.name} */}
-      {/*   onChange={(version) => { */}
-      {/*     const newVersionId = version */}
-      {/*       ? versions.indexOf(version).toString() */}
-      {/*       : ""; */}
-      {/*     setURLSearchParameters({ */}
-      {/*       projectid: projectId, */}
-      {/*       versionid: newVersionId, */}
-      {/*     }); */}
-      {/*   }} */}
-      {/* /> */}
-      {/* </div> */}
     </div>
   );
 }

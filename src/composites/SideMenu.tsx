@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Home, MoreHorizontal, Plus } from "lucide-react";
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import {
   Sidebar,
@@ -41,11 +41,15 @@ interface SideMenuProps {
 const SideMenu: React.FC<SideMenuProps> = () => {
   const { projects } = useProjects();
   const [searchParams] = useSearchParams();
-  const currentProjectId = searchParams.get("projectid");
+  const location = useLocation();
+  let currentProjectId = null;
+  if (location.pathname.includes("/project/")) {
+    currentProjectId = location.pathname.split("/")[2];
+  }
 
   return (
     <Sidebar variant="sidebar">
-      <SidebarHeader>
+      <SidebarHeader className="bg-gray-50">
         <span className="justify-left align-center flex flex-row gap-8">
           <img src={PiqueLogoNoText} className="h-16" alt="Pique Logo" />
           <h2 className="align-center flex flex-col justify-center text-lg">
@@ -53,7 +57,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
           </h2>
         </span>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-gray-50">
         <SidebarGroup>
           <SidebarMenu>
             {sidebarItems.map((item) => (
@@ -80,35 +84,42 @@ const SideMenu: React.FC<SideMenuProps> = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               {projects &&
-                Object.entries(projects).map(([uuid, project]) => (
-                  <SidebarMenuItem
-                    key={uuid}
-                    className="last-child:invisible last-child:hover:visible"
-                  >
-                    <SidebarMenuButton
-                      asChild
-                      isActive={currentProjectId === uuid}
+                Object.entries(projects).map(([uuid, project]) => {
+                  const isActive = currentProjectId === uuid;
+
+                  console.log(
+                    `isActive: ${isActive}, uuid: ${uuid}, currentProjectId: ${currentProjectId}`
+                  );
+                  return (
+                    <SidebarMenuItem
+                      key={uuid}
+                      className="last-child:invisible last-child:hover:visible"
                     >
-                      <Link to={`/project/${uuid}`}>{project.name}</Link>
-                    </SidebarMenuButton>
-                    <DropdownMenu>
-                      <SidebarMenuAction asChild>
-                        <DropdownMenuTrigger asChild>
-                          <MoreHorizontal />
-                        </DropdownMenuTrigger>
-                      </SidebarMenuAction>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem
-                          onClick={() => {
-                            // TODO: Remvoe project
-                          }}
-                        >
-                          <span>Delete Project</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </SidebarMenuItem>
-                ))}
+                      <SidebarMenuButton
+                        asChild
+                        isActive={currentProjectId === uuid}
+                      >
+                        <Link to={`/project/${uuid}`}>{project.name}</Link>
+                      </SidebarMenuButton>
+                      <DropdownMenu>
+                        <SidebarMenuAction asChild>
+                          <DropdownMenuTrigger asChild>
+                            <MoreHorizontal />
+                          </DropdownMenuTrigger>
+                        </SidebarMenuAction>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              // TODO: Remvoe project
+                            }}
+                          >
+                            <span>Delete Project</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </SidebarMenuItem>
+                  );
+                })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
