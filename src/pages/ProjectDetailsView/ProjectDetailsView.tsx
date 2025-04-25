@@ -151,7 +151,10 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
               </Card>
             </TabsContent>
             <TabsContent value="versions">
-              <ProjectVersionsProvider versions={selectedProject.versions}>
+              <ProjectVersionsProvider
+                projectId={projectId}
+                versions={selectedProject.versions}
+              >
                 <ProjectVersionsTable />
               </ProjectVersionsProvider>
             </TabsContent>

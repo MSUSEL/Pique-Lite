@@ -10,6 +10,7 @@ export interface Version {
   fileName: string;
   data: base.Schema;
   isHidden: boolean;
+  versionId: string;
 }
 
 export interface Project {
@@ -32,8 +33,8 @@ export const createNewProject = (
     [newProjectId]: {
       name: `Project ${Object.keys(prevProjects).length + 1}`,
       versions: [],
-      uuid: newProjectId,
-    },
+      uuid: newProjectId
+    }
   }));
   return newProjectId;
 };
@@ -57,7 +58,7 @@ export function createState() {
         if (visibleVersions.length > 0) {
           acc[uuid] = {
             ...project,
-            versions: visibleVersions,
+            versions: visibleVersions
           };
         }
 
@@ -72,7 +73,7 @@ export function createState() {
   return {
     currentView,
     projects,
-    visibleProjects,
+    visibleProjects
   };
 }
 

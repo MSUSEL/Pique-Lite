@@ -10,11 +10,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "../../composites/DataTable.tsx";
 import { Version } from "src/state/core.ts";
 import React, { createContext, useContext, useMemo, ReactNode } from "react";
-
-interface ProjectVersionsProviderProps {
-  versions: Version[];
-  children: ReactNode;
-}
+import { Link } from "react-router-dom";
 
 interface FlatVersion extends Omit<Version, "data"> {
   availability: number;
@@ -23,15 +19,28 @@ interface FlatVersion extends Omit<Version, "data"> {
   confidentiality: number;
   non_repudiation: number;
   integrity: number;
+  projectId: string;
 }
 
 // Context for sharing flat versions
 interface ProjectVersionsContextValue {
   flatVersions: FlatVersion[];
 }
-const ProjectVersionsContext = createContext<ProjectVersionsContextValue | undefined>(undefined);
+const ProjectVersionsContext = createContext<
+  ProjectVersionsContextValue | undefined
+>(undefined);
 
-export function ProjectVersionsProvider({ versions, children }: ProjectVersionsProviderProps) {
+interface ProjectVersionsProviderProps {
+  projectId: string;
+  versions: Version[];
+  children: ReactNode;
+}
+export function ProjectVersionsProvider({
+  projectId,
+  versions,
+  children
+}: ProjectVersionsProviderProps) {
+  console.error(`(VERSIONSTABLE) projectId: ${projectId}`);
   const flatVersions: FlatVersion[] = useMemo(() => {
     return versions.map((version) => {
       const obj = {
@@ -39,7 +48,9 @@ export function ProjectVersionsProvider({ versions, children }: ProjectVersionsP
         tqi: version.data.value,
         date: version.date,
         isHidden: version.isHidden,
-        fileName: version.fileName
+        fileName: version.fileName,
+        versionId: version.versionId,
+        projectId: projectId
       };
       for (const child of version.data.children) {
         // @ts-expect-error - Dynamic key assignment based on child name
@@ -47,7 +58,7 @@ export function ProjectVersionsProvider({ versions, children }: ProjectVersionsP
       }
       return obj as unknown as FlatVersion;
     });
-  }, [versions]);
+  }, [versions, projectId]);
 
   return (
     <ProjectVersionsContext.Provider value={{ flatVersions }}>
@@ -81,7 +92,11 @@ const columns: ColumnDef<FlatVersion>[] = [
       </Button>
     ),
     cell: ({ row }) => (
-      <div className="font-medium">{row.getValue("name")}</div>
+      <Link
+        to={`/versionDetails/project/${row.original.projectId}/version/${row.original.versionId}`}
+      >
+        {row.getValue("name")}
+      </Link>
     ),
     size: 100 // w-[100px] equivalent
   },
@@ -125,11 +140,7 @@ const columns: ColumnDef<FlatVersion>[] = [
         console.log(row);
         // Explicitly cast the value to number before calling toFixed
         const value = row.getValue(metricName) as number;
-        return (
-          <div className="text-right">
-            {value.toFixed(2)}
-          </div>
-        );
+        return <div className="text-right">{value.toFixed(2)}</div>;
       }
     };
   })
@@ -139,7 +150,9 @@ export function ProjectVersionsTable() {
   // Consume context directly
   const context = useContext(ProjectVersionsContext);
   if (!context) {
-    throw new Error("ProjectVersionsTable must be used within a ProjectVersionsProvider");
+    throw new Error(
+      "ProjectVersionsTable must be used within a ProjectVersionsProvider"
+    );
   }
   const { flatVersions } = context;
 

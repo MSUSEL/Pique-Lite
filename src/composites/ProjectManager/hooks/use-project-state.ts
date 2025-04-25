@@ -30,8 +30,8 @@ export function useProjectState() {
         [projectUuid]: {
           name: projectName,
           uuid: projectUuid,
-          versions: [],
-        },
+          versions: []
+        }
       };
       return newProjects;
     });
@@ -60,18 +60,19 @@ export function useProjectState() {
             ? new Date(f.content.date)
             : new Date(f.metadata.lastModified),
           isHidden: false,
+          versionId: uuidv4()
         };
         return version;
       });
 
       const updatedProject = {
         ...project,
-        versions: [...(project.versions || []), ...newVersions],
+        versions: [...(project.versions || []), ...newVersions]
       };
 
       const newProjects = {
         ...prev,
-        [projectId]: updatedProject,
+        [projectId]: updatedProject
       };
 
       return newProjects;
@@ -85,12 +86,12 @@ export function useProjectState() {
 
       const updatedProject = {
         ...project,
-        versions: project.versions.filter((v) => v.name !== versionName),
+        versions: project.versions.filter((v) => v.name !== versionName)
       };
 
       const newProjects = {
         ...prev,
-        [projectId]: updatedProject,
+        [projectId]: updatedProject
       };
 
       return newProjects;
@@ -108,16 +109,16 @@ export function useProjectState() {
           if (v.name === versionName) {
             return {
               ...v,
-              isHidden: !v.isHidden,
+              isHidden: !v.isHidden
             };
           }
           return v;
-        }),
+        })
       };
 
       const newProjects = {
         ...prev,
-        [projectId]: updatedProject,
+        [projectId]: updatedProject
       };
 
       return newProjects;
@@ -129,7 +130,7 @@ export function useProjectState() {
       const updatedProject = { ...(prev[projectId] || {}), name: newName };
       const newProjects = {
         ...prev,
-        [projectId]: updatedProject,
+        [projectId]: updatedProject
       };
 
       return newProjects;
@@ -144,6 +145,6 @@ export function useProjectState() {
     addFilesToProject,
     removeVersionFromProject,
     changeVersionVisibility,
-    updateProjectName,
+    updateProjectName
   };
 }
