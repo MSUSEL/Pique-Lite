@@ -22,7 +22,7 @@ const RISK_LEVELS: RiskLevel[] = [
     fontColor: "red",
     badgeColor: "#CD161C",
     icon: <IoSkullOutline />,
-    normalRange: [0, 0.2],
+    normalRange: [-10, 0.2],
     diagnosticRange: [1.5, Infinity],
   },
   {
