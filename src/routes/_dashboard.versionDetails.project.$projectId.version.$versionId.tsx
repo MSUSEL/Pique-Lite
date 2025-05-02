@@ -38,7 +38,7 @@ export default function Component(props: Route.ComponentProps) {
   const piqueVisulizerData = mockData;
 
   // Former global state for pique visualizer
-  const [visualizerState, setVisualizerState] = useState<VisualizerState>(initialState);
+  const [visualizerState, ] = useState<VisualizerState>(initialState);
 
   return (
     <div className="version-details-view">

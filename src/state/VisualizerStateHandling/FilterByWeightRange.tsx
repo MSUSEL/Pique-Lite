@@ -14,7 +14,7 @@ function filterWeights(obj: Record<string, FilterableItem>, range: [number, numb
         Object.entries(obj).map(([key, item]) => {
             // console.log(`Processing item: ${key}`);
             const filteredWeights = Object.fromEntries(
-                Object.entries(item.weights).filter(([weightKey, weightValue]) => {
+                Object.entries(item.weights).filter(([, weightValue]) => {
                     const isIncluded = weightValue >= range[0] && weightValue <= range[1];
                     //console.log(`Weight '${weightKey}': ${weightValue} is ${isIncluded ? 'kept' : 'removed'}`);
                     return isIncluded;
@@ -39,7 +39,7 @@ function checkChildren(RefObj: Record<string, FilterableItem>, FilterObj: Record
 
     // Step 2: Filter out subobjects in FilterObj if their names are not in the dictionary
     const filteredFilterObj = Object.fromEntries(
-        Object.entries(FilterObj).filter(([key, subObj]) => weightKeyDictionary.has(subObj.name))
+        Object.entries(FilterObj).filter(([, subObj]) => Object.keys(subObj.weights || {}).length > 0)
     );
 
     return filteredFilterObj;

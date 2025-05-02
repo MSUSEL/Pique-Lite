@@ -22,7 +22,6 @@ export default function ListView({ dataset, state }: { dataset: schema.base.Sche
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         justifyContent: "center",
       }}>
       <h3 className="scroll-m-20 text-2x1 font-semibold tracking-tight">

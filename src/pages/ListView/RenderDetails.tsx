@@ -16,7 +16,7 @@ export const renderDetails = (
 
                 return (
                     <AccordionItem key={key} value={key}>
-                        <AccordionTrigger onClick={() => toggleItemFn(key)} style={{ backgroundColor }}>
+                        <AccordionTrigger className="rounded-none" onClick={() => toggleItemFn(key)} style={{ backgroundColor }}>
                             {value.name ?? "N/A"}: {value.value.toFixed(2) ?? "N/A"}
                         </AccordionTrigger>
                         <AccordionContent>
@@ -46,7 +46,7 @@ export const renderMeasuresDetails = (
 
                 return (
                     <AccordionItem key={key} value={key}>
-                        <AccordionTrigger onClick={() => toggleItemFn(key)} style={{ backgroundColor }}>
+                        <AccordionTrigger className="rounded-none" onClick={() => toggleItemFn(key)} style={{ backgroundColor }}>
                             {measureName}: {measureValue.toFixed(2) ?? "N/A"}
                         </AccordionTrigger>
                         <AccordionContent>
