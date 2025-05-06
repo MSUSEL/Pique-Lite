@@ -26,7 +26,7 @@ const NotFound: React.FC = () => {
         </Text>
         <Link to="/overview" style={{ marginTop: "20px" }}>
             <Button size="2" variant="surface">
-                Back to Homepage
+                Back to Projects
             </Button>
         </Link>
         </Flex>

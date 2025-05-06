@@ -1,5 +1,5 @@
-import { LayersIcon, Pencil1Icon } from "@radix-ui/react-icons";
-import { Text, Flex, IconButton, Grid } from "@radix-ui/themes";
+import { Layers, Pencil } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 interface ProjectListItemProps {
@@ -15,7 +15,7 @@ export const ProjectListItem = ({
   onClick,
   onEditName,
   canEdit = true,
-  isSelected = false,
+  isSelected = false
 }: ProjectListItemProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -34,10 +34,8 @@ export const ProjectListItem = ({
   };
 
   return (
-    <Grid
-      columns="auto 1fr auto"
-      gap="2"
-      align="center"
+    <div
+      className="grid grid-cols-[auto_1fr_auto] items-center gap-2"
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -45,10 +43,10 @@ export const ProjectListItem = ({
         cursor: onClick ? "pointer" : "default",
         backgroundColor: isSelected ? "var(--gray-4)" : "transparent",
         padding: "6px",
-        borderRadius: "4px",
+        borderRadius: "4px"
       }}
     >
-      <LayersIcon />
+      <Layers className="h-4 w-4" />
       {isEditing ? (
         <input
           value={editedName}
@@ -56,15 +54,21 @@ export const ProjectListItem = ({
           onBlur={handleEditComplete}
           onKeyDown={(e) => e.key === "Enter" && handleEditComplete()}
           autoFocus
+          style={{ width: "fit-content", margin: 0 }}
         />
       ) : (
-        <Text>{name}</Text>
+        <span>{name}</span>
       )}
-      {isHovered && !isEditing && canEdit && (
-        <IconButton variant="ghost" size="1" onClick={handleEditClick}>
-          <Pencil1Icon />
-        </IconButton>
-      )}
-    </Grid>
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleEditClick}
+        style={{
+          visibility: isHovered && !isEditing && canEdit ? "visible" : "hidden"
+        }}
+      >
+        <Pencil className="h-4 w-4" />
+      </Button>
+    </div>
   );
 };

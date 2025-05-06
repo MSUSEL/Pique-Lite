@@ -1,9 +1,10 @@
 import { createContext, useContext, ReactNode } from "react";
 import { useProjectImport } from "./hooks/use-project-import";
+import { Version } from "../../state/core";
 
 interface Project {
   name: string;
-  versions: Array<{ name: string; content: string }>; // Adjust this type based on your actual version structure
+  versions: Version[];
 }
 
 interface ProjectManagerContextType {
@@ -40,7 +41,7 @@ interface ProjectManagerProviderProps {
 
 export const ProjectManagerProvider = ({
   children,
-  renderAfterFiles,
+  renderAfterFiles
 }: ProjectManagerProviderProps) => {
   const {
     projects = {},
@@ -51,7 +52,7 @@ export const ProjectManagerProvider = ({
     selectFiles,
     invalidFiles,
     removeVersionFromProject,
-    changeVersionVisibility,
+    changeVersionVisibility
   } = useProjectImport();
 
   const value: ProjectManagerContextType = {
@@ -64,9 +65,8 @@ export const ProjectManagerProvider = ({
     invalidFiles,
     removeVersionFromProject,
     changeVersionVisibility,
-    renderAfterFiles,
+    renderAfterFiles
   };
-
   return (
     <ProjectManagerContext.Provider value={value}>
       {children}

@@ -10,6 +10,7 @@ export interface Version {
   fileName: string;
   data: base.Schema;
   isHidden: boolean;
+  versionId: string;
 }
 
 export interface Project {
@@ -24,7 +25,7 @@ export interface Projects {
 
 export const createNewProject = (
   projects: Project[],
-  setProjects: Function
+  setProjects: (updater: (prev: Project[]) => Project[]) => void
 ) => {
   const newProjectId = uuidv4();
   setProjects((prevProjects: Project[]) => ({
@@ -32,8 +33,8 @@ export const createNewProject = (
     [newProjectId]: {
       name: `Project ${Object.keys(prevProjects).length + 1}`,
       versions: [],
-      uuid: newProjectId,
-    },
+      uuid: newProjectId
+    }
   }));
   return newProjectId;
 };
@@ -41,27 +42,6 @@ export const createNewProject = (
 export function createState() {
   const currentView = atom<string>();
   const projects = atom<Projects | undefined>({});
-  const selectedProject = atom<string | undefined>(undefined);
-  const selectedVersion = atom<number | undefined>(undefined);
-
-  // Create a derived atom that updates selectedVersion when selectedProject changes
-  const selectedProjectWithVersion = atom(
-    (get) => get(selectedProject),
-    (get, set, newProjectId: string | undefined) => {
-      set(selectedProject, newProjectId);
-      if (newProjectId) {
-        const projectsValue = get(projects);
-        const project = projectsValue?.[newProjectId];
-        if (project && project.versions.length > 0) {
-          set(selectedVersion, project.versions.length - 1);
-        } else {
-          set(selectedVersion, undefined);
-        }
-      } else {
-        set(selectedVersion, undefined);
-      }
-    }
-  );
 
   const visibleProjects = atom((get) => {
     const projectsValue = get(projects);
@@ -78,7 +58,7 @@ export function createState() {
         if (visibleVersions.length > 0) {
           acc[uuid] = {
             ...project,
-            versions: visibleVersions,
+            versions: visibleVersions
           };
         }
 
@@ -93,9 +73,7 @@ export function createState() {
   return {
     currentView,
     projects,
-    selectedProject: selectedProjectWithVersion,
-    selectedVersion,
-    visibleProjects,
+    visibleProjects
   };
 }
 

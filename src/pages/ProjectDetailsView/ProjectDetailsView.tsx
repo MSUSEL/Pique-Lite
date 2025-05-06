@@ -1,13 +1,25 @@
-import { Box, Flex, Text } from "@radix-ui/themes";
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
+import { useAtomValue } from "jotai";
+import { useMemo } from "react";
+import { getAllRiskLevels } from "../../composites/RiskHelpers";
+import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
-import { getAllRiskLevels } from "../../composites/RiskHelpers";
-import * as ProjectPanel from "./ProjectPanel";
-import { useMemo, useEffect } from "react";
-import { State } from "../../state";
-import { LabelledComboBox } from "../../composites/Combobox";
-import { useSearchParams } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from "@/components/ui/table";
+import {
+  ProjectVersionsProvider,
+  ProjectVersionsTable
+} from "./VersionTableNew";
+import { Calendar } from "lucide-react";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -16,64 +28,75 @@ export const RiskLevelLegend = () => {
     <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
-        score: risk.diagnosticRange[1] - 0.001,
+        score: risk.diagnosticRange[1] - 0.001
       }))}
       scale="diagnostic"
     />
   );
 };
 
-const ProjectCharacteristicsRisks = () => {
+/**
+ * Formats a Date object to "DD MMM YYYY" format (e.g., "02 Dec 2025")
+ * @param date - The Date object to format
+ * @returns The formatted date string
+ */
+function formatDate(date: Date): string {
+  // Get the day and add leading zero if needed
+  const day = date.getDate().toString().padStart(2, "0");
+
+  // Get the month name
+  const monthNames: string[] = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  const monthName = monthNames[date.getMonth()];
+
+  // Get the year
+  const year = date.getFullYear();
+
+  // Return the formatted date
+  return `${day} ${monthName} ${year}`;
+}
+
+const ProjectCharacteristicsRisks = ({ projectId }: { projectId: string }) => {
   const projects = useAtomValue(State.projects);
-  const selectedProject = useAtomValue(State.selectedProject);
-  const selectedVersion = useAtomValue(State.selectedVersion);
 
   //check to make sure there is a selected project
-  if (!selectedProject) return null;
-  const project = projects ? projects[selectedProject] : undefined;
+  if (!projectId) return null;
+  const project = projects ? projects[projectId] : undefined;
 
   if (!project) return null;
 
-  const version =
-    project.versions[selectedVersion == undefined ? 0 : selectedVersion];
+  const versionIndex = 0; // Default to first version for now
+  const version = project.versions[versionIndex];
   const characteristics = version.data.children;
 
   const riskCards = characteristics.map(
     (characteristic: { name: string; value: number }) => ({
       title: characteristic.name,
-      score: characteristic.value,
+      score: characteristic.value
     })
   );
 
   return <RiskLegend risks={riskCards} scale="normal" />;
 };
 
-function ProjectDetailsView() {
-  const setCurrentView = useSetAtom(State.currentView);
-  useEffect(() => {
-    setCurrentView("project");
-  }, [setCurrentView]);
+interface ProjectDetailsViewProps {
+  projectId: string;
+}
 
+function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   const projectMapping = useAtomValue(State.projects);
-  const [searchParams, setURLSearchParameters] = useSearchParams();
-  const [selectedProjectId, setSelectedProjectId] = useAtom(
-    State.selectedProject
-  );
-  const setSelectedVersion = useSetAtom(State.selectedVersion);
-
-  const projectId = searchParams.get("projectid") || selectedProjectId || "";
-  const versionIdParam = searchParams.get("versionid");
-
-  if (versionIdParam === undefined || versionIdParam === "undefined" || versionIdParam === "") {
-    const params = new URLSearchParams(searchParams);
-    const lastVersion = projectMapping?.[projectId]?.versions?.length
-      ? String(projectMapping[projectId].versions.length - 1) : "0";
-    setSelectedVersion(parseInt(lastVersion, 10));
-    params.set("versionid", lastVersion);
-    setURLSearchParameters(params, { replace: true });
-  }
-
-  const versionId = versionIdParam ? parseInt(versionIdParam, 10) : 0;
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
@@ -83,63 +106,62 @@ function ProjectDetailsView() {
   const selectedProject =
     projects.find((project) => project.uuid === projectId) || null;
 
-  const versions = useMemo(() => {
-    if (!selectedProject) return [];
-    return selectedProject.versions;
-  }, [selectedProject]);
+  if (!selectedProject || !selectedProject.versions.length) return null;
 
   return (
-    <Flex
-      className="ProjectDetailsView-root"
-      direction="column"
-      align="start"
-      width="100%"
-      height="100%"
-      gap="6"
-      justify="start"
-      style={{
-        padding: "1em",
-      }}
-    >
-      <Flex direction="row" width="100%" gap="6">
-        <LabelledComboBox
-          label="Project"
-          getOptionKey={(project) => project.uuid}
-          getOptionLabel={(project) => project.name}
-          options={projects}
-          value={selectedProject}
-          onChange={(project) => {
-            const newProjectId = project?.uuid || "";
-            setSelectedProjectId(newProjectId);
-            setURLSearchParameters({ projectid: newProjectId, versionid: "" });
-          }}
-        />
-        <LabelledComboBox
-          label="Version"
-          options={versions}
-          value={versions[versionId]! || undefined}
-          getOptionKey={(version) => version.name}
-          getOptionLabel={(version) => version.name}
-          onChange={(version) => {
-            setSelectedVersion(version ? versions.indexOf(version) : undefined)
-            const newVersionId = version ? versions.indexOf(version).toString() : "";
-            setURLSearchParameters({ projectid: projectId, versionid: newVersionId });
-          }}
-        />
-      </Flex>
-      <Flex justify="center" direction="row" align="center" gap="6">
-        <Text style={{ display: "block", whiteSpace: "nowrap" }}>
-          Risk Status
-        </Text>
-        <ProjectCharacteristicsRisks />
-      </Flex>
-      <Box>
-        <ProjectPanel.Container>
-          <ProjectPanel.Title>Characteristics</ProjectPanel.Title>
-          <ProjectAttributesChart />
-        </ProjectPanel.Container>
-      </Box>
-    </Flex>
+    <div className="project-details-view">
+      <div className="grid grid-rows-[auto_auto_1fr]">
+        <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm">
+          <h1 className="text-left text-2xl font-bold text-gray-700">
+            {selectedProject.name}
+          </h1>
+          <span className="align-center inline-flex items-center gap-1 text-sm font-light text-gray-500">
+            <Calendar size={14} />
+            {formatDate(
+              selectedProject.versions[selectedProject.versions.length - 1].date
+            )}
+          </span>
+        </div>
+        <Tabs defaultValue="overview">
+          <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0">
+            <TabsTrigger
+              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+              value="overview"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger
+              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+              value="versions"
+            >
+              Version Details
+            </TabsTrigger>
+          </TabsList>
+          <div className="px-4">
+            <TabsContent value="overview">
+              <Card className="gap-1 py-2">
+                <CardHeader>
+                  <CardTitle className="text-left text-xl">
+                    Characteristics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pl-1">
+                  <ProjectAttributesChart projectId={projectId} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="versions">
+              <ProjectVersionsProvider
+                projectId={projectId}
+                versions={selectedProject.versions}
+              >
+                <ProjectVersionsTable />
+              </ProjectVersionsProvider>
+            </TabsContent>
+          </div>
+        </Tabs>
+      </div>
+    </div>
   );
 }
 

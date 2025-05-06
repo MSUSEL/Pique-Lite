@@ -1,10 +1,17 @@
-import { Button, Dialog, Flex, Grid } from "@radix-ui/themes";
-import { ProjectList } from "../../composites/ProjectManager/ProjectList";
-import { ProjectFiles } from "../../composites/ProjectManager/ProjectFiles";
-import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
-import { useSetAtom, useAtomValue } from "jotai";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
+import { ProjectSidebar } from "../../composites/ProjectManager/ProjectSidebar";
+import { ProjectContent } from "../../composites/ProjectManager/ProjectContent";
+import { useAtomValue } from "jotai";
 import { State } from "../../state";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface InitialProjectSetupDialogProps {
   open: boolean;
@@ -13,52 +20,35 @@ interface InitialProjectSetupDialogProps {
 
 export const InitialProjectSetupDialog = ({
   open,
-  onOpenChange,
+  onOpenChange
 }: InitialProjectSetupDialogProps) => {
-  const setCurrentView = useSetAtom(State.currentView);
   const projects = useAtomValue(State.projects);
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    setCurrentView("overview");
     navigate("/overview");
     onOpenChange(false);
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Content
-        style={{
-          maxWidth: 900,
-          width: "90vw",
-          padding: 0,
-          height: "80vh",
-        }}
-      >
-        <ProjectManagerProvider>
-          <Grid columns="1fr 3fr" height="100%">
-            <ProjectList />
-            <Flex direction="column" height="100%">
-              <ProjectFiles />
-              <Flex
-                gap="3"
-                p="4"
-                justify="end"
-                // style={{ borderTop: "1px solid var(--gray-6)" }}
-              >
-                <Button
-                  size="3"
-                  variant="solid"
-                  onClick={handleContinue}
-                  disabled={!Object.keys(projects || {}).length}
-                >
-                  Continue
-                </Button>
-              </Flex>
-            </Flex>
-          </Grid>
-        </ProjectManagerProvider>
-      </Dialog.Content>
-    </Dialog.Root>
+    <DialogContent className="h-[800px] max-w-[800px] px-0 py-0 sm:max-w-[800px]">
+      <VisuallyHidden>
+        <DialogHeader>
+          <DialogTitle>Project Manager</DialogTitle>
+        </DialogHeader>
+      </VisuallyHidden>
+      <div className="h-800px w-800px grid grid-cols-[1fr_3fr]">
+        <ProjectSidebar />
+        <ProjectContent />
+      </div>
+      <DialogFooter>
+        <Button
+          onClick={handleContinue}
+          disabled={!Object.keys(projects || {}).length}
+        >
+          Continue
+        </Button>
+      </DialogFooter>
+    </DialogContent>
   );
 };

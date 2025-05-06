@@ -24,3 +24,6 @@ yarn-error.log*
 node_modules/
 *storybook.log
 venv/
+.local/
+**/.million/store.json
+.cursor

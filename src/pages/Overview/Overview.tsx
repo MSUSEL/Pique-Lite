@@ -1,32 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSetAtom } from "jotai";
-import { State } from "../../state";
-import { Box, Flex, Heading, Text } from "@radix-ui/themes";
+import React, { useState } from "react";
 import { useProjects } from "../../composites/FileUploader/hooks/use-projects";
-import { ProjectCard } from "./ProjectCard";
-import Filters from "./Filters";
 import { getRisk } from "../../composites/RiskHelpers";
-import SearchBar from "../../composites/SearchBar";
+import { SearchBar } from "../../composites/SearchBar";
 import { matchSorter } from "match-sorter";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import Filters from "../../composites/VersionFiltering/Filters";
+import { ProjectCard } from "../ProjectOverview/ProjectCard";
+import { PaginationButtons } from "../../composites/Pagination/PaginationButtons";
 
 const ITEMS_PER_PAGE = 5;
 
 const Overview: React.FC = () => {
-  const setCurrentView = useSetAtom(State.currentView);
-  useEffect(() => {
-    setCurrentView("overview");
-  }, [setCurrentView]);
-
   const { projects } = useProjects();
-  const setProject = useSetAtom(State.selectedProject);
-  const setVersion = useSetAtom(State.selectedVersion);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page");
   let currentPage = page ? parseInt(page, 10) : 1;
-
-  if (!projects) return null;
 
   //Create filtering states with default values
   const [riskFilters, setRiskFilters] = useState<string[]>([
@@ -34,10 +23,12 @@ const Overview: React.FC = () => {
     "High",
     "Elevated",
     "Guarded",
-    "Low",
+    "Low"
   ]);
   const [sliderValue, setSliderValue] = useState<number[]>([0, 1.0]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  if (!projects) return null;
 
   const handleFilterChange = (newFilters: string[], newValues: number[]) => {
     setRiskFilters(newFilters);
@@ -66,7 +57,7 @@ const Overview: React.FC = () => {
 
   //Process search query
   const searchFilteredProjects = matchSorter(filteredProjects, searchQuery, {
-    keys: ["*.name"],
+    keys: ["*.name"]
   });
 
   //Pagination logic
@@ -77,17 +68,9 @@ const Overview: React.FC = () => {
   const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
-    <Box
-      className="Overview-root"
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-      }}
-    >
-      <Flex direction="column" style={{ justifyContent: "center" }}>
-        <Flex direction="row">
+    <div className="Overview-root px-4">
+      <div>
+        <div>
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -100,17 +83,13 @@ const Overview: React.FC = () => {
             onFilterChange={handleFilterChange}
             projects={projects}
           />
-        </Flex>
+        </div>
         {/* Display if filters have filtered out all projects */}
         {projectsToDisplay.length === 0 && (
-          <Flex direction={"column"} align="center">
-            <Heading mt="6" color="gray" size="5">
-              No projects found
-            </Heading>
-            <Text mt="2" color="gray" size="3">
-              Try changing your filters or adding more projects
-            </Text>
-          </Flex>
+          <div>
+            <h1>No projects found</h1>
+            <span>Try changing your filters or adding more projects</span>
+          </div>
         )}
         {totalPages > 1 && (
           <PaginationButtons
@@ -124,11 +103,8 @@ const Overview: React.FC = () => {
             key={uuid}
             uuid={uuid}
             project={project}
-            onProjectClick={(versionIndex) => {
-              setCurrentView("project");
-              setProject(uuid);
-              setVersion(versionIndex);
-              navigate(`/projectview?projectid=${uuid}&versionid=${versionIndex}`);
+            onProjectClick={() => {
+              navigate(`/project/${uuid}`);
             }}
           />
         ))}
@@ -138,61 +114,9 @@ const Overview: React.FC = () => {
             totalPages={totalPages}
           />
         )}
-      </Flex>
-    </Box>
+      </div>
+    </div>
   );
 };
 
-interface PaginationButtonsProps {
-  currentPage: number;
-  totalPages: number;
-}
-
-//Pagination logic
-//TODO: Add this to another file, it is used in other places in PIQUE LITE
-export const PaginationButtons: React.FC<PaginationButtonsProps> = ({
-  currentPage,
-  totalPages,
-}) => {
-  return (
-    <Flex direction="row" gap="3" mt="4">
-      <Link
-        to={`?page=${currentPage - 1}`}
-        onClick={(e) => {
-          if (currentPage === 1) e.preventDefault();
-        }}
-        style={{
-          color: currentPage === 1 ? "gray" : "blue",
-          cursor: currentPage === 1 ? "not-allowed" : "pointer",
-        }}
-      >
-        Previous
-      </Link>
-      {Array.from({ length: totalPages }, (_, index) => (
-        <Link
-          key={index + 1}
-          to={`?page=${index + 1}`}
-          style={{
-            color: currentPage === index + 1 ? "black" : "blue",
-            cursor: "pointer",
-          }}
-        >
-          {index + 1}
-        </Link>
-      ))}
-      <Link
-        to={`?page=${currentPage + 1}`}
-        style={{
-          color: currentPage === totalPages ? "gray" : "blue",
-          cursor: currentPage === totalPages ? "not-allowed" : "pointer",
-        }}
-        onClick={(e) => {
-          if (currentPage === totalPages) e.preventDefault();
-        }}
-      >
-        Next
-      </Link>
-    </Flex>
-  );
-};
-export default Overview;
+export { Overview };

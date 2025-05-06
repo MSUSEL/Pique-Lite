@@ -1,11 +1,10 @@
 import { FileTextIcon, InfoCircledIcon } from "@radix-ui/react-icons";
 import { Button, Callout } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React from "react";
 import useFileUploader from "./hooks/use-file-uploader";
 import { useNavigate } from "react-router-dom"; 
 import FileVerifier from "./FileVerifier";
-import { useSetAtom, useAtom } from "jotai";
-import { State, Project } from "../../state/core";
+import { Project, Version } from "../../state/core";
 import { v4 as uuidv4 } from "uuid";
 
 export const extractVersionName = (name: string) => {
@@ -15,61 +14,38 @@ export const extractVersionName = (name: string) => {
   return version;
 };
 
-export const FileUploader: React.FC = () => {
+interface FileUploaderProps {
+  onProjectCreate: (project: Project) => void;
+}
+
+export const FileUploader: React.FC<FileUploaderProps> = ({ onProjectCreate }) => {
   const { files, loadedFiles, handleFileSelect, removeFile, allFilesVerified } =
     useFileUploader();
-  const setProject = useSetAtom(State.project);
-  const setProjects = useSetAtom(State.projects);
-  const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
-  const setCurrentView = useSetAtom(State.currentView);
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    setProjects((prevProjects = {}) => {
-      const projectCount = Object.keys(prevProjects).length;
-      const projectName = "Project " + (projectCount + 1);
-      const projectUuid = uuidv4();
+    const projectCount = 1; // This will be managed by the parent component
+    const projectName = "Project " + (projectCount + 1);
+    const projectUuid = uuidv4();
 
-      let uploadCounter = 1;
-      const newProject: Project = {
-        name: projectName,
-        uuid: projectUuid,
-        versions: loadedFiles.map((f) => {
-          return {
-            name: extractVersionName(f.name),
-            fileName: f.name,
-            data: f.content,
-            date: f.content.date
-              ? new Date(f.content.date)
-              : new Date(f.lastModified),
-            uploadOrder: uploadCounter++,
-          };
-        }),
-      };
-
-      setSelectedProject(projectUuid);
-      setCurrentView("overview");
-      navigate("/overview");
-
-      return {
-        ...prevProjects,
-        [projectUuid]: newProject,
-      };
-    });
-
-    if (loadedFiles.length > 0) {
-      setProject({
-        versions: loadedFiles.map((f) => ({
+    const newProject: Project = {
+      name: projectName,
+      uuid: projectUuid,
+      versions: loadedFiles.map((f): Version => {
+        return {
           name: extractVersionName(f.name),
           fileName: f.name,
           data: f.content,
-          // date: new Date(f.lastModified),
           date: f.content.date
             ? new Date(f.content.date)
             : new Date(f.lastModified),
-        })),
-      });
-    }
+          isHidden: false
+        };
+      }),
+    };
+
+    onProjectCreate(newProject);
+    navigate("/overview");
   };
 
   const handleFileUpload = () => {
@@ -78,8 +54,9 @@ export const FileUploader: React.FC = () => {
     input.accept = ".json";
     input.multiple = true;
 
-    input.onchange = (event) => {
-      const files = event.target.files;
+    input.onchange = (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      const files = target.files;
       if (files) {
         handleFileSelect(Array.from(files));
       }

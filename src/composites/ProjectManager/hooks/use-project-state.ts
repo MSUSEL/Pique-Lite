@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import { State, Version } from "../../../state/core";
 import { v4 as uuidv4 } from "uuid";
 import { base } from "../../../state/schema";
+import { useState } from "react";
 
 interface FileMetadata {
   name: string;
@@ -14,54 +15,67 @@ interface FileMetadata {
 
 export function useProjectState() {
   const [projects, setProjects] = useAtom(State.projects);
-  const [selectedProject, setSelectedProject] = useAtom(State.selectedProject);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    null
+  );
 
   const createNewProject = () => {
     const projectCount = Object.keys(projects || {}).length;
     const projectName = `Project ${projectCount + 1}`;
     const projectUuid = uuidv4();
 
-    setProjects((prev = {}) => ({
-      ...prev,
-      [projectUuid]: {
-        name: projectName,
-        uuid: projectUuid,
-        versions: [],
-      },
-    }));
+    setProjects((prev = {}) => {
+      const newProjects = {
+        ...prev,
+        [projectUuid]: {
+          name: projectName,
+          uuid: projectUuid,
+          versions: []
+        }
+      };
+      return newProjects;
+    });
 
-    setSelectedProject(projectUuid);
+    setSelectedProjectId(projectUuid);
     return projectUuid;
   };
 
+  const setSelectedProject = (projectId: string) => {
+    setSelectedProjectId(projectId);
+  };
+
   const addFilesToProject = (projectId: string, files: FileMetadata[]) => {
-    console.log("Adding files:", files);
     setProjects((prev = {}) => {
       const project = prev[projectId];
       if (!project) {
-        console.log("No project found for:", projectId);
         return prev;
       }
 
-      const newVersions: Version[] = files.map((f) => ({
-        name: f.metadata.name,
-        fileName: f.metadata.name,
-        data: f.content,
-        date: f.content.date
-          ? new Date(f.content.date)
-          : new Date(f.metadata.lastModified),
-        isHidden: false,
-      }));
+      const newVersions: Version[] = files.map((f) => {
+        const version = {
+          name: f.metadata.name,
+          fileName: f.metadata.name,
+          data: f.content,
+          date: f.content.date
+            ? new Date(f.content.date)
+            : new Date(f.metadata.lastModified),
+          isHidden: false,
+          versionId: uuidv4()
+        };
+        return version;
+      });
 
-      console.log("New versions:", newVersions);
-
-      return {
-        ...prev,
-        [projectId]: {
-          ...project,
-          versions: [...(project.versions || []), ...newVersions],
-        },
+      const updatedProject = {
+        ...project,
+        versions: [...(project.versions || []), ...newVersions]
       };
+
+      const newProjects = {
+        ...prev,
+        [projectId]: updatedProject
+      };
+
+      return newProjects;
     });
   };
 
@@ -70,13 +84,17 @@ export function useProjectState() {
       const project = prev[projectId];
       if (!project) return prev;
 
-      return {
-        ...prev,
-        [projectId]: {
-          ...project,
-          versions: project.versions.filter((v) => v.name !== versionName),
-        },
+      const updatedProject = {
+        ...project,
+        versions: project.versions.filter((v) => v.name !== versionName)
       };
+
+      const newProjects = {
+        ...prev,
+        [projectId]: updatedProject
+      };
+
+      return newProjects;
     });
   };
 
@@ -85,39 +103,48 @@ export function useProjectState() {
       const project = prev[projectId];
       if (!project) return prev;
 
-      return {
-        ...prev,
-        [projectId]: {
-          ...project,
-          versions: project.versions.map((v) => {
-            if (v.name === versionName) {
-              return {
-                ...v,
-                isHidden: !v.isHidden,
-              };
-            }
-            return v;
-          }),
-        },
+      const updatedProject = {
+        ...project,
+        versions: project.versions.map((v) => {
+          if (v.name === versionName) {
+            return {
+              ...v,
+              isHidden: !v.isHidden
+            };
+          }
+          return v;
+        })
       };
+
+      const newProjects = {
+        ...prev,
+        [projectId]: updatedProject
+      };
+
+      return newProjects;
     });
   };
 
   const updateProjectName = (projectId: string, newName: string) => {
-    setProjects((prev = {}) => ({
-      ...prev,
-      [projectId]: { ...(prev[projectId] || {}), name: newName },
-    }));
+    setProjects((prev = {}) => {
+      const updatedProject = { ...(prev[projectId] || {}), name: newName };
+      const newProjects = {
+        ...prev,
+        [projectId]: updatedProject
+      };
+
+      return newProjects;
+    });
   };
 
   return {
     projects,
-    selectedProject,
+    selectedProject: selectedProjectId,
     setSelectedProject,
     createNewProject,
     addFilesToProject,
     removeVersionFromProject,
     changeVersionVisibility,
-    updateProjectName,
+    updateProjectName
   };
 }

@@ -1,59 +1,130 @@
-import { Box, Text } from "@radix-ui/themes";
-import * as SideBar from "react-pro-sidebar";
-import { useAtomValue } from "jotai";
-import { State } from "../state";
-import React, { useState } from "react";
-import { HomeIcon, DashboardIcon, MixIcon } from "@radix-ui/react-icons"; // Replace with actual icons
-import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { Home, MoreHorizontal, Plus } from "lucide-react";
+import React from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import PiqueLogoNoText from "../assets/pique-logo-notext.png";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuButton,
+  SidebarMenuItem
+} from "../components/ui/sidebar";
+import { useProjects } from "./FileUploader/hooks/use-projects";
+import { Button } from "@/components/ui/button";
+import { ProjectManagerDialog } from "./ProjectManager/ProjectManagerDialog";
+
+const sidebarItems = [
+  {
+    label: "Dashboard",
+    href: "/overview",
+    icon: Home
+  }
+];
 
 interface SideMenuProps {
-  collapsed?: boolean;
+  selectedProjectId?: string | null;
+  selectedVersionId?: string | null;
 }
 
-const SideMenu: React.FC<SideMenuProps> = ({ collapsed = true }) => {
-  const [hovered, setHovered] = useState(false);
-  const selectedProject = useAtomValue(State.selectedProject);
-  const selectedVersion = useAtomValue(State.selectedVersion);
-
-  const handleMouseEnter = () => setHovered(true);
-  const handleMouseLeave = () => setHovered(false);
+const SideMenu: React.FC<SideMenuProps> = () => {
+  const { projects } = useProjects();
+  const [searchParams] = useSearchParams();
+  const location = useLocation();
+  let currentProjectId = null;
+  if (location.pathname.includes("/project/")) {
+    currentProjectId = location.pathname.split("/")[2];
+  }
 
   return (
-    <Box
-      className="SideMenu-root"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      height="100%"
-      // style={{ width: collapsed && !hovered ? "50px" : "200px", transition: "width 0.3s" }}
-    >
-      <SideBar.Sidebar
-        collapsed={collapsed && !hovered}
-        style={{ height: "100%" }}
-      >
-        <SideBar.Menu>
-          <SideBar.MenuItem
-            icon={<HomeIcon />}>
-            <Link to="/overview">
-              <Text>Overview</Text>
-            </Link>
-          </SideBar.MenuItem>
+    <Sidebar variant="sidebar">
+      <SidebarHeader className="bg-gray-50">
+        <span className="justify-left align-center flex flex-row gap-8">
+          <img src={PiqueLogoNoText} className="h-16" alt="Pique Logo" />
+          <h2 className="align-center flex flex-col justify-center text-lg">
+            Pique
+          </h2>
+        </span>
+      </SidebarHeader>
+      <SidebarContent className="bg-gray-50">
+        <SidebarGroup>
+          <SidebarMenu>
+            {sidebarItems.map((item) => (
+              <SidebarMenuItem key={item.label}>
+                <SidebarMenuButton asChild>
+                  <Link to={item.href}>
+                    <item.icon />
+                    <span>{item.label}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
 
-          <SideBar.MenuItem
-            icon={<DashboardIcon />}>
-            <Link to={`/projectview?projectid=${selectedProject}&versionid=${selectedVersion}`}>
-              <Text>Project</Text>
-            </Link>
-          </SideBar.MenuItem>
+        {/* Projects Section */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupAction>
+            <ProjectManagerDialog>
+              <Plus />
+            </ProjectManagerDialog>
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {projects &&
+                Object.entries(projects).map(([uuid, project]) => {
+                  const isActive = currentProjectId === uuid;
 
-          <SideBar.MenuItem
-            icon={<MixIcon />}>
-            <Link to="/compare">
-              <Text>Compare Projects</Text>
-            </Link>
-          </SideBar.MenuItem>
-        </SideBar.Menu>
-      </SideBar.Sidebar>
-    </Box>
+                  console.log(
+                    `isActive: ${isActive}, uuid: ${uuid}, currentProjectId: ${currentProjectId}`
+                  );
+                  return (
+                    <SidebarMenuItem
+                      key={uuid}
+                      className="last-child:invisible last-child:hover:visible"
+                    >
+                      <SidebarMenuButton
+                        asChild
+                        isActive={currentProjectId === uuid}
+                      >
+                        <Link to={`/project/${uuid}`}>{project.name}</Link>
+                      </SidebarMenuButton>
+                      <DropdownMenu>
+                        <SidebarMenuAction asChild>
+                          <DropdownMenuTrigger asChild>
+                            <MoreHorizontal />
+                          </DropdownMenuTrigger>
+                        </SidebarMenuAction>
+                        <DropdownMenuContent>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              // TODO: Remvoe project
+                            }}
+                          >
+                            <span>Delete Project</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </SidebarMenuItem>
+                  );
+                })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
 };
 

@@ -1,18 +1,13 @@
-import { IconButton } from "@radix-ui/themes";
 import { useLinePlotContext } from "../context";
 import { ZoomOutIcon } from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
 
 export function ZoomOut() {
   const { zoomHandlers } = useLinePlotContext();
 
   return (
-    <IconButton
-      size="2"
-      variant="surface"
-      color="gray"
-      onClick={zoomHandlers.zoomOut}
-    >
+    <Button variant="outline" onClick={zoomHandlers.zoomOut}>
       <ZoomOutIcon />
-    </IconButton>
+    </Button>
   );
 }

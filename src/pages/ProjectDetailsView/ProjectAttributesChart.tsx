@@ -1,7 +1,5 @@
-import { useAtomValue } from "jotai";
-import { flatCharacteristicDataAtom } from "../../state";
+import { useFlatCharacteristicData } from "../../state";
 import { LinePlot } from "../../composites/LinePlot";
-import { Flex } from "@radix-ui/themes";
 
 const CHARACTERISTIC_NAMES = [
   "Availability",
@@ -27,8 +25,13 @@ type DataPoint = {
   [key: string]: string | number; // Allow for characteristic names as keys
 };
 
-export const ProjectAttributesChart = () => {
-  const flatData = useAtomValue(flatCharacteristicDataAtom);
+interface ProjectAttributesChartProps {
+  projectId: string;
+}
+export const ProjectAttributesChart = ({
+  projectId,
+}: ProjectAttributesChartProps) => {
+  const flatData = useFlatCharacteristicData(projectId || undefined);
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
     date: d.date.toISOString().split("T")[0],
@@ -48,15 +51,15 @@ export const ProjectAttributesChart = () => {
         xAxisKey="date"
         style={{ userSelect: "none" }}
       >
-        <Flex justify="end" align="end" gap="2" pr="20px" pb="2">
+        <div className="flex justify-end gap-2 py-1">
           <LinePlot.ZoomControls.ModeToggle />
           <LinePlot.ZoomControls.ZoomOut />
-        </Flex>
+        </div>
         <LinePlot.PlotArea
           lines={lines}
-          width={1000}
+          // width={600}
           height={250}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         />
         <LinePlot.BrushStats>
           {(selection) => (
@@ -68,13 +71,15 @@ export const ProjectAttributesChart = () => {
               }}
             >
               {CHARACTERISTIC_NAMES.map((characteristic) => {
-                const startValue =
+                const startValue = Number(
                   selection.start[
                     characteristic as keyof typeof selection.start
-                  ];
-                const endValue =
-                  selection.end[characteristic as keyof typeof selection.end];
-                const delta = Number(endValue) - Number(startValue);
+                  ]
+                );
+                const endValue = Number(
+                  selection.end[characteristic as keyof typeof selection.end]
+                );
+                const delta = endValue - startValue;
                 const color =
                   delta > 0 ? "#22c55e" : delta < 0 ? "#ef4444" : "#666666";
 
