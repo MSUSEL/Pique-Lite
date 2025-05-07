@@ -4,57 +4,55 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog";
-import { ProjectSidebar } from "../../composites/ProjectManager/ProjectSidebar";
-import { ProjectContent } from "../../composites/ProjectManager/ProjectContent";
-import { useAtomValue } from "jotai";
-import { State } from "../../state";
-import { useNavigate } from "react-router-dom";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useAtomValue } from "jotai";
+import { ProjectContent } from "../../composites/ProjectManager/ProjectContent";
+import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext";
+import { ProjectSidebar } from "../../composites/ProjectManager/ProjectSidebar";
+import { State } from "../../state";
 
 interface InitialProjectSetupDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+  trigger: React.ReactNode;
+  triggerAsChild?: boolean;
+  onContinue: () => void;
 }
 
 export const InitialProjectSetupDialog = ({
-  open,
-  onOpenChange
+  onContinue,
+  trigger,
+  triggerAsChild = false
 }: InitialProjectSetupDialogProps) => {
   const projects = useAtomValue(State.projects);
-  const navigate = useNavigate();
-
-  const handleContinue = () => {
-    navigate("/overview");
-    onOpenChange(false);
-  };
 
   return (
-    <DialogContent className="InitialProjectSetupDialogRoot radius-none h-[80svh] max-h-[80svh] w-[90svw] max-w-[100svw] overflow-hidden px-0 py-0 sm:max-w-[100svw]">
-      <VisuallyHidden>
-        <DialogHeader>
-          <DialogTitle>Project Manager</DialogTitle>
-        </DialogHeader>
-      </VisuallyHidden>
-      <div className="grid max-h-[80svh] max-w-full flex-1 grid-cols-[minmax(max-content,200px)_2.5fr] overflow-hidden bg-white sm:max-h-[80svh] sm:max-w-full">
-        <ProjectSidebar />
-        <div className="flex flex-col justify-between gap-1">
-          <div className="flex flex-1 flex-col px-4 py-8">
-            <ProjectContent />
+    <ProjectManagerProvider>
+      <Dialog>
+        <DialogTrigger asChild={triggerAsChild}>{trigger}</DialogTrigger>
+        <DialogContent className="max-h-[60svh] max-w-[80svw] px-0 py-0 sm:max-h-[60svh] sm:max-w-[80svw]">
+          <VisuallyHidden>
+            <DialogHeader>
+              <DialogTitle>Project Manager</DialogTitle>
+            </DialogHeader>
+          </VisuallyHidden>
+          <div className="grid h-[60svh] max-h-[60svh] max-w-[80svw] grid-cols-[1fr_3fr] overflow-hidden sm:max-h-[60svh] sm:max-w-[80svw]">
+            <ProjectSidebar />
+            <div className="grid h-[60svh] max-h-[60svh] max-w-[80svw] grid-rows-[1fr_max-content] overflow-hidden p-4 sm:max-h-[60svh] sm:max-w-[80svw]">
+              <ProjectContent />
+              <div className="flex justify-end">
+                <Button
+                  onClick={onContinue}
+                  disabled={!Object.keys(projects || {}).length}
+                >
+                  Continue
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex justify-end p-2">
-            <Button
-              onClick={handleContinue}
-              disabled={!Object.keys(projects || {}).length}
-              variant="secondary"
-            >
-              Continue
-            </Button>
-          </div>
-        </div>
-      </div>
-      {/* <DialogFooter className="p-2"></DialogFooter> */}
-    </DialogContent>
+        </DialogContent>
+      </Dialog>
+    </ProjectManagerProvider>
   );
 };

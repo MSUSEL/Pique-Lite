@@ -27,3 +27,4 @@ venv/
 .local/
 **/.million/store.json
 .cursor
+mock-data/

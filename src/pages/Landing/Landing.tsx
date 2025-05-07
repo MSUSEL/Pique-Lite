@@ -4,9 +4,10 @@ import { FileTextIcon } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog.tsx";
 import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext.tsx";
+import { useNavigate } from "react-router-dom";
 
 function Landing() {
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-center">
@@ -27,20 +28,16 @@ function Landing() {
           style={{ marginLeft: "20px" }}
         />
       </div>
-      <ProjectManagerProvider>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">
-              <FileTextIcon width="16" height="16" />
-              Get Started
-            </Button>
-          </DialogTrigger>
-          <InitialProjectSetupDialog
-            open={dialogOpen}
-            onOpenChange={setDialogOpen}
-          />
-        </Dialog>
-      </ProjectManagerProvider>
+      <InitialProjectSetupDialog
+        trigger={
+          <Button variant="outline">
+            <FileTextIcon width="16" height="16" />
+            Get Started
+          </Button>
+        }
+        triggerAsChild
+        onContinue={() => navigate("/overview")}
+      />
     </div>
   );
 }

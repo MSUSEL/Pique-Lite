@@ -1,0 +1,6 @@
+new dependancies:
+    visx: run 'npm install --save @visx/visx'
+    npm i react-draggable
+
+created a type declaration file for tree node
+    'TreeNode.d.ts'

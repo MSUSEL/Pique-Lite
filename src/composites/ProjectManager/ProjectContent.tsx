@@ -33,9 +33,9 @@ export const ProjectContent = () => {
   };
 
   return (
-    <div className="project-content-root flex h-[100%] max-h-[100%] flex-1 flex-col">
+    <div className="project-content-root flex h-full max-h-full flex-col">
       {!Object.keys(projects || {}).length ? (
-        <div className="project-manager-content-container flex flex-1 flex-col items-center justify-center gap-4 py-9">
+        <div className="project-manager-content-container flex h-full flex-1 flex-col items-center justify-center gap-4 py-9">
           <p className="text-muted-foreground text-lg font-bold">
             No projects added yet
           </p>
@@ -44,7 +44,7 @@ export const ProjectContent = () => {
           </p>
         </div>
       ) : (
-        <div className="flex min-h-0 flex-1 flex-col">
+        <div className="flex flex-col">
           <div className="flex items-center justify-between">
             <h2 className="text-muted-foreground text-sm">
               Manage Project Files
@@ -62,7 +62,7 @@ export const ProjectContent = () => {
             invalidFiles={invalidFiles}
             onRemoveVersion={handleRemoveVersion}
             onUpdateVersionVisibility={handleChangeVisibility}
-            itemsPerPage={10}
+            itemsPerPage={20}
           >
             <div className="flex h-full min-h-0 flex-col gap-2">
               <div className="grid grid-cols-[auto_max-content] gap-2">
@@ -76,9 +76,7 @@ export const ProjectContent = () => {
                   Add Files
                 </Button>
               </div>
-              <div className="min-h-0 flex-1 overflow-y-auto">
-                <VersionTable />
-              </div>
+              <VersionTable />
               <div className="flex justify-center">
                 <PaginationButtons />
               </div>

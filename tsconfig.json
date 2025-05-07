@@ -4,8 +4,10 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": [
-        "src/components/*"
+        "src/components/*",
       ],
+      "@/state/*": [
+        "src/state/*",]
     }
   },
   "references": [

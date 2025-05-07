@@ -19,18 +19,20 @@ export function useProjectState() {
     null
   );
 
-  const createNewProject = () => {
+  const createNewProject = (overrides?: Partial<Project> = {}) => {
     const projectCount = Object.keys(projects || {}).length;
-    const projectName = `Project ${projectCount + 1}`;
-    const projectUuid = uuidv4();
-
+    const defaults: Project = {
+      name: `Project ${projectCount + 1}`,
+      versions: [],
+      uuid: uuidv4()
+    };
+    const projectUuid = overrides.uuid || defaults.uuid;
     setProjects((prev = {}) => {
       const newProjects = {
         ...prev,
         [projectUuid]: {
-          name: projectName,
-          uuid: projectUuid,
-          versions: []
+          ...defaults,
+          ...overrides
         }
       };
       return newProjects;
@@ -145,6 +147,7 @@ export function useProjectState() {
     addFilesToProject,
     removeVersionFromProject,
     changeVersionVisibility,
-    updateProjectName
+    updateProjectName,
+    setProjects
   };
 }
