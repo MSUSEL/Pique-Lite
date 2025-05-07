@@ -2,7 +2,9 @@ import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getRisk } from "../../composites/RiskHelpers";
 import { Version } from "../../state";
-import { Badge } from "@radix-ui/themes";
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
+import { Calendar } from "lucide-react";
 
 export interface ProjectCardProps {
   uuid: string;
@@ -22,12 +24,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <Card className="gap-1 py-2">
       <CardHeader>
-        <CardTitle className="flex justify-between">
+        <CardTitle className="flex items-center gap-4">
           <span className="cursor-pointer" onClick={onProjectClick}>
             {project.name}
           </span>
-          <span className="text-muted-foreground text-sm font-normal">
-            Last Modified: {new Date(latestVersion.date).toLocaleDateString()}
+          <span className="text-muted-foreground flex items-center gap-2 text-sm font-normal">
+            <Calendar size="16px" />
+            <span className="flex items-center">
+              {
+                // new Date(latestVersion.date).toLocaleDateString()
+                format(latestVersion.date, "LLL dd, y")
+              }
+            </span>
           </span>
         </CardTitle>
       </CardHeader>
@@ -56,7 +64,10 @@ export const VersionCard: React.FC<VersionCardProps> = ({
   const versionRisk = getRisk(version.data.value, "normal");
 
   return (
-    <Card className="mx-auto my-2.5 w-[90%] cursor-pointer" onClick={onClick}>
+    <Card
+      className="mx-auto my-2.5 w-[min-content] cursor-pointer"
+      onClick={onClick}
+    >
       <CardContent className="p-6">
         <div className="flex justify-between">
           <div className="flex flex-1 flex-col gap-2">
@@ -91,6 +102,7 @@ const MetricItem: React.FC<{
   return (
     <Badge
       variant="outline"
+      className="max-h-[max-content]"
       style={{
         padding: 0,
         overflow: "hidden",

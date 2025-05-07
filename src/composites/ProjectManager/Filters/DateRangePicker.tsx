@@ -59,31 +59,6 @@ export function DateRangePicker({
           />
         </PopoverContent>
       </Popover>
-
-      {/* <Calendar */}
-      {/*   mode="range" */}
-      {/*   showOutsideDays */}
-      {/*   defaultMonth={date?.from} */}
-      {/*   selected={date} */}
-      {/*   onSelect={setDate} */}
-      {/*   className="rounded-md border" */}
-      {/* /> */}
-      {/**/}
-      {/* <div className="flex items-center p-2"> */}
-      {/*   {date?.from ? ( */}
-      {/*     date.to ? ( */}
-      {/*       <> */}
-      {/*         <CalendarIcon className="mr-2 h-4 w-4" /> */}
-      {/*         {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")} */}
-      {/*       </> */}
-      {/*     ) : ( */}
-      {/*       <> */}
-      {/*         <CalendarIcon className="mr-2 h-4 w-4" /> */}
-      {/*         {format(date.from, "LLL dd, y")} */}
-      {/*       </> */}
-      {/*     ) */}
-      {/*   ) : null} */}
-      {/* </div> */}
     </div>
   );
 }

@@ -40,7 +40,6 @@ export function ProjectVersionsProvider({
   versions,
   children
 }: ProjectVersionsProviderProps) {
-  console.error(`(VERSIONSTABLE) projectId: ${projectId}`);
   const flatVersions: FlatVersion[] = useMemo(() => {
     return versions.map((version) => {
       const obj = {
@@ -137,7 +136,6 @@ const columns: ColumnDef<FlatVersion>[] = [
       ),
       cell: ({ row }: CellContext<FlatVersion, number>) => {
         // Use nested accessor to get the data.value
-        console.log(row);
         // Explicitly cast the value to number before calling toFixed
         const value = row.getValue(metricName) as number;
         return <div className="text-right">{value.toFixed(2)}</div>;

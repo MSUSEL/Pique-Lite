@@ -68,53 +68,47 @@ const Overview: React.FC = () => {
   const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
-    <div className="Overview-root px-4">
-      <div>
-        <div>
-          <SearchBar
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            hint={"projects"}
-          />
-          {/* Contains all checkbox and slider filters in 'Filters' popover */}
-          <Filters
-            selectedFilters={riskFilters}
-            sliderValue={sliderValue}
-            onFilterChange={handleFilterChange}
-            projects={projects}
-          />
-        </div>
-        {/* Display if filters have filtered out all projects */}
-        {projectsToDisplay.length === 0 && (
-          <div>
-            <h1>No projects found</h1>
-            <span>Try changing your filters or adding more projects</span>
-          </div>
-        )}
-        {totalPages > 1 && (
-          <PaginationButtons
-            currentPage={currentPage}
-            totalPages={totalPages}
-          />
-        )}
-        {/* Display paginated projects */}
-        {projectsToDisplay.map(([uuid, project]) => (
-          <ProjectCard
-            key={uuid}
-            uuid={uuid}
-            project={project}
-            onProjectClick={() => {
-              navigate(`/project/${uuid}`);
-            }}
-          />
-        ))}
-        {totalPages > 1 && (
-          <PaginationButtons
-            currentPage={currentPage}
-            totalPages={totalPages}
-          />
-        )}
+    <div className="Overview-root h-full px-4">
+      <div className="flex gap-2 p-2">
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          hint={"projects"}
+        />
+        {/* Contains all checkbox and slider filters in 'Filters' popover */}
+        <Filters
+          selectedFilters={riskFilters}
+          sliderValue={sliderValue}
+          onFilterChange={handleFilterChange}
+          projects={projects}
+        />
       </div>
+      {/* Display if filters have filtered out all projects */}
+      {projectsToDisplay.length === 0 && (
+        <div className="flex h-full flex-col items-center justify-center">
+          <h1 className="text-2xl text-gray-700">No projects found</h1>
+          <span className="text-gray-500">
+            Try changing your filters or adding more projects
+          </span>
+        </div>
+      )}
+      {totalPages > 1 && (
+        <PaginationButtons currentPage={currentPage} totalPages={totalPages} />
+      )}
+      {/* Display paginated projects */}
+      {projectsToDisplay.map(([uuid, project]) => (
+        <ProjectCard
+          key={uuid}
+          uuid={uuid}
+          project={project}
+          onProjectClick={() => {
+            navigate(`/project/${uuid}`);
+          }}
+        />
+      ))}
+      {totalPages > 1 && (
+        <PaginationButtons currentPage={currentPage} totalPages={totalPages} />
+      )}
     </div>
   );
 };
