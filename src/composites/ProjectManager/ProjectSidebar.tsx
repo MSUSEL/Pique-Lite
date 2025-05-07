@@ -11,7 +11,7 @@ export const ProjectSidebar = () => {
     selectedProject,
     createNewProject,
     setSelectedProject,
-    updateProjectName,
+    updateProjectName
   } = useProjectManager();
 
   // Remove the commented lines if you want to use the search functionality
@@ -33,14 +33,10 @@ export const ProjectSidebar = () => {
   // });
 
   return (
-    <div className="flex flex-col gap-3 p-4 bg-muted border-r">
-      <div className="flex flex-row justify-between items-center gap-3">
+    <div className="bg-muted flex flex-col gap-3 p-4">
+      <div className="flex flex-row items-center justify-between gap-3">
         <h2 className="text-lg font-semibold">Projects</h2>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={createNewProject}
-        >
+        <Button variant="ghost" size="icon" onClick={createNewProject}>
           <PlusIcon className="h-4 w-4" />
         </Button>
       </div>

@@ -13,10 +13,12 @@ export const ProjectManagerDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         style={{
-          maxWidth: 900,
-          width: "90vw",
+          overflow: "hidden",
+          maxWidth: "90svw",
+          width: "90svw",
           padding: 0,
-          height: "40vh"
+          height: "80svh",
+          maxHeight: "80svh"
         }}
       >
         <ProjectManager />

@@ -5,9 +5,11 @@ import { ProjectManagerProvider } from "./ProjectManagerContext";
 export const ProjectManager = () => {
   return (
     <ProjectManagerProvider>
-      <div className="grid grid-cols-[1fr_3fr] h-full">
+      <div className="grid h-full grid-cols-[1fr_3fr]">
         <ProjectSidebar />
-        <ProjectContent />
+        <div className="bg-white p-4">
+          <ProjectContent />
+        </div>
       </div>
     </ProjectManagerProvider>
   );

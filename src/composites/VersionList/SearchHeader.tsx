@@ -36,32 +36,31 @@ export const SearchHeader = () => {
         setSearchQuery={setSearchQuery}
         hint={"versions"}
       />
-      {versions.length > 0 && defaultDateRange && (
-        <Popover modal={true}>
-          <PopoverTrigger asChild>
-            <PopoverAnchor>
-              <Button variant="outline" className="gap-2">
-                <MixerHorizontalIcon className="h-4 w-4" />
-                Filters
-              </Button>
-            </PopoverAnchor>
-          </PopoverTrigger>
-          <PopoverContent>
-            <VersionFilters
-              filters={convertedFilters}
-              setFilters={(newFilters) => {
-                setFilters({
-                  ...newFilters,
-                  date: newFilters.date || undefined,
-                  visibility: newFilters.visibility as ("visible" | "hidden")[],
-                  status: newFilters.status as ("valid" | "invalid")[]
-                });
-              }}
-              defaultDate={defaultDateRange}
-            />
-          </PopoverContent>
-        </Popover>
-      )}
+      {/* {versions.length > 0 && defaultDateRange && } */}
+      <Popover modal={true}>
+        <PopoverTrigger asChild>
+          <PopoverAnchor>
+            <Button variant="outline" className="gap-2">
+              <MixerHorizontalIcon className="h-4 w-4" />
+              Filters
+            </Button>
+          </PopoverAnchor>
+        </PopoverTrigger>
+        <PopoverContent>
+          <VersionFilters
+            filters={convertedFilters}
+            setFilters={(newFilters) => {
+              setFilters({
+                ...newFilters,
+                date: newFilters.date || undefined,
+                visibility: newFilters.visibility as ("visible" | "hidden")[],
+                status: newFilters.status as ("valid" | "invalid")[]
+              });
+            }}
+            defaultDate={defaultDateRange}
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
