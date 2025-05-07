@@ -9,11 +9,11 @@ import {
 } from "./TreeDisplayHelpers.tsx";
 import { EyeOpenIcon, EyeClosedIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import NodeDescriptionPanel from "./nodeDescriptionPanel/NodeDescriptionPanel";
-// import { useProcessedData } from "../../data/useProcessedData";
-import { useAtomValue } from "jotai";
 import * as d3 from "d3";
 import "./nodeDescriptionPanel/NodeDescriptionPanel.css";
-import { base as baseVisualizerSchema } from "@/state/visualizerSchema";
+import { ProcessedVisualizerDataType } from "@/state/VisualizerStateHandling/use-processed-data.ts";
+import { Button } from "@/components/ui/button.tsx";
+
 const node_width = 120;
 const node_height = 60;
 
@@ -29,22 +29,12 @@ let canvas_width = 8000; // width of the background
 let canvas_height = diagnostic_y + 70; // height of the background
 
 interface TreeDisplayProps {
-  data: baseVisualizerSchema.Schema;
+  data: ProcessedVisualizerDataType;
 }
 
 export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
-  console.log("render tree");
-
   const processedData = props.data;
-  // get dataset and processed dataset
-  //const processedData = useProcessedData();
-  // const processedData = useProcessedData();
-  //console.log(process_data);
-
-  //const [processedData, setProcessedData] = useState<any>(useProcessedData());
-
-  //console.log(State.hideZeroWeightEdgeState);
-
+  console.log(processedData);
   // notes about the tree:
   //    Despite being called a tree, the linkage is different than lets say a BST.
   //    This is because each nodes does not have a list of children, rather, its children
@@ -744,16 +734,12 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
     <div id={"canvas_container"}>
       <div id={"tree_canvas"}>
         <div id={"button_div"}>
-          <button className={"reset_buttons"} onClick={reset_zoom}>
-            Reset Zoom
-          </button>
-          <button className={"reset_buttons"} onClick={reset_selection}>
-            Reset Selection
-          </button>
+          <Button onClick={reset_zoom}>Reset Zoom</Button>
+          <Button onClick={reset_selection}>Reset Selection</Button>
           {nodesForPanelBoxes.length > 0 && (
-            <button className={"reset_buttons"} onClick={clear_side_panel}>
+            <Button className={"reset_buttons"} onClick={clear_side_panel}>
               Clear Side Panel
-            </button>
+            </Button>
           )}
         </div>
         <svg ref={svgRef} width={canvas_width} height={canvas_height}>

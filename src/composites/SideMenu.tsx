@@ -4,13 +4,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Home, MoreHorizontal, Plus } from "lucide-react";
+import { Folder, Home, MoreHorizontal, Plus } from "lucide-react";
 import React from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupAction,
   SidebarGroupContent,
@@ -48,13 +49,14 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   }
 
   return (
-    <Sidebar variant="sidebar">
+    <Sidebar collapsible="none">
       <SidebarHeader className="bg-gray-50">
-        <span className="justify-left align-center flex flex-row gap-8">
-          <img src={PiqueLogoNoText} className="h-16" alt="Pique Logo" />
-          <h2 className="align-center flex flex-col justify-center text-lg">
-            Pique
-          </h2>
+        <span className="align-center flex flex-row justify-center gap-8">
+          <img
+            src="https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg"
+            className="h-32 w-32"
+            alt="Pique Logo"
+          />
         </span>
       </SidebarHeader>
       <SidebarContent className="bg-gray-50">
@@ -99,7 +101,10 @@ const SideMenu: React.FC<SideMenuProps> = () => {
                         asChild
                         isActive={currentProjectId === uuid}
                       >
-                        <Link to={`/project/${uuid}`}>{project.name}</Link>
+                        <Link to={`/project/${uuid}`}>
+                          <Folder />
+                          {project.name}
+                        </Link>
                       </SidebarMenuButton>
                       <DropdownMenu>
                         <SidebarMenuAction asChild>
@@ -124,6 +129,16 @@ const SideMenu: React.FC<SideMenuProps> = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <div className="flex items-center justify-center px-2 py-8">
+          <img
+            src="https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/6fdaa25709d28dfb5cca.svg"
+            alt="CISA Logo"
+            width="200"
+            height="200"
+          />
+        </div>
+      </SidebarFooter>
     </Sidebar>
   );
 };

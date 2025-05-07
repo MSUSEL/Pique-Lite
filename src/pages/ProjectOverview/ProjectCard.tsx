@@ -4,7 +4,7 @@ import { getRisk } from "../../composites/RiskHelpers";
 import { Version } from "../../state";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Calendar } from "lucide-react";
+import { Calendar, Folder } from "lucide-react";
 
 export interface ProjectCardProps {
   uuid: string;
@@ -26,9 +26,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-4">
           <span className="cursor-pointer" onClick={onProjectClick}>
-            {project.name}
+            <span className="flex items-center gap-2 text-gray-700">
+              <Folder size="16px" />
+              {project.name}
+            </span>
           </span>
-          <span className="text-muted-foreground flex items-center gap-2 text-sm font-normal">
+          <span className="text-muted-foreground flex items-center gap-1 text-sm font-normal">
             <Calendar size="16px" />
             <span className="flex items-center">
               {

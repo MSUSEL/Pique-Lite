@@ -19,7 +19,7 @@ import {
   ProjectVersionsProvider,
   ProjectVersionsTable
 } from "./VersionTableNew";
-import { Calendar } from "lucide-react";
+import { Calendar, Folder } from "lucide-react";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -112,9 +112,12 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
     <div className="project-details-view">
       <div className="grid grid-rows-[auto_auto_1fr]">
         <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm">
-          <h1 className="text-left text-2xl font-bold text-gray-700">
-            {selectedProject.name}
-          </h1>
+          <div className="flex items-center gap-2 text-gray-700">
+            <Folder />
+            <h1 className="text-left text-2xl font-bold text-gray-700">
+              {selectedProject.name}
+            </h1>
+          </div>
           <span className="align-center inline-flex items-center gap-1 text-sm font-light text-gray-500">
             <Calendar size={14} />
             {formatDate(
