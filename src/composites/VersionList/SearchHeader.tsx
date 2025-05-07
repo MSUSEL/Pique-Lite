@@ -1,12 +1,11 @@
 import { SearchBar } from "../SearchBar";
 import VersionFilters from "../ProjectManager/Filters/Filters";
 import { useVersionList } from "./context";
-import { MixerHorizontalIcon } from "@radix-ui/react-icons";
+import { ListFilter } from "lucide-react";
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
-  PopoverContentModal,
   PopoverTrigger
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -40,13 +39,12 @@ export const SearchHeader = () => {
       <Popover modal={true}>
         <PopoverTrigger asChild>
           <PopoverAnchor>
-            <Button variant="outline" className="gap-2">
-              <MixerHorizontalIcon className="h-4 w-4" />
-              Filters
+            <Button variant="ghost" className="gap-2" size="sm">
+              <ListFilter className="h-4 w-4" />
             </Button>
           </PopoverAnchor>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent className="min-w-[320px]">
           <VersionFilters
             filters={convertedFilters}
             setFilters={(newFilters) => {

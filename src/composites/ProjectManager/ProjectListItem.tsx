@@ -1,5 +1,7 @@
 import { Layers, Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/components/lib/utils";
 import { useState } from "react";
 
 interface ProjectListItemProps {
@@ -35,20 +37,22 @@ export const ProjectListItem = ({
 
   return (
     <div
-      className="grid grid-cols-[auto_1fr_auto] items-center gap-2"
+      className={cn(
+        "grid grid-cols-[auto_1fr_auto] items-center gap-2",
+        isSelected ? "bg-gray-200" : "transparent"
+      )}
       onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
         cursor: onClick ? "pointer" : "default",
-        backgroundColor: isSelected ? "var(--gray-4)" : "transparent",
         padding: "6px",
         borderRadius: "4px"
       }}
     >
       <Layers className="h-4 w-4" />
       {isEditing ? (
-        <input
+        <Input
           value={editedName}
           onChange={(e) => setEditedName(e.target.value)}
           onBlur={handleEditComplete}

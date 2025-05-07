@@ -62,7 +62,7 @@ export const ProjectContent = () => {
             invalidFiles={invalidFiles}
             onRemoveVersion={handleRemoveVersion}
             onUpdateVersionVisibility={handleChangeVisibility}
-            itemsPerPage={20}
+            itemsPerPage={10}
           >
             <div className="flex h-full min-h-0 flex-col gap-2">
               <div className="grid grid-cols-[auto_max-content] gap-2">
