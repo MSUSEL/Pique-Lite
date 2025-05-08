@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Folder, Home, MoreHorizontal, Plus } from "lucide-react";
+import { Folder, Home, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import React from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
@@ -25,6 +25,7 @@ import {
 import { useProjects } from "./FileUploader/hooks/use-projects";
 import { Button } from "@/components/ui/button";
 import { ProjectManagerDialog } from "./ProjectManager/ProjectManagerDialog";
+import { toast } from "sonner";
 
 const sidebarItems = [
   {
@@ -40,7 +41,7 @@ interface SideMenuProps {
 }
 
 const SideMenu: React.FC<SideMenuProps> = () => {
-  const { projects } = useProjects();
+  const { projects, removeProject } = useProjects();
   const [searchParams] = useSearchParams();
   const location = useLocation();
   let currentProjectId = null;
@@ -49,7 +50,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   }
 
   return (
-    <Sidebar collapsible="none">
+    <Sidebar collapsible="none" className="h-screen">
       <SidebarHeader className="bg-gray-50">
         <span className="align-center flex flex-row justify-center gap-8">
           <img
@@ -115,9 +116,14 @@ const SideMenu: React.FC<SideMenuProps> = () => {
                         <DropdownMenuContent>
                           <DropdownMenuItem
                             onClick={() => {
-                              // TODO: Remvoe project
+                              removeProject(uuid);
+                              toast.success(
+                                `Deleting project "${project.name}"`
+                              );
                             }}
+                            className="text-sm"
                           >
+                            <Trash2 size={1} />
                             <span>Delete Project</span>
                           </DropdownMenuItem>
                         </DropdownMenuContent>

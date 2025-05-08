@@ -37,6 +37,41 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Risk Colors */
+  /* Normal Mode */
+  --risk-severe-background: #f3000d80;
+  --risk-severe-font: red;
+  --risk-severe-badge: #cd161c;
+  --risk-high-background: #ff8c0080;
+  --risk-high-font: orange;
+  --risk-high-badge: #cc4e00;
+  --risk-elevated-background: #ffee0080;
+  --risk-elevated-font: yellow;
+  --risk-elevated-badge: #9e6c00;
+  --risk-guarded-background: #008ff580;
+  --risk-guarded-font: #0671ce;
+  --risk-guarded-badge: #1d4ec6;
+  --risk-low-background: #00a43380;
+  --risk-low-font: green;
+  --risk-low-badge: green;
+
+  /* Diagnostic Mode */
+  --risk-severe-diagnostic-background: #f3000d80;
+  --risk-severe-diagnostic-font: red;
+  --risk-severe-diagnostic-badge: #cd161c;
+  --risk-high-diagnostic-background: #ff8c0080;
+  --risk-high-diagnostic-font: orange;
+  --risk-high-diagnostic-badge: #cc4e00;
+  --risk-elevated-diagnostic-background: #ffee0080;
+  --risk-elevated-diagnostic-font: yellow;
+  --risk-elevated-diagnostic-badge: #9e6c00;
+  --risk-guarded-diagnostic-background: #008ff580;
+  --risk-guarded-diagnostic-font: #0671ce;
+  --risk-guarded-diagnostic-badge: #1d4ec6;
+  --risk-low-diagnostic-background: #00a43380;
+  --risk-low-diagnostic-font: green;
+  --risk-low-diagnostic-badge: green;
 }
 
 .dark {

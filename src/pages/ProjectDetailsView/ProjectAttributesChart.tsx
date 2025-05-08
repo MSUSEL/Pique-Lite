@@ -7,7 +7,7 @@ const CHARACTERISTIC_NAMES = [
   "Authorization",
   "Confidentiality",
   "Non-repudiation",
-  "Integrity",
+  "Integrity"
 ];
 
 const CHARACTERISTIC_COLORS = [
@@ -16,7 +16,7 @@ const CHARACTERISTIC_COLORS = [
   "#2196F3", // blue for Authorization
   "#9C27B0", // purple for Confidentiality
   "#F7DC6F", // golden yellow for Non-repudiation
-  "#8BC34A", // teal for Integrity
+  "#8BC34A" // teal for Integrity
 ];
 
 // Add type for our data structure
@@ -29,19 +29,19 @@ interface ProjectAttributesChartProps {
   projectId: string;
 }
 export const ProjectAttributesChart = ({
-  projectId,
+  projectId
 }: ProjectAttributesChartProps) => {
   const flatData = useFlatCharacteristicData(projectId || undefined);
   const flatDataWithStringDates = flatData.map((d) => ({
     ...d,
-    date: d.date.toISOString().split("T")[0],
+    date: d.date.toISOString().split("T")[0]
   }));
 
   const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
     dataKey: characteristic as keyof DataPoint,
     name: characteristic,
     stroke: CHARACTERISTIC_COLORS[index % CHARACTERISTIC_COLORS.length],
-    strokeWidth: 2,
+    strokeWidth: 2
   }));
 
   return (
@@ -56,9 +56,9 @@ export const ProjectAttributesChart = ({
           <LinePlot.ZoomControls.ZoomOut />
         </div>
         <LinePlot.PlotArea
+          aspect={2.5}
           lines={lines}
           // width={600}
-          height={250}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
         />
         <LinePlot.BrushStats>
@@ -67,7 +67,7 @@ export const ProjectAttributesChart = ({
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "1rem",
+                gap: "1rem"
               }}
             >
               {CHARACTERISTIC_NAMES.map((characteristic) => {
@@ -89,7 +89,7 @@ export const ProjectAttributesChart = ({
                     style={{
                       border: "1px solid var(--gray-6)",
                       borderRadius: "4px",
-                      padding: "1rem",
+                      padding: "1rem"
                     }}
                   >
                     <div style={{ fontWeight: 500 }}>{characteristic}</div>
@@ -97,7 +97,7 @@ export const ProjectAttributesChart = ({
                       style={{
                         fontSize: "1.125rem",
                         fontWeight: 600,
-                        color: color,
+                        color: color
                       }}
                     >
                       {delta > 0 ? "+" : ""}

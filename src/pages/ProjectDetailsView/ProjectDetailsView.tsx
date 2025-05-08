@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
-import { getAllRiskLevels } from "../../composites/RiskHelpers";
+import { getAllRiskLevels, getRisk } from "../../composites/RiskHelpers";
 import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
@@ -20,6 +20,9 @@ import {
   ProjectVersionsTable
 } from "./VersionTableNew";
 import { Calendar, Folder } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { TQIBadge } from "../ProjectOverview/ProjectCard";
+import { Progress } from "@/components/ui/progress";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -108,6 +111,15 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
 
   if (!selectedProject || !selectedProject.versions.length) return null;
 
+  const latestVersion =
+    selectedProject.versions[selectedProject.versions.length - 1];
+  const riskCards = latestVersion.data.children.map(
+    (characteristic: { name: string; value: number }) => ({
+      title: characteristic.name,
+      score: characteristic.value
+    })
+  );
+  const tqiRisk = getRisk(latestVersion.data.value, "normal");
   return (
     <div className="project-details-view">
       <div className="grid grid-rows-[auto_auto_1fr]">
@@ -141,7 +153,76 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
             </TabsTrigger>
           </TabsList>
           <div className="px-4">
-            <TabsContent value="overview">
+            <TabsContent
+              value="overview"
+              className="flex max-w-[800px] min-w-[400px] flex-col gap-2"
+            >
+              <Card className="m-0 gap-1 py-2">
+                <CardHeader>
+                  <CardTitle>Security Attributes</CardTitle>
+                </CardHeader>
+                <CardContent className="grid auto-cols-max grid-flow-col gap-2">
+                  {/* <h1 className="text-md font-bold">TQI</h1> */}
+                  {/* <Badge */}
+                  {/*   style={{ */}
+                  {/*     backgroundColor: getRisk(latestVersion.data.value, "normal") */}
+                  {/*       .color, */}
+                  {/*     color: getRisk(latestVersion.data.value, "normal") */}
+                  {/*       .badgeColor */}
+                  {/*   }} */}
+                  {/* > */}
+                  {/*   {latestVersion.data.value.toFixed(2)} */}
+                  {/* </Badge> */}
+                  {/* <TQIBadge */}
+                  {/*   value={latestVersion.data.value} */}
+                  {/*   risk={getRisk(latestVersion.data.value, "normal")} */}
+                  {/* /> */}
+                  <div className="flex items-center justify-center">
+                    <div
+                      className="flex min-w-[80px] flex-col items-center justify-center rounded-md p-2"
+                      style={{
+                        background: tqiRisk?.color || "gray"
+                      }}
+                    >
+                      <span
+                        className="mb-1 text-sm font-medium"
+                        style={{
+                          color: tqiRisk.badgeColor
+                        }}
+                      >
+                        TQI
+                      </span>
+                      <span
+                        className="text-xl leading-none font-bold"
+                        style={{
+                          color: tqiRisk.badgeColor
+                        }}
+                      >
+                        {latestVersion.data.value.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 grid-rows-2 gap-2 md:grid-cols-4 md:grid-rows-2">
+                    {latestVersion.data.children.map((c) => {
+                      const risk = getRisk(c.value, "normal");
+
+                      return (
+                        <span className="flex items-center">
+                          <span>
+                            <span className="flex items-center justify-between gap-2 text-sm font-light">
+                              <span className="truncate whitespace-nowrap">
+                                {c.name}
+                              </span>
+                              <span>{c.value.toFixed(2)}</span>
+                            </span>
+                            <Progress value={c.value * 100} bg={risk.color} />
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
               <Card className="gap-1 py-2">
                 <CardHeader>
                   <CardTitle className="text-left text-xl">

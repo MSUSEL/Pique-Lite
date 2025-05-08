@@ -23,7 +23,7 @@ const RISK_LEVELS: RiskLevel[] = [
     badgeColor: "#CD161C",
     icon: <IoSkullOutline />,
     normalRange: [-10, 0.2],
-    diagnosticRange: [1.5, Infinity],
+    diagnosticRange: [1.5, Infinity]
   },
   {
     name: "High",
@@ -32,7 +32,7 @@ const RISK_LEVELS: RiskLevel[] = [
     badgeColor: "#CC4E00",
     icon: <RiAlarmWarningLine />,
     normalRange: [0.2, 0.4],
-    diagnosticRange: [0.8, 1.5],
+    diagnosticRange: [0.8, 1.5]
   },
   {
     name: "Elevated",
@@ -41,7 +41,7 @@ const RISK_LEVELS: RiskLevel[] = [
     badgeColor: "#9E6C00",
     icon: <CgDanger />,
     normalRange: [0.4, 0.6],
-    diagnosticRange: [0.5, 0.8],
+    diagnosticRange: [0.5, 0.8]
   },
   {
     name: "Guarded",
@@ -50,7 +50,7 @@ const RISK_LEVELS: RiskLevel[] = [
     badgeColor: "#1D4EC6",
     icon: <ImWarning />,
     normalRange: [0.6, 0.8],
-    diagnosticRange: [0.2, 0.5],
+    diagnosticRange: [0.2, 0.5]
   },
   {
     name: "Low",
@@ -59,8 +59,8 @@ const RISK_LEVELS: RiskLevel[] = [
     badgeColor: "green",
     icon: <RiSecurePaymentLine />,
     normalRange: [0.8, 1],
-    diagnosticRange: [0, 0.2],
-  },
+    diagnosticRange: [0, 0.2]
+  }
 ];
 
 function isInRange(value: number, range: [number, number]): boolean {
@@ -89,4 +89,18 @@ export function getRisk(
 
 export function getAllRiskLevels(): RiskLevel[] {
   return RISK_LEVELS;
+}
+
+export function getRiskColorVar(
+  score: number | string,
+  colorType: "background" | "font" | "badge",
+  scale: "normal" | "diagnostic" = "normal"
+): string {
+  const riskLevel = getRisk(score, scale);
+  const lowerCaseRiskName = riskLevel.name.toLowerCase();
+  let varName = `--risk-${lowerCaseRiskName}-${colorType}`;
+  if (scale === "diagnostic") {
+    varName += "-diagnostic";
+  }
+  return `${varName}`;
 }

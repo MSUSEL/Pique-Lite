@@ -10,7 +10,7 @@ function Landing() {
   const navigate = useNavigate();
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
+    <div className="LandingRoot flex h-[100dvh] w-[100dvw] flex-col items-center justify-center">
       <div className="flex flex-row items-center justify-center">
         <img
           src="https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/6fdaa25709d28dfb5cca.svg"

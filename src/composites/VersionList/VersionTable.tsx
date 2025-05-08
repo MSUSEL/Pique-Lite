@@ -74,13 +74,22 @@ export const VersionTable = () => {
               key={version.fileName}
               className={version.isHidden ? "bg-neutral-100/50 opacity-50" : ""}
             >
-              <TableCell style={{ width: columnWidths.name }}>
+              <TableCell
+                style={{ width: columnWidths.name }}
+                className="text-xs"
+              >
                 {version.fileName}
               </TableCell>
-              <TableCell style={{ width: columnWidths.date }}>
+              <TableCell
+                style={{ width: columnWidths.date }}
+                className="text-xs"
+              >
                 {version.date.toLocaleDateString()}
               </TableCell>
-              <TableCell style={{ width: columnWidths.status }}>
+              <TableCell
+                className="text-xs"
+                style={{ width: columnWidths.status }}
+              >
                 Valid
               </TableCell>
               <TableCell style={{ width: columnWidths.actions }}>
@@ -98,9 +107,9 @@ export const VersionTable = () => {
                   onClick={() => onUpdateVersionVisibility(version.fileName)}
                 >
                   {version.isHidden ? (
-                    <EyeOff className="h-4 w-4" />
+                    <EyeOff className="h-2 w-2" />
                   ) : (
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-2 w-2" />
                   )}
                 </Button>
               </TableCell>

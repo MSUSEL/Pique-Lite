@@ -1,10 +1,12 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getRisk } from "../../composites/RiskHelpers";
+import { getRisk, getRiskColorVar } from "../../composites/RiskHelpers";
 import { Version } from "../../state";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { Calendar, Folder } from "lucide-react";
+import { Calendar, Clock, Folder, GitBranch } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/components/lib/utils";
 
 export interface ProjectCardProps {
   uuid: string;
@@ -20,24 +22,29 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   onProjectClick
 }) => {
   const latestVersion = project.versions[project.versions.length - 1];
-
   return (
-    <Card className="gap-1 py-2">
+    <Card className="max-w-[max-content] gap-1 py-2">
       <CardHeader>
-        <CardTitle className="flex items-center gap-4">
+        <CardTitle className="flex items-center justify-between gap-4">
           <span className="cursor-pointer" onClick={onProjectClick}>
             <span className="flex items-center gap-2 text-gray-700">
               <Folder size="16px" />
               {project.name}
             </span>
           </span>
-          <span className="text-muted-foreground flex items-center gap-1 text-sm font-normal">
-            <Calendar size="16px" />
-            <span className="flex items-center">
-              {
-                // new Date(latestVersion.date).toLocaleDateString()
-                format(latestVersion.date, "LLL dd, y")
-              }
+          <span className="flex justify-end gap-4">
+            <span className="text-muted-foreground flex items-center gap-1 text-sm font-normal">
+              <Calendar size="16px" />
+              <span className="flex items-center">
+                {
+                  // new Date(latestVersion.date).toLocaleDateString()
+                  format(latestVersion.date, "LLL dd, y")
+                }
+              </span>
+            </span>
+            <span className="align-self-end text-muted-foreground flex items-center gap-1 text-sm font-normal">
+              <Clock size="16px" />
+              {project.versions.length}
             </span>
           </span>
         </CardTitle>
@@ -89,13 +96,26 @@ export const VersionCard: React.FC<VersionCardProps> = ({
 
 const MetricsSection: React.FC<{
   metrics: Array<{ name: string; value: number }>;
-}> = ({ metrics }) => (
-  <div className="flex flex-wrap gap-1">
-    {metrics.map((metric) => (
-      <MetricItem key={metric.name} name={metric.name} value={metric.value} />
-    ))}
-  </div>
-);
+}> = ({ metrics }) => {
+  return (
+    <div className="grid grid-cols-2 grid-rows-3 gap-2 md:grid-cols-3 md:grid-rows-2">
+      {metrics.map((metric) => (
+        // <MetricItem key={metric.name} name={metric.name} value={metric.value} />
+        <div>
+          <span className="flex items-center justify-between text-sm text-gray-600">
+            <span className="truncate whitespace-nowrap">{metric.name}</span>
+            <span>{metric.value.toFixed(2)}</span>
+          </span>
+          <Progress
+            value={metric.value * 100}
+            className="rounded-md bg-gray-100"
+            bg={getRisk(metric.value, "normal").color}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const MetricItem: React.FC<{
   name: string;
@@ -120,12 +140,12 @@ const MetricItem: React.FC<{
   );
 };
 
-const TQIBadge: React.FC<{
+export const TQIBadge: React.FC<{
   value: number;
   risk: ReturnType<typeof getRisk>;
 }> = ({ value, risk }) => (
   <div
-    className="ml-6 flex min-w-[100px] flex-col items-center justify-center rounded-md p-3"
+    className="ml-6 flex min-w-[80px] flex-col items-center justify-center rounded-md p-3"
     style={{
       background: risk?.color || "gray"
     }}
@@ -139,7 +159,7 @@ const TQIBadge: React.FC<{
       TQI
     </span>
     <span
-      className="text-2xl leading-none font-bold"
+      className="text-xl leading-none font-bold"
       style={{
         color: risk.badgeColor
       }}

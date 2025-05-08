@@ -24,11 +24,10 @@ import { useMemo } from "react";
 const chartConfig = {} satisfies ChartConfig;
 
 export function PlotArea<T extends Record<string, unknown>>({
-  height = 400,
-  width,
+  aspect,
   margin,
   lines
-}: Omit<PlotAreaProps<T>, "data" | "xAxisKey">) {
+}: Omit<PlotAreaProps<T>, "data" | "xAxisKey"> & { aspect?: number }) {
   const { mode, zoomState, zoomHandlers } = useLinePlotContext<T>();
   const derivedChartConfig = useMemo(() => {
     const config = {} satisfies ChartConfig;
@@ -40,11 +39,9 @@ export function PlotArea<T extends Record<string, unknown>>({
     });
     return config;
   }, [lines]);
+
   return (
-    <ChartContainer
-      config={derivedChartConfig}
-      className="max-h-[200px] min-h-[200px] w-full"
-    >
+    <ChartContainer config={derivedChartConfig} aspect={aspect}>
       <LineChart
         data={zoomState.data}
         onMouseDown={zoomHandlers.handleMouseDown}

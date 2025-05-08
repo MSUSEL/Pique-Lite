@@ -7,6 +7,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import Filters from "../composites/VersionFiltering/Filters";
 import { ProjectCard } from "../pages/ProjectOverview/ProjectCard";
 import { PaginationButtons } from "../composites/Pagination/PaginationButtons";
+import { RiskLevelLegend } from "../pages/ProjectDetailsView";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -68,20 +69,25 @@ export default function Component() {
   const projectsToDisplay = searchFilteredProjects.slice(startIndex, endIndex);
 
   return (
-    <div className="Overview-root h-full px-4">
-      <div className="flex gap-2 p-2">
-        <SearchBar
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          hint={"projects"}
-        />
-        {/* Contains all checkbox and slider filters in 'Filters' popover */}
+    <div className="Overview-root px-4">
+      <div className="flex justify-center gap-2 p-2">
         <Filters
           selectedFilters={riskFilters}
           sliderValue={sliderValue}
           onFilterChange={handleFilterChange}
           projects={projects}
         />
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          hint={"projects"}
+        />
+        {/* Contains all checkbox and slider filters in 'Filters' popover */}
+      </div>
+
+      <div className="flex max-w-[max-content] items-center justify-start gap-2 px-4 py-2">
+        <h1 className="text-md text-gray-500">Risk Levels</h1>
+        <RiskLevelLegend />
       </div>
       {/* Display if filters have filtered out all projects */}
       {projectsToDisplay.length === 0 && (
@@ -94,7 +100,7 @@ export default function Component() {
       )}
       {/* Display paginated projects */}
       {projectsToDisplay.length > 0 && (
-        <div className="flex flex-col gap-3">
+        <div className="mt-4 flex flex-col gap-4 pl-10">
           {projectsToDisplay.map(([uuid, project]) => (
             <ProjectCard
               key={uuid}

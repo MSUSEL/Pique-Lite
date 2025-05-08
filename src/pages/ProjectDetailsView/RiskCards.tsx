@@ -1,4 +1,10 @@
-import { Box, Flex, Badge, Text, Tooltip } from "@radix-ui/themes";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip";
 import { getRisk } from "../../composites/RiskHelpers";
 
 export interface RiskCardProps {
@@ -12,15 +18,16 @@ export const RiskCard = (props: RiskCardProps) => {
   const risk = getRisk(props.score, props.scale);
   return (
     <Badge
-      style={{ backgroundColor: risk.color, color: risk.badgeColor }}
-      size="1"
+      variant="outline"
+      className="flex flex-col items-center"
+      style={{
+        backgroundColor: risk.color,
+        borderColor: risk.badgeColor,
+        color: risk.badgeColor
+      }}
     >
-      <Flex direction="column">
-        <Box p="3" style={{ fontSize: 25 }}>
-          {risk.icon}
-        </Box>
-        <Text color={risk.fontColor}>{props.title}</Text>
-      </Flex>
+      <div className="p-3 text-2xl">{risk.icon}</div>
+      <p className="text-sm">{props.title}</p>
       {/* <Heading>{props.score}</Heading> */}
     </Badge>
   );
@@ -30,15 +37,14 @@ export const RiskLegendCard = (props: RiskCardProps) => {
   const risk = getRisk(props.score, props.scale);
   return (
     <Badge
-      style={{ backgroundColor: risk.color, color: risk.badgeColor }}
-      size="1"
+      variant="outline"
+      className="flex flex-row items-center pl-2"
+      style={{
+        backgroundColor: risk.color
+      }}
     >
-      <Flex direction="row" align="center" pl="2">
-        <Text color={risk.fontColor}>{props.title}</Text>
-        <Box p="1" style={{ fontSize: 16 }}>
-          {risk.icon}
-        </Box>
-      </Flex>
+      <p className="mr-1">{props.title}</p>
+      <div className="p-1 text-base">{risk.icon}</div>
     </Badge>
   );
 };
@@ -48,47 +54,71 @@ interface RiskCardsProps {
   scale?: "diagnostic" | "normal";
 }
 const defaultRiskCardsProps: Pick<RiskCardsProps, "scale"> = {
-  scale: "diagnostic",
+  scale: "diagnostic"
 };
 
 export const RiskCards = (props: RiskCardsProps) => {
   props = { ...defaultRiskCardsProps, ...props };
   return (
-    <Flex gap="2">
+    <div className="flex gap-2">
       {props.risks.map((risk) => (
-        <Box key={risk.title}>
-          <Tooltip content={`Risk Score: ${risk.score.toFixed(2)}`}>
-            <Box display="inline-block">
-              <RiskCard
-                title={risk.title}
-                score={risk.score}
-                scale={props.scale || "diagnostic"}
-              />
-            </Box>
-          </Tooltip>
-        </Box>
+        <div key={risk.title}>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="inline-block">
+                  <RiskCard
+                    title={risk.title}
+                    score={risk.score}
+                    scale={props.scale || "diagnostic"}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>
+                  Risk Score:{" "}
+                  {typeof risk.score === "number"
+                    ? risk.score.toFixed(2)
+                    : risk.score}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 };
 
 export const RiskLegend = (props: RiskCardsProps) => {
   props = { ...defaultRiskCardsProps, ...props };
   return (
-    <Flex gap="2">
+    <div className="flex flex-grow flex-wrap gap-2">
       {props.risks.map((risk) => (
-        <Box key={risk.title}>
-          <Tooltip content={`Risk Score: ${risk.score.toFixed(2)}`}>
-            <Box display="inline-block">
-              <RiskLegendCard
-                title={risk.title}
-                score={risk.score}
-                scale={props.scale || "diagnostic"}
-              />
-            </Box>
-          </Tooltip>
-        </Box>
+        <div key={risk.title}>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="inline-block">
+                  <RiskLegendCard
+                    title={risk.title}
+                    score={risk.score}
+                    scale={props.scale || "diagnostic"}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>
+                  Risk Score:{" "}
+                  {typeof risk.score === "number"
+                    ? risk.score.toFixed(2)
+                    : risk.score}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       ))}
-    </Flex>
+    </div>
   );
 };

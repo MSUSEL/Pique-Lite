@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { useProjects } from "../composites/FileUploader/hooks/use-projects";
+import { Toaster } from "@/components/ui/sonner";
 
 type BreadcrumbSegment = {
   text: string;
@@ -102,15 +103,22 @@ function DashboardBreadcrumbs() {
 
 export default function DashboardLayout() {
   return (
-    <SidebarProvider>
-      <SideMenu />
-      <main className="grid h-full w-full">
-        {/* <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2"> */}
-        {/* <SidebarTrigger /> */}
-        {/* <DashboardBreadcrumbs /> */}
-        {/* </div> */}
-        <Outlet />
-      </main>
-    </SidebarProvider>
+    <>
+      <SidebarProvider>
+        <SideMenu />
+        <main
+          style={{
+            width: "calc(100vw - var(--sidebar-width))"
+          }}
+        >
+          {/* <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2"> */}
+          {/* <SidebarTrigger /> */}
+          {/* <DashboardBreadcrumbs /> */}
+          {/* </div> */}
+          <Outlet />
+        </main>
+      </SidebarProvider>
+      <Toaster />
+    </>
   );
 }
