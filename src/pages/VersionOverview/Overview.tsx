@@ -4,7 +4,7 @@ import { ClassifyNestedObjRiskLevel } from "./ClassifyNestedObjRiskLevel";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { getRisk } from "../../composites/RiskHelpers";
+import { getRisk, getAllRiskLevels } from "../../composites/RiskHelpers";
 import { COLORS } from "./PieChartColor";
 import SectionComponent from "./SectionComponent";
 
@@ -21,10 +21,13 @@ const getRiskInfo = (
   if (!section) return { chart: [], top: [] };
 
   const [riskCounts, riskSubObjNames] = ClassifyNestedObjRiskLevel(section, isDiagnostic);
-  const chart = ["Severe", "High", "Medium", "Low", "Insignificant"]
-    .map((level, i) => ({ name: level, Count: riskCounts[i] || 0 }))
-    .filter((d) => d.Count !== 0);
-
+  const chart = getAllRiskLevels()
+    .map((level, i) => ({
+      name: level.name,
+      Count: riskCounts[i] || 0,
+    }))
+      .filter((d) => d.Count !== 0);
+  
   const sorted = riskSubObjNames
     .flat()
     .map((name) => ({
@@ -68,9 +71,10 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
 
   const tqiRiskData = ClassifyNestedObjRiskLevel(dataset.factors.tqi, false);
   const [tqiCounts, tqiNames] = tqiRiskData ?? [[], []];
+  const riskLevels = getAllRiskLevels();
   const tqiLevelIndex = tqiCounts.findIndex((count) => count > 0);
   const tqiRiskLevel = {
-    level: ["Severe", "High", "Medium", "Low", "Insignificant"][tqiLevelIndex] || "",
+    level: riskLevels[tqiLevelIndex]?.name || "",
     name: tqiNames?.[tqiLevelIndex]?.[0] || "",
     value: Object.values(dataset.factors.tqi)[0]?.value ?? 0,
   };

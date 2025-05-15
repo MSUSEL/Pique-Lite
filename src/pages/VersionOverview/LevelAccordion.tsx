@@ -1,6 +1,7 @@
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import renderItemDetails from "./RenderItemDetails";
 import { TableCell } from "@/components/ui/table";
+import { getAllRiskLevels, getRisk } from "../../composites/RiskHelpers";
 
 export interface FilterableItem {
   name: string;
@@ -17,35 +18,13 @@ const classifyRiskLevels = (
   items: Record<string, FilterableItem>,
   isDiagnostics: boolean
 ): ProcessedItems => {
-  const riskLevels: ProcessedItems = {
-    Insignificant: {},
-    Low: {},
-    Medium: {},
-    High: {},
-    Severe: {},
-  };
+  const riskLevels: Record<string, Record<string, any>> = Object.fromEntries(
+    getAllRiskLevels().map((level) => [level.name, {}])
+  );
 
   Object.entries(items).forEach(([key, item]) => {
-    const { value } = item;
-    let riskLevel = "";
-
-    if (isDiagnostics) {
-      // classification for diagnostics
-      if (value >= 1.5) riskLevel = "Severe";
-      else if (value > 0.8) riskLevel = "High";
-      else if (value > 0.5) riskLevel = "Medium";
-      else if (value > 0.2) riskLevel = "Low";
-      else riskLevel = "Insignificant";
-    } else {
-      // classification for others
-      if (value <= 0.2) riskLevel = "Severe";
-      else if (value <= 0.4) riskLevel = "High";
-      else if (value <= 0.6) riskLevel = "Medium";
-      else if (value <= 0.8) riskLevel = "Low";
-      else riskLevel = "Insignificant";
-    }
-
-    riskLevels[riskLevel][key] = item;
+    const risk = getRisk(item.value, isDiagnostics ? "diagnostic" : "normal");
+    riskLevels[risk.name][key] = item;
   });
 
   return riskLevels;
@@ -75,7 +54,6 @@ export const renderObjectDetails = (
       )
         return;
       else {
-        console.log(key, value);
         return (
           <div key={`${keyPrefix}${key}`}>
             <TableCell className="Level--AccordionContentText">

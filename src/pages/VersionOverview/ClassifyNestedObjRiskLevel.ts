@@ -1,3 +1,5 @@
+import { getRisk, getAllRiskLevels } from "../../composites/RiskHelpers";
+
 interface FilterableItem {
   value: number;
   weights: Record<string, number>;
@@ -8,33 +10,25 @@ interface FilterableItem {
 // input: an object: NestedObject
 // ouput: two arrays or a dictionary: risk level counts, and objects.names in each level
 export function ClassifyNestedObjRiskLevel(
-    obj: Record<string, FilterableItem>,
-    isDiagnostics: boolean
-  ): [number[], string[][]] {
-    const riskCounts = [0, 0, 0, 0, 0];
-    const riskSubObjNames: string[][] = [[], [], [], [], []];
+  obj: Record<string, FilterableItem>,
+  isDiagnostics: boolean
+): [number[], string[][]] {
+  const levels = getAllRiskLevels();
+  const riskCounts = Array(levels.length).fill(0);
+  const riskSubObjNames: string[][] = levels.map(() => []);
   
-    for (const key in obj) {
-      const item = obj[key];
-      let index;
+  for (const key in obj) {
+    const item = obj[key];
+    const risk = getRisk(item.value, isDiagnostics ? "diagnostic" : "normal");
+    const index = levels.findIndex((level) => level.name === risk.name);
   
-      if (isDiagnostics) {
-        if (item.value < 0.2) index = 4;
-        else if (item.value <= 0.5) index = 3;
-        else if (item.value <= 0.8) index = 2;
-        else if (item.value <= 1.5) index = 1;
-        else index = 0;
-      } else {
-        if (item.value <= 0.2) index = 0;
-        else if (item.value <= 0.4) index = 1;
-        else if (item.value <= 0.6) index = 2;
-        else if (item.value <= 0.8) index = 3;
-        else index = 4;
-      }
-  
+    if (index != -1) {
       riskCounts[index]++;
       riskSubObjNames[index].push(item.name);
+    } else {
+      console.warn(`Risk level not found for item: ${item.name} (value: ${item.value})`)
     }
-    return [riskCounts, riskSubObjNames];
   }
+  return [riskCounts, riskSubObjNames];
+}
   

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import { CircleIcon, CheckCircle } from "lucide-react";
 import { PieChart, Pie, Tooltip, Cell } from "recharts";
 import LevelAccordion, { renderObjectDetails } from "./LevelAccordion";
@@ -56,10 +56,6 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
 }) => {
   const [detailsVisible, setDetailsVisible] = useState(false); // State to track visibility
   const [selectedItem, setSelectedItem] = useState(null);
-
-  useEffect(() => {
-    console.log("SectionComponent - propSelectedItem:", propSelectedItem);
-  }, [propSelectedItem]);
 
   const toggleDetailsVisibility = () => {
     setDetailsVisible((prevState) => !prevState); // Toggle visibility
