@@ -8,10 +8,7 @@ import {
 import { renderDetails, renderMeasuresDetails } from "./RenderDetails";
 import {
   ProcessedVisualizerDataType,
-  useProcessedData
 } from "@/state/VisualizerStateHandling/use-processed-data";
-import { VisualizerState } from "@/state/VisualizerStateHandling/VisualizerState";
-import * as schema from "@/state/visualizerSchema";
 import { Badge } from "@/components/ui/badge";
 
 export default function ListView({
