@@ -7,7 +7,8 @@ const CHARACTERISTIC_NAMES = [
   "Authorization",
   "Confidentiality",
   "Non-repudiation",
-  "Integrity"
+  "Integrity",
+  "TQI"
 ];
 
 const CHARACTERISTIC_COLORS = [
@@ -16,7 +17,8 @@ const CHARACTERISTIC_COLORS = [
   "#2196F3", // blue for Authorization
   "#9C27B0", // purple for Confidentiality
   "#F7DC6F", // golden yellow for Non-repudiation
-  "#8BC34A" // teal for Integrity
+  "#8BC34A", // teal for Integrity
+  "#000000" // black for TQI
 ];
 
 // Add type for our data structure

@@ -9,7 +9,7 @@ interface CharacteristicRecord extends Record<string, unknown> {
   name: string;
   fileName: string;
   date: Date;
-  tqi: number;
+  TQI: number;
 }
 
 // Hook to get flat characteristic data for a specific project
@@ -31,7 +31,7 @@ export const useFlatCharacteristicData = (projectId: string | undefined) => {
       name: version.name,
       fileName: version.fileName,
       date: version.date,
-      tqi: version.data.value,
+      TQI: version.data.value,
     };
 
     return version.data.children.reduce(
@@ -52,7 +52,7 @@ interface ProjectVersionRecord extends Record<string, unknown> {
   name: string;
   fileName: string;
   date: Date;
-  tqi: number;
+  TQI: number;
 }
 
 export const flatAllProjectVersionsAtom = atom((get) => {
@@ -71,7 +71,7 @@ export const flatAllProjectVersionsAtom = atom((get) => {
           name: version.name,
           fileName: version.fileName,
           date: version.date,
-          tqi: version.data.value,
+          TQI: version.data.value,
         };
 
         // Add all child characteristics

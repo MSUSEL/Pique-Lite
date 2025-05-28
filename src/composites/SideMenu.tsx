@@ -53,11 +53,13 @@ const SideMenu: React.FC<SideMenuProps> = () => {
     <Sidebar collapsible="none" className="h-screen">
       <SidebarHeader className="bg-gray-50">
         <span className="align-center flex flex-row justify-center gap-8">
-          <img
-            src="https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg"
-            className="h-32 w-32"
-            alt="Pique Logo"
-          />
+          <a href="/overview">
+            <img
+              src="https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg"
+              className="h-32 w-32"
+              alt="Pique Logo"
+            />
+          </a>
         </span>
       </SidebarHeader>
       <SidebarContent className="bg-gray-50">

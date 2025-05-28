@@ -95,7 +95,7 @@ export function PlotArea<T extends Record<string, unknown>>({
         ))}
 
         <ChartLegend
-          content={<ChartLegendContent className="flex flex-wrap gap-1" />}
+          content={<ChartLegendContent className="flex flex-wrap gap-3" />}
         />
       </LineChart>
     </ChartContainer>
