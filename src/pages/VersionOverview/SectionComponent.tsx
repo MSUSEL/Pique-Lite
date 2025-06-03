@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CircleIcon, CheckCircle } from "lucide-react";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
 import LevelAccordion, { renderObjectDetails } from "./LevelAccordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,12 +46,10 @@ interface SectionComponentProps {
 const SectionComponent: React.FC<SectionComponentProps> = ({
   title,
   nestedObj,
-  chartData,
-  colors,
   topProblematicItems,
   isDiagnostics = false,
   propSelectedItem,
-  
+
 }) => {
   const [detailsVisible, setDetailsVisible] = useState(false); // State to track visibility
   const [selectedItem, setSelectedItem] = useState(null);
@@ -68,7 +65,7 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
   return (
     <div className="flex w-full justify-center">
       {/* Accordion section */}
-      <div className="flex flex-col items-center justify-center gap-5" style={{ flexBasis: "30%" }}>
+      <div className="flex flex-col items-center justify-center gap-5" style={{ flexBasis: "60%" }}>
         <div>
           <Badge>{title}</Badge>
         </div>
@@ -103,31 +100,6 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
         </div>
       </div>
 
-      {/* Pie chart section */}
-      <div className="flex flex-col items-center justify-center gap-5" style={{ flexBasis: "30%" }}>
-        <div className="mb-8">
-          <Badge>{title} Pie Chart</Badge>
-        </div>
-        <div>
-          <PieChart width={300} height={300}>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="48%"
-              outerRadius={100}
-              fill="#8884d8"
-              dataKey="Count"
-              label
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[entry.name]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </div>
-      </div>
-
       {/* Top problematic items section */}
       <div className="flex flex-col items-center gap-5 justify-center" style={{ flexBasis: "30%" }}>
         <div>
@@ -155,24 +127,24 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <div
+                  <div
                     className="text-[var(--violet-11)] text-sm"
                     style={{ maxHeight: "90vh", overflowY: "auto" }}
-                    >
+                  >
                     {item.impacts && item.impacts.length > 0 ? (
                       item.impacts.map((impact, impactIndex) => (
-                      <p key={impactIndex} className="text-[var(--violet-11)]">
-                        <strong>Item name: </strong> {item.name}
-                        <Separator className="my-3 h-[1px] bg-border" />
-                        <strong>Impact to {impact.aspectName}:</strong>{" "}
-                        {impact.weight.toFixed(3)}
-                      </p>
+                        <p key={impactIndex} className="text-[var(--violet-11)]">
+                          <strong>Item name: </strong> {item.name}
+                          <Separator className="my-3 h-[1px] bg-border" />
+                          <strong>Impact to {impact.aspectName}:</strong>{" "}
+                          {impact.weight.toFixed(3)}
+                        </p>
                       ))
                     ) : item.weight !== undefined ? (
                       <p className="text-[var(--violet-11)]">
-                      <strong>Item name: </strong> {item.name}
-                      <Separator className="my-3 h-[1px] bg-border" />
-                      <strong>Impact to TQI:</strong> {item.weight.toFixed(3)}
+                        <strong>Item name: </strong> {item.name}
+                        <Separator className="my-3 h-[1px] bg-border" />
+                        <strong>Impact to TQI:</strong> {item.weight.toFixed(3)}
                       </p>
                     ) : null}
                     <p>
@@ -180,7 +152,7 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
                       {item.details.description || "Not Provided"}
                     </p>
                     {renderObjectDetails(item.details)}
-                    </div>
+                  </div>
                 </DialogContent>
               </Dialog>
             ))}
