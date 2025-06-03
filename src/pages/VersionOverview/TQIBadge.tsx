@@ -27,7 +27,7 @@ export const TQIBadge: React.FC<TQIBadgeProps> = ({ value, risk }) => (
                 color: risk.badgeColor
             }}
         >
-            {value.toFixed(2)}
+            {value?.toFixed(3)}
         </span>
     </div>
 ); 

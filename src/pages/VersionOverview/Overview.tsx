@@ -104,15 +104,16 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
     
     // Find the current version's index and get the previous version
     const currentVersionIndex = project?.versions.findIndex((v) => v.versionId === versionId) ?? -1;
+    const currentVersion = project?.versions[currentVersionIndex];
     const previousVersion = currentVersionIndex > 0 ? project?.versions[currentVersionIndex - 1] : null;
     
     // Calculate the change from previous version
     const previousTQI = previousVersion?.data.value ?? 0;
-    const currentTQI = tqiRiskLevel.value;
+    const currentTQI = currentVersion?.data.value ?? 0;
     const tqiChange = currentTQI - previousTQI;
     const tqiChangeText = tqiChange > 0 && currentVersionIndex > 0
         ? `+${tqiChange.toFixed(2)} from previous version`
-        : `-${tqiChange.toFixed(2)} from previous version`;
+        : `${tqiChange.toFixed(2)} from previous version`;
 
     return (
         <div className="max-h-[89vh] w-full overflow-y-scroll">
@@ -135,8 +136,8 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                                     <CardDescription className="text-sm">{version?.name || versionId}</CardDescription>
                                 </div>
                                 <TQIBadge
-                                    value={tqiRiskLevel.value}
-                                    risk={getRisk(tqiRiskLevel.value, "normal")}
+                                    value={currentTQI}
+                                    risk={getRisk(currentTQI, "normal")}
                                 />
                                 <CardDescription className="text-sm">
                                     {previousVersion ? tqiChangeText : ""}
