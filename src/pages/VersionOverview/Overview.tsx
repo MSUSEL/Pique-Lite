@@ -1,13 +1,14 @@
 import { useState } from "react";
 import * as schema from "../../state/visualizerSchema";
 import { ClassifyNestedObjRiskLevel } from "./ClassifyNestedObjRiskLevel";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getRisk, getAllRiskLevels } from "../../composites/RiskHelpers";
 import { COLORS } from "./PieChartColor";
 import SectionComponent from "./SectionComponent";
 import PieChartComponent from "./PieChartComponent";
+import { TQIBadge } from "../ProjectOverview/ProjectCard";
 
 interface Impact {
     aspectName: string;
@@ -87,55 +88,47 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
     const diagnostics = getRiskInfo(dataset.diagnostics, dataset, true);
 
     return (
-        <div className="max-h-[89vh] w-[100%] overflow-y-scroll flex flex-row">
-            <div className="max-h-[90vh] w-[100%] flex flex-col mt-6">
-                {/* TQI header Card */}
-                <Card>
-                    <div className="flex flex-row gap-15" style={{ justifyContent: "center" }}>
-                        {/* Left side */}
-                        <div className="flex flex-col">
-                            <strong className="self-center">Total Quality Index</strong>
-                            <div className="flex flex-row gap-6">
-                                <div>
-                                    <Avatar
-                                        className="TQIAvatar"
-                                        style={{
-                                            width: "75px",
-                                            height: "75px",
-                                            fontSize: "1.5rem",
-                                            borderRadius: "15%",
-                                        }}
-                                    >
-                                        <AvatarFallback
-                                            style={{
-                                                backgroundColor: getRisk(tqiRiskLevel.value, "normal").color,
-                                                borderRadius: "0", // Remove rounded corners
-                                            }}
-                                        >
-                                            {tqiRiskLevel.value?.toFixed(3)}
-                                        </AvatarFallback>
-                                    </Avatar>
+        <div className="max-h-[89vh] w-full overflow-y-scroll">
+            <div className="grid gap-5 p-2">
+                {/* Header Row */}
+                <div className="flex items-center justify-between">
+                    <h1 className="text-2xl font-bold">Version Overview</h1>
+                    <Button variant="default" size="lg" className="bg-blue-700">
+                        Download Report
+                    </Button>
+                </div>
+
+                {/* TQI and Pie Charts Row */}
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <Card className="lg:col-span-2">
+                        <CardHeader className="p-4">
+                            <div className="flex flex-col items-center gap-3">
+                                <div className="text-center">
+                                    <CardTitle className="text-lg">{tqiRiskLevel.name}</CardTitle>
+                                    <CardDescription className="text-sm">Version 1.0.0</CardDescription>
                                 </div>
-                                <div className="flex flex-col">
-                                    Project Name:
-                                    <strong>{tqiRiskLevel.name}</strong>
-                                </div>
+                                <TQIBadge
+                                    value={tqiRiskLevel.value}
+                                    risk={getRisk(tqiRiskLevel.value, "normal")}
+                                />
+                                <CardDescription className="text-sm">
+                                    +5 from previous version
+                                </CardDescription>
                             </div>
-                        </div>
+                        </CardHeader>
+                    </Card>
 
-                        <Separator orientation="vertical" style={{ height: "8vw" }} decorative />
-
-                        {/* PIE CHARTS */}
-                        <div className="flex flex-row gap-4">
+                    <Card className="lg:col-span-3">
+                        <div className="grid grid-cols-4 gap-8 p-8">
                             <PieChartComponent title="Characteristics" data={quality.chart} />
                             <PieChartComponent title="Factors" data={product.chart} />
                             <PieChartComponent title="Measures" data={measures.chart} />
                             <PieChartComponent title="Diagnostics" data={diagnostics.chart} />
                         </div>
-                    </div>
-                </Card>
+                    </Card>
+                </div>
 
-                {/* Section Components */}
+                {/* Rest of the sections */}
                 <Separator className="my-3 h-[1px] bg-border" />
                 <SectionComponent
                     title="Characteristics"
