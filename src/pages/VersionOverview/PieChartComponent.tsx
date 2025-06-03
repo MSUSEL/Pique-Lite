@@ -18,12 +18,12 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
 }) => {
     return (
         <div className="flex flex-col items-center">
-            <PieChart width={175} height={175}>
+            <PieChart width={200} height={200}>
                 <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
-                    outerRadius={70}
+                    outerRadius={80}
                     fill="#8884d8"
                     dataKey="Count"
                 >
