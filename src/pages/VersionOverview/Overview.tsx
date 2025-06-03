@@ -101,15 +101,27 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
     const projects = useAtomValue(State.projects);
     const project = projects?.[projectId];
     const version = project?.versions.find((v) => v.versionId === versionId);
+    
+    // Find the current version's index and get the previous version
+    const currentVersionIndex = project?.versions.findIndex((v) => v.versionId === versionId) ?? -1;
+    const previousVersion = currentVersionIndex > 0 ? project?.versions[currentVersionIndex - 1] : null;
+    
+    // Calculate the change from previous version
+    const previousTQI = previousVersion?.data.value ?? 0;
+    const currentTQI = tqiRiskLevel.value;
+    const tqiChange = currentTQI - previousTQI;
+    const tqiChangeText = tqiChange > 0 && currentVersionIndex > 0
+        ? `+${tqiChange.toFixed(2)} from previous version`
+        : `-${tqiChange.toFixed(2)} from previous version`;
 
     return (
         <div className="max-h-[89vh] w-full overflow-y-scroll">
-            <div className="grid gap-5 p-3">
+            <div className="grid gap-5 p-4">
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Version Overview</h1>
                     <Button variant="default" size="lg" className="bg-blue-700">
-                        Download Report
+                        Download
                     </Button>
                 </div>
 
@@ -127,7 +139,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                                     risk={getRisk(tqiRiskLevel.value, "normal")}
                                 />
                                 <CardDescription className="text-sm">
-                                    +5 from previous version
+                                    {previousVersion ? tqiChangeText : ""}
                                 </CardDescription>
                             </div>
                         </CardHeader>
