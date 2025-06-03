@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as schema from "../../state/visualizerSchema";
 import { ClassifyNestedObjRiskLevel } from "./ClassifyNestedObjRiskLevel";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -9,6 +8,9 @@ import { COLORS } from "./PieChartColor";
 import SectionComponent from "./SectionComponent";
 import PieChartComponent from "./PieChartComponent";
 import { TQIBadge } from "./TQIBadge";
+import { State } from "../../state";
+import { useState } from "react";
+import { useAtomValue } from "jotai";
 
 interface Impact {
     aspectName: string;
@@ -68,7 +70,15 @@ const getRiskInfo = (
     return { chart, top };
 };
 
-export default function VersionOverview({ dataset }: { dataset: schema.base.Schema }) {
+interface VersionOverviewProps {
+    dataset: schema.base.Schema;
+    params: {
+        projectId: string;
+        versionId: string;
+    };
+}
+
+export default function VersionOverview({ dataset, params }: VersionOverviewProps) {
     const [selectedItem,] = useState<any>(null);
 
     const tqiRiskData = ClassifyNestedObjRiskLevel(dataset.factors.tqi, false);
@@ -87,6 +97,11 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
     const measures = getRiskInfo(dataset.measures, dataset);
     const diagnostics = getRiskInfo(dataset.diagnostics, dataset, true);
 
+    const { projectId, versionId } = params;
+    const projects = useAtomValue(State.projects);
+    const project = projects?.[projectId];
+    const version = project?.versions.find((v) => v.versionId === versionId);
+
     return (
         <div className="max-h-[89vh] w-full overflow-y-scroll">
             <div className="grid gap-5 p-3">
@@ -104,8 +119,8 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
                         <CardHeader className="p-4">
                             <div className="flex flex-col items-center gap-3">
                                 <div className="text-center">
-                                    <CardTitle className="text-lg">{tqiRiskLevel.name}</CardTitle>
-                                    <CardDescription className="text-sm">Version 1.0.0</CardDescription>
+                                    <CardTitle className="text-lg">{project?.name || projectId}</CardTitle>
+                                    <CardDescription className="text-sm">{version?.name || versionId}</CardDescription>
                                 </div>
                                 <TQIBadge
                                     value={tqiRiskLevel.value}

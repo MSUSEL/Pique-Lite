@@ -106,7 +106,7 @@ export default function Component(props: Route.ComponentProps) {
         </TabsList>
         <div className="px-4 py-2">
           <TabsContent value="tab0">
-            <VersionOverview dataset={mockData} />
+            <VersionOverview dataset={mockData} params={props.params} />
           </TabsContent>
           <TabsContent value="tab1">
             <div className="max-h-[80svh] max-w-[80svw] overflow-hidden">
