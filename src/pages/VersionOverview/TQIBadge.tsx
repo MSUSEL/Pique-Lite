@@ -6,6 +6,8 @@ interface TQIBadgeProps {
     risk: ReturnType<typeof getRisk>;
 }
 
+// Based on TQIBadge.tsx in ProjectOverview but with a different style
+// TODO: Refactor to use the same component for both ProjectOverview and VersionOverview
 export const TQIBadge: React.FC<TQIBadgeProps> = ({ value, risk }) => (
     <div
         className="flex min-w-[160px] flex-col items-center justify-center rounded-md p-6"
