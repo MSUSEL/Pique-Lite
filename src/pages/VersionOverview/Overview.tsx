@@ -8,7 +8,7 @@ import { getRisk, getAllRiskLevels } from "../../composites/RiskHelpers";
 import { COLORS } from "./PieChartColor";
 import SectionComponent from "./SectionComponent";
 import PieChartComponent from "./PieChartComponent";
-import { TQIBadge } from "../ProjectOverview/ProjectCard";
+import { TQIBadge } from "./TQIBadge";
 
 interface Impact {
     aspectName: string;
@@ -89,7 +89,7 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
 
     return (
         <div className="max-h-[89vh] w-full overflow-y-scroll">
-            <div className="grid gap-5 p-2">
+            <div className="grid gap-5 p-3">
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Version Overview</h1>
@@ -99,8 +99,8 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
                 </div>
 
                 {/* TQI and Pie Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                    <Card className="lg:col-span-2">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-9">
+                    <Card className="lg:col-span-1">
                         <CardHeader className="p-4">
                             <div className="flex flex-col items-center gap-3">
                                 <div className="text-center">
@@ -118,8 +118,11 @@ export default function VersionOverview({ dataset }: { dataset: schema.base.Sche
                         </CardHeader>
                     </Card>
 
-                    <Card className="lg:col-span-3">
-                        <div className="grid grid-cols-4 gap-8 p-8">
+                    <Card className="lg:col-span-4">
+                        <CardHeader className="pb-0">
+                            <CardTitle>Risk Levels</CardTitle>
+                        </CardHeader>
+                        <div className="grid grid-cols-4 gap-2">
                             <PieChartComponent title="Characteristics" data={quality.chart} />
                             <PieChartComponent title="Factors" data={product.chart} />
                             <PieChartComponent title="Measures" data={measures.chart} />
