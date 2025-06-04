@@ -189,6 +189,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                                 selectedTab === "measures" ? measures.top :
                                 diagnostics.top
                             }
+                            isDiagnostics={selectedTab === "diagnostics"}
                         />
                     </div>
                 </div>

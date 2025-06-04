@@ -21,9 +21,10 @@ interface TopProblematicItem {
 interface LowestScoresCardProps {
     title: string;
     items: TopProblematicItem[];
+        isDiagnostics?: boolean;
 }
 
-export default function LowestScoresCard({ title, items }: LowestScoresCardProps) {
+export default function LowestScoresCard({ title, items, isDiagnostics = false }: LowestScoresCardProps) {
     return (
         <Card>
             <CardHeader>
@@ -31,7 +32,7 @@ export default function LowestScoresCard({ title, items }: LowestScoresCardProps
             </CardHeader>
             <div className="flex flex-col items-center gap-7 p-1">
                 {items.map((item, index) => {
-                    const risk = getRisk(item.details.value, "normal");
+                    const risk = getRisk(item.details.value, isDiagnostics ? "diagnostic" : "normal");
                     return (
                         <Dialog key={index}>
                             <DialogTrigger asChild>
