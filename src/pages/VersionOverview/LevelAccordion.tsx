@@ -84,8 +84,10 @@ const LevelAccordion = ({
   const processedItems = classifyRiskLevels(nestedobj, isDiagnostics);
   return (
     <Accordion type="multiple" className="Level--AccordionRoot">
-      {/* Iterates through items held in processedItems */}
-      {Object.entries(processedItems).map(([riskLevel, items]) => (
+      {/* Only render risk levels that have items */}
+      {Object.entries(processedItems)
+        .filter(([_, items]) => Object.keys(items).length > 0)
+        .map(([riskLevel, items]) => (
          <AccordionItem
          value={riskLevel}
          key={riskLevel}
@@ -96,10 +98,7 @@ const LevelAccordion = ({
          }`}
        >
           <AccordionTrigger
-            className={`Level--AccordionTrigger ${
-              Object.keys(items).length === 0 ? "disabled" : "cursor-pointer"
-            }`}
-            disabled={Object.keys(items).length === 0}
+            className="Level--AccordionTrigger cursor-pointer"
           >
             {riskLevel} ({Object.keys(items).length})
           </AccordionTrigger>
