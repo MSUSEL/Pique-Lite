@@ -9,7 +9,7 @@ import { TQIBadge } from "./TQIBadge";
 import { State } from "../../state";
 import { useState } from "react";
 import { useAtomValue } from "jotai";
-import TabbedAccordion from "./TabbedAccordion";
+import SectionComponent from "./SectionComponent";
 import LowestScoresCard from "./LowestScoresCard";
 
 interface Impact {
@@ -166,7 +166,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                 <div className="grid grid-cols-5 gap-15">
                     {/* Tabbed Accordion Section */}
                     <div className="col-span-3">
-                        <TabbedAccordion 
+                        <SectionComponent 
                             dataset={{
                                 factors: {
                                     quality_aspects: dataset.factors.quality_aspects,
