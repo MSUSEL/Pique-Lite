@@ -68,7 +68,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                 </div>
 
                 <TabsContent value="characteristics">
-                    <ScrollArea className="h-[600px]">
+                    <ScrollArea className="h-[600px] pr-3">
                         <LevelAccordion
                             nestedobj={dataset.factors.quality_aspects}
                             isDiagnostics={false}
@@ -79,7 +79,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                 </TabsContent>
 
                 <TabsContent value="factors">
-                    <ScrollArea className="h-[600px]">
+                    <ScrollArea className="h-[600px] pr-3">
                         <LevelAccordion
                             nestedobj={dataset.factors.product_factors}
                             isDiagnostics={false}
@@ -90,7 +90,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                 </TabsContent>
 
                 <TabsContent value="measures">
-                    <ScrollArea className="h-[600px]">
+                    <ScrollArea className="h-[600px] pr-3">
                         <LevelAccordion
                             nestedobj={dataset.measures}
                             isDiagnostics={false}
@@ -101,7 +101,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                 </TabsContent>
 
                 <TabsContent value="diagnostics">
-                    <ScrollArea className="h-[600px]">
+                    <ScrollArea className="h-[600px] pr-3">
                         <LevelAccordion
                             nestedobj={dataset.diagnostics}
                             isDiagnostics={true}
