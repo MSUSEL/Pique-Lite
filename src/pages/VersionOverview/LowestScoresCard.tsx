@@ -60,8 +60,8 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                                     </span>
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent>
-                                <div className="text-sm">
+                            <DialogContent className="max-h-[80vh] overflow-y-auto">
+                                <div className="text-sm space-y-4">
                                     {item.impacts && item.impacts.length > 0 ? (
                                         item.impacts.map((impact, impactIndex) => (
                                             <p key={impactIndex}>
