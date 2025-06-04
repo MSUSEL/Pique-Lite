@@ -4,13 +4,13 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getRisk, getAllRiskLevels } from "../../composites/RiskHelpers";
-import { COLORS } from "./PieChartColor";
-import SectionComponent from "./SectionComponent";
 import PieChartComponent from "./PieChartComponent";
 import { TQIBadge } from "./TQIBadge";
 import { State } from "../../state";
 import { useState } from "react";
 import { useAtomValue } from "jotai";
+import TabbedAccordion from "./TabbedAccordion";
+import LowestScoresCard from "./LowestScoresCard";
 
 interface Impact {
     aspectName: string;
@@ -79,7 +79,7 @@ interface VersionOverviewProps {
 }
 
 export default function VersionOverview({ dataset, params }: VersionOverviewProps) {
-    const [selectedItem,] = useState<any>(null);
+    const [selectedTab, setSelectedTab] = useState("characteristics");
 
     const tqiRiskData = ClassifyNestedObjRiskLevel(dataset.factors.tqi, false);
     const [tqiCounts, tqiNames] = tqiRiskData ?? [[], []];
@@ -117,7 +117,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
 
     return (
         <div className="max-h-[89vh] w-full overflow-y-scroll">
-            <div className="grid gap-5 p-4">
+            <div className="grid gap-5 pl-5 pr-5">
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Version Overview</h1>
@@ -127,7 +127,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                 </div>
 
                 {/* TQI and Pie Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-9">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
                     <Card className="lg:col-span-1">
                         <CardHeader className="p-4">
                             <div className="flex flex-col items-center gap-3">
@@ -161,48 +161,37 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
 
                 {/* Rest of the sections */}
                 <Separator className="my-3 h-[1px] bg-border" />
-                <SectionComponent
-                    title="Characteristics"
-                    nestedObj={dataset.factors.quality_aspects}
-                    chartData={quality.chart}
-                    colors={COLORS}
-                    topProblematicItems={quality.top}
-                    isDiagnostics={false}
-                    propSelectedItem={selectedItem}
-                />
+                
+                {/* Main content grid */}
+                <div className="grid grid-cols-5 gap-15">
+                    {/* Tabbed Accordion Section */}
+                    <div className="col-span-3">
+                        <TabbedAccordion 
+                            dataset={{
+                                factors: {
+                                    quality_aspects: dataset.factors.quality_aspects,
+                                    product_factors: dataset.factors.product_factors
+                                },
+                                measures: dataset.measures,
+                                diagnostics: dataset.diagnostics
+                            }}
+                            onTabChange={(tab) => setSelectedTab(tab)}
+                        />
+                    </div>
 
-                <Separator className="my-3 h-[1px] bg-border" />
-                <SectionComponent
-                    title="Factors"
-                    nestedObj={dataset.factors.product_factors}
-                    chartData={product.chart}
-                    colors={COLORS}
-                    topProblematicItems={product.top}
-                    isDiagnostics={false}
-                    propSelectedItem={selectedItem}
-                />
-
-                <Separator className="my-3 h-[1px] bg-border" />
-                <SectionComponent
-                    title="Measures"
-                    nestedObj={dataset.measures}
-                    chartData={measures.chart}
-                    colors={COLORS}
-                    topProblematicItems={measures.top}
-                    isDiagnostics={false}
-                    propSelectedItem={selectedItem}
-                />
-
-                <Separator className="my-3 h-[1px] bg-border" />
-                <SectionComponent
-                    title="Diagnostics"
-                    nestedObj={dataset.diagnostics}
-                    chartData={diagnostics.chart}
-                    colors={COLORS}
-                    topProblematicItems={diagnostics.top}
-                    isDiagnostics={true}
-                    propSelectedItem={selectedItem}
-                />
+                    {/* Lowest Scores Card */}
+                    <div className="col-span-2">
+                        <LowestScoresCard
+                            title="Lowest 3 Scores"
+                            items={
+                                selectedTab === "characteristics" ? quality.top :
+                                selectedTab === "factors" ? product.top :
+                                selectedTab === "measures" ? measures.top :
+                                diagnostics.top
+                            }
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
