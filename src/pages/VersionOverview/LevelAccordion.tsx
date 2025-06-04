@@ -97,7 +97,7 @@ const LevelAccordion = ({
        >
           <AccordionTrigger
             className={`Level--AccordionTrigger ${
-              Object.keys(items).length === 0 ? "disabled" : ""
+              Object.keys(items).length === 0 ? "disabled" : "cursor-pointer"
             }`}
             disabled={Object.keys(items).length === 0}
           >

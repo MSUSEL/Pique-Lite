@@ -56,7 +56,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                     <Button
                         variant="ghost"
                         onClick={() => setDetailsVisible(prev => !prev)}
-                        className="text-gray-500"
+                        className="text-gray-500 cursor-pointer"
                     >
                         View Additional Details
                         {detailsVisible ? (
