@@ -37,13 +37,13 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                         <Dialog key={index}>
                             <DialogTrigger asChild>
                                 <Button
-                                    className="min-w-[200px] w-fit cursor-pointer pt-6 pb-6"
+                                    className="min-w-[200px] w-fit cursor-pointer py-8 px-1 whitespace-normal text-center"
                                     style={{
                                         background: risk?.color || "gray"
                                     }}
                                 >
                                     <span
-                                        className="text-lg font-bold pr-3"
+                                        className="text-lg font-bold pr-1 pl-2"
                                         style={{
                                             color: risk.badgeColor
                                         }}
@@ -51,7 +51,7 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                                         {item.name}:
                                     </span>
                                     <span
-                                        className="text-lg font-bold"
+                                        className="text-lg font-bold pr-2"
                                         style={{
                                             color: risk.badgeColor
                                         }}
