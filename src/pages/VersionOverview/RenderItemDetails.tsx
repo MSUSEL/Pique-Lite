@@ -11,7 +11,7 @@ export const renderItemDetails = (
 ) => {
   return (
     <AccordionItem value={key} key={key} className="Level--AccordionLevel">
-        <AccordionTrigger className="Level--AccordionTrigger">
+        <AccordionTrigger className="Level--AccordionTrigger cursor-pointer">
           {details.name}: {details.value.toFixed(2)}
         </AccordionTrigger>
       <AccordionContent className="Level--AccordionContent">

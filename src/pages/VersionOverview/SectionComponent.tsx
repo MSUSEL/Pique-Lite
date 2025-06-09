@@ -1,194 +1,116 @@
-import React, { useState } from "react";
-import { CircleIcon, CheckCircle } from "lucide-react";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
-import LevelAccordion, { renderObjectDetails } from "./LevelAccordion";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { CheckCircle, CircleIcon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
-
-interface FilterableItem {
-  name: string;
-  value: number;
-  description: string;
-  weights?: Record<string, number>;
-}
-
-interface ChartDataItem {
-  name: string;
-  Count: number;
-}
-
-interface Impact {
-  aspectName: string;
-  weight: number;
-}
-
-interface TopProblematicItem {
-  name: string;
-  details: FilterableItem;
-  weight?: number;
-  impacts?: Impact[];
-}
+import LevelAccordion from "./LevelAccordion";
+import { FilterableItem } from "./LevelAccordion";
 
 interface SectionComponentProps {
-  title: string;
-  nestedObj: Record<string, FilterableItem>;
-  chartData: ChartDataItem[];
-  colors: Record<string, string>;
-  topProblematicItems: TopProblematicItem[];
-  isDiagnostics?: boolean;
-  propSelectedItem: any;
+    dataset: {
+        factors: {
+            quality_aspects: Record<string, FilterableItem>;
+            product_factors: Record<string, FilterableItem>;
+        };
+        measures: Record<string, FilterableItem>;
+        diagnostics: Record<string, FilterableItem>;
+    };
+    onTabChange: (tab: string) => void;
 }
 
-// Wrapper for each 'section' which contains accordion, pie
-//  chart, and top 3 list based on data type (characteristic, factor, etc.)
-const SectionComponent: React.FC<SectionComponentProps> = ({
-  title,
-  nestedObj,
-  chartData,
-  colors,
-  topProblematicItems,
-  isDiagnostics = false,
-  propSelectedItem,
-  
-}) => {
-  const [detailsVisible, setDetailsVisible] = useState(false); // State to track visibility
-  const [selectedItem, setSelectedItem] = useState(null);
+export default function SectionComponent({ dataset, onTabChange }: SectionComponentProps) {
+    const [detailsVisible, setDetailsVisible] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<FilterableItem | null>(null);
 
-  const toggleDetailsVisibility = () => {
-    setDetailsVisible((prevState) => !prevState); // Toggle visibility
-  };
-
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-  };
-
-  return (
-    <div className="flex w-full justify-center">
-      {/* Accordion section */}
-      <div className="flex flex-col items-center justify-center gap-5" style={{ flexBasis: "30%" }}>
-        <div>
-          <Badge>{title}</Badge>
-        </div>
-        <div className="toggle-button-container">
-          <Button
-            className="toggle-button"
-            variant="ghost"
-            onClick={toggleDetailsVisibility}
-            style={{
-              right: "0",
-              fontSize: "85%",
-              color: "gray",
-            }}
-          >
-            View Additional Details
-            {detailsVisible ? (
-              <CheckCircle className="chevron-icon" />
-            ) : (
-              <CircleIcon className="chevron-icon" />
-            )}
-          </Button>
-        </div>
-        <div style={{ width: "90%" }}>
-          <ScrollArea style={{ height: "38vh" }}>
-            <LevelAccordion
-              nestedobj={nestedObj}
-              isDiagnostics={isDiagnostics}
-              detailsVisible={detailsVisible}
-              selectedItem={selectedItem}
-            />
-          </ScrollArea>
-        </div>
-      </div>
-
-      {/* Pie chart section */}
-      <div className="flex flex-col items-center justify-center gap-5" style={{ flexBasis: "30%" }}>
-        <div className="mb-8">
-          <Badge>{title} Pie Chart</Badge>
-        </div>
-        <div>
-          <PieChart width={300} height={300}>
-            <Pie
-              data={chartData}
-              cx="50%"
-              cy="48%"
-              outerRadius={100}
-              fill="#8884d8"
-              dataKey="Count"
-              label
-            >
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[entry.name]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </div>
-      </div>
-
-      {/* Top problematic items section */}
-      <div className="flex flex-col items-center gap-5 justify-center" style={{ flexBasis: "30%" }}>
-        <div>
-          <Badge>Lowest 3 Scores</Badge>
-        </div>
-        <div className="mt-[70px]">
-          <div className="flex flex-col gap-7 items-center">
-            {topProblematicItems.map((item, index) => (
-              <Dialog key={index}>
-                <DialogTrigger>
-                  <Button
-                    style={{
-                      background: "none",
-                      border: "1px solid var(--violet-11)",
-                      padding: "15px",
-                    }}
-                    onClick={() => handleItemClick(item)}
-                  >
-                    <div className="flex flex-row items-center">
-                      <p className="text-violet-600 font-normal text-[1.15em]">
-                        <strong>{item.name}:</strong>{" "}
-                        <span>{item.details.value.toFixed(2)}</span>
-                      </p>
-                    </div>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                    <div
-                    className="text-[var(--violet-11)] text-sm"
-                    style={{ maxHeight: "90vh", overflowY: "auto" }}
+    return (
+        <div className="flex flex-col">
+            {/* Tabs and View Additional Details button */}
+            <Tabs defaultValue="characteristics" onValueChange={onTabChange}>
+                <div className="flex justify-between">
+                    <TabsList className="bg-transparent pb-1 pl-0 gap-4">
+                        <TabsTrigger
+                            value="characteristics"
+                            className="data-[state=active]:text-blue-800 data-[state=active]:border-b-2 data-[state=active]:border-blue-800 border-t-0 border-l-0 border-r-0 rounded-none cursor-pointer"
+                        >
+                            Characteristics
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="factors"
+                            className="data-[state=active]:text-blue-800 data-[state=active]:border-b-2 data-[state=active]:border-blue-800 border-t-0 border-l-0 border-r-0 rounded-none cursor-pointer"
+                        >
+                            Factors
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="measures"
+                            className="data-[state=active]:text-blue-800 data-[state=active]:border-b-2 data-[state=active]:border-blue-800 border-t-0 border-l-0 border-r-0 rounded-none cursor-pointer"
+                        >
+                            Measures
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value="diagnostics"
+                            className="data-[state=active]:text-blue-800 data-[state=active]:border-b-2 data-[state=active]:border-blue-800 border-t-0 border-l-0 border-r-0 rounded-none cursor-pointer"
+                        >
+                            Diagnostics
+                        </TabsTrigger>
+                    </TabsList>
+                    <Button
+                        variant="ghost"
+                        onClick={() => setDetailsVisible(prev => !prev)}
+                        className="text-gray-500 cursor-pointer"
                     >
-                    {item.impacts && item.impacts.length > 0 ? (
-                      item.impacts.map((impact, impactIndex) => (
-                      <p key={impactIndex} className="text-[var(--violet-11)]">
-                        <strong>Item name: </strong> {item.name}
-                        <Separator className="my-3 h-[1px] bg-border" />
-                        <strong>Impact to {impact.aspectName}:</strong>{" "}
-                        {impact.weight.toFixed(3)}
-                      </p>
-                      ))
-                    ) : item.weight !== undefined ? (
-                      <p className="text-[var(--violet-11)]">
-                      <strong>Item name: </strong> {item.name}
-                      <Separator className="my-3 h-[1px] bg-border" />
-                      <strong>Impact to TQI:</strong> {item.weight.toFixed(3)}
-                      </p>
-                    ) : null}
-                    <p>
-                      <strong>Description:</strong>{" "}
-                      {item.details.description || "Not Provided"}
-                    </p>
-                    {renderObjectDetails(item.details)}
-                    </div>
-                </DialogContent>
-              </Dialog>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+                        View Additional Details
+                        {detailsVisible ? (
+                            <CheckCircle className="ml-2 h-4 w-4" />
+                        ) : (
+                            <CircleIcon className="ml-2 h-4 w-4" />
+                        )}
+                    </Button>
+                </div>
 
-export default SectionComponent;
+                <TabsContent value="characteristics">
+                    <ScrollArea className="h-[600px] pr-3">
+                        <LevelAccordion
+                            nestedobj={dataset.factors.quality_aspects}
+                            isDiagnostics={false}
+                            detailsVisible={detailsVisible}
+                            selectedItem={selectedItem}
+                        />
+                    </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="factors">
+                    <ScrollArea className="h-[600px] pr-3">
+                        <LevelAccordion
+                            nestedobj={dataset.factors.product_factors}
+                            isDiagnostics={false}
+                            detailsVisible={detailsVisible}
+                            selectedItem={selectedItem}
+                        />
+                    </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="measures">
+                    <ScrollArea className="h-[600px] pr-3">
+                        <LevelAccordion
+                            nestedobj={dataset.measures}
+                            isDiagnostics={false}
+                            detailsVisible={detailsVisible}
+                            selectedItem={selectedItem}
+                        />
+                    </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="diagnostics">
+                    <ScrollArea className="h-[600px] pr-3">
+                        <LevelAccordion
+                            nestedobj={dataset.diagnostics}
+                            isDiagnostics={true}
+                            detailsVisible={detailsVisible}
+                            selectedItem={selectedItem}
+                        />
+                    </ScrollArea>
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
+} 

@@ -8,7 +8,7 @@ interface FilterableItem {
 
 // define a function classifyRiskLevels for a high-level object, such as tqi, quality_aspects, product_factors
 // input: an object: NestedObject
-// ouput: two arrays or a dictionary: risk level counts, and objects.names in each level
+// output: two arrays or a dictionary: risk level counts, and objects.names in each level
 export function ClassifyNestedObjRiskLevel(
   obj: Record<string, FilterableItem>,
   isDiagnostics: boolean
