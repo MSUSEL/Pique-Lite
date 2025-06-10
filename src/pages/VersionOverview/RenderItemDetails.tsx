@@ -43,7 +43,7 @@ export const renderItemDetails = (
                 <SheetHeader>
                   <SheetTitle>{details.name}</SheetTitle>
                 </SheetHeader>
-                <div className="grid flex-1 auto-rows-min gap-6 px-4">
+                <div className="grid flex-1 auto-rows-min gap-3 px-4">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Score:</span>
                       <span className="text-lg font-semibold" style={{ color: risk.badgeColor }}>
