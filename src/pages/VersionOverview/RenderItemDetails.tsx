@@ -3,8 +3,7 @@ import { AccordionItem, AccordionContent, AccordionTrigger } from "@/components/
 import { renderObjectDetails } from "./LevelAccordion";
 import { FilterableItem } from "./LevelAccordion";
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { getRisk } from "../../composites/RiskHelpers"
 import {
   Sheet,
   SheetClose,
@@ -22,6 +21,8 @@ export const renderItemDetails = (
   details: FilterableItem,
   detailsVisible: boolean
 ) => {
+  const risk = getRisk(details.value);
+
   return (
     <AccordionItem value={key} key={key} className="Level--AccordionLevel">
       <AccordionTrigger className="Level--AccordionTrigger cursor-pointer">
@@ -30,8 +31,8 @@ export const renderItemDetails = (
           <div onClick={(e) => e.stopPropagation()}>
             <Sheet>
               <SheetTrigger asChild>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="ml-4 hover:no-underline cursor-pointer"
                   onClick={(e) => e.stopPropagation()}
                 >
@@ -41,18 +42,32 @@ export const renderItemDetails = (
               <SheetContent>
                 <SheetHeader>
                   <SheetTitle>{details.name}</SheetTitle>
-                  <SheetDescription>
-                    Make changes to your profile here. Click save when you&apos;re done.
-                  </SheetDescription>
                 </SheetHeader>
                 <div className="grid flex-1 auto-rows-min gap-6 px-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Score:</span>
+                      <span className="text-lg font-semibold" style={{ color: risk.badgeColor }}>
+                        {details.value.toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">Risk Level:</span>
+                      <div className="flex items-center gap-2">
+                        <span style={{ color: risk.badgeColor }}>{risk.icon}</span>
+                        <span style={{ color: risk.badgeColor }}>{risk.name}</span>
+                      </div>
+                    </div>
+                    {details.type && (
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">Type:</span>
+                        <span>{details.type}</span>
+                      </div>
+                    )}
                   <div className="grid gap-3">
-                    <Label htmlFor="sheet-demo-name">Name</Label>
-                    <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="sheet-demo-username">Username</Label>
-                    <Input id="sheet-demo-username" defaultValue="@peduarte" />
+                    <span className="font-medium">Description:</span>
+                    <p className="text-sm text-muted-foreground">
+                      {details.description || "No description provided"}
+                    </p>
                   </div>
                 </div>
                 <SheetFooter>
@@ -65,7 +80,7 @@ export const renderItemDetails = (
           </div>
         </div>
       </AccordionTrigger>
-      
+
       <AccordionContent className="Level--AccordionContent">
         <Table>
           <TableBody>
