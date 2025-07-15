@@ -1,41 +1,41 @@
-# Website
+# PIQUE - Pique-Lite
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+**PIQUE** (**P**latform for **I**nvestigative software **Q**uality **U**nderstanding and **E**valuation) is a tool designed to help developers, project managers, and security analysts assess and track the quality and security of their projects.
 
-## Installation
+## Key Features
 
-```bash
-yarn
-```
+- **Compare Quality Across Categories**: Assess security across multiple aspects, including Availability, Authenticity, Authorization, Confidentiality, Non-repudiation, and Integrity.
+- **Visualize Software Quality Over Time**: Track how security scores change across different software versions and dates.
+- **Prioritize Areas for Improvement**: Identify high-risk areas in the software that require immediate attention.
+- **Customize Quality Assessments to Fit Your Needs**: Adjust the weights of core security aspects to tailor evaluations based on priorities and risk tolerance.
+- **Explore a Hierarchical Breakdown of Security Metrics**: Understand software quality through an interactive tree-based representation.
 
-## Local Development
+## Documentation
 
-```bash
-yarn start
-```
+This repository contains the source code for the Pique-Lite application. The full documentation is built with Docusaurus.
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+### Running the Documentation Locally
 
-## Build
+The documentation site is located in the `/docusaurus_docs` directory. To run it locally, follow these steps:
 
-```bash
-yarn build
-```
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/your-username/Pique-Lite.git](https://github.com/your-username/Pique-Lite.git)
+    cd Pique-Lite
+    ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+2.  **Navigate to the documentation folder:**
+    ```bash
+    cd docusaurus_docs
+    ```
 
-## Deployment
+3.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+4.  **Start the development server:**
+    ```bash
+    npm start
+    ```
+The site will be available at `http://localhost:3000`.
