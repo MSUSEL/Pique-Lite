@@ -1,4 +1,8 @@
-## Project Dashboard
+---
+hide_title: true
+---
+
+# Project Dashboard
 
 The **Project Dashboard** displays the quality scores for each project.
 

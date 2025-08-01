@@ -1,6 +1,17 @@
-<img src="/assets/images/PIQUE_svg-cropped.svg" class="pique-logo" style={{width: '300px'}} />
+---
+sidebar_label: 'Welcome to PIQUE Lite Documentation Site'
+sidebar_position: 1
+hide_title: true
+---
+import PiqueLogo from '@site/static/assets/images/PIQUE_svg-cropped.svg';
+import WelcomeScreen from '@site/static/assets/images/pique-welcome-screen.png';
+import ComparisonImg from '@site/static/assets/images/characteristics-page-zoomed.png';
 
-## Introduction
+<div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+<PiqueLogo alt="PIQUE Logo" style={{height: '50px', width: 'auto'}} />
+<h1>Introduction</h1>
+</div>
+
 
 **PIQUE** (**P**latform for **I**nvestigative software **Q**uality **U**nderstanding and **E**valuation) is a tool designed to help developers, project managers, and security analysts assess and track the quality and security of their projects. 
 

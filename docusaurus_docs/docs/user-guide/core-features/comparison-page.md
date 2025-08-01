@@ -1,3 +1,8 @@
+---
+hide_title: true
+---
+# Project Comparison
+
 The **Project Comparison** page allows you to compare the quality of different projects.
 
 ## Navigating to the Comparison Page

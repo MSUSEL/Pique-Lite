@@ -1,3 +1,4 @@
+# Potential Input Errors
 
 If the input JSON file is invalid, PIQUE Visualizer will display an error message. Below is an example of what you might see:
 

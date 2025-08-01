@@ -1,3 +1,9 @@
+---
+hide_title: true
+---
+# Characteristics
+
+
 The **Project Characteristics** page visualizes quality changes over time.
 
 ## Navigating to the Characteristics Page
