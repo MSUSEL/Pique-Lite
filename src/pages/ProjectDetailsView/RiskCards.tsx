@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip";
-import { getRisk } from "../../composites/RiskHelpers";
+import { getRisk, useRiskColor } from "../../composites/RiskHelpers";
 
 export interface RiskCardProps {
   title: string;
@@ -15,15 +15,16 @@ export interface RiskCardProps {
 }
 
 export const RiskCard = (props: RiskCardProps) => {
+  const { getRiskColor } = useRiskColor();
   const risk = getRisk(props.score, props.scale);
   return (
     <Badge
       variant="outline"
       className="flex flex-col items-center"
       style={{
-        backgroundColor: risk.color,
-        borderColor: risk.badgeColor,
-        color: risk.badgeColor
+        backgroundColor: getRiskColor(props.score, "background", props.scale),
+        borderColor: getRiskColor(props.score, "badge", props.scale),
+        color: getRiskColor(props.score, "badge", props.scale)
       }}
     >
       <div className="p-3 text-2xl">{risk.icon}</div>
@@ -34,13 +35,14 @@ export const RiskCard = (props: RiskCardProps) => {
 };
 
 export const RiskLegendCard = (props: RiskCardProps) => {
+  const { getRiskColor } = useRiskColor();
   const risk = getRisk(props.score, props.scale);
   return (
     <Badge
       variant="outline"
       className="flex flex-row items-center pl-2"
       style={{
-        backgroundColor: risk.color
+        backgroundColor: getRiskColor(props.score, "background", props.scale)
       }}
     >
       <p className="mr-1">{props.title}</p>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getRisk, getRiskColorVar } from "../../composites/RiskHelpers";
+import { getRisk, getRiskColorVar, useRiskColor } from "../../composites/RiskHelpers";
 import { Version } from "../../state";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -97,6 +97,8 @@ export const VersionCard: React.FC<VersionCardProps> = ({
 const MetricsSection: React.FC<{
   metrics: Array<{ name: string; value: number }>;
 }> = ({ metrics }) => {
+  const { getRiskColor } = useRiskColor();
+  
   return (
     <div className="grid grid-cols-2 grid-rows-3 gap-2 md:grid-cols-3 md:grid-rows-2">
       {metrics.map((metric) => (
@@ -109,7 +111,7 @@ const MetricsSection: React.FC<{
           <Progress
             value={metric.value * 100}
             className="rounded-md bg-gray-100"
-            bg={getRisk(metric.value, "normal").color}
+            bg={getRiskColor(metric.value, "background", "normal")}
           />
         </div>
       ))}
@@ -143,28 +145,32 @@ const MetricItem: React.FC<{
 export const TQIBadge: React.FC<{
   value: number;
   risk: ReturnType<typeof getRisk>;
-}> = ({ value, risk }) => (
-  <div
-    className="ml-6 flex min-w-[80px] flex-col items-center justify-center rounded-md p-3"
-    style={{
-      background: risk?.color || "gray"
-    }}
-  >
-    <span
-      className="mb-1 text-sm font-medium"
+}> = ({ value, risk }) => {
+  const { getRiskColor } = useRiskColor();
+  
+  return (
+    <div
+      className="ml-6 flex min-w-[80px] flex-col items-center justify-center rounded-md p-3"
       style={{
-        color: risk.badgeColor
+        background: getRiskColor(value, "background", "normal")
       }}
     >
-      TQI
-    </span>
-    <span
-      className="text-xl leading-none font-bold"
-      style={{
-        color: risk.badgeColor
-      }}
-    >
-      {value.toFixed(2)}
-    </span>
-  </div>
-);
+      <span
+        className="mb-1 text-sm font-medium"
+        style={{
+          color: "white"
+        }}
+      >
+        TQI
+      </span>
+      <span
+        className="text-xl leading-none font-bold"
+        style={{
+          color: "white"
+        }}
+      >
+        {value.toFixed(2)}
+      </span>
+    </div>
+  );
+};

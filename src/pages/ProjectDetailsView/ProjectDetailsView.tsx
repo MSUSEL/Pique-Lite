@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
-import { getAllRiskLevels, getRisk } from "../../composites/RiskHelpers";
+import { getAllRiskLevels, getRisk, useRiskColor } from "../../composites/RiskHelpers";
 import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
@@ -100,6 +100,7 @@ interface ProjectDetailsViewProps {
 
 function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   const projectMapping = useAtomValue(State.projects);
+  const { getRiskColor } = useRiskColor();
 
   const projects = useMemo(() => {
     if (!projectMapping) return [];
@@ -181,13 +182,13 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                     <div
                       className="flex min-w-[80px] flex-col items-center justify-center rounded-md p-2"
                       style={{
-                        background: tqiRisk?.color || "gray"
+                        background: getRiskColor(latestVersion.data.value, "background", "normal")
                       }}
                     >
                       <span
                         className="mb-1 text-sm font-medium"
                         style={{
-                          color: tqiRisk.badgeColor
+                          color: "white"
                         }}
                       >
                         TQI
@@ -195,7 +196,7 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                       <span
                         className="text-xl leading-none font-bold"
                         style={{
-                          color: tqiRisk.badgeColor
+                          color: "white"
                         }}
                       >
                         {latestVersion.data.value.toFixed(2)}
@@ -204,8 +205,6 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                   </div>
                   <div className="grid grid-cols-3 grid-rows-2 gap-2 md:grid-cols-4 md:grid-rows-2">
                     {latestVersion.data.children.map((c) => {
-                      const risk = getRisk(c.value, "normal");
-
                       return (
                         <span className="flex items-center">
                           <span>
@@ -215,7 +214,10 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                               </span>
                               <span>{c.value.toFixed(2)}</span>
                             </span>
-                            <Progress value={c.value * 100} bg={risk.color} />
+                            <Progress 
+                              value={c.value * 100} 
+                              bg={getRiskColor(c.value, "background", "normal")} 
+                            />
                           </span>
                         </span>
                       );
