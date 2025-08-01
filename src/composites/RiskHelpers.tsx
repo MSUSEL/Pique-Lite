@@ -4,6 +4,7 @@ import { ImWarning } from "react-icons/im";
 import { RiAlarmWarningLine } from "react-icons/ri";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { CgDanger } from "react-icons/cg";
+import { useColorMode } from "@/composites/ColorMode";
 
 interface RiskLevel {
   name: string;
@@ -103,4 +104,35 @@ export function getRiskColorVar(
     varName += "-diagnostic";
   }
   return `${varName}`;
+}
+
+// New color-mode-aware functions
+export function getRiskColor(
+  score: number | string,
+  colorType: "background" | "font" | "badge" = "background",
+  scale: "normal" | "diagnostic" = "normal"
+): string {
+  const riskLevel = getRisk(score, scale);
+  const lowerCaseRiskName = riskLevel.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+  
+  // Use CSS custom properties that are set by ColorModeProvider
+  const varName = `--risk-${lowerCaseRiskName}-${colorType}`;
+  return `var(${varName})`;
+}
+
+// Hook-based function for components that need to access colors directly
+export function useRiskColor() {
+  const { getRiskColor: getColorFromMode } = useColorMode();
+  
+  return {
+    getRiskColor: (
+      score: number | string,
+      colorType: "background" | "font" | "badge" = "background",
+      scale: "normal" | "diagnostic" = "normal"
+    ) => {
+      const riskLevel = getRisk(score, scale);
+      const lowerCaseRiskName = riskLevel.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+      return getColorFromMode(lowerCaseRiskName, colorType);
+    }
+  };
 }

@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Folder, Home, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { Folder, Home, MoreHorizontal, Plus, Settings, Trash2 } from "lucide-react";
 import React from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
@@ -32,6 +32,11 @@ const sidebarItems = [
     label: "Dashboard",
     href: "/overview",
     icon: Home
+  },
+  {
+    label: "Settings",
+    href: "/settings",
+    icon: Settings
   }
 ];
 

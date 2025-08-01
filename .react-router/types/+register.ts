@@ -16,5 +16,6 @@ type Params = {
     "projectId": string;
   };
   "/overview": {};
+  "/settings": {};
   "/about": {};
 };

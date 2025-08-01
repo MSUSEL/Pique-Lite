@@ -72,6 +72,13 @@
   --risk-low-diagnostic-background: #00a43380;
   --risk-low-diagnostic-font: green;
   --risk-low-diagnostic-badge: green;
+
+  /* Legacy compatibility for existing components */
+  --severe-color: var(--risk-severe-background);
+  --high-color: var(--risk-high-background);
+  --elevated-color: var(--risk-elevated-background);
+  --guarded-color: var(--risk-guarded-background);
+  --low-color: var(--risk-low-background);
 }
 
 .dark {

@@ -9,6 +9,7 @@ import {
 import type { Route } from "./+types/root";
 import "./root.css";
 import { MockData } from "./MockData";
+import { ColorModeProvider } from "@/composites/ColorMode";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -33,10 +34,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function Root() {
   // TODO: Remove this when shadcn migration is complete
   return (
-    <>
+    <ColorModeProvider>
       {/* {import.meta.env.DEV && <MockData />} */}
       <Outlet />
-    </>
+    </ColorModeProvider>
   );
 }
 

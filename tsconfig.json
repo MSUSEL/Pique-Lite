@@ -6,6 +6,9 @@
       "@/components/*": [
         "src/components/*",
       ],
+      "@/composites/*": [
+        "src/composites/*",
+      ],
       "@/state/*": [
         "src/state/*",]
     }
