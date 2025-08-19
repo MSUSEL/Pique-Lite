@@ -33,3 +33,10 @@
   margin-right: auto;
   background-color: white;
 }
+
+.md-header__button.md-logo img {
+  margin-top: 10px;
+  margin-left: -10px;
+  height: 70px;
+  width: auto;
+}
