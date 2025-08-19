@@ -30,4 +30,4 @@ EXPOSE 5173
 ENV NODE_ENV=development
 
 # Start the dev server (adjust if your dev command is different)
-CMD ["bun", "run", "dev"] 
+CMD ["bun",  "dev", "--host"] 
