@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Pique Lite Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Pique Lite',
+  tagline: 'A lightweight software quality assessment tool.',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -20,15 +20,14 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://MSUSEL.github.io', // Changed from default value
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/Pique-Lite/', // Changed from default value
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'MSUSEL', // Changed from 'facebook'
+  projectName: 'Pique-Lite', // Changed from 'docusaurus'
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -52,7 +51,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/MSUSEL/Pique-Lite/tree/main/website/', // Updated with Pique-Lite repository
         },
         blog: false, // This line disables the blog
         theme: {
@@ -68,7 +67,7 @@ const config = {
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Pique Lite',
+        title: 'Pique Lite', // Changed from 'Pique Lite Site'
         // logo: {
         //  alt: 'My Site Logo',
         //  src: 'img/logo.svg',
@@ -79,10 +78,11 @@ const config = {
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Docs',
+            to: '/', // Updated to reflect the documentation is at the root
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/MSUSEL/Pique-Lite',
+            href: 'https://github.com/MSUSEL/Pique-Lite', // Updated with Pique-Lite repository
             label: 'GitHub',
             position: 'right',
           },
@@ -96,16 +96,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Email',
-                href: 'email_address_here',
+                to: '/', // Updated to reflect the documentation is at the root
               },
             ],
           },
@@ -114,7 +105,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/MSUSEL/Pique-Lite',
+                href: 'https://github.com/MSUSEL/Pique-Lite', // Updated with Pique-Lite repository
               },
             ],
           },
