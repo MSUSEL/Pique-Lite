@@ -15,7 +15,7 @@ FROM oven/bun:1
 WORKDIR /usr/src/app
 
 # Copy only dependency manifests first for caching
-COPY package.json bun.lock ./
+COPY package.json ./
 
 # Install all dependencies (including devDependencies)
 RUN bun install
@@ -24,7 +24,7 @@ RUN bun install
 COPY . .
 
 # Expose the port your dev server runs on (change if not 3000)
-EXPOSE 3000
+EXPOSE 5173
 
 # Set environment to development
 ENV NODE_ENV=development
