@@ -1,12 +1,12 @@
-# Development Dockerfile for Bun + React
+# Dockerfile for Bun + React
 #
 # Build the image:
-#   docker build -t pique-lite-dev .
+#   docker build -t pique-lite .
 #
-# Run the container with live code editing (hot reload):
-#   docker run -it --rm -p 3000:3000 -v $(pwd):/usr/src/app pique-lite-dev
+# Run the container:
+#   docker run -it --rm -p 5173:5173 pique-lite
 #
-# The app will be available at http://localhost:3000
+# The app will be available at http://localhost:5173
 
 # Use the official Bun image
 FROM oven/bun:1
