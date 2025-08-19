@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocusaurus_docs=self.webpackChunkdocusaurus_docs||[]).push([[634],{192:(u,s,r)=>{r.r(s),r.d(s,{default:()=>e});r(6540);var c=r(6347),d=r(4848);function e(){return(0,d.jsx)(c.rd,{to:"/intro"})}}}]);
