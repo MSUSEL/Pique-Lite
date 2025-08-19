@@ -20,14 +20,15 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'https://MSUSEL.github.io', // Changed from default value
+  url: 'https://MSUSEL.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/Pique-Lite/', // Changed from default value
+  baseUrl: '/Pique-Lite/',
+  trailingSlash: false,
 
   // GitHub pages deployment config.
-  organizationName: 'MSUSEL', // Changed from 'facebook'
-  projectName: 'Pique-Lite', // Changed from 'docusaurus'
+  organizationName: 'MSUSEL',
+  projectName: 'Pique-Lite',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -46,14 +47,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          routeBasePath: '/', // Set docs as the root
+          routeBasePath: '/',
           sidebarPath: './sidebars.js',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/MSUSEL/Pique-Lite/tree/main/website/', // Updated with Pique-Lite repository
+            'https://github.com/MSUSEL/Pique-Lite/tree/main/docusaurus_docs/',
         },
-        blog: false, // This line disables the blog
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -67,7 +68,7 @@ const config = {
       // Replace with your project's social card
       // image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Pique Lite', // Changed from 'Pique Lite Site'
+        title: 'Pique Lite',
         // logo: {
         //  alt: 'My Site Logo',
         //  src: 'img/logo.svg',
@@ -78,11 +79,10 @@ const config = {
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Docs',
-            to: '/', // Updated to reflect the documentation is at the root
+            to: '/',
           },
-          // {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/MSUSEL/Pique-Lite', // Updated with Pique-Lite repository
+            href: 'https://github.com/MSUSEL/Pique-Lite',
             label: 'GitHub',
             position: 'right',
           },
@@ -96,7 +96,7 @@ const config = {
             items: [
               {
                 label: 'Docs',
-                to: '/', // Updated to reflect the documentation is at the root
+                to: '/',
               },
             ],
           },
@@ -105,7 +105,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/MSUSEL/Pique-Lite', // Updated with Pique-Lite repository
+                href: 'https://github.com/MSUSEL/Pique-Lite',
               },
             ],
           },
