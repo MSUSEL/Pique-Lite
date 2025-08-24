@@ -206,8 +206,8 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                   <div className="grid grid-cols-3 grid-rows-2 gap-2 md:grid-cols-4 md:grid-rows-2">
                     {latestVersion.data.children.map((c) => {
                       return (
-                        <span className="flex items-center">
-                          <span>
+                        <span className="flex flex-1 items-center">
+                          <span className="w-full">
                             <span className="flex items-center justify-between gap-2 text-sm font-light">
                               <span className="truncate whitespace-nowrap">
                                 {c.name}
