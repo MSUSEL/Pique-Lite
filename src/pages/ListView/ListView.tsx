@@ -1,10 +1,11 @@
 import { useState } from "react";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion";
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle
+} from "@/components/ui/card";
+import HierarchicalView from "./HierarchicalView";
 import { renderDetails, renderMeasuresDetails } from "./RenderDetails";
 import {
   ProcessedVisualizerDataType,
@@ -33,111 +34,16 @@ export default function ListView({
       style={{
         display: "flex",
         flexDirection: "column"
-        // justifyContent: "center"
       }}
     >
-      <h3 className="text-2x1 scroll-m-20 font-semibold tracking-tight">
+      <h3 className="text-2xl scroll-m-20 font-semibold tracking-tight mb-4">
         {processedData.name}
       </h3>
-      <Accordion type="multiple">
-        <AccordionItem value="tqi">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <Badge>{processedData.factors.tqi ? 1 : 0}</Badge>
-              TQI
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {processedData.factors.tqi &&
-              renderDetails(
-                processedData.factors.tqi,
-                toggleItem,
-                expandedItems,
-                false
-              )}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="quality_aspects">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <Badge>
-                {
-                  Object.keys(processedData.factors.quality_aspects || {})
-                    .length
-                }
-              </Badge>
-              Characteristics
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {processedData.factors.quality_aspects &&
-              renderDetails(
-                processedData.factors.quality_aspects,
-                toggleItem,
-                expandedItems,
-                false
-              )}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="product_factors">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <Badge>
-                {
-                  Object.keys(processedData.factors.product_factors || {})
-                    .length
-                }
-              </Badge>
-              Factors
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {processedData.factors.product_factors &&
-              renderDetails(
-                processedData.factors.product_factors,
-                toggleItem,
-                expandedItems,
-                false
-              )}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="measures">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <Badge>{Object.keys(processedData.measures || {}).length}</Badge>
-              Measures
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {processedData.measures &&
-              renderMeasuresDetails(
-                processedData.measures,
-                toggleItem,
-                expandedItems,
-                false
-              )}
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="diagnostics">
-          <AccordionTrigger>
-            <div className="flex items-center gap-2">
-              <Badge>
-                {Object.keys(processedData.diagnostics || {}).length}
-              </Badge>
-              Diagnostics
-            </div>
-          </AccordionTrigger>
-          <AccordionContent>
-            {processedData.diagnostics &&
-              renderDetails(
-                processedData.diagnostics,
-                toggleItem,
-                expandedItems,
-                true
-              )}
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+      
+      {/* Use the hierarchical view to show proper tree structure */}
+      <HierarchicalView 
+        dataset={processedData}
+      />
     </div>
   );
 }
