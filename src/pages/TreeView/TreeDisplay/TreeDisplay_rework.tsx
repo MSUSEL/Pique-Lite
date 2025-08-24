@@ -731,13 +731,21 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
   }
 
   return (
-    <div id={"canvas_container"}>
-      <div id={"tree_canvas"}>
-        <div id={"button_div"}>
-          <Button onClick={reset_zoom}>Reset Zoom</Button>
-          <Button onClick={reset_selection}>Reset Selection</Button>
+    <div id={"canvas_container"} className="h-full max-h-full">
+      <div id={"tree_canvas"} className="h-full max-h-full">
+        <div className="flex gap-2 px-2 py-2">
+          <Button onClick={reset_zoom} variant="outline">
+            Reset Zoom
+          </Button>
+          <Button onClick={reset_selection} variant="outline">
+            Reset Selection
+          </Button>
           {nodesForPanelBoxes.length > 0 && (
-            <Button className={"reset_buttons"} onClick={clear_side_panel}>
+            <Button
+              className={"reset_buttons"}
+              onClick={clear_side_panel}
+              variant="destructive"
+            >
               Clear Side Panel
             </Button>
           )}

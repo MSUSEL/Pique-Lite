@@ -62,14 +62,18 @@ export default function Component(props: Route.ComponentProps) {
   const version = project?.versions.find((v) => v.versionId === versionId);
 
   // Former global state for pique visualizer
-  const [visualizerState, setVisualizerState] = useState<VisualizerState>(getInitialState);
+  const [visualizerState, setVisualizerState] =
+    useState<VisualizerState>(getInitialState);
   const processedData = useProcessedData({
     dataset: mockData,
     ...visualizerState
   });
 
-  const handleImportanceAdjustmentChange = (newState: { adjustedImportance: { [key: string]: number }; tqiValue: number }) => {
-    setVisualizerState(prev => ({
+  const handleImportanceAdjustmentChange = (newState: {
+    adjustedImportance: { [key: string]: number };
+    tqiValue: number;
+  }) => {
+    setVisualizerState((prev) => ({
       ...prev,
       adjustedImportance: newState.adjustedImportance,
       tqiValue: newState.tqiValue
@@ -132,20 +136,18 @@ export default function Component(props: Route.ComponentProps) {
             </div>
           </TabsTrigger>
         </TabsList>
-        <div className="px-4 py-2">
+        <div className="h-full max-h-full px-4 py-2">
           <TabsContent value="tab0">
             <VersionOverview dataset={mockData} params={props.params} />
           </TabsContent>
           <TabsContent value="tab1">
-            <div className="max-h-[80svh] max-w-[80svw] overflow-hidden">
-              {processedData && <TreeDisplay_Rework data={processedData} />}
-            </div>
+            {processedData && <TreeDisplay_Rework data={processedData} />}
           </TabsContent>
           <TabsContent value="tab2" className="px-4">
             <ListView dataset={processedData} />
           </TabsContent>
           <TabsContent value="tab3" className="px-4">
-            <EnhancedImportanceAdjustment 
+            <EnhancedImportanceAdjustment
               dataset={mockData}
               initialState={{
                 adjustedImportance: visualizerState.adjustedImportance,
