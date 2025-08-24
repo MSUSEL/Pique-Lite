@@ -2,14 +2,16 @@ import {
   CellContext,
   ColumnDef,
   getCoreRowModel,
+  getSortedRowModel,
   HeaderContext,
+  SortingState,
   useReactTable
 } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "../../composites/DataTable.tsx";
 import { Version } from "src/state/core.ts";
-import React, { createContext, useContext, useMemo, ReactNode } from "react";
+import React, { createContext, useContext, useMemo, ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
 
 interface FlatVersion extends Omit<Version, "data"> {
@@ -80,16 +82,21 @@ const METRIC_NAME_MAPPING = {
 const columns: ColumnDef<FlatVersion>[] = [
   {
     accessorKey: "name",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="p-0 hover:bg-transparent"
-      >
-        Version
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Version
+          {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+          {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+          {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+        </Button>
+      );
+    },
     cell: ({ row }) => (
       <Link
         to={`/versionDetails/project/${row.original.projectId}/version/${row.original.versionId}`}
@@ -101,16 +108,21 @@ const columns: ColumnDef<FlatVersion>[] = [
   },
   {
     accessorKey: "date",
-    header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        className="p-0 hover:bg-transparent"
-      >
-        Date
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
-    ),
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="p-0 hover:bg-transparent"
+        >
+          Date
+          {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+          {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+          {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const date = row.getValue("date") as Date;
       return <div>{date.toLocaleDateString()}</div>;
@@ -119,21 +131,26 @@ const columns: ColumnDef<FlatVersion>[] = [
   ...Object.keys(METRIC_NAME_MAPPING).map((metricName) => {
     return {
       accessorKey: metricName,
-      header: ({ column }: HeaderContext<FlatVersion, unknown>) => (
-        <div className="text-right">
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="p-0 hover:bg-transparent"
-          >
-            {
-              // @ts-expect-error - METRIC_NAME_MAPPING is indexed by string keys
-              METRIC_NAME_MAPPING[metricName]
-            }
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      ),
+      header: ({ column }: HeaderContext<FlatVersion, unknown>) => {
+        const isSorted = column.getIsSorted();
+        return (
+          <div className="text-right">
+            <Button
+              variant="ghost"
+              onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+              className="p-0 hover:bg-transparent"
+            >
+              {
+                // @ts-expect-error - METRIC_NAME_MAPPING is indexed by string keys
+                METRIC_NAME_MAPPING[metricName]
+              }
+              {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+              {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+              {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+            </Button>
+          </div>
+        );
+      },
       cell: ({ row }: CellContext<FlatVersion, number>) => {
         // Use nested accessor to get the data.value
         // Explicitly cast the value to number before calling toFixed
@@ -154,10 +171,17 @@ export function ProjectVersionsTable() {
   }
   const { flatVersions } = context;
 
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data: flatVersions,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting
+    }
   });
   return <DataTable table={table} />;
 }
