@@ -1,6 +1,11 @@
 import { atom } from "jotai";
 import { v4 as uuidv4 } from "uuid";
-import { base } from "./schema";
+import { z } from "zod";
+import { base as liteBase } from "./schema";
+import { base as vizBase } from "./visualizerSchema";
+
+type LiteDataset = liteBase.Schema;
+type VisualizerDataset = z.infer<typeof vizBase.dataset>;
 /**
  * A "version" of a project
  */
@@ -8,7 +13,20 @@ export interface Version {
   date: Date;
   name: string;
   fileName: string;
-  data: base.Schema;
+  /**
+   * Lite/tree view of the dataset used by existing components.
+   * When a visualizer file is uploaded, this is derived from it.
+   */
+  data: LiteDataset;
+  /**
+   * Raw upload content (could be lite or visualizer)
+   */
+  raw: LiteDataset | VisualizerDataset;
+  /**
+   * Visualizer-ready representation (derived from raw if necessary)
+   */
+  processed: VisualizerDataset;
+  source: "visualizer" | "lite";
   isHidden: boolean;
   versionId: string;
 }

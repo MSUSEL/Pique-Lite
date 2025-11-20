@@ -1,12 +1,12 @@
 import { useAtom } from "jotai";
-import { State, Version } from "../../../state/core";
+import { Project, State, Version } from "../../../state/core";
 import { v4 as uuidv4 } from "uuid";
-import { base } from "../../../state/schema";
+import { ParsedDataset } from "../../../state/datasetAdapters";
 import { useState } from "react";
 
 interface FileMetadata {
   name: string;
-  content: base.Schema;
+  content: ParsedDataset;
   metadata: {
     name: string;
     lastModified: number;
@@ -54,13 +54,15 @@ export function useProjectState() {
       }
 
       const newVersions: Version[] = files.map((f) => {
+        const { lite, processed, raw, source } = f.content;
         const version = {
           name: f.metadata.name,
           fileName: f.metadata.name,
-          data: f.content,
-          date: f.content.date
-            ? new Date(f.content.date)
-            : new Date(f.metadata.lastModified),
+          data: lite,
+          processed,
+          raw,
+          source,
+          date: lite.date ? new Date(lite.date) : new Date(f.metadata.lastModified),
           isHidden: false,
           versionId: uuidv4()
         };

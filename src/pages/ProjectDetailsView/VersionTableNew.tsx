@@ -152,10 +152,11 @@ const columns: ColumnDef<FlatVersion>[] = [
         );
       },
       cell: ({ row }: CellContext<FlatVersion, number>) => {
-        // Use nested accessor to get the data.value
-        // Explicitly cast the value to number before calling toFixed
-        const value = row.getValue(metricName) as number;
-        return <div className="text-right">{value.toFixed(2)}</div>;
+        // Some versions may not have every metric; guard before formatting
+        const raw = row.getValue(metricName);
+        const value = typeof raw === "number" ? raw : Number(raw);
+        const display = Number.isFinite(value) ? value.toFixed(2) : "—";
+        return <div className="text-right">{display}</div>;
       }
     };
   })

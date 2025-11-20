@@ -1,7 +1,7 @@
 import { useFileSelect } from "./use-file-upload-hook";
-import { base } from "../../../state/schema";
 import { useProjectState } from "./use-project-state";
 import { useState } from "react";
+import { parseDataset } from "../../../state/datasetAdapters";
 
 export const useProjectImport = () => {
   const {
@@ -24,9 +24,9 @@ export const useProjectImport = () => {
   const parseFile = async (file: File) => {
     const content = await file.text();
     const data = JSON.parse(content);
-    base.dataset.parse(data); // This will throw if invalid
+    const parsedDataset = parseDataset(data); // throws if invalid
     return {
-      content: data,
+      content: parsedDataset,
       metadata: {
         name: file.name,
         lastModified: file.lastModified,

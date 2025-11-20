@@ -11,7 +11,6 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { State } from "@/state/core";
-import mockData from "../assets/pique-visualizer-data/compact-output.json";
 import ListView from "../pages/ListView/ListView";
 import { VisualizerState } from "@/state/VisualizerStateHandling/VisualizerState";
 import { useProcessedData } from "@/state/VisualizerStateHandling/use-processed-data";
@@ -42,32 +41,30 @@ const initialState: VisualizerState = {
   tqiValue: undefined
 };
 
-const getInitialState = () => {
-  // FIXME:
-  // need to find a better way to do this state initialization
-  const state = initialState;
-  const data = mockData;
-  const tqiObjects = data.factors.tqi;
-  const firstTqiKey = Object.keys(tqiObjects)[0];
-  const firstTqiObj = tqiObjects[firstTqiKey];
-  state.adjustedImportance = firstTqiObj.weights;
-  state.tqiValue = firstTqiObj.value;
-
-  return state;
-};
 export default function Component(props: Route.ComponentProps) {
   const { projectId, versionId } = props.params;
   const projects = useAtomValue(State.projects);
   const project = projects?.[projectId];
   const version = project?.versions.find((v) => v.versionId === versionId);
+  const dataset = version?.processed;
 
   // Former global state for pique visualizer
-  const [visualizerState, setVisualizerState] =
-    useState<VisualizerState>(getInitialState);
+  const [visualizerState, setVisualizerState] = useState<VisualizerState>(() => {
+    const data = dataset || { factors: { tqi: {} } };
+    const tqiObjects = data?.factors?.tqi || {};
+    const firstTqiKey = Object.keys(tqiObjects)[0];
+    const firstTqiObj = firstTqiKey ? tqiObjects[firstTqiKey] : undefined;
+    return {
+      ...initialState,
+      adjustedImportance: firstTqiObj?.weights || {},
+      tqiValue: firstTqiObj?.value
+    };
+  });
   const processedData = useProcessedData({
-    dataset: mockData,
+    dataset: dataset || undefined,
     ...visualizerState
   });
+  const dataForView = processedData || dataset;
 
   const handleImportanceAdjustmentChange = (newState: {
     adjustedImportance: { [key: string]: number };
@@ -79,6 +76,29 @@ export default function Component(props: Route.ComponentProps) {
       tqiValue: newState.tqiValue
     }));
   };
+
+  if (!dataForView) {
+    return (
+      <div className="version-details-view px-4 py-2">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to={`/project/${projectId}`}>{project?.name}</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{version?.name || versionId}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <div className="mt-4 text-sm text-muted-foreground">
+          No dataset found for this version. Please upload a file to view details.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="version-details-view">
@@ -138,17 +158,17 @@ export default function Component(props: Route.ComponentProps) {
         </TabsList>
         <div className="h-full max-h-full px-4 py-2">
           <TabsContent value="tab0">
-            <VersionOverview dataset={mockData} params={props.params} />
+            <VersionOverview dataset={dataForView} params={props.params} />
           </TabsContent>
           <TabsContent value="tab1">
             {processedData && <TreeDisplay_Rework data={processedData} />}
           </TabsContent>
           <TabsContent value="tab2" className="px-4">
-            <ListView dataset={processedData} />
+            {processedData && <ListView dataset={processedData} />}
           </TabsContent>
           <TabsContent value="tab3" className="px-4">
             <EnhancedImportanceAdjustment
-              dataset={mockData}
+              dataset={dataForView}
               initialState={{
                 adjustedImportance: visualizerState.adjustedImportance,
                 tqiValue: visualizerState.tqiValue

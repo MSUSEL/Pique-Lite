@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { UploadedFile } from "types";
-import { base } from "../../../state/schema";
+import { parseDataset } from "../../../state/datasetAdapters";
 
 const loadFiles = async (
   files: File[]
@@ -62,7 +62,7 @@ const useFileUploader = () => {
 
   const validateFileContent = (file: any) => {
     try {
-      base.dataset.parse(file.content);
+      parseDataset(file.content);
       return true;
     } catch (error) {
       console.error("Validation error:", error);
