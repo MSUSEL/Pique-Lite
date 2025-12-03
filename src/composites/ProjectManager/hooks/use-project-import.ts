@@ -13,6 +13,7 @@ export const useProjectImport = () => {
     removeVersionFromProject,
     changeVersionVisibility,
     updateProjectName,
+    removeProject,
   } = useProjectState();
 
   // Track invalid files
@@ -64,6 +65,7 @@ export const useProjectImport = () => {
     setSelectedProject,
     createNewProject,
     updateProjectName,
+    removeProject,
     selectFiles,
     invalidFiles,
     removeVersionFromProject,

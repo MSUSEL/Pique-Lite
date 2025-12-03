@@ -141,6 +141,18 @@ export function useProjectState() {
     });
   };
 
+  const removeProject = (projectId: string) => {
+    setProjects((prev = {}) => {
+      const { [projectId]: _, ...rest } = prev;
+      return rest;
+    });
+
+    // Clear selection if the removed project was selected
+    if (selectedProjectId === projectId) {
+      setSelectedProjectId(null);
+    }
+  };
+
   return {
     projects,
     selectedProject: selectedProjectId,
@@ -150,6 +162,7 @@ export function useProjectState() {
     removeVersionFromProject,
     changeVersionVisibility,
     updateProjectName,
+    removeProject,
     setProjects
   };
 }

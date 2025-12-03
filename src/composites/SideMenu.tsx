@@ -87,9 +87,11 @@ const SideMenu: React.FC<SideMenuProps> = () => {
         <SidebarGroup>
           <SidebarGroupLabel>Projects</SidebarGroupLabel>
           <SidebarGroupAction>
-            <ProjectManagerDialog>
-              <Plus />
-            </ProjectManagerDialog>
+            <ProjectManagerDialog
+              trigger={<Plus />}
+              triggerAsChild={true}
+              onContinue={() => {}}
+            />
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { InitialProjectSetupDialog } from "./InitialProjectSetupDialog";
+import { ProjectManagerDialog } from "../../composites/ProjectManager/ProjectManagerDialog";
 import { Button } from "@/components/ui/button.tsx";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog.tsx";
 import { MockData } from "../../MockData";
@@ -10,7 +10,7 @@ import { useState } from "react";
 const DialogDemo = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   return (
-    <InitialProjectSetupDialog
+    <ProjectManagerDialog
       onContinue={() => setDialogOpen(false)}
       trigger={
         <Button variant="outline">
@@ -24,7 +24,7 @@ const DialogDemo = () => {
 };
 
 const meta = {
-  title: "Composites/InitialProjectSetupDialog",
+  title: "Composites/ProjectManagerDialog",
   component: DialogDemo,
   parameters: {
     layout: "centered"
@@ -38,10 +38,10 @@ const meta = {
       </div>
     )
   ]
-} satisfies Meta<typeof InitialProjectSetupDialog>;
+} satisfies Meta<typeof ProjectManagerDialog>;
 
 export default meta;
-type Story = StoryObj<typeof InitialProjectSetupDialog>;
+type Story = StoryObj<typeof ProjectManagerDialog>;
 
 export const Default: Story = {
   args: {}

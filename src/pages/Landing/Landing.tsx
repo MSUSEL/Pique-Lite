@@ -1,4 +1,4 @@
-import { InitialProjectSetupDialog } from "./InitialProjectSetupDialog.tsx";
+import { ProjectManagerDialog } from "../../composites/ProjectManager/ProjectManagerDialog";
 import { useState } from "react";
 import { FileTextIcon } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
@@ -28,7 +28,7 @@ function Landing() {
           style={{ marginLeft: "20px" }}
         />
       </div>
-      <InitialProjectSetupDialog
+      <ProjectManagerDialog
         trigger={
           <Button variant="outline">
             <FileTextIcon width="16" height="16" />
