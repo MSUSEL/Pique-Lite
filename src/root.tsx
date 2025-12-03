@@ -10,6 +10,7 @@ import type { Route } from "./+types/root";
 import "./root.css";
 import { MockData } from "./MockData";
 import { ColorModeProvider } from "@/composites/ColorMode";
+import { RiskLevelSettingsProvider } from "@/composites/RiskLevelSettings";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -35,8 +36,10 @@ export default function Root() {
   // TODO: Remove this when shadcn migration is complete
   return (
     <ColorModeProvider>
-      {/* {import.meta.env.DEV && <MockData />} */}
-      <Outlet />
+      <RiskLevelSettingsProvider>
+        {/* {import.meta.env.DEV && <MockData />} */}
+        <Outlet />
+      </RiskLevelSettingsProvider>
     </ColorModeProvider>
   );
 }

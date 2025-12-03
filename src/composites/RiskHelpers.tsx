@@ -5,6 +5,7 @@ import { RiAlarmWarningLine } from "react-icons/ri";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { CgDanger } from "react-icons/cg";
 import { useColorMode } from "@/composites/ColorMode";
+import { useRiskLevelSettings } from "@/composites/RiskLevelSettings";
 
 interface RiskLevel {
   name: string;
@@ -16,7 +17,47 @@ interface RiskLevel {
   diagnosticRange: [number, number];
 }
 
-const RISK_LEVELS: RiskLevel[] = [
+// Static metadata for risk levels (icons and legacy colors)
+const RISK_LEVEL_METADATA = {
+  severe: {
+    name: "Severe",
+    color: "#f3000d80",
+    fontColor: "red",
+    badgeColor: "#CD161C",
+    icon: <IoSkullOutline />
+  },
+  high: {
+    name: "High",
+    color: "#ff8c0080",
+    fontColor: "orange",
+    badgeColor: "#CC4E00",
+    icon: <RiAlarmWarningLine />
+  },
+  elevated: {
+    name: "Elevated",
+    color: "#ffee0080",
+    fontColor: "yellow",
+    badgeColor: "#9E6C00",
+    icon: <CgDanger />
+  },
+  guarded: {
+    name: "Guarded",
+    color: "#008ff580",
+    fontColor: "#0671CE",
+    badgeColor: "#1D4EC6",
+    icon: <ImWarning />
+  },
+  low: {
+    name: "Low",
+    color: "#00a43380",
+    fontColor: "green",
+    badgeColor: "green",
+    icon: <RiSecurePaymentLine />
+  }
+};
+
+// Default ranges (used when provider is not available)
+const DEFAULT_RISK_LEVELS: RiskLevel[] = [
   {
     name: "Severe",
     color: "#f3000d80",
@@ -64,6 +105,41 @@ const RISK_LEVELS: RiskLevel[] = [
   }
 ];
 
+// Build risk levels from settings
+function buildRiskLevels(customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']): RiskLevel[] {
+  if (!customRanges) {
+    return DEFAULT_RISK_LEVELS;
+  }
+
+  return [
+    {
+      ...RISK_LEVEL_METADATA.severe,
+      normalRange: customRanges.severe.normalRange,
+      diagnosticRange: customRanges.severe.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.high,
+      normalRange: customRanges.high.normalRange,
+      diagnosticRange: customRanges.high.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.elevated,
+      normalRange: customRanges.elevated.normalRange,
+      diagnosticRange: customRanges.elevated.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.guarded,
+      normalRange: customRanges.guarded.normalRange,
+      diagnosticRange: customRanges.guarded.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.low,
+      normalRange: customRanges.low.normalRange,
+      diagnosticRange: customRanges.low.diagnosticRange
+    }
+  ];
+}
+
 function isInRange(value: number, range: [number, number]): boolean {
   const [min, max] = range;
   if (min === -Infinity && max === Infinity) return true;
@@ -72,14 +148,17 @@ function isInRange(value: number, range: [number, number]): boolean {
   return value >= min && value <= max;
 }
 
+// Non-hook version for use outside of React components
 export function getRisk(
   score: number | string,
-  scale: "normal" | "diagnostic" = "normal"
+  scale: "normal" | "diagnostic" = "normal",
+  customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']
 ): RiskLevel {
   const value = typeof score === "number" ? score : parseFloat(score);
   const rangeKey = scale === "normal" ? "normalRange" : "diagnosticRange";
 
-  const risk = RISK_LEVELS.find((level) => isInRange(value, level[rangeKey]));
+  const riskLevels = buildRiskLevels(customRanges);
+  const risk = riskLevels.find((level) => isInRange(value, level[rangeKey]));
   if (risk === undefined) {
     console.log(`score: ${score}, value: ${value}, risk: ${risk}`);
     throw new Error("Invalid score or scale");
@@ -88,8 +167,10 @@ export function getRisk(
   return risk;
 }
 
-export function getAllRiskLevels(): RiskLevel[] {
-  return RISK_LEVELS;
+export function getAllRiskLevels(
+  customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']
+): RiskLevel[] {
+  return buildRiskLevels(customRanges);
 }
 
 export function getRiskColorVar(
@@ -123,14 +204,15 @@ export function getRiskColor(
 // Hook-based function for components that need to access colors directly
 export function useRiskColor() {
   const { getRiskColor: getColorFromMode } = useColorMode();
-  
+  const { riskLevelRanges } = useRiskLevelSettings();
+
   return {
     getRiskColor: (
       score: number | string,
       colorType: "background" | "font" | "badge" = "background",
       scale: "normal" | "diagnostic" = "normal"
     ) => {
-      const riskLevel = getRisk(score, scale);
+      const riskLevel = getRisk(score, scale, riskLevelRanges);
       const lowerCaseRiskName = riskLevel.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
       return getColorFromMode(lowerCaseRiskName, colorType);
     }

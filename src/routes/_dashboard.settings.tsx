@@ -1,6 +1,7 @@
 import React from 'react';
 import { ColorModeToggle } from '@/composites/Settings';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { RiskLevelConfig } from '@/composites/RiskLevelSettings';
 
 export default function SettingsPage() {
   return (
@@ -16,6 +17,12 @@ export default function SettingsPage() {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold">Accessibility</h2>
         <ColorModeToggle />
+      </div>
+
+      {/* Risk Level Configuration Section */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Risk Levels</h2>
+        <RiskLevelConfig />
       </div>
 
       {/* Future settings sections can be added here */}
