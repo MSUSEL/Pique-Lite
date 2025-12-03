@@ -27,8 +27,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-4">
           <span className="cursor-pointer" onClick={onProjectClick}>
-            <span className="flex items-center gap-2 text-gray-700">
-              <Folder size="16px" />
+            <span className="flex items-center gap-2 text-xl text-gray-700">
+              <Folder size="20px" />
               {project.name}
             </span>
           </span>

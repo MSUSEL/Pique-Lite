@@ -162,23 +162,8 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                 <CardHeader>
                   <CardTitle>Security Attributes</CardTitle>
                 </CardHeader>
-                <CardContent className="grid auto-cols-max grid-flow-col gap-2">
-                  {/* <h1 className="text-md font-bold">TQI</h1> */}
-                  {/* <Badge */}
-                  {/*   style={{ */}
-                  {/*     backgroundColor: getRisk(latestVersion.data.value, "normal") */}
-                  {/*       .color, */}
-                  {/*     color: getRisk(latestVersion.data.value, "normal") */}
-                  {/*       .badgeColor */}
-                  {/*   }} */}
-                  {/* > */}
-                  {/*   {latestVersion.data.value.toFixed(2)} */}
-                  {/* </Badge> */}
-                  {/* <TQIBadge */}
-                  {/*   value={latestVersion.data.value} */}
-                  {/*   risk={getRisk(latestVersion.data.value, "normal")} */}
-                  {/* /> */}
-                  <div className="flex items-center justify-center">
+                <CardContent className="flex gap-4">
+                  <div className="flex flex-shrink-0 items-center justify-center">
                     <div
                       className="flex min-w-[80px] flex-col items-center justify-center rounded-md p-2"
                       style={{
@@ -203,23 +188,21 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                       </span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 grid-rows-2 gap-2 md:grid-cols-4 md:grid-rows-2">
+                  <div className="grid flex-1 auto-rows-max gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
                     {latestVersion.data.children.map((c) => {
                       return (
-                        <span className="flex flex-1 items-center">
-                          <span className="w-full">
-                            <span className="flex items-center justify-between gap-2 text-sm font-light">
-                              <span className="truncate whitespace-nowrap">
-                                {c.name}
-                              </span>
-                              <span>{c.value.toFixed(2)}</span>
+                        <div key={c.name} className="flex flex-col">
+                          <div className="flex items-center justify-between gap-2 text-sm font-light">
+                            <span className="truncate whitespace-nowrap">
+                              {c.name}
                             </span>
-                            <Progress 
-                              value={c.value * 100} 
-                              bg={getRiskColor(c.value, "background", "normal")} 
-                            />
-                          </span>
-                        </span>
+                            <span className="flex-shrink-0">{c.value.toFixed(2)}</span>
+                          </div>
+                          <Progress
+                            value={c.value * 100}
+                            bg={getRiskColor(c.value, "background", "normal")}
+                          />
+                        </div>
                       );
                     })}
                   </div>

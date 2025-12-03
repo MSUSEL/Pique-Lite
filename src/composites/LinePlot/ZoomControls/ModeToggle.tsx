@@ -24,24 +24,23 @@ export function ModeToggle() {
       onValueChange={handleModeChange}
     >
       <Tooltip>
-        <ToggleGroupItem value="brush">
-          <TooltipTrigger asChild>
+        <TooltipTrigger asChild>
+          <ToggleGroupItem value="brush">
             <CropIcon />
-          </TooltipTrigger>
-        </ToggleGroupItem>
-
+          </ToggleGroupItem>
+        </TooltipTrigger>
         <TooltipContent>
-          Brush mode - Click and drag to zoom into a region
+          Brush mode
         </TooltipContent>
       </Tooltip>
       <Tooltip>
-        <ToggleGroupItem value="tooltip">
-          <TooltipTrigger asChild>
+        <TooltipTrigger asChild>
+          <ToggleGroupItem value="tooltip">
             <ChatBubbleIcon />
-          </TooltipTrigger>
-        </ToggleGroupItem>
+          </ToggleGroupItem>
+        </TooltipTrigger>
         <TooltipContent>
-          Tooltip mode - Hover over data points to see details
+          Tooltip mode
         </TooltipContent>
       </Tooltip>
     </ToggleGroup>

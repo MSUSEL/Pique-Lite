@@ -20,7 +20,7 @@ export function Container<T>({
   xAxisKey,
   onZoom,
 }: ContainerProps<T>) {
-  const [mode, setMode] = useState<ChartMode>("brush");
+  const [mode, setMode] = useState<ChartMode>("tooltip");
   const [currentSelection, setCurrentSelection] =
     useState<BrushSelection<T> | null>(null);
 
