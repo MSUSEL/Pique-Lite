@@ -79,9 +79,9 @@ export default function Component(props: Route.ComponentProps) {
   }
 
   return (
-    <div className="version-details-view">
-      <Tabs defaultValue="tab0">
-        <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0">
+    <div className="version-details-view h-screen flex flex-col overflow-hidden">
+      <Tabs defaultValue="tab0" className="flex flex-col h-full overflow-hidden">
+        <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0 flex-shrink-0">
           <TabsTrigger
             className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
             value="tab0"
@@ -119,17 +119,17 @@ export default function Component(props: Route.ComponentProps) {
             </div>
           </TabsTrigger>
         </TabsList>
-        <div className="h-full max-h-full px-4 py-2">
-          <TabsContent value="tab0">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-2">
+          <TabsContent value="tab0" className="m-0">
             <VersionOverview dataset={dataForView} params={props.params} />
           </TabsContent>
-          <TabsContent value="tab1">
+          <TabsContent value="tab1" className="m-0">
             {processedData && <TreeDisplay_Rework data={processedData} />}
           </TabsContent>
-          <TabsContent value="tab2" className="px-4">
+          <TabsContent value="tab2" className="m-0 px-4">
             {processedData && <ListView dataset={processedData} />}
           </TabsContent>
-          <TabsContent value="tab3" className="px-4">
+          <TabsContent value="tab3" className="m-0 px-4">
             <EnhancedImportanceAdjustment
               dataset={dataForView}
               initialState={{

@@ -116,8 +116,8 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
         : `${tqiChange.toFixed(2)} from previous version`;
 
     return (
-        <div className="max-h-[89vh] w-full overflow-y-scroll">
-            <div className="grid gap-5 pl-5 pr-5">
+        <div className="w-full overflow-x-hidden">
+            <div className="grid gap-5 pl-5 pr-5 max-w-full">
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Version Overview</h1>
@@ -127,8 +127,8 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                 </div>
 
                 {/* TQI and Pie Charts Row */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-                    <Card className="lg:col-span-1">
+                <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 max-w-full">
+                    <Card className="xl:col-span-1">
                         <CardHeader className="p-4">
                             <div className="flex flex-col items-center gap-3">
                                 <div className="text-center">
@@ -146,11 +146,11 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                         </CardHeader>
                     </Card>
 
-                    <Card className="lg:col-span-4">
-                        <CardHeader className="pb-0">
+                    <Card className="xl:col-span-4">
+                        <CardHeader className="pb-2">
                             <CardTitle>Risk Levels</CardTitle>
                         </CardHeader>
-                        <div className="grid grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-1 p-1">
                             <PieChartComponent title="Characteristics" data={quality.chart} />
                             <PieChartComponent title="Factors" data={product.chart} />
                             <PieChartComponent title="Measures" data={measures.chart} />
@@ -163,10 +163,10 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                 <Separator className="my-3 h-[1px] bg-border" />
                 
                 {/* Main content grid */}
-                <div className="grid grid-cols-5 gap-15">
+                <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-full min-w-0">
                     {/* Tabbed Accordion Section */}
-                    <div className="col-span-3">
-                        <SectionComponent 
+                    <div className="lg:col-span-2 xl:col-span-3 min-w-0">
+                        <SectionComponent
                             dataset={{
                                 factors: {
                                     quality_aspects: dataset.factors.quality_aspects,
@@ -180,7 +180,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                     </div>
 
                     {/* Lowest Scores Card */}
-                    <div className="col-span-2">
+                    <div className="lg:col-span-1 xl:col-span-2 min-w-0">
                         <LowestScoresCard
                             title="Lowest 3 Scores"
                             items={

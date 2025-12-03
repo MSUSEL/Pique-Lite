@@ -122,48 +122,47 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   );
   const tqiRisk = getRisk(latestVersion.data.value, "normal");
   return (
-    <div className="project-details-view">
-      <div className="grid grid-rows-[auto_auto_1fr]">
-        <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm">
-          <div className="flex items-center gap-2 text-gray-700">
-            <Folder />
-            <h1 className="text-left text-2xl font-bold text-gray-700">
-              {selectedProject.name}
-            </h1>
-          </div>
-          <span className="align-center inline-flex items-center gap-1 text-sm font-light text-gray-500">
-            <Calendar size={14} />
-            {formatDate(
-              selectedProject.versions[selectedProject.versions.length - 1].date
-            )}
-          </span>
+    <div className="project-details-view h-screen flex flex-col">
+      <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm flex-shrink-0">
+        <div className="flex items-center gap-2 text-gray-700">
+          <Folder />
+          <h1 className="text-left text-2xl font-bold text-gray-700">
+            {selectedProject.name}
+          </h1>
         </div>
-        <Tabs defaultValue="overview">
-          <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0">
-            <TabsTrigger
-              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
-              value="overview"
-            >
-              Overview
-            </TabsTrigger>
-            <TabsTrigger
-              className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
-              value="versions"
-            >
-              Version Details
-            </TabsTrigger>
-          </TabsList>
-          <div className="px-4">
-            <TabsContent
-              value="overview"
-              className="flex max-w-[800px] min-w-[400px] flex-col gap-2"
-            >
-              <Card className="m-0 gap-1 py-2">
+        <span className="align-center inline-flex items-center gap-1 text-sm font-light text-gray-500">
+          <Calendar size={14} />
+          {formatDate(
+            selectedProject.versions[selectedProject.versions.length - 1].date
+          )}
+        </span>
+      </div>
+      <Tabs defaultValue="overview" className="flex flex-col flex-1 overflow-hidden">
+        <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0 flex-shrink-0">
+          <TabsTrigger
+            className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+            value="overview"
+          >
+            Overview
+          </TabsTrigger>
+          <TabsTrigger
+            className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"
+            value="versions"
+          >
+            Version Details
+          </TabsTrigger>
+        </TabsList>
+        <div className="flex-1 overflow-y-auto px-4">
+          <TabsContent
+            value="overview"
+            className="grid grid-cols-1 lg:grid-cols-5 gap-4 m-0"
+          >
+              <Card className="m-0 gap-1 py-2 lg:col-span-1">
                 <CardHeader>
                   <CardTitle>Security Attributes</CardTitle>
                 </CardHeader>
-                <CardContent className="flex gap-4">
-                  <div className="flex flex-shrink-0 items-center justify-center">
+                <CardContent className="flex flex-col gap-3">
+                  <div className="flex items-center justify-center">
                     <div
                       className="flex min-w-[80px] flex-col items-center justify-center rounded-md p-2"
                       style={{
@@ -188,7 +187,7 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                       </span>
                     </div>
                   </div>
-                  <div className="grid flex-1 auto-rows-max gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+                  <div className="flex flex-col gap-2">
                     {latestVersion.data.children.map((c) => {
                       return (
                         <div key={c.name} className="flex flex-col">
@@ -208,18 +207,11 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="gap-1 py-2">
-                <CardHeader>
-                  <CardTitle className="text-left text-xl">
-                    Characteristics
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pl-1">
-                  <ProjectAttributesChart projectId={projectId} />
-                </CardContent>
-              </Card>
+              <div className="lg:col-span-4">
+                <ProjectAttributesChart projectId={projectId} />
+              </div>
             </TabsContent>
-            <TabsContent value="versions">
+            <TabsContent value="versions" className="m-0">
               <ProjectVersionsProvider
                 projectId={projectId}
                 versions={selectedProject.versions}
@@ -229,7 +221,6 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
             </TabsContent>
           </div>
         </Tabs>
-      </div>
     </div>
   );
 }

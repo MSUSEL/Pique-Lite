@@ -19,13 +19,13 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
     const colors = usePieChartColors();
 
     return (
-        <div className="flex flex-col items-center">
-            <PieChart width={200} height={200}>
+        <div className="flex flex-col items-center justify-center w-full">
+            <PieChart width={180} height={180} className="mx-auto">
                 <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
-                    outerRadius={80}
+                    outerRadius={70}
                     fill="#8884d8"
                     dataKey="Count"
                     cursor="pointer"
@@ -36,7 +36,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
                 </Pie>
                 <Tooltip />
             </PieChart>
-            <div className="text-sm font-medium mt-2">{title}</div>
+            <div className="text-sm font-medium mt-1">{title}</div>
         </div>
     );
 };

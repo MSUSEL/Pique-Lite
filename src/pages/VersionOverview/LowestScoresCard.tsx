@@ -40,13 +40,13 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                         <Dialog key={index}>
                             <DialogTrigger asChild>
                                 <Button
-                                    className="min-w-[200px] w-fit cursor-pointer pt-6 pb-6"
+                                    className="w-full max-w-full cursor-pointer pt-6 pb-6"
                                     style={{
                                         background: getRiskColor(item.details.value, "background", scale)
                                     }}
                                 >
                                     <span
-                                        className="text-lg font-bold pr-3"
+                                        className="text-base md:text-lg font-bold pr-2 truncate"
                                         style={{
                                             color: "white"
                                         }}
@@ -54,7 +54,7 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                                         {item.name}:
                                     </span>
                                     <span
-                                        className="text-lg font-bold"
+                                        className="text-base md:text-lg font-bold flex-shrink-0"
                                         style={{
                                             color: "white"
                                         }}
