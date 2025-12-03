@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Trash2 } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, Trash2 } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -8,6 +8,12 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useVersionList } from "./context";
 
 const columnWidths = {
@@ -24,6 +30,7 @@ export const VersionTable = () => {
     versionsToDisplay,
     filters,
     onRemoveVersion,
+    onRemoveInvalidFile,
     onUpdateVersionVisibility
   } = useVersionList();
 
@@ -115,23 +122,54 @@ export const VersionTable = () => {
               </TableCell>
             </TableRow>
           ))}
-        {invalidFiles.map((file) => (
-          <TableRow key={`invalid-${file.name}`}>
-            <TableCell style={{ width: columnWidths.name }}>
-              {file.name}
-            </TableCell>
-            <TableCell style={{ width: columnWidths.date }}>-</TableCell>
-            <TableCell
-              style={{
-                width: columnWidths.status,
-                color: "var(--red-9)"
-              }}
-            >
-              {file.reason}
-            </TableCell>
-            <TableCell style={{ width: columnWidths.actions }}></TableCell>
-          </TableRow>
-        ))}
+        {invalidFiles.map((file) => {
+          return (
+            <TableRow key={`invalid-${file.name}`} className="bg-red-50 border-l-4 border-l-red-500">
+              <TableCell style={{ width: columnWidths.name }} className="text-xs">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="h-4 w-4 text-red-500" />
+                  <span>{file.name}</span>
+                </div>
+              </TableCell>
+              <TableCell style={{ width: columnWidths.date }} className="text-xs">-</TableCell>
+              <TableCell
+                className="text-xs text-red-600"
+                style={{ width: columnWidths.status }}
+              >
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-help underline decoration-dotted">Invalid format</span>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-lg">
+                      <div className="flex flex-col gap-2">
+                        <p className="text-xs whitespace-pre-wrap break-words">{file.reason}</p>
+                        <a
+                          href="https://msusel.github.io/Pique-Lite/user-guide/input-schema/input-errors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-blue-500 hover:text-blue-600 underline"
+                        >
+                          Learn how to fix this error →
+                        </a>
+                      </div>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </TableCell>
+              <TableCell style={{ width: columnWidths.actions }}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-red-500 hover:text-red-600"
+                  onClick={() => onRemoveInvalidFile(file.name)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

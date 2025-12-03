@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { State } from "../../state";
 import { Box, Flex, Grid, Select, Text } from "@radix-ui/themes";
 import { LinePlot } from "../../composites/LinePlot";
@@ -15,15 +15,6 @@ interface SelectionPoint {
   end: { date: string | Date };
 }
 
-const CHARACTERISTIC_NAMES = [
-  "Availability",
-  "Authenticity",
-  "Authorization",
-  "Confidentiality",
-  "Non-repudiation",
-  "Integrity",
-];
-
 const PROJECT_COLORS = [
   "#E57373", // red
   "#64B5F6", // blue
@@ -38,9 +29,11 @@ const PROJECT_COLORS = [
 const CharacteristicSelector = ({
   value,
   onChange,
+  characteristicNames,
 }: {
   value: string;
   onChange: (value: string) => void;
+  characteristicNames: string[];
 }) => (
   <Flex align="center" justify="start" gap="2">
     <Text weight="medium" size="3">
@@ -49,7 +42,7 @@ const CharacteristicSelector = ({
     <Select.Root value={value} onValueChange={onChange}>
       <Select.Trigger />
       <Select.Content>
-        {CHARACTERISTIC_NAMES.map((characteristic) => (
+        {characteristicNames.map((characteristic) => (
           <Select.Item key={characteristic} value={characteristic}>
             {characteristic}
           </Select.Item>
@@ -65,10 +58,37 @@ export const ProjectComparisonChart = () => {
     setCurrentView("compare");
   }, [setCurrentView]);
 
-  const [selectedCharacteristic, setSelectedCharacteristic] = useState(
-    CHARACTERISTIC_NAMES[0]
-  );
   const allVersionsData = useAtomValue(flatAllProjectVersionsAtom);
+
+  // Extract unique characteristic names from all versions
+  const characteristicNames = useMemo(() => {
+    if (allVersionsData.length === 0) return [];
+
+    const namesSet = new Set<string>();
+    const metadataKeys = ['projectName', 'projectId', 'name', 'fileName', 'date', 'TQI'];
+
+    allVersionsData.forEach(record => {
+      Object.keys(record).forEach(key => {
+        if (!metadataKeys.includes(key)) {
+          namesSet.add(key);
+        }
+      });
+    });
+
+    // Convert to array and sort
+    return Array.from(namesSet).sort((a, b) => a.localeCompare(b));
+  }, [allVersionsData]);
+
+  const [selectedCharacteristic, setSelectedCharacteristic] = useState(
+    characteristicNames[0] || ""
+  );
+
+  // Update selected characteristic when available characteristics change
+  useEffect(() => {
+    if (characteristicNames.length > 0 && !characteristicNames.includes(selectedCharacteristic)) {
+      setSelectedCharacteristic(characteristicNames[0]);
+    }
+  }, [characteristicNames, selectedCharacteristic]);
 
   // Get unique project names
   const projectNames = [...new Set(allVersionsData.map((d) => d.projectName))];
@@ -117,6 +137,7 @@ export const ProjectComparisonChart = () => {
             <CharacteristicSelector
               value={selectedCharacteristic}
               onChange={setSelectedCharacteristic}
+              characteristicNames={characteristicNames}
             />
             <LinePlot.ZoomControls.ModeToggle />
             <LinePlot.ZoomControls.ZoomOut />

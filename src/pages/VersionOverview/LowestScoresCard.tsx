@@ -4,7 +4,7 @@ import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { renderObjectDetails } from "./LevelAccordion";
 import { FilterableItem } from "./LevelAccordion";
-import { getRisk } from "../../composites/RiskHelpers";
+import { getRisk, useRiskColor } from "../../composites/RiskHelpers";
 
 interface Impact {
     aspectName: string;
@@ -25,6 +25,8 @@ interface LowestScoresCardProps {
 }
 
 export default function LowestScoresCard({ title, items, isDiagnostics = false }: LowestScoresCardProps) {
+    const { getRiskColor } = useRiskColor();
+
     return (
         <Card>
             <CardHeader>
@@ -32,20 +34,21 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
             </CardHeader>
             <div className="flex flex-col items-center gap-7 p-1">
                 {items.map((item, index) => {
-                    const risk = getRisk(item.details.value, isDiagnostics ? "diagnostic" : "normal");
+                    const scale = isDiagnostics ? "diagnostic" : "normal";
+                    const risk = getRisk(item.details.value, scale);
                     return (
                         <Dialog key={index}>
                             <DialogTrigger asChild>
                                 <Button
                                     className="min-w-[200px] w-fit cursor-pointer pt-6 pb-6"
                                     style={{
-                                        background: risk?.color || "gray"
+                                        background: getRiskColor(item.details.value, "background", scale)
                                     }}
                                 >
                                     <span
                                         className="text-lg font-bold pr-3"
                                         style={{
-                                            color: risk.badgeColor
+                                            color: "white"
                                         }}
                                     >
                                         {item.name}:
@@ -53,7 +56,7 @@ export default function LowestScoresCard({ title, items, isDiagnostics = false }
                                     <span
                                         className="text-lg font-bold"
                                         style={{
-                                            color: risk.badgeColor
+                                            color: "white"
                                         }}
                                     >
                                         {item.details.value.toFixed(2)}

@@ -96,31 +96,34 @@ export const RiskLegend = (props: RiskCardsProps) => {
   props = { ...defaultRiskCardsProps, ...props };
   return (
     <div className="flex flex-grow flex-wrap gap-2">
-      {props.risks.map((risk) => (
-        <div key={risk.title}>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="inline-block">
-                  <RiskLegendCard
-                    title={risk.title}
-                    score={risk.score}
-                    scale={props.scale || "diagnostic"}
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  Risk Score:{" "}
-                  {typeof risk.score === "number"
-                    ? risk.score.toFixed(2)
-                    : risk.score}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
-      ))}
+      {props.risks.map((risk) => {
+        const riskLevel = getRisk(risk.score, props.scale || "diagnostic");
+        const range = props.scale === "normal" ? riskLevel.normalRange : riskLevel.diagnosticRange;
+        const rangeText = `${range[0] === -Infinity ? "0" : range[0].toFixed(2)} - ${range[1] === Infinity ? "∞" : range[1].toFixed(2)}`;
+
+        return (
+          <div key={risk.title}>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="inline-block">
+                    <RiskLegendCard
+                      title={risk.title}
+                      score={risk.score}
+                      scale={props.scale || "diagnostic"}
+                    />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    Risk Score Range: {rangeText}
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        );
+      })}
     </div>
   );
 };

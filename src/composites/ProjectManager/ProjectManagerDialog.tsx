@@ -39,6 +39,8 @@ export const ProjectManagerDialog = ({
     removeProject,
     selectFiles,
     invalidFiles,
+    removeInvalidFile,
+    clearAllInvalidFiles,
     removeVersionFromProject,
     changeVersionVisibility
   } = useProjectImport();
@@ -119,11 +121,21 @@ export const ProjectManagerDialog = ({
                     versions={currentProjectVersions}
                     invalidFiles={invalidFiles}
                     onRemoveVersion={handleRemoveVersion}
+                    onRemoveInvalidFile={removeInvalidFile}
                     onUpdateVersionVisibility={handleChangeVisibility}
                   >
                     <div className="flex h-full min-h-0 flex-col gap-2">
-                      <div className="grid grid-cols-[auto_max-content] gap-2">
+                      <div className="grid grid-cols-[auto_max-content_max-content] gap-2">
                         <SearchHeader />
+                        {invalidFiles.length > 0 && (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={clearAllInvalidFiles}
+                          >
+                            Clear {invalidFiles.length} Error{invalidFiles.length !== 1 ? 's' : ''}
+                          </Button>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"

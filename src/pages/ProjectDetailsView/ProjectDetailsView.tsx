@@ -31,9 +31,9 @@ export const RiskLevelLegend = () => {
     <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
-        score: risk.diagnosticRange[1] - 0.001
+        score: risk.normalRange[1] - 0.001
       }))}
-      scale="diagnostic"
+      scale="normal"
     />
   );
 };

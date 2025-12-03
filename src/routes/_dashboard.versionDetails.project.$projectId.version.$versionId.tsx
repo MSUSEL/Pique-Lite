@@ -2,20 +2,11 @@ import { useAtomValue } from "jotai";
 import { useState } from "react";
 import type { Route } from "./+types/_dashboard.versionDetails.project.$projectId.version.$versionId";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
 import { State } from "@/state/core";
 import ListView from "../pages/ListView/ListView";
 import { VisualizerState } from "@/state/VisualizerStateHandling/VisualizerState";
 import { useProcessedData } from "@/state/VisualizerStateHandling/use-processed-data";
 import { TreeDisplay_Rework } from "../pages/TreeView/TreeDisplay/TreeDisplay_rework";
-import { Link } from "react-router-dom";
 import VersionOverview from "../pages/VersionOverview/Overview";
 import { EnhancedImportanceAdjustment } from "@/components/EnhancedImportanceAdjustment";
 import { BarChart3, Network, List, Settings } from "lucide-react";
@@ -80,20 +71,7 @@ export default function Component(props: Route.ComponentProps) {
   if (!dataForView) {
     return (
       <div className="version-details-view px-4 py-2">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to={`/project/${projectId}`}>{project?.name}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{version?.name || versionId}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <div className="mt-4 text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground">
           No dataset found for this version. Please upload a file to view details.
         </div>
       </div>
@@ -102,21 +80,6 @@ export default function Component(props: Route.ComponentProps) {
 
   return (
     <div className="version-details-view">
-      <div className="px-4 py-2">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to={`/project/${projectId}`}>{project?.name}</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{version?.name || versionId}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
       <Tabs defaultValue="tab0">
         <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0">
           <TabsTrigger

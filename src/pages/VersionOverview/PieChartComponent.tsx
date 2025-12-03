@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
-import { COLORS } from "./PieChartColor";
+import { usePieChartColors } from "./PieChartColor";
 
 interface ChartDataItem {
     name: string;
@@ -16,6 +16,8 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
     title,
     data
 }) => {
+    const colors = usePieChartColors();
+
     return (
         <div className="flex flex-col items-center">
             <PieChart width={200} height={200}>
@@ -29,7 +31,7 @@ const PieChartComponent: React.FC<PieChartComponentProps> = ({
                     cursor="pointer"
                 >
                     {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[entry.name]} />
+                        <Cell key={`cell-${index}`} fill={colors[entry.name]} />
                     ))}
                 </Pie>
                 <Tooltip />

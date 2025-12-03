@@ -59,6 +59,14 @@ export const useProjectImport = () => {
     }
   );
 
+  const removeInvalidFile = (fileName: string) => {
+    setInvalidFiles((prev) => prev.filter((file) => file.name !== fileName));
+  };
+
+  const clearAllInvalidFiles = () => {
+    setInvalidFiles([]);
+  };
+
   return {
     projects,
     selectedProject,
@@ -68,6 +76,8 @@ export const useProjectImport = () => {
     removeProject,
     selectFiles,
     invalidFiles,
+    removeInvalidFile,
+    clearAllInvalidFiles,
     removeVersionFromProject,
     changeVersionVisibility,
   };

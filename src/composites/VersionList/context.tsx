@@ -13,6 +13,7 @@ interface VersionListContextType {
   versions: Version[];
   invalidFiles: { name: string; reason: string }[];
   onRemoveVersion: (fileName: string) => void;
+  onRemoveInvalidFile: (fileName: string) => void;
   onUpdateVersionVisibility: (fileName: string) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
@@ -33,6 +34,7 @@ interface VersionListProviderProps {
   versions: Version[];
   invalidFiles: { name: string; reason: string }[];
   onRemoveVersion: (fileName: string) => void;
+  onRemoveInvalidFile?: (fileName: string) => void;
   onUpdateVersionVisibility: (fileName: string) => void;
   itemsPerPage?: number;
 }
@@ -42,6 +44,7 @@ export const VersionListProvider = ({
   versions,
   invalidFiles,
   onRemoveVersion,
+  onRemoveInvalidFile,
   onUpdateVersionVisibility,
   itemsPerPage = 20,
 }: VersionListProviderProps) => {
@@ -114,6 +117,7 @@ export const VersionListProvider = ({
         versions,
         invalidFiles,
         onRemoveVersion,
+        onRemoveInvalidFile: onRemoveInvalidFile || (() => {}),
         onUpdateVersionVisibility,
         searchQuery,
         setSearchQuery,

@@ -1,5 +1,5 @@
 import React from "react";
-import { getRisk } from "../../composites/RiskHelpers";
+import { getRisk, useRiskColor } from "../../composites/RiskHelpers";
 
 interface TQIBadgeProps {
     value: number;
@@ -8,28 +8,32 @@ interface TQIBadgeProps {
 
 // Based on TQIBadge.tsx in ProjectOverview but with a different style
 // TODO: Refactor to use the same component for both ProjectOverview and VersionOverview
-export const TQIBadge: React.FC<TQIBadgeProps> = ({ value, risk }) => (
-    <div
-        className="flex min-w-[160px] flex-col items-center justify-center rounded-md p-6"
-        style={{
-            background: risk?.color || "gray"
-        }}
-    >
-        <span
-            className="mb-2 text-2xl font-medium"
+export const TQIBadge: React.FC<TQIBadgeProps> = ({ value, risk }) => {
+    const { getRiskColor } = useRiskColor();
+
+    return (
+        <div
+            className="flex min-w-[160px] flex-col items-center justify-center rounded-md p-6"
             style={{
-                color: risk.badgeColor
+                background: getRiskColor(value, "background", "normal")
             }}
         >
-            TQI
-        </span>
-        <span
-            className="text-4xl font-bold leading-none"
-            style={{
-                color: risk.badgeColor
-            }}
-        >
-            {value?.toFixed(3)}
-        </span>
-    </div>
-); 
+            <span
+                className="mb-2 text-2xl font-medium"
+                style={{
+                    color: "white"
+                }}
+            >
+                TQI
+            </span>
+            <span
+                className="text-4xl font-bold leading-none"
+                style={{
+                    color: "white"
+                }}
+            >
+                {value?.toFixed(3)}
+            </span>
+        </div>
+    );
+}; 

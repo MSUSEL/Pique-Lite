@@ -1,51 +1,46 @@
 import { useFlatCharacteristicData } from "../../state";
 import { LinePlot } from "../../composites/LinePlot";
 import { useColorMode } from "../../composites/ColorMode";
+import { useMemo } from "react";
 
-const CHARACTERISTIC_NAMES = [
-  "Availability",
-  "Authenticity",
-  "Authorization",
-  "Confidentiality",
-  "Non-repudiation",
-  "Integrity",
-  "TQI"
-];
+// Extended color palette for dynamic characteristics
+const getCharacteristicColors = (colorMode: 'normal' | 'colorblind', count: number) => {
+  const normalColors = [
+    "#4CAF50", // green
+    "#FF9800", // orange
+    "#2196F3", // blue
+    "#9C27B0", // purple
+    "#F7DC6F", // golden yellow
+    "#8BC34A", // teal
+    "#E91E63", // pink
+    "#00BCD4", // cyan
+    "#FF5722", // deep orange
+    "#795548", // brown
+    "#607D8B", // blue grey
+    "#009688", // teal variant
+    "#000000"  // black (typically for TQI)
+  ];
 
-// Original colors - kept for reference
-// const CHARACTERISTIC_COLORS = [
-//   "#4CAF50", // green for Availability
-//   "#FF9800", // orange for Authenticity
-//   "#2196F3", // blue for Authorization
-//   "#9C27B0", // purple for Confidentiality
-//   "#F7DC6F", // golden yellow for Non-repudiation
-//   "#8BC34A", // teal for Integrity
-//   "#000000" // black for TQI
-// ];
+  const colorblindColors = [
+    "#DC267F", // Magenta
+    "#FE6100", // Orange
+    "#648FFF", // Blue
+    "#785EF0", // Purple
+    "#FFB000", // Yellow
+    "#648FFF", // Blue variant
+    "#DC267F", // Magenta variant
+    "#FE6100", // Orange variant
+    "#785EF0", // Purple variant
+    "#FFB000", // Yellow variant
+    "#648FFF", // Blue variant
+    "#DC267F", // Magenta variant
+    "#000000"  // Black
+  ];
 
-// Colorblind-friendly color function
-const getCharacteristicColors = (colorMode: 'normal' | 'colorblind') => {
-  if (colorMode === 'colorblind') {
-    return [
-      "#DC267F", // Magenta for Availability
-      "#FE6100", // Orange for Authenticity
-      "#648FFF", // Blue for Authorization
-      "#785EF0", // Purple for Confidentiality
-      "#FFB000", // Yellow for Non-repudiation
-      "#648FFF", // Blue variant for Integrity
-      "#000000"  // Black for TQI (kept same for contrast)
-    ];
-  } else {
-    return [
-      "#4CAF50", // green for Availability
-      "#FF9800", // orange for Authenticity
-      "#2196F3", // blue for Authorization
-      "#9C27B0", // purple for Confidentiality
-      "#F7DC6F", // golden yellow for Non-repudiation
-      "#8BC34A", // teal for Integrity
-      "#000000"  // black for TQI
-    ];
-  }
+  const palette = colorMode === 'colorblind' ? colorblindColors : normalColors;
+
+  // Return enough colors for all characteristics, cycling through if needed
+  return Array.from({ length: count }, (_, i) => palette[i % palette.length]);
 };
 
 // Add type for our data structure
@@ -67,11 +62,29 @@ export const ProjectAttributesChart = ({
     date: d.date.toISOString().split("T")[0]
   }));
 
-  const characteristicColors = getCharacteristicColors(colorMode);
-  const lines = CHARACTERISTIC_NAMES.map((characteristic, index) => ({
+  // Dynamically extract characteristic names from the data
+  const characteristicNames = useMemo(() => {
+    if (flatData.length === 0) return [];
+
+    // Get all keys from the first record, excluding metadata fields
+    const firstRecord = flatData[0];
+    const metadataKeys = ['name', 'fileName', 'date'];
+
+    return Object.keys(firstRecord)
+      .filter(key => !metadataKeys.includes(key))
+      // Sort to ensure TQI is last (if present) for visual consistency
+      .sort((a, b) => {
+        if (a === 'TQI') return 1;
+        if (b === 'TQI') return -1;
+        return a.localeCompare(b);
+      });
+  }, [flatData]);
+
+  const characteristicColors = getCharacteristicColors(colorMode, characteristicNames.length);
+  const lines = characteristicNames.map((characteristic, index) => ({
     dataKey: characteristic as keyof DataPoint,
     name: characteristic,
-    stroke: characteristicColors[index % characteristicColors.length],
+    stroke: characteristicColors[index],
     strokeWidth: 2
   }));
 
@@ -101,7 +114,7 @@ export const ProjectAttributesChart = ({
                 gap: "1rem"
               }}
             >
-              {CHARACTERISTIC_NAMES.map((characteristic) => {
+              {characteristicNames.map((characteristic) => {
                 const startValue = Number(
                   selection.start[
                     characteristic as keyof typeof selection.start

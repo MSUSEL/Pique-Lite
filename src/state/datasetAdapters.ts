@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 import { base as liteBase } from "./schema";
 import { base as vizBase } from "./visualizerSchema";
 
@@ -208,8 +209,23 @@ export const parseDataset = (data: any): ParsedDataset => {
       const processed = liteToVisualizer(liteRaw);
       return { raw: liteRaw, processed, lite: liteRaw, source: "lite" };
     } catch (liteErr) {
+      // Format both errors nicely using zod-validation-error
+      const vizValidationError = vizErr instanceof z.ZodError
+        ? fromZodError(vizErr, {
+            prefix: "Visualizer schema",
+            maxIssuesInMessage: 5,
+          })
+        : vizErr;
+
+      const liteValidationError = liteErr instanceof z.ZodError
+        ? fromZodError(liteErr, {
+            prefix: "Lite schema",
+            maxIssuesInMessage: 5,
+          })
+        : liteErr;
+
       throw new Error(
-        `Dataset validation failed as both visualizer and lite schemas. Visualizer error: ${vizErr}; Lite error: ${liteErr}`
+        `File does not match expected PIQUE dataset format.\n\n${vizValidationError}\n\n${liteValidationError}`
       );
     }
   }

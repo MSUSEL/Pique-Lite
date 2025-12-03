@@ -15,18 +15,15 @@ import React, { createContext, useContext, useMemo, ReactNode, useState } from "
 import { Link } from "react-router-dom";
 
 interface FlatVersion extends Omit<Version, "data"> {
-  availability: number;
-  authenticity: number;
-  authorization: number;
-  confidentiality: number;
-  non_repudiation: number;
-  integrity: number;
+  tqi: number;
   projectId: string;
+  [key: string]: any; // Dynamic characteristics
 }
 
-// Context for sharing flat versions
+// Context for sharing flat versions and characteristic names
 interface ProjectVersionsContextValue {
   flatVersions: FlatVersion[];
+  characteristicNames: string[];
 }
 const ProjectVersionsContext = createContext<
   ProjectVersionsContextValue | undefined
@@ -61,76 +58,119 @@ export function ProjectVersionsProvider({
     });
   }, [versions, projectId]);
 
+  // Extract unique characteristic names from the versions
+  const characteristicNames = useMemo(() => {
+    if (versions.length === 0) return [];
+
+    // Get all unique characteristic names from all versions
+    const namesSet = new Set<string>();
+    versions.forEach(version => {
+      version.data.children.forEach(child => {
+        namesSet.add(child.name);
+      });
+    });
+
+    // Convert to array and sort (ensure TQI is last if present)
+    return Array.from(namesSet).sort((a, b) => {
+      if (a.toLowerCase() === 'tqi') return 1;
+      if (b.toLowerCase() === 'tqi') return -1;
+      return a.localeCompare(b);
+    });
+  }, [versions]);
+
   return (
-    <ProjectVersionsContext.Provider value={{ flatVersions }}>
+    <ProjectVersionsContext.Provider value={{ flatVersions, characteristicNames }}>
       {children}
     </ProjectVersionsContext.Provider>
   );
 }
 
-const METRIC_NAME_MAPPING = {
-  tqi: "TQI",
-  availability: "Availability",
-  authenticity: "Authenticity",
-  authorization: "Authorization",
-  confidentiality: "Confidentiality",
-  non_repudiation: "Non-Repudiation",
-  integrity: "Integrity"
-};
-
-// Define columns with sorting enabled
-const columns: ColumnDef<FlatVersion>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      const isSorted = column.getIsSorted();
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 hover:bg-transparent"
+// Helper function to create dynamic columns based on characteristic names
+const createColumns = (characteristicNames: string[]): ColumnDef<FlatVersion>[] => {
+  const baseColumns: ColumnDef<FlatVersion>[] = [
+    {
+      accessorKey: "name",
+      header: ({ column }) => {
+        const isSorted = column.getIsSorted();
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="p-0 hover:bg-transparent"
+          >
+            Version
+            {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+            {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+            {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <Link
+          to={`/versionDetails/project/${row.original.projectId}/version/${row.original.versionId}`}
         >
-          Version
-          {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
-          {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
-          {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
-        </Button>
-      );
+          {row.getValue("name")}
+        </Link>
+      ),
+      size: 100
     },
-    cell: ({ row }) => (
-      <Link
-        to={`/versionDetails/project/${row.original.projectId}/version/${row.original.versionId}`}
-      >
-        {row.getValue("name")}
-      </Link>
-    ),
-    size: 100 // w-[100px] equivalent
-  },
-  {
-    accessorKey: "date",
-    header: ({ column }) => {
-      const isSorted = column.getIsSorted();
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="p-0 hover:bg-transparent"
-        >
-          Date
-          {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
-          {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
-          {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const date = row.getValue("date") as Date;
-      return <div>{date.toLocaleDateString()}</div>;
+    {
+      accessorKey: "date",
+      header: ({ column }) => {
+        const isSorted = column.getIsSorted();
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="p-0 hover:bg-transparent"
+          >
+            Date
+            {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+            {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+            {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const date = row.getValue("date") as Date;
+        return <div>{date.toLocaleDateString()}</div>;
+      }
     }
-  },
-  ...Object.keys(METRIC_NAME_MAPPING).map((metricName) => {
+  ];
+
+  // Add TQI column first
+  const tqiColumn: ColumnDef<FlatVersion> = {
+    accessorKey: "tqi",
+    header: ({ column }: HeaderContext<FlatVersion, unknown>) => {
+      const isSorted = column.getIsSorted();
+      return (
+        <div className="text-right">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="p-0 hover:bg-transparent"
+          >
+            TQI
+            {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
+            {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
+            {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }: CellContext<FlatVersion, number>) => {
+      const raw = row.getValue("tqi");
+      const value = typeof raw === "number" ? raw : Number(raw);
+      const display = Number.isFinite(value) ? value.toFixed(2) : "—";
+      return <div className="text-right">{display}</div>;
+    }
+  };
+
+  // Create columns for each characteristic
+  const characteristicColumns: ColumnDef<FlatVersion>[] = characteristicNames.map((charName) => {
+    const accessorKey = charName.toLowerCase().replace("-", "_");
     return {
-      accessorKey: metricName,
+      accessorKey,
       header: ({ column }: HeaderContext<FlatVersion, unknown>) => {
         const isSorted = column.getIsSorted();
         return (
@@ -140,10 +180,7 @@ const columns: ColumnDef<FlatVersion>[] = [
               onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
               className="p-0 hover:bg-transparent"
             >
-              {
-                // @ts-expect-error - METRIC_NAME_MAPPING is indexed by string keys
-                METRIC_NAME_MAPPING[metricName]
-              }
+              {charName}
               {isSorted === false && <ArrowUpDown className="ml-2 h-4 w-4" />}
               {isSorted === "asc" && <ArrowUp className="ml-2 h-4 w-4" />}
               {isSorted === "desc" && <ArrowDown className="ml-2 h-4 w-4" />}
@@ -152,15 +189,16 @@ const columns: ColumnDef<FlatVersion>[] = [
         );
       },
       cell: ({ row }: CellContext<FlatVersion, number>) => {
-        // Some versions may not have every metric; guard before formatting
-        const raw = row.getValue(metricName);
+        const raw = row.getValue(accessorKey);
         const value = typeof raw === "number" ? raw : Number(raw);
         const display = Number.isFinite(value) ? value.toFixed(2) : "—";
         return <div className="text-right">{display}</div>;
       }
     };
-  })
-];
+  });
+
+  return [...baseColumns, tqiColumn, ...characteristicColumns];
+};
 
 export function ProjectVersionsTable() {
   // Consume context directly
@@ -170,9 +208,12 @@ export function ProjectVersionsTable() {
       "ProjectVersionsTable must be used within a ProjectVersionsProvider"
     );
   }
-  const { flatVersions } = context;
+  const { flatVersions, characteristicNames } = context;
 
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  // Generate columns dynamically based on characteristics
+  const columns = useMemo(() => createColumns(characteristicNames), [characteristicNames]);
 
   const table = useReactTable({
     data: flatVersions,
