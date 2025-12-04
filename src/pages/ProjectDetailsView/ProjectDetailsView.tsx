@@ -1,6 +1,7 @@
 import { useAtomValue } from "jotai";
 import { useMemo } from "react";
 import { getAllRiskLevels, getRisk, useRiskColor } from "../../composites/RiskHelpers";
+import { useRiskLevelSettings } from "../../composites/RiskLevelSettings";
 import { State } from "../../state";
 import { ProjectAttributesChart } from "./ProjectAttributesChart";
 import { RiskLegend } from "./RiskCards";
@@ -26,13 +27,15 @@ import { Progress } from "@/components/ui/progress";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const RiskLevelLegend = () => {
-  const allRisks = getAllRiskLevels();
+  const { riskLevelRanges } = useRiskLevelSettings();
+  const allRisks = getAllRiskLevels(riskLevelRanges);
 
   return (
     <RiskLegend
       risks={allRisks.map((risk) => ({
         title: risk.name,
-        score: risk.normalRange[1] - 0.001
+        score: risk.normalRange[1] - 0.001,
+        riskLevelName: risk.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low'
       }))}
       scale="normal"
     />

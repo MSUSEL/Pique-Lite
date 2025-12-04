@@ -1,4 +1,5 @@
-import { getAllRiskLevels, useRiskColor } from "../../composites/RiskHelpers";
+import { getAllRiskLevels } from "../../composites/RiskHelpers";
+import { useColorMode } from "@/composites/ColorMode";
 
 // Legacy export for backwards compatibility (not color-mode aware)
 export const COLORS: Record<string, string> = Object.fromEntries(
@@ -7,14 +8,14 @@ export const COLORS: Record<string, string> = Object.fromEntries(
 
 // Hook to get color-mode aware risk colors for pie charts
 export function usePieChartColors(): Record<string, string> {
-  const { getRiskColor } = useRiskColor();
+  const { getRiskColor } = useColorMode();
   const levels = getAllRiskLevels();
 
   const colors: Record<string, string> = {};
   levels.forEach((level) => {
-    // Use a sample value from each risk level range to get the correct color
-    const sampleValue = level.normalRange[0] + 0.01;
-    colors[level.name] = getRiskColor(sampleValue, "background", "normal");
+    // Use the risk level name directly to get the fixed color
+    const riskLevelKey = level.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+    colors[level.name] = getRiskColor(riskLevelKey, "background");
   });
 
   return colors;
