@@ -13,7 +13,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis
 import { Settings, Info, ArrowUp, ArrowDown, Minus, Wand2, RotateCcw, Download, Upload } from "lucide-react";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-const COLORS = ['#41afaa', '#466eb4', '#aa998f', '#e6a532', '#d7642c', '#af4b91'];
+const COLORS = ['#41afaa', '#466eb4', '#aa998f', '#e6a532', '#d7642c', '#af4b91', '#2dd4bf', '#8b5cf6', '#f97316', '#06b6d4'];
 const x_tick_amt = 0.1;
 const x_tick = arrayRange(0, 1, x_tick_amt);
 
@@ -613,14 +613,14 @@ export const EnhancedImportanceAdjustment = ({
                   <CardTitle className="text-base">Contribution Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
+                  <ResponsiveContainer width="100%" height={500}>
                     <PieChart>
                       <Pie
                         data={pieData}
                         cx="50%"
                         cy="50%"
-                        labelLine={false}
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        labelLine={true}
+                        label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="value"
@@ -630,6 +630,7 @@ export const EnhancedImportanceAdjustment = ({
                         ))}
                       </Pie>
                       <Tooltip />
+                      <Legend />
                     </PieChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -642,7 +643,7 @@ export const EnhancedImportanceAdjustment = ({
                   <CardTitle className="text-base">Sensitivity Analysis</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={300}>
+                  <ResponsiveContainer width="100%" height={500}>
                     <LineChart data={x_tick.map(x => {
                       const dataPoint: any = { x };
                       chartData.forEach((chart, index) => {
