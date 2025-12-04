@@ -24,7 +24,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const latestVersion = project.versions[project.versions.length - 1];
   return (
     <Card
-      className="max-w-[max-content] gap-1 py-2 cursor-pointer transition-all duration-200 hover:shadow-lg"
+      className="w-[90%] gap-1 py-2 cursor-pointer transition-all duration-200 hover:shadow-lg"
       onClick={onProjectClick}
     >
       <CardHeader>
