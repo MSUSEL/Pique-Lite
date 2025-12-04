@@ -74,7 +74,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
           <SidebarMenu>
             {sidebarItems.map((item) => (
               <SidebarMenuItem key={item.label}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={location.pathname === item.href}>
                   <Link to={item.href}>
                     <item.icon />
                     <span>{item.label}</span>

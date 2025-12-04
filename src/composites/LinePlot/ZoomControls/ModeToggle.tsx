@@ -1,6 +1,6 @@
-import { useLinePlotContext, type ChartMode } from "../context";
-import { ChatBubbleIcon, CropIcon } from "@radix-ui/react-icons";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useLinePlotContext } from "../context";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   Tooltip,
   TooltipTrigger,
@@ -10,39 +10,29 @@ import {
 export function ModeToggle() {
   const { mode, setMode } = useLinePlotContext();
 
-  const handleModeChange = (value: ChartMode) => {
-    if (value) {
-      setMode(value);
-    }
+  const handleCheckedChange = (checked: boolean) => {
+    setMode(checked ? "brush" : "tooltip");
   };
 
   return (
-    <ToggleGroup
-      variant="outline"
-      type="single"
-      value={mode}
-      onValueChange={handleModeChange}
-    >
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem value="brush">
-            <CropIcon />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent>
-          Brush mode
-        </TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <ToggleGroupItem value="tooltip">
-            <ChatBubbleIcon />
-          </ToggleGroupItem>
-        </TooltipTrigger>
-        <TooltipContent>
-          Tooltip mode
-        </TooltipContent>
-      </Tooltip>
-    </ToggleGroup>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="flex items-center gap-2">
+          <Switch
+            id="brush-mode"
+            checked={mode === "brush"}
+            onCheckedChange={handleCheckedChange}
+          />
+          <Label htmlFor="brush-mode" className="text-sm cursor-pointer">
+            Brush Mode
+          </Label>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent>
+        {mode === "brush"
+          ? "Toggle to switch to tooltip mode"
+          : "Toggle to enable brush selection"}
+      </TooltipContent>
+    </Tooltip>
   );
 }

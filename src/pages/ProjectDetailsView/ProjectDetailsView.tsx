@@ -23,6 +23,7 @@ import { Calendar, Folder } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { TQIBadge } from "../ProjectOverview/ProjectCard";
 import { Progress } from "@/components/ui/progress";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const RiskLevelLegend = () => {
   const allRisks = getAllRiskLevels();
@@ -192,9 +193,14 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
                       return (
                         <div key={c.name} className="flex flex-col">
                           <div className="flex items-center justify-between gap-2 text-sm font-light">
-                            <span className="truncate whitespace-nowrap">
-                              {c.name}
-                            </span>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="truncate whitespace-nowrap">
+                                  {c.name}
+                                </span>
+                              </TooltipTrigger>
+                              <TooltipContent>{c.name}</TooltipContent>
+                            </Tooltip>
                             <span className="flex-shrink-0">{c.value.toFixed(2)}</span>
                           </div>
                           <Progress

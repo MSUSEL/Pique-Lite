@@ -39,6 +39,7 @@ const DEFAULT_RISK_LEVEL_RANGES: RiskLevelRanges = {
 interface RiskLevelSettingsContextType {
   riskLevelRanges: RiskLevelRanges;
   updateRiskLevelRange: (level: keyof RiskLevelRanges, range: RiskLevelRange) => void;
+  updateMultipleRiskLevelRanges: (updates: Partial<RiskLevelRanges>) => void;
   resetToDefaults: () => void;
   isCustomized: boolean;
 }
@@ -112,6 +113,29 @@ export function RiskLevelSettingsProvider({ children }: RiskLevelSettingsProvide
     });
   };
 
+  const updateMultipleRiskLevelRanges = (updates: Partial<RiskLevelRanges>) => {
+    setRiskLevelRanges((prev) => {
+      const updated = {
+        ...prev,
+        ...updates
+      };
+
+      // Save to localStorage
+      if (typeof window !== 'undefined') {
+        // Convert Infinity values to null for JSON serialization
+        const serializable = JSON.parse(JSON.stringify(updated, (key, value) => {
+          if (value === Infinity) return null;
+          if (value === -Infinity) return null;
+          return value;
+        }));
+        localStorage.setItem('riskLevelRanges', JSON.stringify(serializable));
+      }
+
+      setIsCustomized(true);
+      return updated;
+    });
+  };
+
   const resetToDefaults = () => {
     setRiskLevelRanges(DEFAULT_RISK_LEVEL_RANGES);
     setIsCustomized(false);
@@ -123,6 +147,7 @@ export function RiskLevelSettingsProvider({ children }: RiskLevelSettingsProvide
   const value: RiskLevelSettingsContextType = {
     riskLevelRanges,
     updateRiskLevelRange,
+    updateMultipleRiskLevelRanges,
     resetToDefaults,
     isCustomized
   };

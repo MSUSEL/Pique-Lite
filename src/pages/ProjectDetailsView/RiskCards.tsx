@@ -6,6 +6,7 @@ import {
   TooltipTrigger
 } from "@/components/ui/tooltip";
 import { getRisk, useRiskColor } from "../../composites/RiskHelpers";
+import { useColorMode } from "@/composites/ColorMode";
 
 export interface RiskCardProps {
   title: string;
@@ -35,14 +36,16 @@ export const RiskCard = (props: RiskCardProps) => {
 };
 
 export const RiskLegendCard = (props: RiskCardProps) => {
-  const { getRiskColor } = useRiskColor();
+  const { getRiskColor: getColorByName } = useColorMode();
   const risk = getRisk(props.score, props.scale);
+  const riskLevelKey = risk.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+
   return (
     <Badge
       variant="outline"
       className="flex flex-row items-center pl-2"
       style={{
-        backgroundColor: getRiskColor(props.score, "background", props.scale)
+        backgroundColor: getColorByName(riskLevelKey, "background")
       }}
     >
       <p className="mr-1">{props.title}</p>
