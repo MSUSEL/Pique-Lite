@@ -103,10 +103,10 @@ const MetricsSection: React.FC<{
   const { getRiskColor } = useRiskColor();
   
   return (
-    <div className="grid grid-cols-2 grid-rows-3 gap-2 md:grid-cols-3 md:grid-rows-2">
+    <div className="grid grid-cols-3 gap-2 flex-1">
       {metrics.map((metric) => (
         // <MetricItem key={metric.name} name={metric.name} value={metric.value} />
-        <div>
+        <div key={metric.name}>
           <span className="flex items-center justify-between text-sm text-gray-600">
             <span className="truncate whitespace-nowrap">{metric.name}</span>
             <span>{metric.value.toFixed(2)}</span>
