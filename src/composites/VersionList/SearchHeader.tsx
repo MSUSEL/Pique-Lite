@@ -9,6 +9,7 @@ import {
   PopoverTrigger
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const SearchHeader = () => {
   const {
@@ -36,29 +37,34 @@ export const SearchHeader = () => {
         hint={"versions"}
       />
       {/* {versions.length > 0 && defaultDateRange && } */}
-      <Popover modal={true}>
-        <PopoverTrigger asChild>
-          <PopoverAnchor>
-            <Button variant="ghost" className="gap-2" size="sm">
-              <ListFilter className="h-4 w-4" />
-            </Button>
-          </PopoverAnchor>
-        </PopoverTrigger>
-        <PopoverContent className="min-w-[320px]">
-          <VersionFilters
-            filters={convertedFilters}
-            setFilters={(newFilters) => {
-              setFilters({
-                ...newFilters,
-                date: newFilters.date || undefined,
-                visibility: newFilters.visibility as ("visible" | "hidden")[],
-                status: newFilters.status as ("valid" | "invalid")[]
-              });
-            }}
-            defaultDate={defaultDateRange}
-          />
-        </PopoverContent>
-      </Popover>
+      <Tooltip>
+        <Popover modal={true}>
+          <PopoverTrigger asChild>
+            <PopoverAnchor>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" className="gap-2" size="sm">
+                  <ListFilter className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+            </PopoverAnchor>
+          </PopoverTrigger>
+          <PopoverContent className="min-w-[320px]">
+            <VersionFilters
+              filters={convertedFilters}
+              setFilters={(newFilters) => {
+                setFilters({
+                  ...newFilters,
+                  date: newFilters.date || undefined,
+                  visibility: newFilters.visibility as ("visible" | "hidden")[],
+                  status: newFilters.status as ("valid" | "invalid")[]
+                });
+              }}
+              defaultDate={defaultDateRange}
+            />
+          </PopoverContent>
+        </Popover>
+        <TooltipContent>Filter versions by date, visibility, and status</TooltipContent>
+      </Tooltip>
     </div>
   );
 };

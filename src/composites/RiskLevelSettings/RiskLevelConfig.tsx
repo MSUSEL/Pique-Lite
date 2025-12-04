@@ -318,14 +318,19 @@ function RiskLevelRangeInput({
     <div className="space-y-3 p-4 border rounded-lg">
       <div className="flex items-center justify-between">
         <Badge
-          className="w-24 justify-center"
+          variant="outline"
+          className="flex flex-row items-center pl-2"
           style={{
             backgroundColor: getRiskColor(level.sampleScore, 'background'),
-            borderColor: getRiskColor(level.sampleScore, 'badge'),
-            color: getRiskColor(level.sampleScore, 'badge')
+            borderColor: getRiskColor(level.sampleScore, 'badge')
           }}
         >
-          {level.name}
+          <p className="mr-1" style={{ color: getRiskColor(level.sampleScore, 'badge') }}>
+            {level.name}
+          </p>
+          <div className="p-1 text-base" style={{ color: getRiskColor(level.sampleScore, 'badge') }}>
+            {RISK_LEVELS.find(l => l.key === level.key)?.icon}
+          </div>
         </Badge>
 
         <div className="text-sm text-muted-foreground">

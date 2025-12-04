@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Folder, Home, MoreHorizontal, Plus, Settings, Trash2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
 import {
@@ -25,6 +25,7 @@ import {
 import { useProjects } from "./FileUploader/hooks/use-projects";
 import { Button } from "@/components/ui/button";
 import { ProjectManagerDialog } from "./ProjectManager/ProjectManagerDialog";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
 const sidebarItems = [
@@ -49,6 +50,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   const { projects, removeProject } = useProjects();
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const [isProjectDialogOpen, setIsProjectDialogOpen] = useState(false);
   let currentProjectId = null;
   if (location.pathname.includes("/project/")) {
     currentProjectId = location.pathname.split("/")[2];
@@ -87,11 +89,20 @@ const SideMenu: React.FC<SideMenuProps> = () => {
         <SidebarGroup>
           <SidebarGroupLabel>Projects</SidebarGroupLabel>
           <SidebarGroupAction>
-            <ProjectManagerDialog
-              trigger={<Plus />}
-              triggerAsChild={true}
-              onContinue={() => {}}
-            />
+            <Tooltip>
+              <ProjectManagerDialog
+                trigger={
+                  <TooltipTrigger asChild>
+                    <Plus />
+                  </TooltipTrigger>
+                }
+                triggerAsChild={true}
+                open={isProjectDialogOpen}
+                onOpenChange={setIsProjectDialogOpen}
+                onContinue={() => setIsProjectDialogOpen(false)}
+              />
+              <TooltipContent>Manage Projects</TooltipContent>
+            </Tooltip>
           </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>

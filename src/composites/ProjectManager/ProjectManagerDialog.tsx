@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAtomValue } from "jotai";
 import { Layers, Pencil, PlusIcon, Trash2 } from "lucide-react";
@@ -23,12 +24,16 @@ interface ProjectManagerDialogProps {
   trigger: React.ReactNode;
   triggerAsChild?: boolean;
   onContinue: () => void;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export const ProjectManagerDialog = ({
   onContinue,
   trigger,
-  triggerAsChild = false
+  triggerAsChild = false,
+  open,
+  onOpenChange
 }: ProjectManagerDialogProps) => {
   const projects = useAtomValue(State.projects);
   const {
@@ -62,7 +67,7 @@ export const ProjectManagerDialog = ({
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild={triggerAsChild}>{trigger}</DialogTrigger>
       <DialogContent className="p-0 h-[80svh] w-[80vw] max-w-[80vw] sm:max-w-[80vw]">
         <VisuallyHidden>
@@ -75,9 +80,14 @@ export const ProjectManagerDialog = ({
             <div className="bg-muted flex flex-col gap-3 p-4">
             <div className="flex flex-row items-center justify-between gap-3">
               <h2 className="text-lg font-semibold">Projects</h2>
-              <Button variant="ghost" size="icon" onClick={createNewProject}>
-                <PlusIcon className="h-4 w-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={createNewProject}>
+                    <PlusIcon className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Add New Project</TooltipContent>
+              </Tooltip>
             </div>
             <ScrollArea className="flex-1">
               <div className="flex flex-col gap-2">
@@ -128,22 +138,34 @@ export const ProjectManagerDialog = ({
                       <div className="grid grid-cols-[auto_max-content_max-content] gap-2">
                         <SearchHeader />
                         {invalidFiles.length > 0 && (
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={clearAllInvalidFiles}
-                          >
-                            Clear {invalidFiles.length} Error{invalidFiles.length !== 1 ? 's' : ''}
-                          </Button>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={clearAllInvalidFiles}
+                              >
+                                Clear {invalidFiles.length} Error{invalidFiles.length !== 1 ? 's' : ''}
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Remove all invalid files from the list</TooltipContent>
+                          </Tooltip>
                         )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={selectFiles}
-                          disabled={!selectedProject}
-                        >
-                          Add Files
-                        </Button>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={selectFiles}
+                              disabled={!selectedProject}
+                            >
+                              Add Files
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            {!selectedProject ? 'Select a project first' : 'Add files to this project'}
+                          </TooltipContent>
+                        </Tooltip>
                       </div>
                       <div className="min-h-0 flex-1 overflow-auto">
                         <VersionTable />
@@ -237,26 +259,36 @@ const ProjectListItem = ({
       ) : (
         <span>{name}</span>
       )}
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleEditClick}
-        style={{
-          visibility: isHovered && !isEditing ? "visible" : "hidden"
-        }}
-      >
-        <Pencil className="h-4 w-4" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={handleDeleteClick}
-        style={{
-          visibility: isHovered && !isEditing ? "visible" : "hidden"
-        }}
-      >
-        <Trash2 className="h-4 w-4" />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleEditClick}
+            style={{
+              visibility: isHovered && !isEditing ? "visible" : "hidden"
+            }}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Edit Project Name</TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleDeleteClick}
+            style={{
+              visibility: isHovered && !isEditing ? "visible" : "hidden"
+            }}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Delete Project</TooltipContent>
+      </Tooltip>
     </div>
   );
 };

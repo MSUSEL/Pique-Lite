@@ -23,10 +23,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   const latestVersion = project.versions[project.versions.length - 1];
   return (
-    <Card className="max-w-[max-content] gap-1 py-2">
+    <Card
+      className="max-w-[max-content] gap-1 py-2 cursor-pointer transition-all duration-200 hover:shadow-lg"
+      onClick={onProjectClick}
+    >
       <CardHeader>
         <CardTitle className="flex items-center justify-between gap-4">
-          <span className="cursor-pointer" onClick={onProjectClick}>
+          <span>
             <span className="flex items-center gap-2 text-xl text-gray-700">
               <Folder size="20px" />
               {project.name}

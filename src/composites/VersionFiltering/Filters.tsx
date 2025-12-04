@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Projects, Version } from "../../state";
 import { SliderFilter } from "./SliderFilter";
 import { ListFilter } from "lucide-react";
@@ -24,13 +25,16 @@ const Filters: React.FC<{
   const checkboxVals = ["Severe", "High", "Elevated", "Guarded", "Low"];
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button size="sm" variant="ghost">
-          <ListFilter />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[450px] rounded-lg bg-white p-5 text-black shadow-lg">
+    <Tooltip>
+      <Popover>
+        <PopoverTrigger asChild>
+          <TooltipTrigger asChild>
+            <Button size="sm" variant="ghost">
+              <ListFilter />
+            </Button>
+          </TooltipTrigger>
+        </PopoverTrigger>
+        <PopoverContent className="w-[450px] rounded-lg bg-white p-5 text-black shadow-lg">
         <div className="flex flex-col gap-5 p-1">
           {/* Checkboxes to filter on risk level */}
           <div className="flex flex-col">
@@ -82,6 +86,8 @@ const Filters: React.FC<{
         </div>
       </PopoverContent>
     </Popover>
+    <TooltipContent>Filter projects by risk level and TQI</TooltipContent>
+  </Tooltip>
   );
 };
 
