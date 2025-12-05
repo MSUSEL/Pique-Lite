@@ -126,7 +126,7 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
   );
   const tqiRisk = getRisk(latestVersion.data.value, "normal");
   return (
-    <div className="project-details-view h-screen flex flex-col">
+    <div className="project-details-view flex flex-1 min-h-0 flex-col">
       <div className="border-b-[1px] border-gray-200 px-4 py-2 shadow-sm flex-shrink-0">
         <div className="flex items-center gap-2 text-gray-700">
           <Folder />
@@ -141,7 +141,10 @@ function ProjectDetailsView({ projectId }: ProjectDetailsViewProps) {
           )}
         </span>
       </div>
-      <Tabs defaultValue="overview" className="flex flex-col flex-1 overflow-hidden">
+      <Tabs
+        defaultValue="overview"
+        className="flex flex-col flex-1 min-h-0 overflow-hidden"
+      >
         <TabsList className="tabs-list flex-start flex w-full justify-start rounded-none bg-gray-50 p-0 flex-shrink-0">
           <TabsTrigger
             className="flex-0 rounded-none text-gray-500 data-[state=active]:bg-gray-50 data-[state=active]:text-gray-800"

@@ -4,7 +4,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Folder, Home, MoreHorizontal, Plus, Settings, Trash2 } from "lucide-react";
+import { BookOpen, Folder, Home, MoreHorizontal, Plus, Settings, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import PiqueLogoNoText from "../assets/pique-logo-notext.png";
@@ -156,13 +156,22 @@ const SideMenu: React.FC<SideMenuProps> = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex items-center justify-center px-2 py-8">
+        <div className="flex flex-col items-center justify-center gap-3 px-2 py-8">
           <img
             src="https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/6fdaa25709d28dfb5cca.svg"
             alt="CISA Logo"
             width="200"
             height="200"
           />
+          <a
+            href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+          >
+            <BookOpen className="h-4 w-4" />
+            Docs
+          </a>
         </div>
       </SidebarFooter>
     </Sidebar>
