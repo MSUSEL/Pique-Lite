@@ -1,7 +1,14 @@
 # PIQUE Lite
 
 PIQUE Lite is a lightweight, web-based visualization tool for exploring PIQUE output files.  
-It supports uploading multiple projects and versions, filtering results, viewing trends, and navigating detailed hierarchical risk information.
+A full user guide, feature walkthroughs, and tutorials are available in the documentation:  
+👉 https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/intro
+
+## Demo
+
+Below is a short demo of PIQUE Lite:
+
+![PIQUE Lite Demo](./src/assets/pique_lite_demo_for_readme.gif)
 
 ## Getting Started
 
@@ -9,7 +16,8 @@ It supports uploading multiple projects and versions, filtering results, viewing
 2. Run `bun install` to install dependencies
 3. Run `bun run dev` to start the development server
 
-This project uses React, TypeScript, Vite, and a feature-oriented component structure.  
-For development notes, coding practices, and architecture documentation, see:
+PIQUE Lite is also accessible through the MSUSEL Tool Hub:  
+👉 https://github.com/MSUSEL/MSUSEL_Hub
 
-👉 **[`DEVELOPER_NOTES.md`](./DEVELOPER_NOTES.md)**  
+For development notes and architecture documentation, see:  
+👉 [`DEVELOPER_NOTES.md`](./DEVELOPER_NOTES.md)
