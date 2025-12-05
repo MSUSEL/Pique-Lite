@@ -38,6 +38,19 @@ function Landing() {
         triggerAsChild
         onContinue={() => navigate("/overview")}
       />
+      {/* added by ziyi for the link to documentation */}
+      <div className="mt-4 text-gray-600 text-sm">
+        How to use?{" "}
+        <a
+          href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          📘 User Guide
+        </a>
+      </div>
+
     </div>
   );
 }
