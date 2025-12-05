@@ -27,7 +27,7 @@ export const RiskCard = (props: RiskCardProps) => {
       style={{
         backgroundColor: getRiskColor(props.score, "background", props.scale),
         borderColor: getRiskColor(props.score, "badge", props.scale),
-        color: getRiskColor(props.score, "badge", props.scale)
+        color: getRiskColor(props.score, "font", props.scale)
       }}
     >
       <div className="p-3 text-2xl">{risk.icon}</div>

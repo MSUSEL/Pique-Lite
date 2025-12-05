@@ -4,6 +4,7 @@
  */
 import { State } from "./core";
 import { atom, useAtomValue } from "jotai";
+import { useMemo } from "react";
 
 interface CharacteristicRecord extends Record<string, unknown> {
   name: string;
@@ -16,34 +17,36 @@ interface CharacteristicRecord extends Record<string, unknown> {
 export const useFlatCharacteristicData = (projectId: string | undefined) => {
   const projects = useAtomValue(State.projects);
 
-  //check to make sure there is a project id and projects
-  if (!projectId || !projects) {
-    return [];
-  }
-  const project = projects[projectId];
+  return useMemo(() => {
+    //check to make sure there is a project id and projects
+    if (!projectId || !projects) {
+      return [];
+    }
+    const project = projects[projectId];
 
-  if (!project) {
-    return [];
-  }
+    if (!project) {
+      return [];
+    }
 
-  const records: CharacteristicRecord[] = project.versions.map((version) => {
-    const baseRecord: CharacteristicRecord = {
-      name: version.name,
-      fileName: version.fileName,
-      date: version.date,
-      TQI: version.data.value,
-    };
+    const records: CharacteristicRecord[] = project.versions.map((version) => {
+      const baseRecord: CharacteristicRecord = {
+        name: version.name,
+        fileName: version.fileName,
+        date: version.date,
+        TQI: version.data.value,
+      };
 
-    return version.data.children.reduce(
-      (acc: CharacteristicRecord, child: { name: string; value: number }) => {
-        acc[child.name] = child.value;
-        return acc;
-      },
-      baseRecord
-    );
-  });
+      return version.data.children.reduce(
+        (acc: CharacteristicRecord, child: { name: string; value: number }) => {
+          acc[child.name] = child.value;
+          return acc;
+        },
+        baseRecord
+      );
+    });
 
-  return records;
+    return records;
+  }, [projectId, projects]);
 };
 
 interface ProjectVersionRecord extends Record<string, unknown> {

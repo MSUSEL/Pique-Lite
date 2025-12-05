@@ -38,18 +38,19 @@ export const normalPalette: ColorPaletteWithTypes = {
 
 export const colorBlindPalette: ColorPaletteWithTypes = {
   background: {
-    severe: "#DC267F",    // Magenta
-    high: "#FE6100",      // Orange  
-    elevated: "#FFB000",  // Yellow
-    guarded: "#785EF0",   // Purple
-    low: "#648FFF"        // Blue
+    // Add transparency to keep text/icons readable on badges
+    severe: "#DC267F80",    // Magenta
+    high: "#FE610080",      // Orange  
+    elevated: "#FFB00080",  // Yellow
+    guarded: "#785EF080",   // Purple
+    low: "#648FFF80"        // Blue
   },
   font: {
-    severe: "#DC267F",    // Magenta
-    high: "#FE6100",      // Orange  
-    elevated: "#FFB000",  // Yellow
-    guarded: "#785EF0",   // Purple
-    low: "#648FFF"        // Blue
+    severe: "#0F172A",    // High-contrast neutral for readability
+    high: "#0F172A",
+    elevated: "#0F172A",
+    guarded: "#0F172A",
+    low: "#0F172A"
   },
   badge: {
     severe: "#DC267F",    // Magenta

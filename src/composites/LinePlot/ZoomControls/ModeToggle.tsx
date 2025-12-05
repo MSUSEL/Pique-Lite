@@ -6,13 +6,14 @@ import {
   TooltipTrigger,
   TooltipContent
 } from "@/components/ui/tooltip";
+import { useCallback } from "react";
 
 export function ModeToggle() {
   const { mode, setMode } = useLinePlotContext();
 
-  const handleCheckedChange = (checked: boolean) => {
+  const handleCheckedChange = useCallback((checked: boolean) => {
     setMode(checked ? "brush" : "tooltip");
-  };
+  }, []);
 
   return (
     <Tooltip>
@@ -23,7 +24,7 @@ export function ModeToggle() {
             checked={mode === "brush"}
             onCheckedChange={handleCheckedChange}
           />
-          <Label htmlFor="brush-mode" className="text-sm cursor-pointer">
+          <Label htmlFor="brush-mode" className="cursor-pointer text-sm">
             Brush Mode
           </Label>
         </div>

@@ -57,7 +57,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
   }
 
   return (
-    <Sidebar collapsible="none" className="h-screen">
+    <Sidebar collapsible="offcanvas" className="h-screen">
       <SidebarHeader className="bg-gray-50">
         <span className="align-center flex flex-row justify-center gap-8">
           <a href="/overview">

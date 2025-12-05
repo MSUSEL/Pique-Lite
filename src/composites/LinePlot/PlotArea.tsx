@@ -88,7 +88,7 @@ export function PlotArea<T extends Record<string, unknown>>({
             dataKey={dataKey as string}
             stroke={stroke}
             name={name}
-            isAnimationActive={zoomState.shouldAnimate}
+            isAnimationActive={mode === "tooltip" && zoomState.shouldAnimate}
             animationDuration={300}
             connectNulls={true}
           />

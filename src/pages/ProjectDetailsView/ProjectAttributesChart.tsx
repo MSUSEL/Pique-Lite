@@ -57,10 +57,14 @@ export const ProjectAttributesChart = ({
 }: ProjectAttributesChartProps) => {
   const { colorMode } = useColorMode();
   const flatData = useFlatCharacteristicData(projectId || undefined);
-  const flatDataWithStringDates = flatData.map((d) => ({
-    ...d,
-    date: d.date.toISOString().split("T")[0]
-  }));
+  const flatDataWithStringDates = useMemo(
+    () =>
+      flatData.map((d) => ({
+        ...d,
+        date: d.date.toISOString().split("T")[0]
+      })),
+    [flatData]
+  );
 
   // Dynamically extract characteristic names from the data
   const characteristicNames = useMemo(() => {
@@ -80,13 +84,21 @@ export const ProjectAttributesChart = ({
       });
   }, [flatData]);
 
-  const characteristicColors = getCharacteristicColors(colorMode, characteristicNames.length);
-  const lines = characteristicNames.map((characteristic, index) => ({
-    dataKey: characteristic as keyof DataPoint,
-    name: characteristic,
-    stroke: characteristicColors[index],
-    strokeWidth: 2
-  }));
+  const characteristicColors = useMemo(
+    () => getCharacteristicColors(colorMode, characteristicNames.length),
+    [colorMode, characteristicNames]
+  );
+
+  const lines = useMemo(
+    () =>
+      characteristicNames.map((characteristic, index) => ({
+        dataKey: characteristic as keyof DataPoint,
+        name: characteristic,
+        stroke: characteristicColors[index],
+        strokeWidth: 2
+      })),
+    [characteristicNames, characteristicColors]
+  );
 
   return (
     <>

@@ -187,17 +187,13 @@ export default function DashboardLayout() {
     <>
       <SidebarProvider>
         <SideMenu />
-        <main
-          style={{
-            width: "calc(100vw - var(--sidebar-width))"
-          }}
-        >
+        <SidebarInset>
           <div className="flex items-center gap-4 border-b-[0.5px] border-gray-200 px-4 py-2">
             <SidebarTrigger />
             <DashboardBreadcrumbs />
           </div>
           <Outlet />
-        </main>
+        </SidebarInset>
       </SidebarProvider>
       <Toaster />
     </>
