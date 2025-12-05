@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useAtomValue } from "jotai";
-import { Layers, Pencil, PlusIcon, Trash2 } from "lucide-react";
+import { BookOpen, ExternalLink, Layers, Pencil, PlusIcon, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/components/lib/utils";
 import { State } from "../../state";
@@ -105,6 +105,30 @@ export const ProjectManagerDialog = ({
                 })}
               </div>
             </ScrollArea>
+            <div className="flex justify-center">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    asChild
+                    variant="link"
+                    className="justify-center px-0 text-sm font-normal text-blue-600 hover:text-blue-700"
+                  >
+                    <a
+                      href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/input-schema/file-upload/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="flex items-center gap-2">
+                        <BookOpen className="h-3 w-3" />
+                        Docs
+                        <ExternalLink className="h-3 w-3" />
+                      </span>
+                    </a>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Open documentation in a new tab</TooltipContent>
+              </Tooltip>
+            </div>
           </div>
 
           {/* Right Content - Files & Button */}
