@@ -121,9 +121,6 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                 {/* Header Row */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Version Overview</h1>
-                    <Button variant="default" size="lg" className="bg-blue-700 cursor-pointer">
-                        Download
-                    </Button>
                 </div>
 
                 {/* TQI and Pie Charts Row */}
