@@ -9,6 +9,14 @@ import { ProjectCard } from "../pages/ProjectOverview/ProjectCard";
 import { PaginationButtons } from "../composites/Pagination/PaginationButtons";
 import { RiskLevelLegend } from "../pages/ProjectDetailsView";
 
+import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
+
+
 const ITEMS_PER_PAGE = 5;
 
 export default function Component() {
@@ -86,7 +94,29 @@ export default function Component() {
       </div>
 
       <div className="flex max-w-[max-content] items-center justify-start gap-2 px-4 py-2">
-        <h1 className="text-md text-gray-500">Risk Levels</h1>
+        {/*<h1 className="text-md text-gray-500">Risk Levels</h1>*/}
+
+        <div className="flex items-center gap-1">
+          <span className="text-md text-gray-500">Risk Levels</span>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info
+                className="h-4 w-4 text-gray-400 hover:text-gray-600 cursor-default"
+              />
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs space-y-1 text-xs">
+              <p className="font-semibold">Default Risk Levels</p>
+              <p>
+                These risk levels use PIQUE Lite's default threshold ranges.
+              </p>
+              <p className="text-[11px] text-muted-foreground">
+                To customize thresholds, go to Settings → Risk Levels.
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+
         <RiskLevelLegend />
       </div>
       {/* Display if filters have filtered out all projects */}
