@@ -47,7 +47,7 @@ export default function SectionComponent({ dataset, onTabChange }: SectionCompon
                             value="characteristics"
                             className="data-[state=active]:text-blue-800 data-[state=active]:border-b-2 data-[state=active]:border-blue-800 border-t-0 border-l-0 border-r-0 rounded-none cursor-pointer whitespace-nowrap"
                         >
-                            Characteristics
+                            Aspects
                         </TabsTrigger>
                         <TabsTrigger
                             value="factors"
