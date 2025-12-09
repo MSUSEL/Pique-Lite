@@ -380,7 +380,7 @@ export const EnhancedImportanceAdjustment = ({
         <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
           <Info className="h-4 w-4 text-blue-600" />
           <span className="text-xs text-blue-700">
-            Currently, the adjustment is only applicable for <strong>Quality Characteristics</strong> 
+            Currently, the adjustment is only applicable for <strong>Quality Aspects</strong> 
             (i.e., the 2nd level of the tree display, and the 2nd expandable box in the list display).
           </span>
         </div>
@@ -440,7 +440,7 @@ export const EnhancedImportanceAdjustment = ({
           {/* Adjustment Table */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Characteristics and Weights Adjustment</CardTitle>
+              <CardTitle className="text-lg">Quality Aspects and Weights Adjustment</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
@@ -448,19 +448,19 @@ export const EnhancedImportanceAdjustment = ({
                   <TableRow>
                     <TableHead className="text-center">
                       <div className="flex items-center justify-center gap-1">
-                        Characteristics
+                      Quality Aspects
                         <UITooltip>
                           <TooltipTrigger>
                             <Info className="h-3 w-3" />
                           </TooltipTrigger>
                           <TooltipContent>
-                            <p>These are the Quality Characteristics that have impacts towards the TQI (Total Quality Index).</p>
+                            <p>These are the Quality Aspects that have impacts towards the TQI (Total Quality Index).</p>
                           </TooltipContent>
                         </UITooltip>
                       </div>
                     </TableHead>
                     <TableHead className="text-center">Original Value</TableHead>
-                    <TableHead className="text-center">Characteristic Adjustment</TableHead>
+                    <TableHead className="text-center">Quality Aspects Adjustment</TableHead>
                     <TableHead className="text-center">Original Weight</TableHead>
                     <TableHead className="text-center">
                       <div className="flex items-center justify-center gap-1">

@@ -6158,7 +6158,7 @@
     "quality_aspects": {
       "Authenticity": {
         "name": "Authenticity",
-        "value": 0.3039056257840234,
+        "value": 0.1650327579315493,
         "description": "The property that data originated from its purported source.",
         "children": {
           "CWE-269 Improper_privilege_management": {
@@ -6472,7 +6472,7 @@
       },
       "CWE-398 Code_quality": {
         "name": "CWE-398 Code_quality",
-        "value": 0.4705661359121368,
+        "value": 0.5070825355923282,
         "description": "Weaknesses that do not directly introduce a weakness or vulnerability, but indicate that the product has not been carefully developed or maintained.",
         "children": {
           "CWE-398 Code_quality_weaknesses": {
@@ -7674,7 +7674,7 @@
       },
       "Misc_quality_aspect": {
         "name": "Misc_quality_aspect",
-        "value": 0.10440762949952359,
+        "value": 0.6456664956856539,
         "description": "Findings without CWEs attached",
         "children": {
           "Misc_product_factor": {
@@ -8027,7 +8027,7 @@
       },
       "CWE-710 Improper_adherence_to_coding_standards": {
         "name": "CWE-710 Improper_adherence_to_coding_standards",
-        "value": 0.38475590867357323,
+        "value": 0.1266889295452141,
         "description": "The software does not follow certain coding rules for development, which can lead to weaknesses.",
         "children": {
           "CWE-1177 Use_of_prohibited_code": {
@@ -9414,7 +9414,7 @@
       },
       "CWE-691 Insufficient_control_flow_management": {
         "name": "CWE-691 Insufficient_control_flow_management",
-        "value": 0.3779575431032852,
+        "value": 0.4135807766757329,
         "description": "The code does not sufficiently manage its control flow during execution, creating conditions in which the control flow can be modified in unexpected ways.",
         "children": {
           "CWE-362 race_conditions": {
@@ -10785,7 +10785,7 @@
       },
       "Confidentiality": {
         "name": "Confidentiality",
-        "value": 0.8122167658471219,
+        "value": 0.5998889522437068,
         "description": "Preserving authorized restrictions on information access and disclosure, including means for protecting personal privacy and proprietary information.",
         "children": {
           "CWE-703 Improper_exception_handling": {
@@ -11045,7 +11045,7 @@
       },
       "Cross_cutting": {
         "name": "Cross_cutting",
-        "value": 0.4090559758946296,
+        "value": 0.14318255898554197,
         "description": "Weaknesses in this category are related to the design and architecture of multiple security tactics and how they affect a system. A weakness in this category could lead to a degradation in the quality of many capabilities.",
         "children": {
           "CWE-807 Reliance_on_untrusted_inputs": {
@@ -11154,7 +11154,7 @@
       },
       "Limit_exposure": {
         "name": "Limit_exposure",
-        "value": 0.21854630082117207,
+        "value": 0.10078432251205811,
         "description": "Weaknesses in this category are related to the design and architecture of the entry points to a system. Frequently these deal with minimizing the attack surface through designing the system with the least needed amount of entry points.",
         "children": {
           "CWE-829 Inclusion_of_functionality_from_untrusted_control_sphere": {
@@ -11221,7 +11221,7 @@
       },
       "Integrity": {
         "name": "Integrity",
-        "value": 0.6326713145576918,
+        "value": 0.723218802193628,
         "description": "Guarding against improper information modification or destruction, and includes ensuring information non-repudiation and authenticity.",
         "children": {
           "CWE-190 Integer_wraparound": {
@@ -12430,12 +12430,12 @@
     "tqi": {
       "Vendor Security Quality": {
         "name": "Vendor Security Quality",
-        "value": 0.41267591112146196,
+        "value": 0.38056957015171256,
         "description": "The total security quality value representing the entire system",
         "children": {
           "Authenticity": {
             "name": "Authenticity",
-            "value": 0.3039056257840234,
+            "value": 0.1650327579315493,
             "description": "The property that data originated from its purported source.",
             "children": {
               "CWE-269 Improper_privilege_management": {
@@ -12749,7 +12749,7 @@
           },
           "CWE-398 Code_quality": {
             "name": "CWE-398 Code_quality",
-            "value": 0.4705661359121368,
+            "value": 0.5070825355923282,
             "description": "Weaknesses that do not directly introduce a weakness or vulnerability, but indicate that the product has not been carefully developed or maintained.",
             "children": {
               "CWE-398 Code_quality_weaknesses": {
@@ -13951,7 +13951,7 @@
           },
           "Misc_quality_aspect": {
             "name": "Misc_quality_aspect",
-            "value": 0.10440762949952359,
+            "value": 0.6456664956856539,
             "description": "Findings without CWEs attached",
             "children": {
               "Misc_product_factor": {
@@ -14304,7 +14304,7 @@
           },
           "CWE-710 Improper_adherence_to_coding_standards": {
             "name": "CWE-710 Improper_adherence_to_coding_standards",
-            "value": 0.38475590867357323,
+            "value": 0.1266889295452141,
             "description": "The software does not follow certain coding rules for development, which can lead to weaknesses.",
             "children": {
               "CWE-1177 Use_of_prohibited_code": {
@@ -15691,7 +15691,7 @@
           },
           "CWE-691 Insufficient_control_flow_management": {
             "name": "CWE-691 Insufficient_control_flow_management",
-            "value": 0.3779575431032852,
+            "value": 0.4135807766757329,
             "description": "The code does not sufficiently manage its control flow during execution, creating conditions in which the control flow can be modified in unexpected ways.",
             "children": {
               "CWE-362 race_conditions": {
@@ -17062,7 +17062,7 @@
           },
           "Confidentiality": {
             "name": "Confidentiality",
-            "value": 0.8122167658471219,
+            "value": 0.5998889522437068,
             "description": "Preserving authorized restrictions on information access and disclosure, including means for protecting personal privacy and proprietary information.",
             "children": {
               "CWE-703 Improper_exception_handling": {
@@ -17322,7 +17322,7 @@
           },
           "Cross_cutting": {
             "name": "Cross_cutting",
-            "value": 0.4090559758946296,
+            "value": 0.14318255898554197,
             "description": "Weaknesses in this category are related to the design and architecture of multiple security tactics and how they affect a system. A weakness in this category could lead to a degradation in the quality of many capabilities.",
             "children": {
               "CWE-807 Reliance_on_untrusted_inputs": {
@@ -17431,7 +17431,7 @@
           },
           "Limit_exposure": {
             "name": "Limit_exposure",
-            "value": 0.21854630082117207,
+            "value": 0.10078432251205811,
             "description": "Weaknesses in this category are related to the design and architecture of the entry points to a system. Frequently these deal with minimizing the attack surface through designing the system with the least needed amount of entry points.",
             "children": {
               "CWE-829 Inclusion_of_functionality_from_untrusted_control_sphere": {
@@ -17498,7 +17498,7 @@
           },
           "Integrity": {
             "name": "Integrity",
-            "value": 0.6326713145576918,
+            "value": 0.723218802193628,
             "description": "Guarding against improper information modification or destruction, and includes ensuring information non-repudiation and authenticity.",
             "children": {
               "CWE-190 Integer_wraparound": {

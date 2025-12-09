@@ -120,7 +120,7 @@ export const ProjectManagerDialog = ({
                     >
                       <span className="flex items-center gap-2">
                         <BookOpen className="h-3 w-3" />
-                        Docs
+                        📘 How to Upload & Manage Files
                         <ExternalLink className="h-3 w-3" />
                       </span>
                     </a>

@@ -148,7 +148,7 @@ export default function VersionOverview({ dataset, params }: VersionOverviewProp
                             <CardTitle>Risk Levels</CardTitle>
                         </CardHeader>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-1 p-1">
-                            <PieChartComponent title="Characteristics" data={quality.chart} />
+                            <PieChartComponent title="Aspects" data={quality.chart} />
                             <PieChartComponent title="Factors" data={product.chart} />
                             <PieChartComponent title="Measures" data={measures.chart} />
                             <PieChartComponent title="Diagnostics" data={diagnostics.chart} />
