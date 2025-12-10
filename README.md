@@ -2,7 +2,7 @@
 
 PIQUE Lite is a lightweight, web-based visualization tool for exploring PIQUE output files.  
 A full user guide, feature walkthroughs, and tutorials are available in the documentation:  
-👉 https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/intro
+👉 https://tool-documentation-demo.netlify.app/docs/pique-lite/intro
 
 ## Demo
 

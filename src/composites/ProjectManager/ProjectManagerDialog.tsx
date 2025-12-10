@@ -114,7 +114,7 @@ export const ProjectManagerDialog = ({
                     className="justify-center px-0 text-sm font-normal text-blue-600 hover:text-blue-700"
                   >
                     <a
-                      href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/input-schema/file-upload/"
+                      href="https://tool-documentation-demo.netlify.app/docs/pique-lite/user-guide/input-schema/file-upload/"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

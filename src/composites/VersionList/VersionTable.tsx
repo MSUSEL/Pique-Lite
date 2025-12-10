@@ -145,7 +145,7 @@ export const VersionTable = () => {
                       <div className="flex flex-col gap-2">
                         <p className="text-xs whitespace-pre-wrap break-words">{file.reason}</p>
                         <a
-                          href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/input-schema/input-errors"
+                          href="https://tool-documentation-demo.netlify.app/docs/pique-lite/user-guide/input-schema/input-errors"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-xs text-blue-500 hover:text-blue-600 underline"
