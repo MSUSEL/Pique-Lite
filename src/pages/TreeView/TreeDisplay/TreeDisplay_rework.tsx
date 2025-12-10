@@ -13,6 +13,7 @@ import * as d3 from "d3";
 import "./nodeDescriptionPanel/NodeDescriptionPanel.css";
 import { ProcessedVisualizerDataType } from "@/state/VisualizerStateHandling/use-processed-data.ts";
 import { Button } from "@/components/ui/button.tsx";
+import { getRisk } from "@/composites/RiskHelpers";
 
 const node_width = 120;
 const node_height = 60;
@@ -215,7 +216,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_tqi_nodes = [];
       new_tqi_nodes = tqi_nodes.map((_node) => {
         if (_node.json_data.name === clickedTQI.json_data.name) {
-          return redraw_node(_node, false, true);
+          return redraw_node(_node, false, true, "normal");
         } else {
           return _node;
         }
@@ -226,7 +227,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_qa_nodes = [];
       new_qa_nodes = quality_aspect_nodes.map((_node) => {
         if (_node.json_data.name === clickedQA.json_data.name) {
-          return redraw_node(_node, false, true);
+          return redraw_node(_node, false, true, "normal");
         } else {
           return _node;
         }
@@ -237,7 +238,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_pf_nodes = [];
       new_pf_nodes = product_factor_nodes.map((_node) => {
         if (_node.json_data.name === clickedPF.json_data.name) {
-          return redraw_node(_node, true, true);
+          return redraw_node(_node, true, true, "normal");
         } else {
           return _node;
         }
@@ -248,7 +249,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_measure_nodes = [];
       new_measure_nodes = measure_nodes.map((_node) => {
         if (_node.json_data.name === clickedMeasure.json_data.name) {
-          return redraw_node(_node, false, true);
+          return redraw_node(_node, false, true, "normal");
         } else {
           return _node;
         }
@@ -262,7 +263,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_diagnostic_nodes = [];
       new_diagnostic_nodes = diagnostic_nodes.map((_node) => {
         if (_node.json_data.name === clickedDiagnostic.json_data.name) {
-          return redraw_node(_node, false, true);
+          return redraw_node(_node, false, true, "diagnostic");
         } else {
           return _node;
         }
@@ -309,7 +310,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_tqi_nodes = [];
       new_tqi_nodes = tqi_nodes.map((_node) => {
         if (_node.json_data.name === clickedTQI.json_data.name) {
-          return redraw_node(_node, false, false);
+          return redraw_node(_node, false, false, "normal");
         } else {
           return _node;
         }
@@ -325,7 +326,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_qa_nodes = [];
       new_qa_nodes = quality_aspect_nodes.map((_node) => {
         if (_node.json_data.name === clickedQA.json_data.name) {
-          return redraw_node(_node, false, false);
+          return redraw_node(_node, false, false, "normal");
         } else {
           return _node;
         }
@@ -341,7 +342,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_pf_nodes = [];
       new_pf_nodes = product_factor_nodes.map((_node) => {
         if (_node.json_data.name === clickedPF.json_data.name) {
-          return redraw_node(_node, true, false);
+          return redraw_node(_node, true, false, "normal");
         } else {
           return _node;
         }
@@ -357,7 +358,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_measure_nodes = [];
       new_measure_nodes = measure_nodes.map((_node) => {
         if (_node.json_data.name === clickedMeasure.json_data.name) {
-          return redraw_node(_node, false, false);
+          return redraw_node(_node, false, false, "normal");
         } else {
           return _node;
         }
@@ -373,7 +374,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       let new_diagnostic_nodes = [];
       new_diagnostic_nodes = diagnostic_nodes.map((_node) => {
         if (_node.json_data.name === clickedDiagnostic.json_data.name) {
-          return redraw_node(_node, false, false);
+          return redraw_node(_node, false, false, "diagnostic");
         } else {
           return _node;
         }
@@ -405,7 +406,8 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
         new_measures,
         active_product_factor_node._x + 75,
         measure_y,
-        false
+        false, 
+        "normal"
       )
     );
   }, [active_product_factor_node]);
@@ -432,7 +434,8 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
         new_diagnostics,
         active_measure_node._x + 75,
         diagnostic_y,
-        false
+        false, 
+        "diagnostic"
       )
     );
   }, [active_measure_node]);
@@ -442,7 +445,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
     function set_nodes() {
       // top row of nodes -- function similar to root nodes (only 1 with doctored data file)
       setTQINodes(
-        create_nodes(processedData.factors.tqi, canvas_width / 2, tqi_y, false)
+        create_nodes(processedData.factors.tqi, canvas_width / 2, tqi_y, false, "normal")
       ); // holds the data of each node
 
       // second row of nodes -- the children of the tqi nodes
@@ -451,7 +454,8 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
           processedData.factors.quality_aspects,
           canvas_width / 2,
           quality_aspect_y,
-          false
+          false, 
+          "normal"
         )
       );
 
@@ -461,7 +465,8 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
           processedData.factors.product_factors,
           canvas_width / 2,
           product_factor_y,
-          true
+          true,
+          "normal"
         )
       );
     }
@@ -697,35 +702,35 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
     // reset tqi nodes
     let new_tqi_nodes = [];
     new_tqi_nodes = tqi_nodes.map((_node) => {
-      return redraw_node(_node, false, false);
+      return redraw_node(_node, false, false, "normal");
     });
     setTQINodes(new_tqi_nodes);
 
     // reset qa nodes
     let new_qa_nodes = [];
     new_qa_nodes = quality_aspect_nodes.map((_node) => {
-      return redraw_node(_node, false, false);
+      return redraw_node(_node, false, false, "normal");
     });
     setQualityAspectNodes(new_qa_nodes);
 
     // reset pf nodes
     let new_pf_nodes = [];
     new_pf_nodes = product_factor_nodes.map((_node) => {
-      return redraw_node(_node, true, false);
+      return redraw_node(_node, true, false, "normal");
     });
     setProductFactorNodes(new_pf_nodes);
 
     // reset measure nodes
     let new_m_nodes = [];
     new_m_nodes = measure_nodes.map((_node) => {
-      return redraw_node(_node, false, false);
+      return redraw_node(_node, false, false, "normal");
     });
     setMeasureNodes(new_m_nodes);
 
     // reset diagnostic nodes
     let new_d_nodes = [];
     new_d_nodes = diagnostic_nodes.map((_node) => {
-      return redraw_node(_node, false, false);
+      return redraw_node(_node, false, false, "diagnostic");
     });
     setDiagnosticNodes(new_d_nodes);
   }
@@ -764,6 +769,7 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
   // TODO: refactor create_nodes() and redraw_node() so they can be moved to helper file
 
   // creates and returns an array of nodes representing the specified layer
+  /*
   function create_nodes(
     _factors: any,
     _x_pos: number,
@@ -853,10 +859,91 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
         y
       );
     });
+  }*/
+  function create_nodes(
+    _factors: any,
+    _x_pos: number,
+    _y_pos: number,
+    _arrow: boolean,
+    scale: "normal" | "diagnostic" = "normal"
+  ) {
+    // required so we can use map on the factors.
+    _factors = process_data(_factors);
+
+    return _factors.map((_factor: any, index: number) => {
+      // fixed distance
+      const M = _x_pos;
+      const C = _factors.length / 2;
+      const x = M - C * 150 + index * 150;
+      const y = _y_pos - node_height / 2;
+
+      // ✅ 用统一的风险函数，而不是硬编码阈值
+      const risk = getRisk(_factors[index].value, scale);
+      const node_id = `${risk.name.toLowerCase()}_node`; // severe_node / high_node / ...
+
+      return new TreeNode(
+        _factors[index],
+        (
+          <g key={_factors[index].name} onClick={node_clicked}>
+            <rect
+              height={node_height}
+              width={node_width}
+              x={x}
+              y={y}
+              className={node_id}
+              id={_factors[index].name}
+            />
+            <text
+              x={x + node_width / 2}
+              y={10 + y + node_height / 4}
+              className={"node_text"}
+            >
+              {_factors[index].name}
+            </text>
+            <text
+              x={x + node_width / 2}
+              y={10 + y + node_height / 2}
+              className={"node_text"}
+            >
+              {_factors[index].value.toFixed(2)}
+            </text>
+            {_arrow ? (
+              <>
+                <rect
+                  id={"uparrow " + _factors[index].name}
+                  onClick={(e) => arrow_clicked(e)}
+                  height={15}
+                  width={25}
+                  x={x}
+                  y={y}
+                  className={node_id}
+                />
+                <ArrowUpIcon x={x + 5} y={y} />{" "}
+              </>
+            ) : null}
+            <rect
+              id={"closedeye " + _factors[index].name}
+              onClick={(e) => closed_eye_clicked(e)}
+              height={15}
+              width={25}
+              x={x + node_width - 25}
+              y={y}
+              className={node_id}
+            />
+            <EyeClosedIcon x={x + node_width - 20} y={y} />
+          </g>
+        ),
+        node_width,
+        node_height,
+        x,
+        y
+      );
+    });
   }
 
+
   // accepts a node as an input and redraws it with arrow, open eye, and closed eye icons toggleable
-  function redraw_node(_node: any, _arrow: boolean, _open: boolean) {
+  /*function redraw_node(_node: any, _arrow: boolean, _open: boolean) {
     const x = _node.x;
     const y = _node.y;
     const node_width = _node.width;
@@ -950,5 +1037,96 @@ export const TreeDisplay_Rework = (props: TreeDisplayProps) => {
       x,
       y
     );
+  }*/
+  function redraw_node(
+    _node: any,
+    _arrow: boolean,
+    _open: boolean,
+    scale: "normal" | "diagnostic" = "normal"
+  ) {
+    const x = _node.x;
+    const y = _node.y;
+    const node_width = _node.width;
+    const node_height = _node.height;
+
+    const risk = getRisk(_node.json_data.value, scale);
+    const node_id = `${risk.name.toLowerCase()}_node`;
+
+    return new TreeNode(
+      _node.json_data,
+      (
+        <g key={_node.name} onClick={node_clicked}>
+          <rect
+            height={node_height}
+            width={node_width}
+            x={x}
+            y={y}
+            className={node_id}
+            id={_node.json_data.name}
+          />
+          <text
+            x={x + node_width / 2}
+            y={10 + y + node_height / 4}
+            className={"node_text"}
+          >
+            {_node.json_data.name}
+          </text>
+          <text
+            x={x + node_width / 2}
+            y={10 + y + node_height / 2}
+            className={"node_text"}
+          >
+            {_node.json_data.value.toFixed(2)}
+          </text>
+          {_arrow ? (
+            <>
+              <rect
+                id={"uparrow " + _node.json_data.name}
+                onClick={(e) => arrow_clicked(e)}
+                height={15}
+                width={25}
+                x={x}
+                y={y}
+                className={node_id}
+              />
+              <ArrowUpIcon x={x + 5} y={y} />{" "}
+            </>
+          ) : null}
+          {_open ? (
+            <>
+              <rect
+                id={"openeye " + _node.json_data.name}
+                onClick={(e) => open_eye_clicked(e)}
+                height={15}
+                width={25}
+                x={x + node_width - 25}
+                y={y}
+                className={node_id}
+              />
+              <EyeOpenIcon x={x + node_width - 20} y={y} />
+            </>
+          ) : (
+            <>
+              <rect
+                id={"closedeye " + _node.json_data.name}
+                onClick={(e) => closed_eye_clicked(e)}
+                height={15}
+                width={25}
+                x={x + node_width - 25}
+                y={y}
+                className={node_id}
+              />
+              <EyeClosedIcon x={x + node_width - 20} y={y} />
+            </>
+          )}
+        </g>
+      ),
+      _node.width,
+      _node.height,
+      x,
+      y
+    );
   }
+
+
 }; // end of export
