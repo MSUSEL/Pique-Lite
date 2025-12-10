@@ -198,10 +198,10 @@ function RiskLevelRangeInput({
             borderColor: getRiskColor(level.key, 'badge')
           }}
         >
-          <p className="mr-1" style={{ color: getRiskColor(level.key, 'font') }}>
+          <p className="mr-1 text-black">
             {level.name}
           </p>
-          <div className="p-1 text-base" style={{ color: getRiskColor(level.key, 'font') }}>
+          <div className="p-1 text-base text-black">
             {riskLevel.icon}
           </div>
         </Badge>
