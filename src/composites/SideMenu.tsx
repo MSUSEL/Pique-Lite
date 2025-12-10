@@ -164,7 +164,7 @@ const SideMenu: React.FC<SideMenuProps> = () => {
             height="200"
           />
           <a
-            href="https://transcendent-quokka-bc49cb.netlify.app/docs/pique-lite/user-guide/core-features/project-overview"
+            href="https://tool-documentation-demo.netlify.app/docs/pique-lite/user-guide/core-features/project-overview"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"

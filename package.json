@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "bunx --bun vite --config vite.react-router.config.ts",
     "build": "tsc -b && vite build --config vite.react-router.config.ts",
+    "build:demo": "vite build --config vite.react-router.config.ts",
     "lint": "eslint .",
     "preview": "vite preview --config vite.react-router.config.ts",
     "storybook": "storybook dev -p 6006",
@@ -40,7 +41,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "d3": "^7.9.0",
-    "date-fns": "^4.1.0",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "isbot": "^5.1.27",
     "jotai": "^2.12.4",
@@ -67,6 +68,8 @@
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@million/lint": "^1.0.14",
+    "@netlify/vite-plugin-react-router": "^2.1.2",
+    "@react-router/dev": "^7.10.1",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-interactions": "^8.6.12",
     "@storybook/addon-onboarding": "^8.6.12",
