@@ -87,9 +87,35 @@ function SidebarProvider({
   );
 
   // Helper to toggle the sidebar.
-  const toggleSidebar = React.useCallback(() => {
+  /*
+    const toggleSidebar = React.useCallback(() => {
     return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
   }, [isMobile, setOpen, setOpenMobile]);
+  */
+
+  // Helper to toggle the sidebar with log to debug
+    const toggleSidebar = React.useCallback(() => {
+      if (isMobile) {
+        setOpenMobile((open) => {
+          const next = !open;
+          console.log("[SidebarProvider] toggleSidebar (mobile)", {
+            prev: open,
+            next
+          });
+          return next;
+        });
+      } else {
+        setOpen((open) => {
+          const next = !open;
+          console.log("[SidebarProvider] toggleSidebar (desktop)", {
+            prev: open,
+            next
+          });
+          return next;
+        });
+      }
+    }, [isMobile, setOpen, setOpenMobile]);
+
 
   // Adds a keyboard shortcut to toggle the sidebar.
   React.useEffect(() => {
@@ -162,6 +188,12 @@ function Sidebar({
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+  console.log("[Sidebar] render", {
+    isMobile,
+    state,
+    open,
+    openMobile
+  });
 
   if (collapsible === "none") {
     return (
@@ -268,8 +300,18 @@ function SidebarTrigger({
           size="icon"
           className={cn("size-7", className)}
           onClick={(event) => {
-            onClick?.(event);
-            toggleSidebar();
+            console.log("[SidebarTrigger] clicked");   // added here to test whats wrong with the toggle button
+            try {
+              onClick?.(event);
+            } catch (e) {
+              console.error("[SidebarTrigger] onClick error", e);
+            }
+            try {
+              console.log("[SidebarTrigger] call toggleSidebar");
+              toggleSidebar();
+            } catch (e) {
+              console.error("[SidebarTrigger] toggleSidebar error", e);
+            }
           }}
           {...props}
         >
