@@ -103,8 +103,14 @@ export const ProjectComparisonChart = () => {
 
   // Transform data for Recharts
   const transformedData = allVersionsData.reduce((acc: DataPoint[], record) => {
-    const dateStr = new Date(record.date).toISOString().split("T")[0];
+    // const dateStr = new Date(record.date).toISOString().split("T")[0];
+    const dateObj = new Date(record.date);
+    const dateStr = dateObj.toISOString().split("T")[0];
+    const x = dateObj.getTime();
+
+    
     const existingPoint = acc.find((p) => p.date === dateStr);
+    
 
     const characteristicValue =
       record[selectedCharacteristic.toLowerCase()] ??
@@ -113,9 +119,13 @@ export const ProjectComparisonChart = () => {
 
     if (existingPoint) {
       existingPoint[record.projectName] = characteristicValue;
+      if (existingPoint.x == null) {
+        existingPoint.x = x;
+      }
     } else {
       const newPoint = {
         date: dateStr,
+        x, // added numeric x for brush
         [record.projectName]: characteristicValue,
       };
       acc.push(newPoint);
@@ -132,7 +142,10 @@ export const ProjectComparisonChart = () => {
   return (
     <Box>
       <Box style={{ width: "1000px" }} className="ChartContainer">
-        <LinePlot.Container data={transformedData} xAxisKey="date">
+        <LinePlot.Container 
+          data={transformedData} 
+          xAxisKey="x" // xAxisKey="date" 
+          >
           <Grid columns="3fr auto auto" pl="50px" pr="10px" py="3">
             <CharacteristicSelector
               value={selectedCharacteristic}
