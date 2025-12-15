@@ -189,10 +189,63 @@ If such a timestamp is provided, PIQUE Lite can directly map it to the numeric x
 This design allows PIQUE Lite to remain backward-compatible with existing inputs while supporting richer temporal interactions for future formats.
 
 
+### 2\. Desktop sidebar toggle behavior and layout contract
 
-## Known Issues (Unresolved)
+PIQUE Lite uses a shared sidebar component to provide consistent navigation across all major views, including the dashboard, project overview, version lists, and version-specific pages.
 
-### 1\. Sidebar toggle does not work in Version Details (desktop view)
+#### Background
+
+During development, we observed that the sidebar toggle behaved inconsistently across routes:
+
+- In most desktop views (Dashboard, Project Overview, Project Version List), the sidebar toggle worked as expected.
+- In the Version Details view (i.e., when inspecting a specific version such as `version_0.json`), the toggle button remained clickable but produced no visible UI change in desktop view.
+- The same toggle continued to work correctly in mobile or narrow-screen layouts.
+
+Internally, logging confirmed that:
+- The toggle click handler fired correctly.
+- Sidebar state transitioned between `expanded` and `collapsed`.
+- Relevant data attributes (`data-state`, `left`, `width`) updated as expected.
+
+However, the sidebar did not visually appear or move in desktop view.
+
+#### Root cause
+
+The issue was traced to a layout-level CSS problem rather than a logic or state-management bug.
+
+Specifically:
+- The desktop sidebar container and its parent elements included `hidden`-based utility classes (e.g., `hidden`, `hidden md:block`).
+- These classes forced the sidebar to be rendered with `display: none` in certain route contexts.
+- As a result, even though sidebar state changed correctly, the sidebar had no layout presence (its computed bounding box was `0 × 0`), making all visual updates ineffective.
+
+This problem surfaced only in the Version Details route because its layout composition differed slightly from other routes, exposing an implicit assumption in the sidebar’s responsive design.
+
+The mobile sidebar continued to work because it uses a separate rendering path (a Sheet / Portal-based implementation) that does not rely on the desktop layout.
+
+#### Resolution
+
+The issue was resolved by enforcing a clear layout contract for the desktop sidebar:
+
+- The desktop sidebar is always rendered and participates in layout.
+- Sidebar collapsing and expanding is handled through layout state (e.g., width and position transitions), not by toggling `display: none`.
+- All `hidden`-based visibility control was removed from the desktop sidebar container and core sidebar elements.
+
+After this change:
+- The sidebar toggle works consistently across all routes in desktop view.
+- State transitions reliably result in visible UI updates.
+- Mobile behavior remains unchanged and continues to use the Sheet-based sidebar.
+
+#### Design guidance for future contributors
+
+When modifying or extending the sidebar:
+
+- **Do not use `hidden` or `display: none` to control desktop sidebar visibility.**
+- Desktop sidebar visibility must be controlled via layout properties (e.g., width, position, or transform), driven by sidebar state.
+- Responsive behavior should distinguish between:
+  - Desktop: sidebar as part of the layout
+  - Mobile: sidebar rendered via Sheet / Portal
+
+This distinction ensures consistent behavior across routes and prevents state-driven UI changes from being overridden by CSS visibility rules.
+
 
 **Summary**: In the Version Details page (i.e., viewing a specific version JSON such as version_0.json), the sidebar toggle button fails to visually open or close the sidebar in desktop view. The same toggle works correctly in all other major pages, including:
 - Dashboard / Overview
