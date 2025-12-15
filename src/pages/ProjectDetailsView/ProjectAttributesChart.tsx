@@ -61,7 +61,8 @@ export const ProjectAttributesChart = ({
     () =>
       flatData.map((d) => ({
         ...d,
-        date: d.date.toISOString().split("T")[0]
+        date: d.date.toISOString().split("T")[0],
+        x: d.date.getTime(), // new added: numeric for brush mode
       })),
     [flatData]
   );
@@ -104,7 +105,8 @@ export const ProjectAttributesChart = ({
     <>
       <LinePlot.Container
         data={flatDataWithStringDates}
-        xAxisKey="date"
+        // xAxisKey="date"
+        xAxisKey="x"
         style={{ userSelect: "none" }}
       >
         <div className="flex justify-end gap-2 py-1">
