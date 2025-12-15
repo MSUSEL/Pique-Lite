@@ -1,0 +1,63 @@
+{
+  "name": "@million/install",
+  "version": "1.0.14",
+  "description": "An easy way to install @million/lint",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./dist/*": "./dist/*.js",
+    "./dist/*.js": "./dist/*.js"
+  },
+  "main": "dist/test.js",
+  "types": "dist/index.d.ts",
+  "bin": "bin/index.js",
+  "files": [
+    "dist",
+    "package.json",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "bump": "tsup && npx bumpp && tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint '**/*.{ts,tsx}'",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@antfu/ni": "^0.21.12",
+    "@axiomhq/js": "1.0.0-rc.3",
+    "@babel/parser": "^7.25.3",
+    "@babel/types": "7.26.0",
+    "@clack/prompts": "^0.7.0",
+    "ast-types": "^0.14.2",
+    "cli-high": "^0.4.2",
+    "diff": "^5.1.0",
+    "effect": "^3.8.4",
+    "nanoid": "^5.0.7",
+    "recast": "^0.23.9",
+    "xycolors": "^0.1.2"
+  },
+  "devDependencies": {
+    "@million/shared": "workspace:*",
+    "@types/babel__core": "^7.20.5",
+    "@types/diff": "^5.0.9",
+    "@types/node": "^20.11.13",
+    "bumpp": "^9.2.0",
+    "terser": "^5.29.2",
+    "tsup": "^8.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

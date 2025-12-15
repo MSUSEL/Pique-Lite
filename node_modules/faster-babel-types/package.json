@@ -1,0 +1,71 @@
+{
+  "name": "faster-babel-types",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pridepack"
+  ],
+  "devDependencies": {
+    "@babel/types": "^7.25.2",
+    "@types/node": "^20.14.10",
+    "@vitest/ui": "^2.0.2",
+    "pridepack": "2.6.1",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.3",
+    "vitest": "^2.0.2"
+  },
+  "peerDependencies": {
+    "@babel/types": "^7"
+  },
+  "scripts": {
+    "prepublishOnly": "pridepack clean && pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch",
+    "start": "pridepack start",
+    "dev": "pridepack dev",
+    "test": "vitest",
+    "test:ui": "vitest --ui"
+  },
+  "private": false,
+  "description": "Faster `@babel/types`",
+  "repository": {
+    "url": "https://github.com/lxsmnsyc/faster-babel-types.git",
+    "type": "git"
+  },
+  "homepage": "https://github.com/lxsmnsyc/faster-babel-types/tree/main/packages/core",
+  "bugs": {
+    "url": "https://github.com/lxsmnsyc/faster-babel-types/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Alexis Munsayac",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/cjs/production/index.cjs",
+  "module": "./dist/esm/production/index.mjs",
+  "exports": {
+    ".": {
+      "development": {
+        "require": "./dist/cjs/development/index.cjs",
+        "import": "./dist/esm/development/index.mjs"
+      },
+      "require": "./dist/cjs/production/index.cjs",
+      "import": "./dist/esm/production/index.mjs",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "typesVersions": {
+    "*": {}
+  },
+  "gitHead": "e4303b9fd040bd7e6bb33526864bca28d4862992"
+}

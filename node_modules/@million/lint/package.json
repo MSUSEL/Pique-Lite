@@ -1,0 +1,237 @@
+{
+  "name": "@million/lint",
+  "version": "1.0.14",
+  "description": "Make your React app fast",
+  "keywords": [],
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/compiler/index.d.mts",
+        "default": "./dist/compiler/index.mjs"
+      },
+      "require": {
+        "types": "./dist/compiler/index.d.ts",
+        "default": "./dist/compiler/index.js"
+      }
+    },
+    "./compiler": {
+      "import": {
+        "types": "./dist/compiler/index.d.mts",
+        "default": "./dist/compiler/index.mjs"
+      },
+      "require": {
+        "types": "./dist/compiler/index.d.ts",
+        "default": "./dist/compiler/index.js"
+      }
+    },
+    "./loader": {
+      "import": {
+        "types": "./dist/compiler/loader.d.mts",
+        "default": "./dist/compiler/loader.mjs"
+      },
+      "require": {
+        "types": "./dist/compiler/loader.d.ts",
+        "default": "./dist/compiler/loader.js"
+      }
+    },
+    "./runtime": {
+      "production": {
+        "import": {
+          "types": "./dist/runtime/index.d.mts",
+          "react-server": "./dist/runtime/rsc-shim.mjs",
+          "default": "./dist/runtime/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime/index.d.ts",
+          "react-server": "./dist/runtime/rsc-shim.js",
+          "default": "./dist/runtime/index.js"
+        }
+      },
+      "development": {
+        "import": {
+          "types": "./dist/runtime-dev/index.d.mts",
+          "react-server": "./dist/runtime-dev/rsc-shim.mjs",
+          "default": "./dist/runtime-dev/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime-dev/index.d.ts",
+          "react-server": "./dist/runtime-dev/rsc-shim.js",
+          "default": "./dist/runtime-dev/index.js"
+        }
+      },
+      "default": {
+        "import": {
+          "types": "./dist/runtime-dev/index.d.mts",
+          "react-server": "./dist/runtime-dev/rsc-shim.mjs",
+          "default": "./dist/runtime-dev/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime-dev/index.d.ts",
+          "react-server": "./dist/runtime-dev/rsc-shim.js",
+          "default": "./dist/runtime-dev/index.js"
+        }
+      }
+    },
+    "./runtime-dev": {
+      "import": {
+        "types": "./dist/runtime-dev/index.d.mts",
+        "react-server": "./dist/runtime-dev/rsc-shim.js",
+        "default": "./dist/runtime-dev/index.mjs"
+      },
+      "require": {
+        "types": "./dist/runtime-dev/index.d.ts",
+        "react-server": "./dist/runtime-dev/rsc-shim.js",
+        "default": "./dist/runtime-dev/index.js"
+      }
+    },
+    "./runtime-17-compat": {
+      "production": {
+        "import": {
+          "types": "./dist/runtime/index.d.mts",
+          "react-server": "./dist/runtime/rsc-shim.mjs",
+          "default": "./dist/runtime/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime/index.d.ts",
+          "react-server": "./dist/runtime/rsc-shim.js",
+          "default": "./dist/runtime/index.js"
+        }
+      },
+      "development": {
+        "import": {
+          "types": "./dist/runtime-dev-17-compat/index.d.mts",
+          "react-server": "./dist/runtime-dev-17-compat/rsc-shim.mjs",
+          "default": "./dist/runtime-dev-17-compat/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime-dev-17-compat/index.d.ts",
+          "react-server": "./dist/runtime-dev-17-compat/rsc-shim.js",
+          "default": "./dist/runtime-dev-17-compat/index.js"
+        }
+      },
+      "default": {
+        "import": {
+          "types": "./dist/runtime-dev/index.d.mts",
+          "react-server": "./dist/runtime-dev/rsc-shim.mjs",
+          "default": "./dist/runtime-dev/index.mjs"
+        },
+        "require": {
+          "types": "./dist/runtime-dev/index.d.ts",
+          "react-server": "./dist/runtime-dev/rsc-shim.js",
+          "default": "./dist/runtime-dev/index.js"
+        }
+      }
+    },
+    "./runtime-dev-17-compat": {
+      "import": {
+        "types": "./dist/runtime-dev-17-compat/index.d.mts",
+        "react-server": "./dist/runtime-dev-17-compat/rsc-shim.js",
+        "default": "./dist/runtime-dev-17-compat/index.mjs"
+      },
+      "require": {
+        "types": "./dist/runtime-dev-17-compat/index.d.ts",
+        "react-server": "./dist/runtime-dev-17-compat/rsc-shim.js",
+        "default": "./dist/runtime-dev-17-compat/index.js"
+      }
+    },
+    "./devtools": {
+      "import": {
+        "types": "./dist/runtime/devtools.d.mts",
+        "react-server": "./dist/runtime/rsc-shim.mjs",
+        "default": "./dist/runtime/devtools.mjs"
+      },
+      "require": {
+        "types": "./dist/runtime/devtools.d.ts",
+        "react-server": "./dist/runtime/rsc-shim.js",
+        "default": "./dist/runtime/devtools.js"
+      }
+    },
+    "./dist/*": "./dist/*.js",
+    "./dist/*.js": "./dist/*.js",
+    "./dist/*.mjs": "./dist/*.mjs"
+  },
+  "main": "dist/compiler/index.js",
+  "module": "dist/compiler/index.mjs",
+  "types": "dist/compiler/index.d.ts",
+  "bin": "./cli.js",
+  "files": [
+    "dist",
+    "package.json",
+    "compiler.d.ts",
+    "runtime.d.ts",
+    "cli.js"
+  ],
+  "scripts": {
+    "build": "tsup && node validate-build.cjs",
+    "bump": "tsup && npx bumpp && tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint '**/*.{ts,tsx}'",
+    "pack": "node ./local-update.cjs && npm run build && rm -rf ./dist/wizard && npm pack",
+    "pack:faire": "pnpm run pack",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@axiomhq/js": "1.0.0-rc.3",
+    "@babel/core": "7.26.0",
+    "@babel/types": "7.26.0",
+    "@hono/node-server": "^1.11.1",
+    "@million/install": "latest",
+    "@rollup/pluginutils": "^5.1.0",
+    "@rrweb/types": "2.0.0-alpha.16",
+    "babel-plugin-syntax-hermes-parser": "^0.21.1",
+    "ci-info": "^4.0.0",
+    "esbuild": "^0.20.1",
+    "faster-babel-types": "^0.1.0",
+    "hono": "^4.5.9",
+    "isomorphic-fetch": "^3.0.0",
+    "nanoid": "^5.0.7",
+    "ohash": "^1.1.4",
+    "pako": "^2.1.0",
+    "pathe": "^1.1.2",
+    "piscina": "^4.4.0",
+    "pretty-ms": "8.0.0",
+    "react-scan": "^0.0.31",
+    "rrweb": "2.0.0-alpha.4",
+    "rrweb-player": "1.0.0-alpha.4",
+    "semver": "^7.6.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.7.5",
+    "tmp": "^0.2.3",
+    "unplugin": "^1.6.0",
+    "update-notifier-cjs": "^5.1.6"
+  },
+  "devDependencies": {
+    "@million/shared": "workspace:^",
+    "@types/babel__core": "^7.20.5",
+    "@types/isomorphic-fetch": "^0.0.39",
+    "@types/node": "^20.11.13",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/react-reconciler": "^0.28.8",
+    "@types/semver": "^7.5.8",
+    "@types/tmp": "^0.2.6",
+    "@types/web": "^0.0.136",
+    "async-mutex": "^0.4.1",
+    "bumpp": "^9.2.0",
+    "kleur": "^4.1.5",
+    "lodash": "^4.17.21",
+    "next": "14.2.5",
+    "posthog-js": "^1.189.0",
+    "react": "*",
+    "react-dom": "*",
+    "react-reconciler": "^0.29.2",
+    "terser": "^5.29.2",
+    "tslib": "^2.6.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5",
+    "use-sync-external-store": "^1.2.2",
+    "vite": "^5.2.12",
+    "vitest": "^2.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

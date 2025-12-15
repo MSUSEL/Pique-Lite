@@ -1,0 +1,1 @@
+!function(t){"use strict";var c=t=>t,n=c,a=c,e=c,s=c;t.getReport=s,t.scan=n,t.useScan=e,t.withScan=a}({});

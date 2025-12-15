@@ -1,0 +1,4 @@
+import{tokenize as y}from"sugar-high";import{dim as a,grayStylize as u,whiteSecondaryStylize as d,magentaStylize as z,pinkStylize as h,yellowStylize as S}from"xycolors";function w(f,p={showLineNumbers:!1}){const m=y(f),c=[];let l=1;const e=[];function g(r){const n=p.showLineNumbers?`${a(`${l}`.padEnd(2," "))} `:"";return l++,`${n}${r}`}function i(r){c.push(g(r.map(([n,t])=>{switch(n){case 0:return h(t);case 1:return u(t);case 2:return u(t);case 3:return S(t);case 4:return h(t);case 5:return z(t);case 6:return d(t);case 7:return u(t);case 8:return a(t);default:return t}}).join("")))}for(const r of m){const[n,t]=r;if(n!==9)if(t.includes(`
+`)){const o=t.split(`
+`);for(let s=0;s<o.length;s++)e.push([n,o[s]]),s<o.length-1&&(i(e),e.length=0)}else e.push(r);else e.push([n,""]),i(e),e.length=0}return e.length>0&&i(e),c.join(`
+`)}export{w as highlight};
