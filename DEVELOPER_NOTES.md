@@ -146,3 +146,73 @@ The issue is about the “Pre-defined profile” feature v.s. Unlimited aspects 
 
 - Option 3: if still want to use the current, a quick fix could be just filtering out the aspects that are not contained in the current hardcoded profiles, and also grey out the lines in the table so that the users could not change the sliders for those. The concern for this option is although it is a minimal-effort workaround, it may undermine the usefulness of the profiles, since the resulting filtered version may no longer reflect their intended weighting strategy.
 
+
+## Known Issues (Unresolved)
+
+### 1\. Sidebar toggle does not work in Version Details (desktop view)
+
+**Summary**: In the Version Details page (i.e., viewing a specific version JSON such as version_0.json), the sidebar toggle button fails to visually open or close the sidebar in desktop view. The same toggle works correctly in all other major pages, including:
+- Dashboard / Overview
+- Projects list
+- Project overview
+- Project version list (before entering a specific version)
+
+Symptoms
+
+- On desktop width:
+
+  - Clicking the sidebar toggle produces no visible UI change
+  - No hover / active animation is observed
+  - The sidebar appears permanently fixed in its current visual state
+
+- Internally, however:
+  - The toggle click handler is triggered
+  - Sidebar state correctly switches between expanded and collapsed
+  - Sidebar DOM attributes (data-state, left, width) update as expected
+
+- On mobile / narrow screens:
+
+  - The same toggle works correctly
+  - Sidebar opens and closes via the mobile (Sheet-based) implementation
+
+- State persistence issue:
+
+  - Once the issue is triggered in a Version Details page, the toggle may remain non-functional even after navigating back to Dashboard or Overview
+  - A hard refresh from /overview (Cmd + Shift + R) is required to fully restore normal behavior
+
+Ruled-out causes: The following have been explicitly verified and ruled out:
+
+- Click events not firing → SidebarTrigger click events fire consistently
+Sidebar state not updating → State transitions (expanded ↔ collapsed) are logged and correct
+- Sidebar DOM not rendered → Sidebar elements exist in the DOM on the Version Details page
+- Z-index or overlay interference → elementFromPoint confirms the trigger is the topmost element
+- Pointer-events or disabled button issues → The button is clickable and receives events
+
+Current understanding
+
+This appears to be a layout / container interaction issue specific to the Version Details route, rather than a logic or state-management bug. Our currrent tests suggestes that the sidebar is rendered and state changes correctly; But in desktop view, its visual presence or movement is neutralized by the surrounding layout. The mobile view works because it uses a different rendering path (Sheet). This issue is likely related to:
+- Page-level layout differences in the Version Details route
+- Full-width / full-height containers interfering with sidebar positioning
+- A layout contract that holds for other routes but breaks for Version Details
+
+### 2\. Line chart brush mode is incompatible with some data formats
+**Summary**: The brush mode in the overview line chart (used for selecting a time range across versions) does not work reliably with certain input data formats, particularly when multiple versions or alternative schemas are used.
+
+Symptoms:
+
+- Tooltip / hover mode works as expected
+- Switching to brush mode may result in:
+  - No visible brush interaction
+  - Brush selection not updating the displayed range
+- Behavior differs depending on the structure of the input JSON
+
+Investigation notes: The line chart renders correctly and displays values; Tooltip interactions confirm that data points exist and are mapped correctly;
+The issue appears only when using brush mode, not when hovering individual points
+
+Current understanding: The brush implementation appears to implicitly assume a stable, sortable time dimension (e.g., a continuous date or version timestamp). This assumption holds for older mock data, but may break when:
+
+- Input data lacks explicit timestamps
+- Version ordering differs from previous formats
+- New schemas omit or rename time-related fields
+
+As a result, this issue is likely a data modeling vs. visualization contract mismatch, rather than a pure rendering or UI bug.
