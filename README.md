@@ -11,6 +11,9 @@ Below is a short demo of PIQUE Lite:
 ![PIQUE Lite Demo](./src/assets/pique_lite_demo_for_readme.gif)
 
 ## Getting Started
+For most users, the easiest way to use PIQUE Lite is via GitHub Pages: https://msusel.github.io/Pique-Lite/.  
+Use the steps below if you want to run it locally (e.g., for development, testing, or contributing).
+
 
 1. Install [`bun`](https://bun.sh/)
 2. Run `bun install` to install dependencies
@@ -19,5 +22,5 @@ Below is a short demo of PIQUE Lite:
 PIQUE Lite is also accessible through the MSUSEL Tool Hub:  
 👉 https://github.com/MSUSEL/MSUSEL_Hub
 
-For development notes and architecture documentation, see:  
+For development notes, architecture documentation, and redeployment details, see:  
 👉 [`DEVELOPER_NOTES.md`](./DEVELOPER_NOTES.md)
