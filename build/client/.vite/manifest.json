@@ -1,0 +1,370 @@
+{
+  "_LineChart-BGFRXiLz.js": {
+    "file": "assets/LineChart-BGFRXiLz.js",
+    "name": "LineChart",
+    "imports": [
+      "_label-BZkvCuQu.js",
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-7XWJIbu3.js",
+      "_index-DrFIHQv6.js"
+    ]
+  },
+  "_ProjectDetailsView-MCV0UZT1.js": {
+    "file": "assets/ProjectDetailsView-MCV0UZT1.js",
+    "name": "ProjectDetailsView",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_tabs-cK7g8EsR.js",
+      "_alert-CoBVaBv8.js",
+      "_table-CqbiqE0n.js",
+      "_index-DrFIHQv6.js",
+      "_LineChart-BGFRXiLz.js",
+      "_switch-DtfHkXr6.js",
+      "_label-BZkvCuQu.js",
+      "_folder-CKJiprKw.js"
+    ]
+  },
+  "_ProjectManagerDialog-B5qr2gpv.js": {
+    "file": "assets/ProjectManagerDialog-B5qr2gpv.js",
+    "name": "ProjectManagerDialog",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_label-BZkvCuQu.js",
+      "_dialog-CTi7W3tF.js",
+      "_index-DrFIHQv6.js",
+      "_index-BdQq_4o_.js",
+      "_table-CqbiqE0n.js",
+      "_index-7XWJIbu3.js",
+      "_checkbox-BfMwIv62.js",
+      "_circle-alert-BSpPkgqL.js"
+    ]
+  },
+  "_alert-CoBVaBv8.js": {
+    "file": "assets/alert-CoBVaBv8.js",
+    "name": "alert",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-DrFIHQv6.js"
+    ]
+  },
+  "_checkbox-BfMwIv62.js": {
+    "file": "assets/checkbox-BfMwIv62.js",
+    "name": "checkbox",
+    "imports": [
+      "_label-BZkvCuQu.js",
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-CsXi809y.js",
+      "_index-DrFIHQv6.js",
+      "_table-CqbiqE0n.js"
+    ]
+  },
+  "_chunk-WWGJGFF6-BCIRVkgp.js": {
+    "file": "assets/chunk-WWGJGFF6-BCIRVkgp.js",
+    "name": "chunk-WWGJGFF6"
+  },
+  "_circle-alert-BSpPkgqL.js": {
+    "file": "assets/circle-alert-BSpPkgqL.js",
+    "name": "circle-alert",
+    "imports": [
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_dialog-CTi7W3tF.js": {
+    "file": "assets/dialog-CTi7W3tF.js",
+    "name": "dialog",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-CsXi809y.js",
+      "_index-DrFIHQv6.js",
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_folder-CKJiprKw.js": {
+    "file": "assets/folder-CKJiprKw.js",
+    "name": "folder",
+    "imports": [
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_index-7XWJIbu3.js": {
+    "file": "assets/index-7XWJIbu3.js",
+    "name": "index",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js"
+    ]
+  },
+  "_index-BdQq_4o_.js": {
+    "file": "assets/index-BdQq_4o_.js",
+    "name": "index"
+  },
+  "_index-CsXi809y.js": {
+    "file": "assets/index-CsXi809y.js",
+    "name": "index",
+    "imports": [
+      "_label-BZkvCuQu.js",
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_table-CqbiqE0n.js"
+    ]
+  },
+  "_index-Cvv0bEWi.js": {
+    "file": "assets/index-Cvv0bEWi.js",
+    "name": "index",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_index-DrFIHQv6.js": {
+    "file": "assets/index-DrFIHQv6.js",
+    "name": "index"
+  },
+  "_info-9XoGbIt8.js": {
+    "file": "assets/info-9XoGbIt8.js",
+    "name": "info",
+    "imports": [
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_label-BZkvCuQu.js": {
+    "file": "assets/label-BZkvCuQu.js",
+    "name": "label",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-DrFIHQv6.js",
+      "_index-7XWJIbu3.js"
+    ]
+  },
+  "_rotate-ccw-okqcmQ62.js": {
+    "file": "assets/rotate-ccw-okqcmQ62.js",
+    "name": "rotate-ccw",
+    "imports": [
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_settings-BDhozJf4.js": {
+    "file": "assets/settings-BDhozJf4.js",
+    "name": "settings",
+    "imports": [
+      "_label-BZkvCuQu.js"
+    ]
+  },
+  "_slider-BR_bbMgh.js": {
+    "file": "assets/slider-BR_bbMgh.js",
+    "name": "slider",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-BdQq_4o_.js",
+      "_label-BZkvCuQu.js",
+      "_index-Cvv0bEWi.js",
+      "_index-DrFIHQv6.js"
+    ]
+  },
+  "_switch-DtfHkXr6.js": {
+    "file": "assets/switch-DtfHkXr6.js",
+    "name": "switch",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_label-BZkvCuQu.js",
+      "_index-DrFIHQv6.js"
+    ]
+  },
+  "_table-CqbiqE0n.js": {
+    "file": "assets/table-CqbiqE0n.js",
+    "name": "table",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_label-BZkvCuQu.js",
+      "_index-7XWJIbu3.js",
+      "_index-DrFIHQv6.js"
+    ]
+  },
+  "_tabs-cK7g8EsR.js": {
+    "file": "assets/tabs-cK7g8EsR.js",
+    "name": "tabs",
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-DrFIHQv6.js",
+      "_alert-CoBVaBv8.js",
+      "_label-BZkvCuQu.js",
+      "_index-Cvv0bEWi.js"
+    ]
+  },
+  "_use-projects-B9NiZiC5.js": {
+    "file": "assets/use-projects-B9NiZiC5.js",
+    "name": "use-projects",
+    "imports": [
+      "_table-CqbiqE0n.js"
+    ]
+  },
+  "src/entry.client.tsx": {
+    "file": "assets/entry.client-BNZfjhQ1.js",
+    "name": "entry.client",
+    "src": "src/entry.client.tsx",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_index-7XWJIbu3.js"
+    ],
+    "css": [
+      "assets/entry-6p7F7mhX.css"
+    ]
+  },
+  "src/root.tsx?__react-router-build-client-route": {
+    "file": "assets/root-BiI9stlR.js",
+    "name": "root",
+    "src": "src/root.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_alert-CoBVaBv8.js",
+      "_index-DrFIHQv6.js"
+    ],
+    "css": [
+      "assets/root-DomeeVDT.css"
+    ]
+  },
+  "src/routes/_dashboard.overview.tsx?__react-router-build-client-route": {
+    "file": "assets/_dashboard.overview-CcBXyF3K.js",
+    "name": "_dashboard.overview",
+    "src": "src/routes/_dashboard.overview.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_use-projects-B9NiZiC5.js",
+      "_tabs-cK7g8EsR.js",
+      "_checkbox-BfMwIv62.js",
+      "_label-BZkvCuQu.js",
+      "_table-CqbiqE0n.js",
+      "_slider-BR_bbMgh.js",
+      "_LineChart-BGFRXiLz.js",
+      "_folder-CKJiprKw.js",
+      "_ProjectDetailsView-MCV0UZT1.js",
+      "_alert-CoBVaBv8.js",
+      "_info-9XoGbIt8.js",
+      "_index-DrFIHQv6.js",
+      "_index-Cvv0bEWi.js",
+      "_index-CsXi809y.js",
+      "_index-7XWJIbu3.js",
+      "_index-BdQq_4o_.js",
+      "_switch-DtfHkXr6.js"
+    ]
+  },
+  "src/routes/_dashboard.project.$projectId.tsx?__react-router-build-client-route": {
+    "file": "assets/_dashboard.project._projectId-VAgd8TW7.js",
+    "name": "_dashboard.project._projectId",
+    "src": "src/routes/_dashboard.project.$projectId.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_ProjectDetailsView-MCV0UZT1.js",
+      "_tabs-cK7g8EsR.js",
+      "_index-DrFIHQv6.js",
+      "_alert-CoBVaBv8.js",
+      "_label-BZkvCuQu.js",
+      "_index-7XWJIbu3.js",
+      "_index-Cvv0bEWi.js",
+      "_table-CqbiqE0n.js",
+      "_LineChart-BGFRXiLz.js",
+      "_switch-DtfHkXr6.js",
+      "_folder-CKJiprKw.js"
+    ]
+  },
+  "src/routes/_dashboard.settings.tsx?__react-router-build-client-route": {
+    "file": "assets/_dashboard.settings-Dy9_CLP-.js",
+    "name": "_dashboard.settings",
+    "src": "src/routes/_dashboard.settings.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_alert-CoBVaBv8.js",
+      "_tabs-cK7g8EsR.js",
+      "_switch-DtfHkXr6.js",
+      "_label-BZkvCuQu.js",
+      "_slider-BR_bbMgh.js",
+      "_rotate-ccw-okqcmQ62.js",
+      "_circle-alert-BSpPkgqL.js",
+      "_index-DrFIHQv6.js",
+      "_index-Cvv0bEWi.js",
+      "_index-7XWJIbu3.js",
+      "_index-BdQq_4o_.js"
+    ]
+  },
+  "src/routes/_dashboard.tsx?__react-router-build-client-route": {
+    "file": "assets/_dashboard-C3wuXv80.js",
+    "name": "_dashboard",
+    "src": "src/routes/_dashboard.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_label-BZkvCuQu.js",
+      "_index-DrFIHQv6.js",
+      "_index-CsXi809y.js",
+      "_dialog-CTi7W3tF.js",
+      "_table-CqbiqE0n.js",
+      "_index-Cvv0bEWi.js",
+      "_use-projects-B9NiZiC5.js",
+      "_ProjectManagerDialog-B5qr2gpv.js",
+      "_index-7XWJIbu3.js",
+      "_settings-BDhozJf4.js",
+      "_folder-CKJiprKw.js",
+      "_index-BdQq_4o_.js",
+      "_checkbox-BfMwIv62.js",
+      "_circle-alert-BSpPkgqL.js"
+    ]
+  },
+  "src/routes/_dashboard.versionDetails.project.$projectId.version.$versionId.tsx?__react-router-build-client-route": {
+    "file": "assets/_dashboard.versionDetails.project._projectId.version._versionId-DFiMNJSi.js",
+    "name": "_dashboard.versionDetails.project._projectId.version._versionId",
+    "src": "src/routes/_dashboard.versionDetails.project.$projectId.version.$versionId.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_tabs-cK7g8EsR.js",
+      "_table-CqbiqE0n.js",
+      "_label-BZkvCuQu.js",
+      "_index-Cvv0bEWi.js",
+      "_index-DrFIHQv6.js",
+      "_LineChart-BGFRXiLz.js",
+      "_index-7XWJIbu3.js",
+      "_alert-CoBVaBv8.js",
+      "_dialog-CTi7W3tF.js",
+      "_slider-BR_bbMgh.js",
+      "_index-BdQq_4o_.js",
+      "_index-CsXi809y.js",
+      "_info-9XoGbIt8.js",
+      "_rotate-ccw-okqcmQ62.js",
+      "_settings-BDhozJf4.js"
+    ],
+    "css": [
+      "assets/_dashboard.versionDetails.project._projectId.version-Cyry1ZBb.css"
+    ]
+  },
+  "src/routes/_index.tsx?__react-router-build-client-route": {
+    "file": "assets/_index-r0z728Kr.js",
+    "name": "_index",
+    "src": "src/routes/_index.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js",
+      "_ProjectManagerDialog-B5qr2gpv.js",
+      "_label-BZkvCuQu.js",
+      "_dialog-CTi7W3tF.js",
+      "_index-CsXi809y.js",
+      "_table-CqbiqE0n.js",
+      "_index-7XWJIbu3.js",
+      "_index-DrFIHQv6.js",
+      "_index-BdQq_4o_.js",
+      "_checkbox-BfMwIv62.js",
+      "_circle-alert-BSpPkgqL.js"
+    ]
+  },
+  "src/routes/about.tsx?__react-router-build-client-route": {
+    "file": "assets/about-gKgxGxdI.js",
+    "name": "about",
+    "src": "src/routes/about.tsx?__react-router-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_chunk-WWGJGFF6-BCIRVkgp.js"
+    ]
+  }
+}

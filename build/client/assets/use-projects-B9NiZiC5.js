@@ -1,0 +1,1 @@
+import{u,S as r,v as j}from"./table-CqbiqE0n.js";const m=()=>{const s=u(r.projects),o=j(r.projects);return{projects:s,addProject:t=>{o((e={})=>({...e,[t.uuid]:t}))},removeProject:t=>{o(e=>e?Object.fromEntries(Object.entries(e).filter(([c])=>c!==t)):void 0)}}};export{m as u};
