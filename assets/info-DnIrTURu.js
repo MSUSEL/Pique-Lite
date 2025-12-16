@@ -1,4 +1,4 @@
-import{c}from"./label-CoCo433E.js";/**
+import{c}from"./label-CvTJogE4.js";/**
  * @license lucide-react v0.508.0 - ISC
  *
  * This source code is licensed under the ISC license.
