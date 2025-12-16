@@ -14,6 +14,7 @@ echo "[deploy] current branch: ${CURRENT_BRANCH}"
 echo "[deploy] building (GH_PAGES=1) ..."
 
 rm -rf build
+bun install
 GH_PAGES=1 bun run build:demo
 
 node scripts/generate-gh-pages-index.mjs
