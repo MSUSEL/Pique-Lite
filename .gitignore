@@ -28,6 +28,3 @@ venv/
 **/.million/store.json
 .cursor
 mock-data/
-
-# Local Netlify folder
-.netlify

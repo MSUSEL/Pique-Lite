@@ -7,7 +7,6 @@
     "dev": "bunx --bun vite --config vite.react-router.config.ts",
     "build": "tsc -b && vite build --config vite.react-router.config.ts",
     "build:demo": "vite build --config vite.react-router.config.ts",
-    "build:pages": "bun run build:demo && node scripts/generate-gh-pages-entry.mjs",
     "lint": "eslint .",
     "preview": "vite preview --config vite.react-router.config.ts",
     "storybook": "storybook dev -p 6006",
