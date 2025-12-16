@@ -1,0 +1,220 @@
+import React from "react";
+import { IoSkullOutline } from "react-icons/io5";
+import { ImWarning } from "react-icons/im";
+import { RiAlarmWarningLine } from "react-icons/ri";
+import { RiSecurePaymentLine } from "react-icons/ri";
+import { CgDanger } from "react-icons/cg";
+import { useColorMode } from "@/composites/ColorMode";
+import { useRiskLevelSettings } from "@/composites/RiskLevelSettings";
+
+interface RiskLevel {
+  name: string;
+  color: string;
+  icon: React.ReactNode;
+  fontColor: string;
+  badgeColor: string;
+  normalRange: [number, number];
+  diagnosticRange: [number, number];
+}
+
+// Static metadata for risk levels (icons and legacy colors)
+const RISK_LEVEL_METADATA = {
+  severe: {
+    name: "Severe",
+    color: "#f3000d80",
+    fontColor: "red",
+    badgeColor: "#CD161C",
+    icon: <IoSkullOutline />
+  },
+  high: {
+    name: "High",
+    color: "#ff8c0080",
+    fontColor: "orange",
+    badgeColor: "#CC4E00",
+    icon: <RiAlarmWarningLine />
+  },
+  elevated: {
+    name: "Elevated",
+    color: "#ffee0080",
+    fontColor: "yellow",
+    badgeColor: "#9E6C00",
+    icon: <CgDanger />
+  },
+  guarded: {
+    name: "Guarded",
+    color: "#008ff580",
+    fontColor: "#0671CE",
+    badgeColor: "#1D4EC6",
+    icon: <ImWarning />
+  },
+  low: {
+    name: "Low",
+    color: "#00a43380",
+    fontColor: "green",
+    badgeColor: "green",
+    icon: <RiSecurePaymentLine />
+  }
+};
+
+// Default ranges (used when provider is not available)
+const DEFAULT_RISK_LEVELS: RiskLevel[] = [
+  {
+    name: "Severe",
+    color: "#f3000d80",
+    fontColor: "red",
+    badgeColor: "#CD161C",
+    icon: <IoSkullOutline />,
+    normalRange: [-10, 0.2],
+    diagnosticRange: [1.5, Infinity]
+  },
+  {
+    name: "High",
+    color: "#ff8c0080",
+    fontColor: "orange",
+    badgeColor: "#CC4E00",
+    icon: <RiAlarmWarningLine />,
+    normalRange: [0.2, 0.4],
+    diagnosticRange: [0.8, 1.5]
+  },
+  {
+    name: "Elevated",
+    color: "#ffee0080",
+    fontColor: "yellow",
+    badgeColor: "#9E6C00",
+    icon: <CgDanger />,
+    normalRange: [0.4, 0.6],
+    diagnosticRange: [0.5, 0.8]
+  },
+  {
+    name: "Guarded",
+    color: "#008ff580",
+    fontColor: "#0671CE",
+    badgeColor: "#1D4EC6",
+    icon: <ImWarning />,
+    normalRange: [0.6, 0.8],
+    diagnosticRange: [0.2, 0.5]
+  },
+  {
+    name: "Low",
+    color: "#00a43380",
+    fontColor: "green",
+    badgeColor: "green",
+    icon: <RiSecurePaymentLine />,
+    normalRange: [0.8, 1],
+    diagnosticRange: [0, 0.2]
+  }
+];
+
+// Build risk levels from settings
+function buildRiskLevels(customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']): RiskLevel[] {
+  if (!customRanges) {
+    return DEFAULT_RISK_LEVELS;
+  }
+
+  return [
+    {
+      ...RISK_LEVEL_METADATA.severe,
+      normalRange: customRanges.severe.normalRange,
+      diagnosticRange: customRanges.severe.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.high,
+      normalRange: customRanges.high.normalRange,
+      diagnosticRange: customRanges.high.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.elevated,
+      normalRange: customRanges.elevated.normalRange,
+      diagnosticRange: customRanges.elevated.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.guarded,
+      normalRange: customRanges.guarded.normalRange,
+      diagnosticRange: customRanges.guarded.diagnosticRange
+    },
+    {
+      ...RISK_LEVEL_METADATA.low,
+      normalRange: customRanges.low.normalRange,
+      diagnosticRange: customRanges.low.diagnosticRange
+    }
+  ];
+}
+
+function isInRange(value: number, range: [number, number]): boolean {
+  const [min, max] = range;
+  if (min === -Infinity && max === Infinity) return true;
+  if (min === -Infinity) return value <= max;
+  if (max === Infinity) return value >= min;
+  return value >= min && value <= max;
+}
+
+// Non-hook version for use outside of React components
+export function getRisk(
+  score: number | string,
+  scale: "normal" | "diagnostic" = "normal",
+  customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']
+): RiskLevel {
+  const value = typeof score === "number" ? score : parseFloat(score);
+  const rangeKey = scale === "normal" ? "normalRange" : "diagnosticRange";
+
+  const riskLevels = buildRiskLevels(customRanges);
+  const risk = riskLevels.find((level) => isInRange(value, level[rangeKey]));
+  if (risk === undefined) {
+    console.log(`score: ${score}, value: ${value}, risk: ${risk}`);
+    throw new Error("Invalid score or scale");
+  }
+
+  return risk;
+}
+
+export function getAllRiskLevels(
+  customRanges?: ReturnType<typeof useRiskLevelSettings>['riskLevelRanges']
+): RiskLevel[] {
+  return buildRiskLevels(customRanges);
+}
+
+export function getRiskColorVar(
+  score: number | string,
+  colorType: "background" | "font" | "badge",
+  scale: "normal" | "diagnostic" = "normal"
+): string {
+  const riskLevel = getRisk(score, scale);
+  const lowerCaseRiskName = riskLevel.name.toLowerCase();
+  let varName = `--risk-${lowerCaseRiskName}-${colorType}`;
+  if (scale === "diagnostic") {
+    varName += "-diagnostic";
+  }
+  return `${varName}`;
+}
+
+// New color-mode-aware functions
+export function getRiskColor(
+  score: number | string,
+  colorType: "background" | "font" | "badge" = "background",
+  scale: "normal" | "diagnostic" = "normal"
+): string {
+  const riskLevel = getRisk(score, scale);
+  const lowerCaseRiskName = riskLevel.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+  
+  // Use CSS custom properties that are set by ColorModeProvider
+  const varName = `--risk-${lowerCaseRiskName}-${colorType}`;
+  return `var(${varName})`;
+}
+
+// Hook-based function for components that need to access colors directly
+export function useRiskColor() {
+  const { getRiskColor: getColorFromMode } = useColorMode();
+  const { riskLevelRanges } = useRiskLevelSettings();
+
+  return {
+    getRiskColor: (
+      score: number | string,
+      colorType: "background" | "font" | "badge" = "background",
+      scale: "normal" | "diagnostic" = "normal"
+    ) => {
+      const riskLevel = getRisk(score, scale, riskLevelRanges);
+      const lowerCaseRiskName = riskLevel.name.toLowerCase() as 'severe' | 'high' | 'elevated' | 'guarded' | 'low';
+      return getColorFromMode(lowerCaseRiskName, colorType);
+    }
+  };
+}

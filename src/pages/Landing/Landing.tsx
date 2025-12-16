@@ -1,0 +1,58 @@
+import { ProjectManagerDialog } from "../../composites/ProjectManager/ProjectManagerDialog";
+import { useState } from "react";
+import { FileTextIcon } from "lucide-react";
+import { Button } from "@/components/ui/button.tsx";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog.tsx";
+import { ProjectManagerProvider } from "../../composites/ProjectManager/ProjectManagerContext.tsx";
+import { useNavigate } from "react-router-dom";
+
+function Landing() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="LandingRoot flex h-[100dvh] w-[100dvw] flex-col items-center justify-center">
+      <div className="flex flex-row items-center justify-center">
+        <img
+          src="https://www.cisa.gov/profiles/cisad8_gov/themes/custom/gesso/dist/images/backgrounds/6fdaa25709d28dfb5cca.svg"
+          alt="CISA Logo"
+          width="100"
+          height="100"
+          style={{ marginRight: "20px" }}
+        />
+        <h2 className="text-4xl font-bold text-gray-600">PIQUE LITE</h2>
+        <img
+          src="https://raw.githubusercontent.com/MSUSEL/msusel-pique-visualizer/refactorZiyi/src/assets/PIQUE_svg.svg"
+          alt="PIQUE Logo"
+          width="100"
+          height="100"
+          style={{ marginLeft: "20px" }}
+        />
+      </div>
+      <ProjectManagerDialog
+        trigger={
+          <Button variant="outline">
+            <FileTextIcon width="16" height="16" />
+            Get Started
+          </Button>
+        }
+        triggerAsChild
+        onContinue={() => navigate("/overview")}
+      />
+      {/* added by ziyi for the link to documentation */}
+      <div className="mt-4 text-gray-600 text-sm">
+        How to use?{" "}
+        <a
+          href="https://tool-documentation-demo.netlify.app/docs/pique-lite/user-guide/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          📘 User Guide
+        </a>
+      </div>
+
+    </div>
+  );
+}
+
+export default Landing;
