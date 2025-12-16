@@ -1,36 +1,50 @@
 import React from "react";
-import { createHashRouter } from "react-router-dom";
+import { createHashRouter, Navigate } from "react-router-dom";
 
 import Root from "./root";
-import Landing from "./pages/Landing/Landing";
 
+import IndexRoute from "./routes/_index";
 import DashboardLayout from "./routes/_dashboard";
 import OverviewRoute from "./routes/_dashboard.overview";
-import SettingsRoute from "./routes/_dashboard.settings";
 import ProjectRoute from "./routes/_dashboard.project.$projectId";
 import VersionDetailsRoute from "./routes/_dashboard.versionDetails.project.$projectId.version.$versionId";
+import SettingsRoute from "./routes/_dashboard.settings";
+import AboutRoute from "./routes/about";
 
 export const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
     children: [
-      { index: true, element: <Landing /> },
+      // Landing: /#/
+      { index: true, element: <IndexRoute /> },
 
+      // About
+      { path: "about", element: <AboutRoute /> },
+
+      // Dashboard: /#/dashboard/...
       {
         path: "dashboard",
         element: <DashboardLayout />,
         children: [
-          { index: true, element: <OverviewRoute /> },
+          { index: true, element: <Navigate to="overview" replace /> },
           { path: "overview", element: <OverviewRoute /> },
-          { path: "settings", element: <SettingsRoute /> },
+
+          // /#/dashboard/project/<projectId>
           { path: "project/:projectId", element: <ProjectRoute /> },
+
+          // /#/dashboard/versionDetails/project/<projectId>/version/<versionId>
           {
             path: "versionDetails/project/:projectId/version/:versionId",
             element: <VersionDetailsRoute />,
           },
+
+          { path: "settings", element: <SettingsRoute /> },
         ],
       },
+
+      // 兜底：未知路径回 Landing
+      { path: "*", element: <Navigate to="/" replace /> },
     ],
   },
 ]);
