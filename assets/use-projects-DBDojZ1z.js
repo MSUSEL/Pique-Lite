@@ -1,0 +1,1 @@
+import{u,S as r,a}from"./table-BuRWyc1-.js";const m=()=>{const s=u(r.projects),o=a(r.projects);return{projects:s,addProject:t=>{o((e={})=>({...e,[t.uuid]:t}))},removeProject:t=>{o(e=>e?Object.fromEntries(Object.entries(e).filter(([c])=>c!==t)):void 0)}}};export{m as u};
